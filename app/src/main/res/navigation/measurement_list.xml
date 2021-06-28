@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/measurementList"
+    app:startDestination="@+id/measurementListFragment">
+
+    <fragment
+        android:id="@+id/measurementListFragment"
+        android:name="org.southasia.ghrufollowup_sab.ui.participantlist.measurementlist.MeasurementListFragment"
+        android:label="MeasureListFragment"
+        tools:layout="@layout/measurement_list_fragment">
+
+    </fragment>
+
+</navigation>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/participantAttendance"
+    app:startDestination="@+id/ParticipantAttendanceFragment">
+
+    <fragment
+        android:id="@+id/ParticipantAttendanceFragment"
+        android:name="org.southasia.ghrufollowup_sab.ui.participantlist.attendance.ParticipantAttendanceFragment"
+        android:label="ParticipantAttendance"
+        tools:layout="@layout/participant_attendance_fragment">
+
+        <argument
+            android:name="single_participant"
+            android:defaultValue="null" />
+
+        <action
+            android:id="@+id/action_attendanceFragment_to_UpdateFragment"
+            app:destination="@id/UpdateParticipantFragment" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/UpdateParticipantFragment"
+        android:name="org.southasia.ghrufollowup_sab.ui.participantlist.attendance.updateparticipant.UpdateParticipantFragment"
+        android:label="UpdateParticipantFragment"
+        tools:layout="@layout/update_participant_fragment">
+
+    </fragment>
+
+<!--    <fragment-->
+<!--        android:id="@+id/scanBarcodeFragmentNew"-->
+<!--        android:name="org.southasia.ghru.ui.registerpatient_new.scanbarcode.ScanBarcodeFragmentNew"-->
+<!--        android:label="ScanBarcodeFragmentNew"-->
+<!--        tools:layout="@layout/scan_barcode_patient_gen_fragment_new">-->
+<!--        <action-->
+<!--            android:id="@+id/action_scanBarcodeFragmentNew_to_confirmationFragmentNew"-->
+<!--            app:clearTask="true"-->
+<!--            app:destination="@id/confirmationFragmentNew" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_scanBarcodeFragmentNew_to_scanBarcodeManualFragmentNew"-->
+<!--            app:clearTask="true"-->
+<!--            app:destination="@id/scanBarcodeManualFragmentNew" />-->
+<!--    </fragment>-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/scanBarcodeManualFragmentNew"-->
+<!--        android:name="org.southasia.ghru.ui.registerpatient_new.scanbarcode.manualentry.ManualEntryBarcodeFragmentNew"-->
+<!--        android:label="ManualEntryBarcodeFragmentNew"-->
+<!--        tools:layout="@layout/register_patient_barcode_manualentry_fragment_new">-->
+<!--        <action-->
+<!--            android:id="@+id/action_scanBarcodeManualFragmentNew_to_confirmationFragmentNew"-->
+<!--            app:clearTask="true"-->
+<!--            app:destination="@id/confirmationFragmentNew" />-->
+<!--    </fragment>-->
+
+
+<!--    <fragment-->
+<!--        android:id="@+id/confirmationFragmentNew"-->
+<!--        android:name="org.southasia.ghru.ui.registerpatient_new.confirmation.ConfirmationFragmentNew"-->
+<!--        android:label="ConfirmationFragmentNew"-->
+<!--        tools:layout="@layout/confirmation_fragment_new">-->
+
+<!--    </fragment>-->
+
+</navigation>

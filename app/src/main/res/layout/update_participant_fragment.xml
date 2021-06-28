@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="participant"
+            type="org.southasia.ghrufollowup_sab.vo.ParticipantListItem" />
+
+        <variable
+            name="expandProcedure"
+            type="Boolean" />
+
+
+        <variable
+            name="retryCallback"
+            type="org.southasia.ghrufollowup_sab.ui.common.RetryCallback" />
+
+        <import type="org.southasia.ghrufollowup_sab.vo.request.Gender" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_60"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical"
+            app:layout_collapseMode="pin">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto"
+                android:gravity="start|center"
+                android:textSize="@dimen/medium_font_size"
+                android:text="@string/update_participant_title"
+                android:layout_marginStart="@dimen/height_60"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_60"
+            android:background="@color/very_light_blue"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/participantDetails"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto"
+                android:gravity="center"
+                android:textSize="@dimen/medium_font_size"/>
+
+        </LinearLayout>
+
+<!--        </com.google.android.material.appbar.AppBarLayout>-->
+
+<!--        content screen-->
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/margin_32"
+                    android:layout_marginEnd="@dimen/margin_32"
+                    android:layout_marginTop="@dimen/margin_40">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="5">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="@dimen/medium_font_size"
+                            android:text="@string/update_participant_first_name"
+                            android:textColor="@color/black"
+                            android:layout_weight="2"/>
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/first_name_edit_text"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/margin_40"
+                            android:hint="@string/update_participant_first_name"
+                            android:singleLine="true"
+                            android:textColorHint="@color/separator_gray"
+                            android:background="@drawable/shape_rounded_corners_4dp"
+                            android:layout_weight="3"
+                            android:paddingStart="@dimen/margin_10"
+                            android:paddingEnd="@dimen/margin_10"
+                            android:text="@{participant.firstname}"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="5"
+                        android:layout_marginTop="@dimen/margin_20">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="@dimen/medium_font_size"
+                            android:text="@string/update_participant_last_name"
+                            android:textColor="@color/black"
+                            android:layout_weight="2"/>
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/last_name_edit_text"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/margin_40"
+                            android:hint="@string/update_participant_last_name"
+                            android:singleLine="true"
+                            android:textColorHint="@color/separator_gray"
+                            android:background="@drawable/shape_rounded_corners_4dp"
+                            android:layout_weight="3"
+                            android:paddingStart="@dimen/margin_10"
+                            android:paddingEnd="@dimen/margin_10"
+                            android:text="@{participant.last_name}"/>
+
+                    </LinearLayout>
+
+                    <!--            start of Address items -->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="5"
+                        android:layout_marginTop="@dimen/margin_20">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="@dimen/medium_font_size"
+                            android:text="@string/address"
+                            android:textColor="@color/black"
+                            android:layout_weight="2"/>
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/street_edit_text"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/margin_40"
+                            android:hint="@string/update_participant_street"
+                            android:singleLine="true"
+                            android:textColorHint="@color/separator_gray"
+                            android:background="@drawable/shape_rounded_corners_4dp"
+                            android:layout_weight="3"
+                            android:paddingStart="@dimen/margin_10"
+                            android:paddingEnd="@dimen/margin_10"
+                            android:text="@{participant.address.street}"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="5"
+                        android:layout_marginTop="@dimen/margin_20">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"/>
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/locality_edit_text"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/margin_40"
+                            android:hint="@string/update_participant_locality"
+                            android:singleLine="true"
+                            android:textColorHint="@color/separator_gray"
+                            android:background="@drawable/shape_rounded_corners_4dp"
+                            android:layout_weight="3"
+                            android:paddingStart="@dimen/margin_10"
+                            android:paddingEnd="@dimen/margin_10"
+                            android:text="@{participant.address.locality}"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="5"
+                        android:layout_marginTop="@dimen/margin_20">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"/>
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/post_code_edit_text"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/margin_40"
+                            android:hint="@string/update_participant_postcode"
+                            android:singleLine="true"
+                            android:textColorHint="@color/separator_gray"
+                            android:background="@drawable/shape_rounded_corners_4dp"
+                            android:layout_weight="3"
+                            android:paddingStart="@dimen/margin_10"
+                            android:paddingEnd="@dimen/margin_10"
+                            android:text="@{participant.address.postcode}"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="5"
+                        android:layout_marginTop="@dimen/margin_20"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"/>
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/country_edit_text"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/margin_40"
+                            android:hint="@string/update_participant_country"
+                            android:singleLine="true"
+                            android:textColorHint="@color/separator_gray"
+                            android:background="@drawable/shape_rounded_corners_4dp"
+                            android:layout_weight="3"
+                            android:paddingStart="@dimen/margin_10"
+                            android:paddingEnd="@dimen/margin_10"
+                            android:text="@{participant.address.country}"
+                            android:editable="false"/>
+
+                    </LinearLayout>
+
+                    <!--            end of address items -->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="5"
+                        android:layout_marginTop="@dimen/margin_20">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="@dimen/medium_font_size"
+                            android:text="@string/app_dob"
+                            android:textColor="@color/black"
+                            android:layout_weight="2"/>
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/dob_edit_text"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/margin_40"
+                            android:layout_weight="3"
+                            android:hint="@string/verification_hint2"
+                            android:singleLine="true"
+                            android:textColorHint="@color/separator_gray"
+                            android:background="@drawable/shape_rounded_corners_4dp"
+                            android:focusableInTouchMode="false"
+                            android:paddingStart="@dimen/margin_10"
+                            android:paddingEnd="@dimen/margin_10"
+                            android:text="@{participant.dob}"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="5"
+                        android:layout_marginTop="@dimen/margin_20">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="@dimen/medium_font_size"
+                            android:text="@string/lb_photo"
+                            android:textColor="@color/black"
+                            android:layout_weight="2"/>
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/nid_edit_text"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/margin_40"
+                            android:hint="@string/hint_nid"
+                            android:singleLine="true"
+                            android:textColorHint="@color/separator_gray"
+                            android:background="@drawable/shape_rounded_corners_4dp"
+                            android:layout_weight="3"
+                            android:paddingStart="@dimen/margin_10"
+                            android:paddingEnd="@dimen/margin_10"
+                            android:text="@{participant.nid}"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="5"
+                        android:layout_marginTop="@dimen/margin_20">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="@dimen/medium_font_size"
+                            android:text="@string/app_gender"
+                            android:textColor="@color/black"
+                            android:layout_weight="2"/>
+
+<!--                        <com.google.android.material.textfield.TextInputEditText-->
+<!--                            android:id="@+id/gender_edit_text"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="@dimen/margin_40"-->
+<!--                            android:hint="@string/app_gender"-->
+<!--                            android:singleLine="true"-->
+<!--                            android:textColorHint="@color/separator_gray"-->
+<!--                            android:background="@drawable/shape_rounded_corners_4dp"-->
+<!--                            android:layout_weight="3"-->
+<!--                            android:paddingStart="@dimen/margin_10"-->
+<!--                            android:paddingEnd="@dimen/margin_10"-->
+<!--                            android:text="@{participant.gender}"/>-->
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="3"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <Button
+                                android:id="@+id/buttonMale"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@{participant.gender.equalsIgnoreCase(Gender.MALE.name)? @drawable/radio_button_selected_bg : @drawable/shape_rounded_corners_4dp}"
+                                android:drawableTop="@drawable/ic_icon_male"
+                                android:elevation="2dp"
+                                android:text="@string/app_gender_male"
+                                android:textAllCaps="false"
+                                android:textColor="@{participant.gender.equals(Gender.MALE.name)? @color/colorPrimary : @color/dark_gray}"
+                                android:layout_marginRight="@dimen/margin_10"/>
+
+                            <Button
+                                android:id="@+id/buttonFemale"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@{participant.gender.equalsIgnoreCase(Gender.FEMALE.name)? @drawable/radio_button_selected_bg : @drawable/shape_rounded_corners_4dp}"
+                                android:drawableTop="@drawable/ic_icon_female"
+                                android:elevation="2dp"
+                                android:text="@string/app_gender_female"
+                                android:textAllCaps="false"
+                                android:textColor="@{participant.gender.equals(Gender.FEMALE.name)? @color/colorPrimary : @color/dark_gray}"
+                                android:layout_marginRight="@dimen/margin_10"/>
+
+                            <Button
+                                android:id="@+id/buttonGenderOther"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@{participant.gender.equalsIgnoreCase(Gender.OTHER.name)? @drawable/radio_button_selected_bg : @drawable/shape_rounded_corners_4dp}"
+                                android:drawableTop="@drawable/ic_gender_other"
+                                android:elevation="2dp"
+                                android:text="@string/app_gender_other"
+                                android:textAllCaps="false"
+                                android:textColor="@{participant.gender.equals(Gender.OTHER.name)? @color/colorPrimary : @color/dark_gray}"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="5"
+                        android:layout_marginTop="@dimen/margin_20">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:textSize="@dimen/medium_font_size"
+                            android:text="@string/phone_number"
+                            android:textColor="@color/black"
+                            android:layout_weight="2"/>
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/phone_edit_text"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/margin_40"
+                            android:hint="@string/phone_number"
+                            android:singleLine="true"
+                            android:textColorHint="@color/separator_gray"
+                            android:background="@drawable/shape_rounded_corners_4dp"
+                            android:layout_weight="3"
+                            android:paddingStart="@dimen/margin_10"
+                            android:paddingEnd="@dimen/margin_10"
+                            android:text="@{participant.phone}"/>
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/button_update"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_60"
+                        android:text="@string/update_participant_button"
+                        android:textColor="@color/white"
+                        android:background="@drawable/ic_button_fill_primary"
+                        android:layout_gravity="center"
+                        android:theme="@style/Button"
+                        android:textSize="@dimen/default_font_size"
+                        android:layout_marginTop="@dimen/margin_32"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</layout>

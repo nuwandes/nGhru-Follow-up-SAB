@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sample_processing"
+    app:startDestination="@id/sampleMangementHomeFragment">
+
+    <fragment
+        android:id="@+id/sampleMangementHomeFragment"
+        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.home.SampleMangementHomeFragment"
+        android:label="SampleMangementHomeFragment"
+        tools:layout="@layout/sample_mangement_home_fragment">
+
+        <action
+            android:id="@+id/action_sampleMangementHomeViewModel_to_FastingBloodGlucoseFragment"
+            app:destination="@id/FastingBloodGlucoseFragment" />
+        <action
+            android:id="@+id/action_sampleMangementHomeViewModel_to_TotalCholesterolFragment"
+            app:destination="@id/TotalCholesterolFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/FastingBloodGlucoseFragment"
+        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.fastingbloodglucose.FastingBloodGlucoseFragment"
+        android:label="FastingBloodGlucoseFragment"
+        tools:layout="@layout/fasting_blood_glucose_fragment">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/TotalCholesterolFragment"
+        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.totalcholesterol.TotalCholesterolFragment"
+        android:label="TotalCholesterolFragment"
+        tools:layout="@layout/total_cholesterol_fragment">
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_sampleMangementHomeViewModel"
+        app:destination="@id/sampleMangementHomeViewModel" />
+
+    <action android:id="@+id/action_global_sampleStorageFragment"
+        app:destination="@id/sampleStorageFragment" app:clearTask="true"/>
+
+
+</navigation>
+

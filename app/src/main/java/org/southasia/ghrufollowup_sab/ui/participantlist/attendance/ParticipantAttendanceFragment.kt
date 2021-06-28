@@ -1,0 +1,917 @@
+package org.southasia.ghrufollowup_sab.ui.participantlist.attendance
+
+import android.app.DatePickerDialog
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
+import android.os.Bundle
+import android.preference.PreferenceManager
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import androidx.core.os.bundleOf
+import androidx.databinding.DataBindingComponent
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.crashlytics.android.Crashlytics
+import org.southasia.ghrufollowup_sab.MeasurementListActivity
+import org.southasia.ghrufollowup_sab.R
+import org.southasia.ghrufollowup_sab.binding.FragmentDataBindingComponent
+import org.southasia.ghrufollowup_sab.databinding.BasicDetailsFragmentNewBinding
+import org.southasia.ghrufollowup_sab.databinding.BasicDetailsFragmentSgBinding
+import org.southasia.ghrufollowup_sab.databinding.ParticipantAttendanceFragmentBinding
+import org.southasia.ghrufollowup_sab.db.MemberTypeConverters.gson
+import org.southasia.ghrufollowup_sab.di.Injectable
+import org.southasia.ghrufollowup_sab.ui.participantlist.preocessenddialog.NotAbleDialogFragment
+import org.southasia.ghrufollowup_sab.ui.participantlist.verificationcompleted.VerificationCompletedDialogFragment
+import org.southasia.ghrufollowup_sab.util.*
+import org.southasia.ghrufollowup_sab.vo.*
+import org.southasia.ghrufollowup_sab.vo.Date
+import java.text.DateFormat
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
+import javax.inject.Inject
+
+class ParticipantAttendanceFragment : Fragment(), Injectable {
+
+    val TAG = ParticipantAttendanceFragment::class.java.getSimpleName()
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    var binding by autoCleared<ParticipantAttendanceFragmentBinding>()
+
+    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
+
+    @Inject
+    lateinit var basicDetailsViewModelNew: ParticipantAttendanceViewModule
+
+//    private var participant: ParticipantListItem? = null
+
+    private var participant: ParticipantListItem? = null
+
+    var prefs : SharedPreferences? = null
+
+    private var isVerified : Boolean? = false
+
+    private var isNotVerifiedAnyButtonClicked : Boolean? = false
+
+    private var inabilityReason: String? = null
+
+    val sdf = SimpleDateFormat(Constants.dataFormatOLD, Locale.US)
+
+    var cal = Calendar.getInstance()
+
+
+//    val sdf = SimpleDateFormat(Constants.dataFormat, Locale.US)
+//
+//    var cal = Calendar.getInstance()
+//
+//    var user: User? = null
+//    var userConfig: UserConfig? = null
+//
+//    var meta: Meta? = null
+//    var hoursFasted: String? = null
+//    var memberRequest: MemberRequest = MemberRequest.build()
+//
+//    lateinit var participantMeta: ParticipantMeta
+//
+//    var household: HouseholdRequest? = null
+//
+//    private var concentPhoto: String? = null
+//
+//    private var selectedRelationShip: String? = null
+//
+//    private lateinit var validator: Validator
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        try {
+//            hoursFasted = "8"
+            //participant = arguments!!.getBundle("single_participant")
+        } catch (e: KotlinNullPointerException) {
+            print(e)
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val dataBinding = DataBindingUtil.inflate<ParticipantAttendanceFragmentBinding>(
+            inflater,
+            R.layout.participant_attendance_fragment,
+            container,
+            false
+        )
+        binding = dataBinding
+        setHasOptionsMenu(true)
+//        validator = Validator(binding)
+        val appCompatActivity = requireActivity() as AppCompatActivity
+//        appCompatActivity.setSupportActionBar(binding.detailToolbar)
+        appCompatActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        binding.root.hideKeyboard()
+        return dataBinding.root
+    }
+
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        binding.setLifecycleOwner(this)
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(context)
+
+        val json : String? = prefs?.getString("single_participant","")
+        participant = gson.fromJson<ParticipantListItem>(json.toString())
+        Log.d("PARTICIPANT_ATTENDANCE", " DATA: " + participant!!.participant_id)
+
+        val dob_year: String = participant!!.dob!!.substring(0,4)
+        val dob_month: String = participant!!.dob!!.substring(5,7)
+        val dob_date : String = participant!!.dob!!.substring(8,10)
+
+        val participantAge: String = getAge(dob_year.toInt(), dob_month.toInt(), dob_date.toInt())
+
+        Log.d("PARTICIPANT_ATTENDANCE", "year: " + dob_year + ", month: " + dob_month + ", date: " + dob_date + "AGE: " + participantAge)
+
+
+        binding.participantDetails.setText(participant!!.firstname + " " + participant!!.last_name+ ", " + participant!!.gender + ", " + participantAge + " Years, "  + participant!!.participant_id)
+
+        binding.buttonAbleYes.singleClick {
+            //binding.buttonAbleYes.setTextColor(R.color.black)
+            binding.buttonAbleYes.setBackground(getDrawable(context!!, R.drawable.border_rounded_corner_with_blue_color))
+            binding.attendanceYes.visibility = View.VISIBLE
+            binding.attendanceNo.visibility = View.GONE
+            //binding.buttonAbleNo.setTextColor(R.color.black)
+            binding.buttonAbleNo.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+
+            participant!!.is_able = true
+            participant!!.is_rescheduled = false
+            participant!!.rescheduled_date = null
+            participant!!.inablitiy_reason = null
+        }
+
+        binding.buttonAbleNo.singleClick {
+            //binding.buttonAbleNo.setTextColor(R.color.black)
+            binding.buttonAbleNo.setBackground(getDrawable(context!!, R.drawable.border_rounded_corner_with_blue_color))
+            binding.attendanceNo.visibility = View.VISIBLE
+            binding.attendanceYes.visibility = View.GONE
+//            binding.buttonAbleYes.setTextColor(R.color.black)
+            binding.buttonAbleYes.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+
+            participant!!.is_able = false
+            participant!!.is_verified = false
+            participant!!.verification_dob = null
+            participant!!.verification_id = null
+
+        }
+
+        binding.nidEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if (s.toString() == (participant!!.nid.toString())) {
+                    binding.nidEditText.setError(null)
+//                    binding.buttonProceed.isEnabled = true
+                    binding.nidOkImage.visibility = View.VISIBLE
+                    binding.nidNotOkImage.visibility = View.GONE
+                    isVerified = true
+                }
+                else if(s.length == 0)
+                {
+                    binding.nidEditText.setError(null)
+//                    binding.buttonProceed.isEnabled = false
+                    binding.nidOkImage.visibility = View.GONE
+                    binding.nidNotOkImage.visibility = View.GONE
+                    isVerified = false
+                }
+                else {
+                    binding.nidEditText.setError("Entered NID not matched")
+//                    binding.buttonProceed.isEnabled = false
+                    binding.nidOkImage.visibility = View.GONE
+                    binding.nidNotOkImage.visibility = View.VISIBLE
+                    isVerified = false
+                }
+            }
+        })
+
+        binding.buttonUpdate.singleClick {
+
+            findNavController().navigate(R.id.action_attendanceFragment_to_UpdateFragment)
+        }
+
+        binding.dobEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if (s.toString() == (participant!!.dob.toString()))
+                {
+                    binding.dobEditText.setError(null)
+                    //binding.buttonProceed.isEnabled = true
+                    binding.dobOkImage.visibility = View.VISIBLE
+                    binding.dobNotOkImage.visibility = View.GONE
+                    isVerified = true
+                }
+                else if(s.length == 0)
+                {
+                    binding.dobEditText.setError(null)
+                    //binding.buttonProceed.isEnabled = false
+                    binding.dobOkImage.visibility = View.GONE
+                    binding.dobNotOkImage.visibility = View.GONE
+                    isVerified = false
+                }
+                else
+                {
+                    binding.dobEditText.setError("Entered DOB not matched")
+                    //binding.buttonProceed.isEnabled = false
+                    binding.dobOkImage.visibility = View.GONE
+                    binding.dobNotOkImage.visibility = View.VISIBLE
+                    isVerified = false
+                }
+            }
+        })
+
+        binding.rescheduleEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if (s.toString().length >= 1)
+                {
+                    binding.rescheduleEditText.setError(null)
+                    participant!!.rescheduled_date = binding.rescheduleEditText.text.toString()
+                    inabilityReason = "Reschedule"
+                    isNotVerifiedAnyButtonClicked = true
+                    participant!!.is_rescheduled = true
+                }
+                else
+                {
+                    binding.rescheduleEditText.setError("Please enter DD/MM/YY")
+                    //Toast.makeText(activity!!, "Input does not have correct length", Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+
+        binding.buttonProceed.singleClick {
+
+            if (isVerified!!)
+            {
+                participant!!.is_verified = true
+
+                if (binding.rescheduleEditText.text.toString().length>=8)
+                {
+                    participant!!.verification_dob = binding.dobEditText.text.toString()
+                }
+                else
+                {
+                    participant!!.verification_dob = null
+                }
+
+                participant!!.verification_dob = binding.dobEditText.text.toString()
+                participant!!.verification_id = binding.nidEditText.text.toString()
+
+                Log.d(TAG, "PROCEED_BUTTON IS_ABLE: " + participant!!.is_able
+                        + ", IS_VERIFIED: " + participant!!.is_verified
+                        + ", IS_RESCHEDULE: " + participant!!.is_rescheduled
+                        + ", REASON: " + participant!!.inablitiy_reason
+                        + ", VERFI_DOB: " + participant!!.verification_dob
+                        + ", VERFI_ID: " + participant!!.verification_id
+                        + ", RESCH_DATE: " +participant!!.rescheduled_date)
+
+//                findNavController().navigate(
+//                    R.id.action_attendanceFragment_to_measurementListFragment,
+//                    bundleOf("participant" to participant!!)
+//
+//                )
+
+                val json1: String = gson.toJson(participant)
+                prefs?.edit()?.putString("selected_participant", json1)?.apply()
+                val intent = Intent(activity, MeasurementListActivity::class.java)
+                startActivity(intent)
+                // navigate to measurement list with nav control, if validation path is ok
+            }
+            else
+            {
+                if (binding.nidEditText.length() >=1 || binding.dobEditText.length() >= 1)
+                {
+                    participant!!.is_verified = false
+                    participant!!.verification_dob = binding.dobEditText.text.toString()
+                    participant!!.verification_id = binding.nidEditText.text.toString()
+
+                    val verificationCompletedDialogFragment = VerificationCompletedDialogFragment()
+                    verificationCompletedDialogFragment.arguments = bundleOf("single_participant" to participant!!)
+                    verificationCompletedDialogFragment.show(fragmentManager!!)
+
+                    Log.d(TAG, "PROCEED_BUTTON IS_ABLE: " + participant!!.is_able
+                            + ", IS_VERIFIED: " + participant!!.is_verified
+                            + ", IS_RESCHEDULE: " + participant!!.is_rescheduled
+                            + ", REASON: " + participant!!.inablitiy_reason
+                            + ", VERFI_DOB: " + participant!!.verification_dob
+                            + ", VERFI_ID: " + participant!!.verification_id
+                            + ", RESCH_DATE: " +participant!!.rescheduled_date)
+                }
+                else
+                {
+                    Toast.makeText(activity!!, "Please type in participant verification", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+
+        binding.buttonEnd.singleClick {
+
+            if (isNotVerifiedAnyButtonClicked == true)
+            {
+                participant!!.inablitiy_reason = inabilityReason
+                participant!!.status = "unable_to_complete"
+
+                if (binding.rescheduleEditText.text.toString().length>=8)
+                {
+                    participant!!.rescheduled_date = binding.rescheduleEditText.text.toString()
+                }
+                else
+                {
+                    participant!!.rescheduled_date = null
+                }
+
+
+                // update api call
+
+                basicDetailsViewModelNew.updateParticipant(participant!!, participant!!.participant_id)
+
+
+                Log.d(TAG, "END_BUTTON IS_ABLE: " + participant!!.is_able
+                        + ", IS_VERIFIED: " + participant!!.is_verified
+                        + ", IS_RESCHEDULE: " + participant!!.is_rescheduled
+                        + ", REASON: " + participant!!.inablitiy_reason
+                        + ", VERFI_DOB: " + participant!!.verification_dob
+                        + ", VERFI_ID: " + participant!!.verification_id
+                        + ", RESCH_DATE: " +participant!!.rescheduled_date)
+
+                basicDetailsViewModelNew.participantUpdateComplete?.observe(this, Observer { assertsResource ->
+                    if (assertsResource?.status == Status.SUCCESS) {
+                        println(assertsResource.data?.data)
+                        if (assertsResource.data != null) {
+                        val notAbleDialogFragment = NotAbleDialogFragment()
+                            notAbleDialogFragment.show(fragmentManager!!)
+
+                            //Toast.makeText(activity!!, "Update Participant success", Toast.LENGTH_LONG).show()
+                            Log.d(TAG, "END_BUTTON_SUCCESS" + assertsResource.message.toString())
+
+                        } else {
+                            Log.d(TAG, "END_BUTTON_FAILED" + assertsResource.message.toString())
+                            Toast.makeText(activity, "Unable to update the participant via " + assertsResource.message.toString(), Toast.LENGTH_LONG).show()
+                            Crashlytics.logException(Exception("Participant Update " + assertsResource.message.toString()))
+                            binding.executePendingBindings()
+                        }
+                    }
+                })
+
+            }
+            else
+            {
+                Toast.makeText(activity!!, "Please select a reason", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        binding.buttonParticipantNotPresent.singleClick {
+
+            inabilityReason = "Participant not present"
+            binding.buttonParticipantNotPresent.setTextColor(R.color.black)
+            binding.buttonParticipantNotPresent.setBackground(getDrawable(context!!, R.drawable.ic_button_fill_primary))
+            binding.buttonParticipantNotConsent.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.buttonParticipantPassedAway.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.buttonParticipantNotAddress.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.buttonReschedule.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.rescheduleEditText.visibility = View.GONE
+            isNotVerifiedAnyButtonClicked = true
+        }
+
+        binding.buttonParticipantNotConsent.singleClick {
+
+            inabilityReason = "Participant does not consent"
+            binding.buttonParticipantNotConsent.setTextColor(R.color.black)
+            binding.buttonParticipantNotConsent.setBackground(getDrawable(context!!, R.drawable.ic_button_fill_primary))
+            binding.buttonParticipantNotPresent.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.buttonParticipantPassedAway.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.buttonParticipantNotAddress.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.buttonReschedule.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.rescheduleEditText.visibility = View.GONE
+            isNotVerifiedAnyButtonClicked = true
+        }
+
+        binding.buttonParticipantPassedAway.singleClick {
+
+            inabilityReason = "Participant has passed away"
+            binding.buttonParticipantPassedAway.setTextColor(R.color.black)
+            binding.buttonParticipantPassedAway.setBackground(getDrawable(context!!, R.drawable.ic_button_fill_primary))
+            binding.buttonParticipantNotPresent.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.buttonParticipantNotConsent.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.buttonParticipantNotAddress.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.buttonReschedule.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.rescheduleEditText.visibility = View.GONE
+            isNotVerifiedAnyButtonClicked = true
+        }
+
+        binding.buttonParticipantNotAddress.singleClick {
+
+            inabilityReason = "No such person at address"
+            binding.buttonParticipantNotAddress.setTextColor(R.color.black)
+            binding.buttonParticipantNotAddress.setBackground(getDrawable(context!!, R.drawable.ic_button_fill_primary))
+            binding.buttonParticipantNotPresent.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.buttonParticipantNotConsent.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.buttonParticipantPassedAway.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.buttonReschedule.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.rescheduleEditText.visibility = View.GONE
+            isNotVerifiedAnyButtonClicked = true
+        }
+
+        binding.buttonReschedule.singleClick {
+
+            binding.rescheduleEditText.visibility = View.VISIBLE
+            binding.buttonReschedule.setTextColor(R.color.black)
+            binding.buttonReschedule.setBackground(getDrawable(context!!, R.drawable.ic_button_fill_primary))
+            binding.buttonParticipantNotPresent.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.buttonParticipantNotConsent.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.buttonParticipantPassedAway.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+            binding.buttonParticipantNotAddress.setBackground(getDrawable(context!!, R.drawable.shape_rounded_corners_4dp))
+        }
+
+        basicDetailsViewModelNew.setUser("user")
+        basicDetailsViewModelNew.user?.observe(this, Observer { userData ->
+            if (userData?.data != null) {
+                // setupNavigationDrawer(userData.data)
+//                user = userData.data
+
+                val stTime: String = convertTimeTo24Hours()
+                val stDate: String = getDate()
+                val stDateTime:String = stDate + " " + stTime
+
+//                meta = Meta(collectedBy = user?.id, startTime = stDateTime)
+//                meta?.registeredBy = user?.id
+            }
+
+        })
+
+        val dobListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            basicDetailsViewModelNew.birthYear = year
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, monthOfYear)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+            val birthDate: Date = Date(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH))
+            basicDetailsViewModelNew.birthDate.postValue(sdf.format(cal.time))
+            basicDetailsViewModelNew.birthDateVal.postValue(birthDate)
+
+            binding.dobEditText.setText(sdf.format(cal.time))
+            //binding.dobEditText.isFocusableInTouchMode = true
+
+            val years = UserConfig.getAge(
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+            )  //Calendar.getInstance().get(Calendar.YEAR) - year
+
+            basicDetailsViewModelNew.age.value = years
+            binding.executePendingBindings()
+        }
+
+        binding.dobEditText.singleClick {
+
+            val datepicker = DatePickerDialog(
+                activity!!, R.style.datepicker, dobListener,
+                1998,
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+            )
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.YEAR, -80)
+            datepicker.datePicker.minDate = calendar.timeInMillis
+            datepicker.show()
+            binding.root.hideKeyboard()
+
+            //validateNextButton()
+        }
+
+
+        val resheduleListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            basicDetailsViewModelNew.birthYear = year
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, monthOfYear)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+            val birthDate: Date = Date(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH))
+            basicDetailsViewModelNew.birthDate.postValue(sdf.format(cal.time))
+            basicDetailsViewModelNew.birthDateVal.postValue(birthDate)
+
+            binding.rescheduleEditText.setText(sdf.format(cal.time))
+            //binding.rescheduleEditText.isFocusableInTouchMode = true
+
+            val years = UserConfig.getAge(
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+            )  //Calendar.getInstance().get(Calendar.YEAR) - year
+
+            basicDetailsViewModelNew.age.value = years
+            binding.executePendingBindings()
+        }
+
+        binding.rescheduleEditText.singleClick {
+            var datepicker = DatePickerDialog(
+                activity!!, R.style.datepicker, resheduleListener,
+                1998,
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+            )
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.YEAR, -80)
+            datepicker.datePicker.minDate = calendar.timeInMillis
+            datepicker.show()
+            //validateNextButton()
+        }
+
+        basicDetailsViewModelNew.setParticipant(participant!!, participant!!.participant_id)
+
+
+
+//        val name = participant?.
+//        Log.d("PARTICIPANT_ATTENDANCE", " PARTCIPANT_DATA: " + name)
+
+//        binding.memberRequest = memberRequest
+//        if (member != null) {
+//            binding.member = member
+//            memberRequest.firstName = member?.name!!
+//            memberRequest.lastName = member?.familyName!!
+//            memberRequest.nickName = if (member?.nickName == null) "" else member?.nickName!!
+//            memberRequest.gender = member?.gender!!
+//            memberRequest.hoursFasted = hoursFasted?.toInt()!!
+//            memberRequest.contactDetails.phoneNumberPreferred =
+//                    if (member?.contactNo == null) "" else member?.contactNo!!
+//            memberRequest.age.ageInYears = member?.age!!
+//            memberRequest.age.dob = member?.birthDate?.year.toString() + "-" +
+//                    member?.birthDate?.month.toString().format(2) + "-" + member?.birthDate?.day.toString().format(2)
+////            memberRequest.address.street = household?.address?.street!!
+////            memberRequest.address.country = household?.address?.country!!
+////            memberRequest.address.locality = household?.address?.locality!!
+////            memberRequest.address.postcode =
+////                    if (household?.address?.postcode == null) "" else household?.address?.postcode!!
+//
+//            binding.viewModel = updateParticipantViewModule
+//            binding.viewModel?.gender?.postValue(member?.gender)
+//            if (member?.birthDate != null) {
+//                val c = Calendar.getInstance();
+//                c.set(member?.birthDate!!.year, member?.birthDate!!.month - 1, member?.birthDate!!.day)
+//                val format = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+//                binding.viewModel?.birthDate?.postValue(format.format(c.time))
+//            }
+//        } else {
+//            binding.viewModel = updateParticipantViewModule
+//            binding.memberRequest?.gender = Gender.MALE.gender.toString()
+//            binding.viewModel?.gender?.postValue("male")
+//        }
+//
+//
+//        binding.executePendingBindings()
+//        binding.nextButton.singleClick {
+//            //memberRequest.gender = basicdetailsViewModel.gender.value.toString().toLowerCase()
+//            //Timber.d("${memberRequest.lastName} ${memberRequest.gender}")
+//
+//            val gender = memberRequest.gender.toLowerCase()
+//            val newStr = gender.toLowerCase()
+//            val memberId: String? = if (member != null) {
+//                if (isNetworkAvailable()) member?.memberId!! else member?.uuid!!
+//            } else {
+//                null
+//            }
+//
+//            val householdIdX: String? = if (member != null) {
+//                householdId
+//            } else {
+//                null
+//            }
+//            participantMeta = ParticipantMeta(
+//                meta = meta!!,
+//                body = ParticipantX(
+//                    consentObtained = true,
+//                    isEligible = true,
+//                    firstName = memberRequest.firstName,
+//                    lastName = memberRequest.lastName,
+//                    preferredName = memberRequest.nickName,
+//                    gender = newStr,
+//                    hoursFasted = hoursFasted!!,
+//                    enumerationId = householdIdX,
+//                    memberId = memberId,
+//                    idType = "NID",
+//                    videoWatched = false,
+//                    alternateContactsDetails = ParticipantAlternateContactsDetails(
+//                        name = memberRequest.alternateContactsDetails.name,
+//                        relationship = selectedRelationShip.toString(),
+//                        address = memberRequest.alternateContactsDetails.address,
+//                        email = if (memberRequest.alternateContactsDetails.email.isEmpty()) {
+//                            null
+//                        } else {
+//                            memberRequest.alternateContactsDetails.email
+//                        },
+//                        phone_preferred = memberRequest.alternateContactsDetails.phonePreferred,
+//                        phone_alternate = if (memberRequest.alternateContactsDetails.phoneAlternate.isEmpty()) {
+//                            null
+//                        } else memberRequest.alternateContactsDetails.phoneAlternate
+//                    ),
+//                    age = ParticipantAge(
+//                        dob = memberRequest.age.dob,
+//                        ageInYears = memberRequest.age.ageInYears,
+//                        dobComputed = true
+//                    ),
+//                    address = ParticipantAddress(
+//                        street = memberRequest.address.street,
+//                        country = memberRequest.address.country,
+//                        locality = memberRequest.address.locality,
+//                        postcode = memberRequest.address.postcode
+//                    ),
+//                    contactDetails = ParticipantContactDetails(
+//                        phoneNumberAlternate = if (memberRequest.contactDetails.phoneNumberAlternate.isEmpty()) null else memberRequest.contactDetails.phoneNumberAlternate,
+//                        phoneNumberPreferred = memberRequest.contactDetails.phoneNumberPreferred,
+//                        email = if (memberRequest.contactDetails.email.isEmpty()) {
+//                            null
+//                        } else memberRequest.contactDetails.email
+//                    ),
+//                    comment = null
+//                )
+//            )
+//            participantMeta.phoneCountryCode = userConfig?.mobileCode
+//            participantMeta.countryCode = userConfig?.countryCode
+//            //  Timber.d("par", participantMeta.toString())
+//            findNavController().navigate(
+//                R.id.action_BasicDetailFragmentNew_to_reviewFragmentNew,
+//                bundleOf("participantMeta" to participantMeta, "concentPhotoPath" to concentPhoto)
+//
+//            )
+//        }
+//
+//        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+//            updateParticipantViewModule.birthYear = year
+//            cal.set(Calendar.YEAR, year)
+//            cal.set(Calendar.MONTH, monthOfYear)
+//            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+//
+//            val birthDate: Date = Date(cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.YEAR), cal.get(Calendar.MONTH))
+//            updateParticipantViewModule.birthDate.postValue(sdf.format(cal.time))
+//            updateParticipantViewModule.birthDateVal.postValue(birthDate)
+//            binding.member?.birthDate = birthDate
+//            binding.memberRequest?.age?.dob = view.toSimpleDateString(cal.time)
+//
+//            val years = UserConfig.getAge(
+//                cal.get(Calendar.YEAR),
+//                cal.get(Calendar.MONTH),
+//                cal.get(Calendar.DAY_OF_MONTH)
+//            )  //Calendar.getInstance().get(Calendar.YEAR) - year
+//
+//            updateParticipantViewModule.age.value = years
+//
+//            binding.memberRequest?.age?.ageInYears = years
+//
+//            binding.textViewYears.text = getString(R.string.string_years)
+//            binding.executePendingBindings()
+//        }
+//
+//        binding.birthDate.singleClick {
+//            var datepicker = DatePickerDialog(
+//                activity!!, R.style.datepicker, dateSetListener,
+//                1998,
+//                cal.get(Calendar.MONTH),
+//                cal.get(Calendar.DAY_OF_MONTH)
+//            )
+//            val calendar = Calendar.getInstance()
+//            calendar.add(Calendar.YEAR, -80)
+//            datepicker.datePicker.minDate = calendar.timeInMillis
+//            datepicker.show()
+//            //validateNextButton()
+//        }
+//
+//
+////        val itemsRelationship = arrayOf(
+////            getString(R.string.registraion_contact_relationship_grandparent),
+////            getString(R.string.registraion_contact_relationship_parent),
+////            getString(R.string.registraion_contact_relationship_spouse),
+////            getString(R.string.registraion_contact_relationship_sibling),
+////            getString(R.string.registraion_contact_relationship_aunt),
+////            getString(R.string.registraion_contact_relationship_cousin),
+////            getString(R.string.registraion_contact_relationship_friend),
+////            getString(R.string.registraion_contact_relationship_colleague),
+////            getString(R.string.registraion_contact_relationship_neighbour),
+////            getString(R.string.registraion_contact_relationship_other)
+////        )
+////        val adapter = ArrayAdapter(context!!, R.layout.basic_spinner_dropdown_item, itemsRelationship)
+////        binding.contactRelationshipSpinner.setAdapter(adapter);
+////        //       selectedRelationShip = RELATIONSHIP_GRANDPARENT
+////        binding.contactRelationshipSpinner.onItemSelectedListener = object : OnItemSelectedListener {
+////            override fun onItemSelected(
+////                parentView: AdapterView<*>, @NonNull selectedItemView: View?,
+////                position: Int,
+////                id: Long
+////            ) {
+////
+////                if (position == 0)
+////                    selectedRelationShip = RELATIONSHIP_GRANDPARENT
+////                else if (position == 1)
+////                    selectedRelationShip = RELATIONSHIP_PARENT
+////                else if (position == 2)
+////                    selectedRelationShip = RELATIONSHIP_SPOUSE
+////                else if (position == 3)
+////                    selectedRelationShip = RELATIONSHIP_SIBLING
+////                else if (position == 4)
+////                    selectedRelationShip = RELATIONSHIP_AUNT_UNCLE
+////                else if (position == 5)
+////                    selectedRelationShip = RELATIONSHIP_COUSIN
+////                else if (position == 6)
+////                    selectedRelationShip = RELATIONSHIP_FRIEND
+////                else if (position == 7)
+////                    selectedRelationShip = RELATIONSHIP_COLLEAGUE
+////                else if (position == 8)
+////                    selectedRelationShip = RELATIONSHIP_NEIGHBOUR
+////                else if (position == 9)
+////                    selectedRelationShip = RELATIONSHIP_OTHER
+////
+////
+////                binding.memberRequest?.alternateContactsDetails?.relationship = selectedRelationShip.toString()
+////
+////                validateNextButton()
+////            }
+////
+////            override fun onNothingSelected(parentView: AdapterView<*>) {
+////                // your code here
+////            }
+////
+////        }
+//
+//        updateParticipantViewModule.setUser("user")
+//        updateParticipantViewModule.user?.observe(this, Observer { userData ->
+//            if (userData?.data != null) {
+//
+//                user = userData.data
+//                val countryCode = user?.team?.country
+//                userConfig = UserConfig.getUserConfig(countryCode)
+//
+//                binding.contactNumberPrimaryCodeEditText.setText(userConfig?.mobileCode + " - ")
+//                //binding.contactNumberSecondryCodeEditText.setText(userConfig?.mobileCode + " - ")
+//                binding.contactPersonContactNumberPrimaryCodeEditText.setText(userConfig?.mobileCode + " - ")
+//                //binding.contactPersonContactNumberSecondryCodeEditText.setText(userConfig?.mobileCode + " - ")
+//
+//                binding.contactNumberPrimaryEditText.filters =
+//                        arrayOf<InputFilter>(InputFilter.LengthFilter(userConfig?.mobileMaxLength!!))
+//                //binding.contactNumberSecondryEditText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(userConfig?.mobileMaxLength!!))
+////                binding.contactPersonContactNumberSecondryEditText.filters =
+////                        arrayOf<InputFilter>(InputFilter.LengthFilter(userConfig?.mobileMaxLength!!))
+////                binding.contactPersonContactNumberPrimaryEditText.filters =
+////                        arrayOf<InputFilter>(InputFilter.LengthFilter(userConfig?.mobileMaxLength!!))
+//
+//                binding
+//                memberRequest.address.country = user?.team?.country!!
+//
+//            }
+//        })
+//
+//        onTextChanges(binding.fullNameEditText)
+//        onTextChanges(binding.familyNameEditText)
+//        onTextChanges(binding.birthDate)
+//        //onTextChanges(binding.contactNumberPrimaryEditText)
+//        validateNextButton()
+//        //onTextChanges(binding.addressEditText)
+//        //onTextChanges(binding.areaEditText)
+//        //onTextChanges(binding.postcodeEditText)
+//        //onTextChanges(binding.contactPersonNameEditText)
+//        //onTextChanges(binding.contactAddressEditText)
+//        //onTextChanges(binding.contactPersonContactNumberPrimaryEditText)
+//        //onTextChanges(binding.emailEditText)
+//        //onTextChanges(binding.contactPersonEmailEditText)
+//        //onTextChanges(binding.birthDate)
+
+    }
+
+    private fun onTextChanges(editText: EditText) {
+        editText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                return navController().popBackStack()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = activity?.getSystemService(Context.CONNECTIVITY_SERVICE)
+        return if (connectivityManager is ConnectivityManager) {
+            val networkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
+            networkInfo?.isConnected ?: false
+        } else false
+    }
+
+    // to set the 24 hours time ------------------------------ 7.2.2020 --------- Nuwan ----------
+
+    private fun convertTimeTo24Hours(): String
+    {
+        val now: Calendar = Calendar.getInstance()
+        val inputFormat: DateFormat = SimpleDateFormat("MMM DD, yyyy HH:mm:ss")
+        val outputformat: DateFormat = SimpleDateFormat("HH:mm")
+        val date: java.util.Date
+        val output: String
+        try{
+            date= inputFormat.parse(now.time.toLocaleString())
+            output = outputformat.format(date)
+            return output
+        }catch(p: ParseException){
+            return ""
+        }
+    }
+
+    private fun getDate(): String
+    {
+        val inputFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm")
+        val outputformat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val date: java.util.Date
+        val output: String
+        try{
+            date= inputFormat.parse(binding.root.getLocalTimeString())
+            output = outputformat.format(date)
+
+            return output
+        }catch(p: ParseException){
+            return ""
+        }
+    }
+
+     private fun getAge(year: Int, month: Int, date: Int) : String
+     {
+         val dob : Calendar = Calendar.getInstance()
+         val today : Calendar = Calendar.getInstance()
+
+         dob.set(year, month, date)
+
+         var age : Int = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR)
+
+         if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR))
+         {
+             age--
+         }
+
+         val ageInt : Int = age
+         val ageString : String = ageInt.toString()
+
+         return ageString
+     }
+
+    // -------------------------------------------------------------------------------------------
+
+
+    /**
+     * Created to be able to override in tests
+     */
+    fun navController() = findNavController()
+}
+
+
+
+
+
