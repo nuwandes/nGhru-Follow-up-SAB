@@ -32,12 +32,14 @@ import org.southasia.ghrufollowup_sab.databinding.TotalCholesterolFragmentBindin
 import org.southasia.ghrufollowup_sab.db.MemberTypeConverters
 import org.southasia.ghrufollowup_sab.di.Injectable
 import org.southasia.ghrufollowup_sab.event.BusProvider
+import org.southasia.ghrufollowup_sab.event.TCHRxBus
 import org.southasia.ghrufollowup_sab.event.TotalCholesterolRxBus
 import org.southasia.ghrufollowup_sab.sync.CholesterolcomEventType
 import org.southasia.ghrufollowup_sab.sync.JanaCareCholesterolcomRxBus
 import org.southasia.ghrufollowup_sab.util.*
 import org.southasia.ghrufollowup_sab.vo.*
 import org.southasia.ghrufollowup_sab.vo.request.ParticipantRequest
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -160,15 +162,15 @@ class TotalCholesterolFragment : Fragment(), Injectable {
             else if (validateHbac(binding.textInputEditTextTotalCholesterol.text.toString())) {
                 binding.totalCholesterol!!.deviceId = selectedDeviceID!!
 
-                // Timber.d("ddce " + binding.totalCholesterol!!.value + " " + binding.totalCholesterol!!.probeId)
-                val mtotalCholesterol = TotalCholesterolDto(
+                //Timber.d("ddce " + binding.totalCholesterol!!.value + " " + binding.totalCholesterol!!.probeId)
+                val mtotalCholesterol = BloodTestData(
                     value = binding.totalCholesterol!!.value + " mg/dL",
                     lot_id = binding.totalCholesterol!!.probeId,
                     comment = binding.totalCholesterol!!.comment,
                     device_id = binding.totalCholesterol!!.deviceId
                 )
 
-                TotalCholesterolRxBus.getInstance().post(mtotalCholesterol)
+                TCHRxBus.getInstance().post(mtotalCholesterol)
                 //navController().popBackStack()
             }
         }

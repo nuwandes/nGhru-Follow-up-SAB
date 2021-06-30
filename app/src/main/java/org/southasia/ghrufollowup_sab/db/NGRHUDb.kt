@@ -40,7 +40,7 @@ import org.southasia.ghrufollowup_sab.vo.request.Member
         FundoscopyRequest::class,
         Axivity :: class
     ],
-    version = 8,
+    version = 9,
     exportSchema = true
 )
 abstract class NGRHUDb : RoomDatabase() {

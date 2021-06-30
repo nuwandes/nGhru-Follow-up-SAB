@@ -311,5 +311,8 @@ interface NghruService {
     @PUT("api/v2/participants/{screening_id}")
     fun updateParticipantFollowUpStatus(@Path("screening_id") screeningId: String, @Body participant: ParticipantListItem): LiveData<ApiResponse<ResourceData<ParticipantListItem>>>
 
+    @POST("api/screening/{screening_id}/blood-test")
+    fun addBloodTest(@Path("screening_id") screeningId: String, @Body bloodTestRequest: BloodTestRequest): LiveData<ApiResponse<ResourceData<Message>>>
+
 
 }

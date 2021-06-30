@@ -10,7 +10,8 @@ enum class CholesterolcomEventType {
     TOTAL_CHOLESTEROLHDL,
     TRIGLYCERIDESCODE,
     HDL,
-    HEMOGLOBIN
+    HEMOGLOBIN,
+    FASTING_BLOOD_GLUCOSE
 }
 
 

@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sample_processing"
-    app:startDestination="@id/sampleMangementHomeFragment">
+    app:startDestination="@id/bloodTestHomeFragment">
 
     <fragment
-        android:id="@+id/sampleMangementHomeFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.home.SampleMangementHomeFragment"
-        android:label="SampleMangementHomeFragment"
-        tools:layout="@layout/sample_mangement_home_fragment">
+        android:id="@+id/bloodTestHomeFragment"
+        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.bloodtesthome.BloodTestHomeFragment"
+        android:label="BloodTestHomeFragment"
+        tools:layout="@layout/blood_test_home_fragment">
 
         <action
             android:id="@+id/action_sampleMangementHomeViewModel_to_FastingBloodGlucoseFragment"

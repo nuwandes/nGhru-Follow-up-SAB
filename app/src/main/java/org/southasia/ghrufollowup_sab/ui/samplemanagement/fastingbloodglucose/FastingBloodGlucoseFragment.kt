@@ -25,7 +25,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import br.com.ilhasoft.support.validation.Validator
-import com.crashlytics.android.Crashlytics
 import io.reactivex.disposables.CompositeDisposable
 import org.southasia.ghrufollowup_sab.R
 import org.southasia.ghrufollowup_sab.binding.FragmentDataBindingComponent
@@ -33,15 +32,14 @@ import org.southasia.ghrufollowup_sab.databinding.FastingBloodGlucoseFragmentBin
 import org.southasia.ghrufollowup_sab.db.MemberTypeConverters
 import org.southasia.ghrufollowup_sab.di.Injectable
 import org.southasia.ghrufollowup_sab.event.BusProvider
-import org.southasia.ghrufollowup_sab.event.FastingBloodGlucoseRxBus
+import org.southasia.ghrufollowup_sab.event.FBGRxBus
+import org.southasia.ghrufollowup_sab.sync.CholesterolcomEventType
 import org.southasia.ghrufollowup_sab.sync.JanaCareGlucoseRxBus
 import org.southasia.ghrufollowup_sab.ui.samplemanagement.fastingbloodglucose.cancel.CancelDialogFragment
-import org.southasia.ghrufollowup_sab.ui.samplemanagement.storage.completed.CompletedDialogFragment
 import org.southasia.ghrufollowup_sab.util.*
 import org.southasia.ghrufollowup_sab.util.Constants.Companion.FBG_MAX_VAL
 import org.southasia.ghrufollowup_sab.util.Constants.Companion.FBG_MIN_VAL
 import org.southasia.ghrufollowup_sab.vo.*
-import org.southasia.ghrufollowup_sab.vo.request.FastingBloodGlucoseWithMeta
 import org.southasia.ghrufollowup_sab.vo.request.ParticipantRequest
 import java.text.DateFormat
 import java.text.ParseException
@@ -81,13 +79,35 @@ class FastingBloodGlucoseFragment : Fragment(), Injectable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        disposables.add(
+//            JanaCareGlucoseRxBus.getInstance().toObservable()
+//                .subscribe({ result ->
+//                    if (result != null) {
+//                        binding.textInputEditTextFBG.setText(result.result.result)
+//                        binding.textviewFbgAinaValue.setText(result.result.result.toString())
+//                        samplemangementfastingbloodglucoseViewModel.fastingBloodGlucose.value = result.result.result.toString()
+//                    }
+//
+//                }, { error ->
+//                    error.printStackTrace()
+//                })
+//        )
         disposables.add(
             JanaCareGlucoseRxBus.getInstance().toObservable()
                 .subscribe({ result ->
-                    if (result != null) {
-                        binding.textInputEditTextFBG.setText(result.result.result)
-                        binding.textviewFbgAinaValue.setText(result.result.result.toString())
-                        samplemangementfastingbloodglucoseViewModel.fastingBloodGlucose.value = result.result.result.toString()
+                    Log.d("Result", "household SyncCommentLifecycleObserver ${result}")
+                    //handleSyncResponse(result)
+                    when (result.eventType) {
+                        CholesterolcomEventType.FASTING_BLOOD_GLUCOSE -> {
+                            if (result != null) {
+                                binding.textInputEditTextFBG.setText(result.result.result.toString())
+                                binding.textviewFbgAinaValue.setText(result.result.result.toString())
+                                binding.fastingBloodGlucose!!.value = result.result.result.toString()
+                                binding.fastingBloodGlucose!!.probeId = result.result.lotNumber.toString()
+
+                            }
+
+                        }
                     }
 
                 }, { error ->
@@ -140,25 +160,6 @@ class FastingBloodGlucoseFragment : Fragment(), Injectable {
         val participantAge: String = getAge(dob_year.toInt(), dob_month.toInt(), dob_date.toInt())
         binding.titleAge.setText(participantAge + "Y")
 
-        samplemangementfastingbloodglucoseViewModel.setParticipantId(selectedParticipant!!.participant_id!!)
-
-        samplemangementfastingbloodglucoseViewModel.getParticipant.observe(this, Observer { participantResource->
-
-            if (participantResource.status == Status.SUCCESS)
-            {
-                participant = participantResource.data?.data
-
-                Log.d("FBG_HOME", "PAR_REQ_SUCCESS")
-            }
-            else
-            {
-                Log.d("FBG_HOME", "PAR_REQ_FAILED")
-            }
-
-            binding.executePendingBindings()
-
-        })
-
         samplemangementfastingbloodglucoseViewModel.setUser("user")
         samplemangementfastingbloodglucoseViewModel.user?.observe(this, Observer { userData ->
             if (userData?.data != null) {
@@ -174,60 +175,27 @@ class FastingBloodGlucoseFragment : Fragment(), Injectable {
         })
 
         binding.buttonSubmit.singleClick {
-            //  Timber.d("ddce " + binding.fastingBloodGlucose!!.value + " " + binding.fastingBloodGlucose!!.probeId)
+            binding.root.hideKeyboard()
             if(selectedDeviceID==null)
             {
                 binding.textViewDeviceError.visibility = View.VISIBLE
             }
-            else if (validator.validate() && isValidFBGRange()) {
-                binding.root.hideKeyboard()
+            else if (isValidFBGRange()) {
 
                 binding.fastingBloodGlucose?.deviceId = selectedDeviceID!!
-                val mFastingBloodGlucoseDto = FastingBloodGlucoseDto(
+                val mFastingBloodGlucoseDto = BloodTestData(
                     value = binding.fastingBloodGlucose!!.value + " mg/dL",
                     device_id = binding.fastingBloodGlucose?.deviceId,
                     lot_id = binding.fastingBloodGlucose!!.lotId,
                     comment = binding.fastingBloodGlucose!!.comment
                 )
 
-                val eTime: String = convertTimeTo24Hours()
-                val eDate: String = getDate()
-                val eDateTime:String = eDate + " " + eTime
-
-                meta!!.endTime = eDateTime
-
-                val mFBgWithMeta = FastingBloodGlucoseWithMeta(
-                    meta = meta,
-                    fastingBloodGlucose = mFastingBloodGlucoseDto
-                )
-
-                FastingBloodGlucoseRxBus.getInstance().post(mFastingBloodGlucoseDto)
-                BusProvider.getInstance().post(mFastingBloodGlucoseDto)
-
-                //samplemangementfastingbloodglucoseViewModel.setFollowUpBloodGlucose(participant!!.screeningId, mFBgWithMeta)
+                FBGRxBus.getInstance().post(mFastingBloodGlucoseDto)
+                navController().popBackStack()
+                Log.d("FBG_FRAG", "BLOOD_GLUCOSE: Clikced, " + mFastingBloodGlucoseDto )
             }
         }
 
-        samplemangementfastingbloodglucoseViewModel.folloUpSampleManagementPocess!!.observe(this, Observer { bloodGlucoseResource->
-
-            if (bloodGlucoseResource.status == Status.SUCCESS)
-            {
-                Log.d("FBG_HOME", "BLOOD_GLUCOSE: SUCCESS")
-
-                val completedDialogFragment = CompletedDialogFragment()
-                completedDialogFragment.arguments = bundleOf("is_cancel" to false)
-                completedDialogFragment.show(fragmentManager!!)
-            }
-            else if (bloodGlucoseResource.status == Status.ERROR)
-            {
-                Log.d("FBG_HOME", "BLOOD_GLUCOSE: FAILED")
-                Crashlytics.setString("fastingBloodGlucose", fastingBloodGlucose.toString())
-            }
-        })
-
-        samplemangementfastingbloodglucoseViewModel.fastingBloodGlucose.observe(this, Observer { fbg ->
-            isValidFBGRange()
-        })
         binding.buttonJanacare.singleClick {
             // navController().navigate(R.id.action_samplemangementhb1AcFragment_to_bagScanBarcodeFragment)
             startAina("com.janacare.ainamini.openAinaMini", AINA_REQUEST_CODE_GLUCOSE)

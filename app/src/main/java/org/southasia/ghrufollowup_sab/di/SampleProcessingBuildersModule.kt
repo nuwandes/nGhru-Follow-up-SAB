@@ -3,6 +3,7 @@ package org.southasia.ghrufollowup_sab.di
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import org.southasia.ghrufollowup_sab.ui.codeheck.CodeCheckDialogFragment
+import org.southasia.ghrufollowup_sab.ui.samplemanagement.bloodtesthome.BloodTestHomeFragment
 import org.southasia.ghrufollowup_sab.ui.samplemanagement.fastingbloodglucose.FastingBloodGlucoseFragment
 import org.southasia.ghrufollowup_sab.ui.samplemanagement.fastingbloodglucose.cancel.CancelDialogFragment
 import org.southasia.ghrufollowup_sab.ui.samplemanagement.fastingbloodglucose.completed.CompletedDialogFragment
