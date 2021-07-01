@@ -57,13 +57,13 @@ class IntakeReadingsViewModel @Inject constructor(
 //            }
 //        }
 
-    fun setParticipant(intakeRequest: IntakeRequestNew, participantId: String?) {
-        _participantId = participantId
-        if (_intakeRequest.value == intakeRequest) {
-            return
-        }
-        _intakeRequest.value = intakeRequest
-    }
+//    fun setParticipant(intakeRequest: IntakeRequestNew, participantId: String?) {
+//        _participantId = participantId
+//        if (_intakeRequest.value == intakeRequest) {
+//            return
+//        }
+//        _intakeRequest.value = intakeRequest
+//    }
     fun updateParticipant(intakeRequest: IntakeRequestNew, participantId: String?) {
         _participantId = participantId
         if (_intakeUpdateRequest.value == intakeRequest) {

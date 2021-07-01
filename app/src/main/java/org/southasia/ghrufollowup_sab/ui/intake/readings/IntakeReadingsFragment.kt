@@ -14,6 +14,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
+import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -132,6 +134,12 @@ class IntakeReadingsFragment  : Fragment(), Injectable {
                 participant = participantResource.data?.data
                 participant?.meta = meta
                 Log.d("FASTED_FRAG", "PAR_REQ_SUCCESS")
+
+                val intakeRequest = IntakeRequestNew(meta = participant!!.meta)
+//        viewModel.setParticipant(intakeRequest, participant?.screeningId)
+//        Log.d("INTAKE_READING_FRAGMENT","REQUEST_BODY: " + intakeRequest.meta)
+
+                viewModel.setIntakeMeta(intakeRequest = intakeRequest, screen_id = participant!!.screeningId)
             }
             else if (participantResource?.status == Status.ERROR)
             {
@@ -198,8 +206,11 @@ class IntakeReadingsFragment  : Fragment(), Injectable {
 
         })
 
+
+
         binding.completeButton.singleClick {
-                showCompleteCOnfirmationDialog()
+            //showCompleteCOnfirmationDialog()
+            showAlert()
         }
 
         binding.cancelButton.singleClick {
@@ -208,33 +219,26 @@ class IntakeReadingsFragment  : Fragment(), Injectable {
             cancelDialogFragment.show(fragmentManager!!)
         }
 
-        if (participant != null)
-        {
-            val intakeRequest = IntakeRequestNew(meta = participant!!.meta)
-
-//        participant!!.meta!!.startTime = binding.root.getLocalTimeString()
+//        val intakeRequest = IntakeRequestNew(meta = participant!!.meta)
+////        viewModel.setParticipant(intakeRequest, participant?.screeningId)
+////        Log.d("INTAKE_READING_FRAGMENT","REQUEST_BODY: " + intakeRequest.meta)
 //
-//        intakeRequest.meta = participant!!.meta
-            viewModel.setParticipant(intakeRequest, participant?.screeningId)
-            Log.d("INTAKE_READING_FRAGMENT","REQUEST_BODY: " + intakeRequest.meta)
+//        viewModel.setIntakeMeta(intakeRequest = intakeRequest, screen_id = participant!!.screeningId)
 
-            viewModel.setIntakeMeta(intakeRequest = intakeRequest, screen_id = participant!!.screeningId)
+        viewModel.intakePostComplete?.observe(this, Observer { participantResource ->
+            if (participantResource?.status == Status.SUCCESS) {
+                println(participantResource.data?.data)
+                if (participantResource.data != null) {
 
-            viewModel.intakePostComplete?.observe(this, Observer { participantResource ->
-                if (participantResource?.status == Status.SUCCESS) {
-                    println(participantResource.data?.data)
-                    if (participantResource.data != null) {
+                    val intakeData = participantResource.data.data
+                    binding.webViewDiet.loadUrl(intakeData?.intake_url)
+                    webUrl = intakeData!!.intake_url
 
-                        val intakeData = participantResource.data.data
-                        binding.webViewDiet.loadUrl(intakeData?.intake_url)
-                        webUrl = intakeData!!.intake_url
+                    Log.d("INTAKE_FRAGMENT", "URL: " + webUrl)
 
-                        Log.d("INTAKE_FRAGMENT", "URL: " + webUrl)
-
-                    }
                 }
-            })
-        }
+            }
+        })
 
         binding.webViewDiet.setWebViewClient(object : WebViewClient() {
 
@@ -256,7 +260,7 @@ class IntakeReadingsFragment  : Fragment(), Injectable {
                 }
 
             }
-//
+            //
             override fun onReceivedHttpError(view: WebView?, request: WebResourceRequest?, errorResponse: WebResourceResponse?
             ) {
                 super.onReceivedHttpError(view, request, errorResponse)
@@ -328,8 +332,7 @@ class IntakeReadingsFragment  : Fragment(), Injectable {
         lateinit var dialog: AlertDialog
         val builder = AlertDialog.Builder(context!!)
 
-
-       // builder.setTitle("Title")
+        // builder.setTitle("Title")
         builder.setMessage(getString(R.string.Intake_confirmation_message))
 
         // On click listener for dialog buttons
@@ -349,27 +352,66 @@ class IntakeReadingsFragment  : Fragment(), Injectable {
 
         dialog.show()
     }
+
+    private fun showAlert()
+    {
+        val alert =  AlertDialog.Builder(context!!)
+
+        val edittext = EditText(context!!)
+        edittext.hint = "Enter Password"
+        edittext.maxLines = 1
+
+        val layout = FrameLayout(context!!)
+        layout.setPaddingRelative(45,15,45,0)
+        alert.setTitle(getString(R.string.diet_msg_title))
+        alert.setMessage(getString(R.string.diet_msg_message))
+        layout.addView(edittext)
+        alert.setView(layout)
+
+        alert.setPositiveButton(getString(R.string.app_button_ok), DialogInterface.OnClickListener {
+                dialog, which ->
+            run {
+                val qName = edittext.text.toString()
+
+                if (qName.equals("lolipop"))
+                {
+                    updateIntakeStation()
+                }
+                else
+                {
+                    toast("Password mismatch")
+                }
+            }
+        })
+        alert.setNegativeButton(getString(R.string.cancel), DialogInterface.OnClickListener {
+
+                dialog, which ->
+            run {
+                dialog.dismiss()
+            }
+        })
+        alert.show()
+    }
+
     private fun toast(message: String) {
         Toast.makeText(context!!, message, Toast.LENGTH_SHORT).show()
     }
     private fun updateIntakeStation()
     {
         binding.completeButton.visibility = View.GONE
-        if (participant != null)
-        {
-            val intakeRequest = IntakeRequestNew(meta = participant!!.meta)
+        val intakeRequest = IntakeRequestNew(meta = participant!!.meta)
 
-            val endTime: String = convertTimeTo24Hours()
-            val endDate: String = getDate()
-            val endDateTime:String = endDate + " " + endTime
+        val endTime: String = convertTimeTo24Hours()
+        val endDate: String = getDate()
+        val endDateTime:String = endDate + " " + endTime
 
-            intakeRequest.meta!!.endTime = endDateTime
-            intakeRequest.status = "100"
+        intakeRequest.meta!!.endTime = endDateTime
+        intakeRequest.status = "100"
 //        intakeRequest.status = "100"
-            //intakeRequest.meta = participant!!.meta
+        //intakeRequest.meta = participant!!.meta
 //        intakeRequest.status = "100"
-            viewModel.updateParticipant(intakeRequest, participant?.screeningId)
-        }
+        viewModel.updateParticipant(intakeRequest, participant?.screeningId)
+
     }
 
     class JavascriptInterface(
@@ -432,6 +474,7 @@ class IntakeReadingsFragment  : Fragment(), Injectable {
             return ""
         }
     }
+
     private fun getAge(year: Int, month: Int, date: Int) : String
     {
         val dob : Calendar = Calendar.getInstance()

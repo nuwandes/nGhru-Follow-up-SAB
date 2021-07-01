@@ -84,14 +84,14 @@ class VerificationCompletedDialogFragment : DialogFragment() {
 
             // measurement list displays with nav control, if validation path is ok
 
-//            findNavController().navigate(
-//                    R.id.action_attendanceFragment_to_measurementListFragment,
-//                    bundleOf("participant" to participant!!))
+            findNavController().navigate(
+                    R.id.action_global_ConsentFragment,
+                    bundleOf("participant" to participant!!))
 
-            val json: String = MemberTypeConverters.gson.toJson(participant)
-            prefs?.edit()?.putString("selected_participant", json)?.apply()
-            val intent = Intent(activity, MeasurementListActivity::class.java)
-            startActivity(intent)
+//            val json: String = MemberTypeConverters.gson.toJson(participant)
+//            prefs?.edit()?.putString("selected_participant", json)?.apply()
+//            val intent = Intent(activity, MeasurementListActivity::class.java)
+//            startActivity(intent)
 
         }
         btnCancel.singleClick {

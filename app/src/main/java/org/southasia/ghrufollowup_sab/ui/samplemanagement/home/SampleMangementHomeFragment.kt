@@ -65,9 +65,23 @@ class SampleMangementHomeFragment : Fragment(), Injectable {
     @Inject
     lateinit var jobManager: JobManager
 
+
+    private var hb1Ac: Hb1AcDto? = null
     private var fastingBloodGlucose: FastingBloodGlucoseDto? = null
+    // private var lipidProfile: LipidProfileDto? = null
+
+    private var lipidProfileAllDto: LipidProfileAllDto? = null
+
+
+    private var hOGTT: HOGTTDto? = null
 
     private var totalCholesterol: TotalCholesterolDto? = null
+
+    private var hemoglobin: HemoglobinDto? = null
+
+    private var hDL: HDLDto? = null
+
+    private var triglyceridesDto: TriglyceridesDto? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,18 +89,18 @@ class SampleMangementHomeFragment : Fragment(), Injectable {
             sampleRequest = arguments?.getParcelable("SampleRequestResource")
             //L.d(sampleRequest.toString() + "sampleRequest ${sampleRequest?.storageId}")
         } catch (e: KotlinNullPointerException) {
-            Crashlytics.logException(e)
+            //Crashlytics.logException(e)
         }
 
         disposables.add(
-            TotalCholesterolRxBus.getInstance().toObservable()
+            Hb1AcRxBus.getInstance().toObservable()
                 .subscribe({ result ->
                     // if (result == null) {
                     Timber.d(result.toString())
-                    totalCholesterol = result
+                    hb1Ac = result
                     navController().popBackStack()
-                    binding.linearLayoutTotalCholesterol.visibility = View.VISIBLE
-                    updateProcessValidUI(binding.TCTextView)
+                    binding.linearLayoutHb1Ac.visibility = View.VISIBLE
+                    updateProcessValidUI(binding.hb1AcTextView)
                     binding.executePendingBindings()
                     // }
                 }, { error ->
@@ -95,6 +109,75 @@ class SampleMangementHomeFragment : Fragment(), Injectable {
                 })
         )
 
+        disposables.add(
+            TotalCholesterolRxBus.getInstance().toObservable()
+                .subscribe({ result ->
+                    // if (result == null) {
+                    Timber.d(result.toString())
+                    totalCholesterol = result
+                    navController().popBackStack()
+                    binding.linearLayoutLipidProfileTotalCholesterol.visibility = View.VISIBLE
+                    updateProcessValidUI(binding.lipidTextViewTotalCholesterol)
+                    binding.executePendingBindings()
+                    // }
+                }, { error ->
+                    print(error)
+                    error.printStackTrace()
+                })
+        )
+
+        disposables.add(
+            HemoglobinRxBus.getInstance().toObservable()
+                .subscribe({ result ->
+                    // if (result == null) {
+                    Timber.d(result.toString())
+                    hemoglobin = result
+                    navController().popBackStack()
+                    binding.linearLayoutHemoglobin.visibility = View.VISIBLE
+                    updateProcessValidUI(binding.hemTextView)
+                    binding.executePendingBindings()
+                    // }
+                }, { error ->
+                    print(error)
+                    error.printStackTrace()
+                })
+        )
+
+
+        disposables.add(
+            HDLRxBus.getInstance().toObservable()
+                .subscribe({ result ->
+                    // if (result == null) {
+                    Timber.d(result.toString())
+                    hDL = result
+                    navController().popBackStack()
+                    binding.linearLayoutLipidProfileHDL.visibility = View.VISIBLE
+                    updateProcessValidUI(binding.lipidTextViewHDL)
+                    updateProcessValidUI(binding.lipidTextViewTotalCholesterol)
+                    binding.executePendingBindings()
+                    // }
+                }, { error ->
+                    print(error)
+                    error.printStackTrace()
+                })
+        )
+
+        disposables.add(
+            TriglyceridesRxBus.getInstance().toObservable()
+                .subscribe({ result ->
+                    // if (result == null) {
+                    Timber.d(result.toString())
+                    triglyceridesDto = result
+                    navController().popBackStack()
+                    binding.linearLayoutLipidProfileTriglycerides.visibility = View.VISIBLE
+                    updateProcessValidUI(binding.lipidTextViewTriglycerides)
+                    binding.executePendingBindings()
+                    // }
+                }, { error ->
+                    print(error)
+                    error.printStackTrace()
+                })
+        )
         disposables.add(
             FastingBloodGlucoseRxBus.getInstance().toObservable()
                 .subscribe({ result ->
@@ -107,6 +190,43 @@ class SampleMangementHomeFragment : Fragment(), Injectable {
                     // }
                 }, { error ->
                     print(error)
+                    error.printStackTrace()
+                })
+        )
+
+//        disposables.add(
+//                LipidProfileRxBus.getInstance().toObservable()
+//                        .subscribe({ result ->
+//                            //  if (result == null) {
+//                            Timber.d(result.toString())
+//                            lipidProfile = result
+//                            navController().popBackStack()
+//                            binding.lipidCompleteView.visibility = View.VISIBLE
+//                            updateProcessValidUI(binding.lipidTextView)
+//
+//                            binding.executePendingBindings()
+//
+//                            // }
+//                        }, { error ->
+//
+//                            error.printStackTrace()
+//                        }))
+
+        disposables.add(
+            HOGTTRxBus.getInstance().toObservable()
+                .subscribe({ result ->
+                    //  if (result == null) {
+                    Timber.d(result.toString())
+                    hOGTT = result
+                    navController().popBackStack()
+                    binding.HOGTCompleteView.visibility = View.VISIBLE
+                    updateProcessValidUI(binding.HOGTTTextView)
+
+                    binding.executePendingBindings()
+
+                    // }
+                }, { error ->
+
                     error.printStackTrace()
                 })
         )
@@ -139,15 +259,56 @@ class SampleMangementHomeFragment : Fragment(), Injectable {
         binding.viewModel = viewModel
         binding.sample = sampleRequest
 
+        if (hb1Ac != null) {
+            binding.hbacCompleteView.visibility = View.VISIBLE
+            binding.linearLayoutHB.background = resources.getDrawable(R.drawable.ic_process_complete_bg, null)
+
+        }
+
+
+//
         if (fastingBloodGlucose != null) {
             binding.fbgCompleteView.visibility = View.VISIBLE
             binding.linearLayoutBlood.background = resources.getDrawable(R.drawable.ic_process_complete_bg, null)
 
         }
 
+        if (hemoglobin != null) {
+            binding.hemCompleteView.visibility = View.VISIBLE
+            binding.linearLayoutHem.background = resources.getDrawable(R.drawable.ic_process_complete_bg, null)
+
+        }
+//
+//        if (lipidProfile != null) {
+//            binding.lipidCompleteView.visibility = View.VISIBLE
+//            binding.LinearLayoutLipid.background = resources.getDrawable(R.drawable.ic_process_complete_bg, null)
+//
+//        }
+
         if (totalCholesterol != null) {
-            binding.TCCompleteView.visibility = View.VISIBLE
-            binding.LinearLayoutTC.background = resources.getDrawable(R.drawable.ic_process_complete_bg, null)
+            binding.lipidCompleteViewTotalCholesterol.visibility = View.VISIBLE
+            binding.LinearLayoutLipidTotalCholesterol.background =
+                resources.getDrawable(R.drawable.ic_process_complete_bg, null)
+
+        }
+
+        if (hDL != null) {
+            binding.lipidCompleteViewHDL.visibility = View.VISIBLE
+            binding.LinearLayoutLipidHDL.background = resources.getDrawable(R.drawable.ic_process_complete_bg, null)
+
+        }
+
+        if (triglyceridesDto != null) {
+            binding.lipidCompleteViewTriglycerides.visibility = View.VISIBLE
+            binding.LinearLayoutLipidTriglycerides.background =
+                resources.getDrawable(R.drawable.ic_process_complete_bg, null)
+
+        }
+
+
+        if (hOGTT != null) {
+            binding.HOGTCompleteView.visibility = View.VISIBLE
+            binding.linearLayoutssHOGT.background = resources.getDrawable(R.drawable.ic_process_complete_bg, null)
 
         }
 
@@ -159,7 +320,10 @@ class SampleMangementHomeFragment : Fragment(), Injectable {
                 completedDialogFragment.show(fragmentManager!!)
             } else if (sampleMangementPocess?.status == Status.ERROR) {
                 Crashlytics.setString("sample", sampleRequest.toString())
+                Crashlytics.setString("hb1Ac", hb1Ac.toString())
                 Crashlytics.setString("fastingBloodGlucose", fastingBloodGlucose.toString())
+                Crashlytics.setString("lipidProfileAllDto", lipidProfileAllDto.toString())
+                Crashlytics.setString("hOGTT", hOGTT.toString())
 
                 Crashlytics.logException(Exception("sample collection " + sampleMangementPocess.message.toString()))
                 binding.progressBar.visibility = View.GONE
@@ -195,7 +359,7 @@ class SampleMangementHomeFragment : Fragment(), Injectable {
                     completedDialogFragment.show(fragmentManager!!)
                 } else {
                     //L.d("else")
-                    //viewModel.setSync(hb1Ac, fastingBloodGlucose, lipidProfileAllDto, hOGTT, hemoglobin, sampleRequest)
+                    viewModel.setSync(hb1Ac, fastingBloodGlucose, lipidProfileAllDto, hOGTT, hemoglobin, sampleRequest)
                 }
 
             } else if (sampleMangementPocess?.status == Status.ERROR) {
@@ -206,7 +370,7 @@ class SampleMangementHomeFragment : Fragment(), Injectable {
 
 
         fun isValied(): Boolean {
-            return if (totalCholesterol != null)
+            return if (fastingBloodGlucose != null)
                 true else {
                 false
             }
@@ -220,47 +384,122 @@ class SampleMangementHomeFragment : Fragment(), Injectable {
             val endDate: String = getDate()
             val endDateTime:String = endDate + " " + endTime
 
-//            if (isValied() && (fastingBloodGlucose != null || hb1Ac != null || hOGTT != null)) {
-//                // if (!isNetworkAvailable()) {
-//                sampleRequest?.meta?.endTime = endDateTime
-//                lipidProfileAllDto = LipidProfileAllDto(
-//                    totalCholesterol = totalCholesterol,
-//                    triglycerol = triglyceridesDto,
-//                    hdl = hDL
-//                )
-//                viewModel.setSyncLocal(hb1Ac, fastingBloodGlucose, lipidProfileAllDto, hOGTT, hemoglobin, sampleRequest, true)
-//                // }
-//                binding.progressBar.visibility = View.VISIBLE
-//                binding.buttonSubmit.visibility = View.GONE
-//            }
-//            else
-//            {
-//                binding.sampleValidationError = true
-//
-//                if (fastingBloodGlucose == null) {
-//                    updateProcessErrorUI(binding.fbgTextView)
+            if(binding.checkboxNoBloodCollected.isChecked)
+            {
+                sampleRequest?.meta?.endTime = endDateTime
+                sampleRequest?.comment?.comment = "No blood is collected"
+                lipidProfileAllDto = LipidProfileAllDto(
+                    totalCholesterol = totalCholesterol,
+                    triglycerol = triglyceridesDto,
+                    hdl = hDL
+                )
+                viewModel.setSyncLocal(hb1Ac, fastingBloodGlucose, lipidProfileAllDto, hOGTT, hemoglobin, sampleRequest, true)
+                // }
+                binding.progressBar.visibility = View.VISIBLE
+                binding.buttonSubmit.visibility = View.GONE
+            }
+//            else if (isValied() && (fastingBloodGlucose != null || hb1Ac != null || hOGTT != null)) {
+            else if (isValied()) {
+                sampleRequest?.meta?.endTime = endDateTime
+                lipidProfileAllDto = LipidProfileAllDto(
+                    totalCholesterol = totalCholesterol,
+                    triglycerol = triglyceridesDto,
+                    hdl = hDL
+                )
+                viewModel.setSyncLocal(hb1Ac, fastingBloodGlucose, lipidProfileAllDto, hOGTT, hemoglobin, sampleRequest, true)
+                // }
+                binding.progressBar.visibility = View.VISIBLE
+                binding.buttonSubmit.visibility = View.GONE
+            }
+            else {
+
+                // viewModel.sampleValidationError.value = true
+                //binding.sampleValidationError = true
+
+//                if (hb1Ac == null) {
+//                    updateProcessErrorUI(binding.hb1AcTextView)
 //                }
-//
+
+                if (fastingBloodGlucose == null)
+                {
+                    updateProcessErrorUI(binding.fbgTextView)
+                }
+
 //                if (!isValied()) {
-//                    updateProcessErrorUI(binding.TCTextView)
+//                    updateProcessErrorUI(binding.lipidTextView)
+//                    updateProcessErrorUI(binding.lipidTextViewTotalCholesterol)
 //                }
-//            }
+//
+//                if (hOGTT == null) {
+//                    updateProcessErrorUI(binding.HOGTTTextView)
+//                }
+
+
+                /*Snackbar.make(binding.root, "Please fill all tests",
+                        Snackbar.LENGTH_SHORT).withTextColor(Color.WHITE)
+                        .show();*/
+            }
 
         }
 
+//        binding.LinearLayoutLipid.singleClick {
+//            viewModel.sampleValidationError.value = false
+//            ///updateProcessValidUI(binding.lipidTextView)
+//            navController().navigate(R.id.action_sampleMangementHomeViewModel_to_LipidProfileFragment)
+//        }
+
         binding.linearLayoutBlood.singleClick {
-           // viewModel.sampleValidationError.value = false
+            // viewModel.sampleValidationError.value = false
             binding.sampleValidationError = false
             //updateProcessValidUI(binding.fbgTextView)
             navController().navigate(R.id.action_sampleMangementHomeViewModel_to_FastingBloodGlucoseFragment)
         }
 
-        binding.LinearLayoutTC.singleClick {
+
+        binding.linearLayoutHB.singleClick {
+            // viewModel.sampleValidationError.value = false
+            binding.sampleValidationError = false
+            //updateProcessValidUI(binding.hb1AcTextView)
+            navController().navigate(R.id.action_sampleMangementHomeViewModel_to_Hb1AcFragment)
+        }
+
+
+        binding.linearLayoutssHOGT.singleClick {
+            // viewModel.sampleValidationError.value = false
+            binding.sampleValidationError = false
+            //updateProcessValidUI(binding.hb1AcTextView)
+            navController().navigate(R.id.action_sampleMangementHomeViewModel_to_HOGTTFragment)
+        }
+
+        binding.LinearLayoutLipidTotalCholesterol.singleClick {
             //viewModel.sampleValidationError.value = false
             binding.sampleValidationError = false
             //updateProcessValidUI(binding.hb1AcTextView)
             navController().navigate(R.id.action_sampleMangementHomeViewModel_to_TotalCholesterolFragment)
         }
+
+        binding.LinearLayoutLipidHDL.singleClick {
+            // viewModel.sampleValidationError.value = false
+            binding.sampleValidationError = false
+            //updateProcessValidUI(binding.hb1AcTextView)
+            navController().navigate(R.id.action_sampleMangementHomeViewModel_to_HDLFragment)
+        }
+
+        binding.LinearLayoutLipidTriglycerides.singleClick {
+            // viewModel.sampleValidationError.value = false
+            binding.sampleValidationError = false
+            //updateProcessValidUI(binding.hb1AcTextView)
+            navController().navigate(R.id.action_sampleMangementHomeViewModel_to_TriglyceridesFragment)
+        }
+
+        binding.linearLayoutHemoglobin.singleClick {
+            // viewModel.sampleValidationError.value = false
+            binding.sampleValidationError = false
+            //updateProcessValidUI(binding.hb1AcTextView)
+            navController().navigate(R.id.action_sampleMangementHomeViewModel_to_HemoglobinFragment)
+        }
+
+
     }
 
 
@@ -336,3 +575,4 @@ class SampleMangementHomeFragment : Fragment(), Injectable {
      */
     fun navController() = findNavController()
 }
+

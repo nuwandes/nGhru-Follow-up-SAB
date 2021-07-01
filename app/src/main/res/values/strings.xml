@@ -878,5 +878,11 @@
 
     <string name="blood_test_not_complete_1">Please complete \'FBG\' and \'Total Cholesterol\'</string>
     <string name="blood_test_TC">Total Cholesterol</string>
+    <string name="processing_instructions_2ml_updated">Take out the 2 mL sample tube from the bag to use for the tests.</string>
+    <string name="processing_completion_instructions_1_updated">After completing tests:</string>
+    <string name="diet_msg_title">Please handover the tab to the operator</string>
+    <string name="diet_msg_message">Please type in the password to submit the survey.</string>
+    <string name="consent_title">Consent</string>
+    <string name="consent_message">If the participant provides consent, complete the signing of consent form and take a picture of the signed form.</string>
 
 </resources>

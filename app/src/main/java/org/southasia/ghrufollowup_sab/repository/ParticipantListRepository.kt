@@ -89,7 +89,6 @@ class ParticipantListRepository @Inject constructor(
 
         var bodyStatus: String? = "Not started"
         var bloodStatus: String? = "Not started"
-        var fbgStatus: String? = "Not started"
         var spiroStatus: String? = "Not started"
         var queStatus: String? = "Not started"
         var samColStatus: String? = "Not started"
@@ -123,15 +122,15 @@ class ParticipantListRepository @Inject constructor(
                 }
             }
 
-            if (station.station_name.equals("Biological Samples"))
+            if (station.station_name.equals("Blood test"))
             {
                 if (station.isCancelled == 1)
                 {
-                    fbgStatus = "Canceled"
+                    bloodTestStatus = "Canceled"
                 }
                 else
                 {
-                    fbgStatus = station.status_text
+                    bloodTestStatus = station.status_text
                 }
             }
 
@@ -159,7 +158,7 @@ class ParticipantListRepository @Inject constructor(
                 }
             }
 
-            if (station.station_name.equals("Sample Collection"))
+            if (station.station_name.equals("Biological Samples"))
             {
                 if (station.isCancelled == 1)
                 {
@@ -228,7 +227,7 @@ class ParticipantListRepository @Inject constructor(
             4,
             R.drawable.fbg,
             getStringByLocalBefore17(context, R.string.measurement_list_blood_test, localeManager.getLanguage()),
-            fbgStatus!!
+            bloodTestStatus!!
         )
 
         val measurementItem5 = MeasurementListItem(

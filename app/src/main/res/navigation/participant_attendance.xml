@@ -19,6 +19,10 @@
             android:id="@+id/action_attendanceFragment_to_UpdateFragment"
             app:destination="@id/UpdateParticipantFragment" />
 
+        <action
+            android:id="@+id/action_attendanceFragment_to_ConsentFragment"
+            app:destination="@id/ConsentFragment" />
+
     </fragment>
 
 
@@ -29,6 +33,30 @@
         tools:layout="@layout/update_participant_fragment">
 
     </fragment>
+
+    <fragment
+        android:id="@+id/ConsentFragment"
+        android:name="org.southasia.ghrufollowup_sab.ui.participantlist.attendance.consent.ConsentFragment"
+        android:label="ConsentFragment"
+        tools:layout="@layout/consent_fragment">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="org.southasia.ghrufollowup_sab.ui.camera.CameraFragment"
+        android:label="CameraFragment"
+        tools:layout="@layout/camera_fragment">
+
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_ConsentFragment"
+        app:destination="@id/ConsentFragment" />
+
+    <action
+        android:id="@+id/action_global_cameraFragment"
+        app:destination="@id/cameraFragment" />
 
 <!--    <fragment-->
 <!--        android:id="@+id/scanBarcodeFragmentNew"-->
