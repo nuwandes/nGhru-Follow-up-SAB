@@ -266,10 +266,10 @@ class BloodTestHomeFragment : Fragment(), Injectable {
                     updateProcessErrorUI(binding.TCTextView)
                 }
 
-                if (!isValied()) {
-                    updateProcessErrorUI(binding.TCTextView)
-                    updateProcessErrorUI(binding.fbgTextView)
-                }
+//                if (!isValied()) {
+//                    updateProcessErrorUI(binding.TCTextView)
+//                    updateProcessErrorUI(binding.fbgTextView)
+//                }
             }
 
         }

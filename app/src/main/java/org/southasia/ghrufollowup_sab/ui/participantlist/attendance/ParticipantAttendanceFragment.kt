@@ -76,27 +76,7 @@ class ParticipantAttendanceFragment : Fragment(), Injectable {
 
     var cal = Calendar.getInstance()
 
-
-//    val sdf = SimpleDateFormat(Constants.dataFormat, Locale.US)
-//
-//    var cal = Calendar.getInstance()
-//
-//    var user: User? = null
-//    var userConfig: UserConfig? = null
-//
-//    var meta: Meta? = null
-//    var hoursFasted: String? = null
-//    var memberRequest: MemberRequest = MemberRequest.build()
-//
-//    lateinit var participantMeta: ParticipantMeta
-//
-//    var household: HouseholdRequest? = null
-//
-//    private var concentPhoto: String? = null
-//
-//    private var selectedRelationShip: String? = null
-//
-//    private lateinit var validator: Validator
+    private var isConsentExist : Boolean? = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -150,6 +130,29 @@ class ParticipantAttendanceFragment : Fragment(), Injectable {
 
 
         binding.participantDetails.setText(participant!!.firstname + " " + participant!!.last_name+ ", " + participant!!.gender + ", " + participantAge + " Years, "  + participant!!.participant_id)
+
+        basicDetailsViewModelNew.setParticipantForGetAsset(participant!!.participant_id!!)
+
+        basicDetailsViewModelNew.getAssets?.observe(this, Observer { assertsResource ->
+            if (assertsResource?.status == Status.SUCCESS) {
+                println(assertsResource.data?.data)
+                if (assertsResource.data?.data?.size != 0)
+                {
+                    Log.d("ATTENDANCE_FRAG", "ASSET EXISTS")
+                    participant?.isConsent = true
+
+                }
+                else
+                {
+                    Log.d("ATTENDANCE_FRAG", "ASSET NOT EXISTS")
+                    participant?.isConsent = false
+                }
+            }
+            else
+            {
+                Log.d("ATTENDANCE_FRAG", "GET ASSET REQUEST FAILED")
+            }
+        })
 
         binding.buttonAbleYes.singleClick {
             //binding.buttonAbleYes.setTextColor(R.color.black)
@@ -306,16 +309,17 @@ class ParticipantAttendanceFragment : Fragment(), Injectable {
                         + ", VERFI_ID: " + participant!!.verification_id
                         + ", RESCH_DATE: " +participant!!.rescheduled_date)
 
-                findNavController().navigate(
-                    R.id.action_attendanceFragment_to_ConsentFragment,
-                    bundleOf("participant" to participant!!)
-
-                )
-
-//                val json1: String = gson.toJson(participant)
-//                prefs?.edit()?.putString("selected_participant", json1)?.apply()
-//                val intent = Intent(activity, MeasurementListActivity::class.java)
-//                startActivity(intent)
+                if (participant?.isConsent!!)
+                {
+                    val json1: String = gson.toJson(participant)
+                    prefs?.edit()?.putString("single_participant", json1)?.apply()
+                    val intent = Intent(activity, MeasurementListActivity::class.java)
+                    startActivity(intent)
+                }
+                else
+                {
+                    findNavController().navigate(R.id.action_attendanceFragment_to_ConsentFragment, bundleOf("single_participant" to participant!!))
+                }
             }
             else
             {
@@ -326,6 +330,7 @@ class ParticipantAttendanceFragment : Fragment(), Injectable {
                     participant!!.verification_id = binding.nidEditText.text.toString()
 
                     val verificationCompletedDialogFragment = VerificationCompletedDialogFragment()
+//                    verificationCompletedDialogFragment.arguments = bundleOf("single_participant" to participant!!, "isConsentExist" to isConsentExist)
                     verificationCompletedDialogFragment.arguments = bundleOf("single_participant" to participant!!)
                     verificationCompletedDialogFragment.show(fragmentManager!!)
 

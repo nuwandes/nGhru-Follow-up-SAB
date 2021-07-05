@@ -228,8 +228,8 @@ class TotalCholesterolFragment : Fragment(), Injectable {
         deviceListName.add(getString(R.string.unknown))
         val adapter = ArrayAdapter(context!!, R.layout.basic_spinner_dropdown_item, deviceListName)
         binding.deviceIdSpinner.setAdapter(adapter)
-//        viewModel.setStationName(Measurements.TOTAL_CHOLESTEROL)
-        viewModel.setStationName(Measurements.BLOOD_GLUCOSE)
+        viewModel.setStationName(Measurements.TOTAL_CHOLESTEROL)
+        //viewModel.setStationName(Measurements.BLOOD_GLUCOSE)
         viewModel.stationDeviceList?.observe(this, Observer {
             if (it.status.equals(Status.SUCCESS)) {
                 deviceListObject = it.data!!

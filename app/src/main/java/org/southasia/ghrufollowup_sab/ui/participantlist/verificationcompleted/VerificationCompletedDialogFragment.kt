@@ -43,17 +43,17 @@ class VerificationCompletedDialogFragment : DialogFragment() {
 
     var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
 
-//    @Inject
-//    lateinit var statusCompletedDialogViewModel: StatusCompletedDialogViewModel
-
     private var participant: ParticipantListItem? = null
 
     var prefs : SharedPreferences? = null
+
+    //private var isConsentExist : Boolean? = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
             participant = arguments?.getParcelable<ParticipantListItem>("single_participant")!!
+            //isConsentExist = arguments?.getBoolean("isConsentExist")
         } catch (e: KotlinNullPointerException) {
 
         }
@@ -80,20 +80,29 @@ class VerificationCompletedDialogFragment : DialogFragment() {
         prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
         btnContinue.singleClick {
-            dismiss()
+
 
             // measurement list displays with nav control, if validation path is ok
 
-            findNavController().navigate(
+//            if (isConsentExist!!)
+            if (participant?.isConsent!!)
+            {
+                val json: String = MemberTypeConverters.gson.toJson(participant)
+                prefs?.edit()?.putString("single_participant", json)?.apply()
+                val intent = Intent(activity, MeasurementListActivity::class.java)
+                startActivity(intent)
+            }
+            else
+            {
+                findNavController().navigate(
                     R.id.action_global_ConsentFragment,
-                    bundleOf("participant" to participant!!))
+                    bundleOf("single_participant" to participant!!))
+                dismiss()
+            }
 
-//            val json: String = MemberTypeConverters.gson.toJson(participant)
-//            prefs?.edit()?.putString("selected_participant", json)?.apply()
-//            val intent = Intent(activity, MeasurementListActivity::class.java)
-//            startActivity(intent)
 
         }
+
         btnCancel.singleClick {
             dismiss()
         }

@@ -18,7 +18,9 @@ import org.southasia.ghrufollowup_sab.vo.*
 class MeasurementListAdapter (
     private val dataBindingComponent: DataBindingComponent,
     appExecutors: AppExecutors,
+    private val isConsent: Boolean?,
     private val callback: ((MeasurementListItem) -> Unit)?
+
 ) : DataBoundListAdapter<MeasurementListItem, MeasurementListItemBinding>(
     appExecutors = appExecutors,
     diffCallback = object : DiffUtil.ItemCallback<MeasurementListItem>() {
@@ -58,6 +60,19 @@ class MeasurementListAdapter (
         val greenColor: String = "#388e3c"
         val redColor: String = "#d34836"
 
+        if (item.station_name == "Consent")
+        {
+            if (isConsent!!)
+            {
+                item.status = "Completed"
+            }
+            else
+            {
+                item.status = "Not started"
+            }
+            binding.buttonArrow.visibility = View.GONE
+        }
+
         if (item.status == "Completed")
         {
             binding.participantId.setTextColor(Color.parseColor(greenColor))
@@ -66,12 +81,6 @@ class MeasurementListAdapter (
         {
             binding.participantId.setTextColor(Color.parseColor(redColor))
         }
-
-        if (item.station_name == "Consent")
-        {
-            binding.buttonArrow.visibility = View.GONE
-        }
-
     }
 
 }

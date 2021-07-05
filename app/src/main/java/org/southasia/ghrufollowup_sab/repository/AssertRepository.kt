@@ -151,4 +151,39 @@ class AssertRepository @Inject constructor(
         }.asLiveData()
     }
 
+    fun getConsentAssets(
+        screeningId: String,
+        purpose: String
+    ): LiveData<Resource<ResourceData<List<Asset>>>> {
+        return object : NetworkOnlyBoundResource<ResourceData<List<Asset>>>(appExecutors) {
+            override fun createCall(): LiveData<ApiResponse<ResourceData<List<Asset>>>> {
+                return nghruService.getAssets(screeningId = screeningId, purpose = purpose)
+            }
+        }.asLiveData()
+    }
+
+    fun uploadConcentNew(
+        profileImage: String,
+        screeningId: String
+    ): LiveData<Resource<Message>> {
+        return object : NetworkOnlyBoundResource<Message>(appExecutors) {
+            override fun createCall(): LiveData<ApiResponse<Message>> {
+                val file = File(profileImage)
+                val reqFile = RequestBody.create(MediaType.parse("image/jpeg"), file)
+                val body = MultipartBody.Part.createFormData("image", file.getName(), reqFile)
+                val screeningIdX = RequestBody.create(MediaType.parse("text/plain"), screeningId)
+                val subject = RequestBody.create(MediaType.parse("text/plain"), screeningId.toString())
+                val patient = RequestBody.create(MediaType.parse("text/plain"), "Screening")
+                val id = RequestBody.create(MediaType.parse("text/plain"), "consent")
+                return nghruService.upload(
+                    screeningId = screeningIdX,
+                    subjectId = subject,
+                    subjectType = patient,
+                    purpose = id,
+                    image = body
+                )
+            }
+        }.asLiveData()
+    }
+
 }

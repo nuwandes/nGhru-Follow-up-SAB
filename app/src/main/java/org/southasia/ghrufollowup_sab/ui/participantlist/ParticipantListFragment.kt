@@ -136,7 +136,8 @@ class ParticipantListFragment : Fragment(), Injectable {
                     {
                         siteNames.add(siteName)
                     }
-                }            }
+                }
+            }
             else
             {
                 Log.d("PARTICIPANT_FRAGMENT", "Site_spinner_Error_is: " + it.status.toString())

@@ -31,6 +31,7 @@ data class ParticipantListItem (
 
     var id: Int = 0
     var statusId: Int =0
+    var isConsent: Boolean = false
 
     constructor(parcel: Parcel) : this(
 
@@ -55,6 +56,7 @@ data class ParticipantListItem (
     ) {
         id = parcel.readInt()
         statusId = parcel.readInt()
+        isConsent = parcel.readByte() != 0.toByte()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -79,6 +81,7 @@ data class ParticipantListItem (
         parcel.writeString(verification_id)
         parcel.writeByte(if (is_rescheduled) 1 else 0)
         parcel.writeString(rescheduled_date)
+        parcel.writeByte(if (isConsent) 1 else 0)
     }
 
     override fun describeContents(): Int {

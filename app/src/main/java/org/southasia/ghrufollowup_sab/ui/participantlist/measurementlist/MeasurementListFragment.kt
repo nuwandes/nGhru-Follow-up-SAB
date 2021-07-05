@@ -68,6 +68,8 @@ class MeasurementListFragment : Fragment(), Injectable {
     private var SP_Status: String? = "Not started"
     private var FBG_Status: String? = "Not started"
     private var QU_Status: String? = "Not started"
+    private var BT_Status: String? = "Not started"
+    private var INT_Status: String? = "Not started"
     private var Folloup_Status: String? = ""
 
     private var participant: ParticipantListItem? = null
@@ -123,7 +125,7 @@ class MeasurementListFragment : Fragment(), Injectable {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val json : String? = prefs?.getString("selected_participant","")
+        val json : String? = prefs?.getString("single_participant","")
         participant = MemberTypeConverters.gson.fromJson<ParticipantListItem>(json.toString())
         Log.d("PARTICIPANT_ATTENDANCE", " DATA: " + participant!!.participant_id)
 
@@ -131,7 +133,7 @@ class MeasurementListFragment : Fragment(), Injectable {
 
         binding.homeViewModel = measurementListViewModel
 
-        val measurementAdapter = MeasurementListAdapter(dataBindingComponent, appExecutors) { measurementListItem ->
+        val measurementAdapter = MeasurementListAdapter(dataBindingComponent, appExecutors, participant?.isConsent!!) { measurementListItem ->
 
             Timber.d(measurementListItem.toString())
 
@@ -397,7 +399,7 @@ class MeasurementListFragment : Fragment(), Injectable {
                 }
             }
 
-            if (station.station_name == "Biological Samples") // FBG
+            if (station.station_name == "Biological Samples") // SAMPLE COLLECTION
             {
                 if (station.isCancelled == 1)
                 {
@@ -432,6 +434,30 @@ class MeasurementListFragment : Fragment(), Injectable {
                     QU_Status = station.status_text
                 }
             }
+
+            if (station.station_name == "Intake 24")
+            {
+                if (station.isCancelled == 1)
+                {
+                    INT_Status = "Canceled"
+                }
+                else
+                {
+                    INT_Status = station.status_text
+                }
+            }
+
+            if (station.station_name == "Blood Test")
+            {
+                if (station.isCancelled == 1)
+                {
+                    BT_Status = "Canceled"
+                }
+                else
+                {
+                    BT_Status = station.status_text
+                }
+            }
         }
 
         Log.d("MEASUREMENT_FRAGMENT", "STATION_STATUSES:"
@@ -439,7 +465,9 @@ class MeasurementListFragment : Fragment(), Injectable {
                 + "BP - "+ BP_Status
                 + "FBG - "+ FBG_Status
                 + "SP - "+ SP_Status
-                + "QU - "+ QU_Status)
+                + "QU - "+ QU_Status
+                + "BT - "+ BT_Status
+                + "INT - "+ INT_Status)
 
         var followUpStatus : String = ""
 
@@ -492,7 +520,11 @@ class MeasurementListFragment : Fragment(), Injectable {
 //
 //        }
 
-        if ((BP_Status == "Completed" || BP_Status == "Canceled" ) && (SP_Status == "Completed" || SP_Status == "Canceled") && (FBG_Status == "Completed" || FBG_Status == "Canceled"))
+        if ((BP_Status == "Completed" || BP_Status == "Canceled" )
+            && (SP_Status == "Completed" || SP_Status == "Canceled")
+            && (FBG_Status == "Completed" || FBG_Status == "Canceled" || FBG_Status == "Processed")
+            && (BT_Status == "Completed" || BT_Status == "Canceled")
+            && (INT_Status == "Completed" || INT_Status == "Canceled"))
         {
             if ((BM_Status == "Completed" || BM_Status == "Canceled") && (QU_Status == "Completed" || QU_Status == "Canceled"))
             {

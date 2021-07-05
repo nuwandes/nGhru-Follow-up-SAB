@@ -122,7 +122,7 @@ class ParticipantListRepository @Inject constructor(
                 }
             }
 
-            if (station.station_name.equals("Blood test"))
+            if (station.station_name.equals("Blood Test"))
             {
                 if (station.isCancelled == 1)
                 {
@@ -164,9 +164,13 @@ class ParticipantListRepository @Inject constructor(
                 {
                     samColStatus = "Canceled"
                 }
-                else
+                else if (station.status_code.equals("1"))
                 {
                     samColStatus = station.status_text
+                }
+                else
+                {
+                    samColStatus = "Completed"
                 }
             }
 

@@ -4,15 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import org.southasia.ghrufollowup_sab.repository.AssertRepository
 import org.southasia.ghrufollowup_sab.repository.ParticipantListRepository
 import org.southasia.ghrufollowup_sab.repository.UserRepository
 import org.southasia.ghrufollowup_sab.util.AbsentLiveData
 import org.southasia.ghrufollowup_sab.vo.*
 import org.southasia.ghrufollowup_sab.vo.request.Gender
+import org.southasia.ghrufollowup_sab.vo.request.ParticipantRequest
 import javax.inject.Inject
 
 class ParticipantAttendanceViewModule
-@Inject constructor(userRepository: UserRepository, repository: ParticipantListRepository) : ViewModel() {
+@Inject constructor(userRepository: UserRepository,
+                    repository: ParticipantListRepository,
+                    assetRepository: AssertRepository) : ViewModel() {
 
     var gender: MutableLiveData<String> = MutableLiveData<String>()
 
@@ -79,4 +83,25 @@ class ParticipantAttendanceViewModule
     }
 
 //    --------------------------------------------------------------------------------------------------------
+
+    // ------------- to get the assets status ----------------------------------------------------------------
+
+    private val _participantRequestId: MutableLiveData<String> = MutableLiveData()
+
+    fun setParticipantForGetAsset(participantId: String) {
+
+        if (_participantRequestId.value == participantId) {
+            return
+        }
+        _participantRequestId.value = participantId
+    }
+
+    var getAssets: LiveData<Resource<ResourceData<List<Asset>>>>? = Transformations
+        .switchMap(_participantRequestId) { participantId ->
+            if (participantId == null) {
+                AbsentLiveData.create()
+            } else {
+                assetRepository.getConsentAssets(participantId, "consent")
+            }
+        }
 }

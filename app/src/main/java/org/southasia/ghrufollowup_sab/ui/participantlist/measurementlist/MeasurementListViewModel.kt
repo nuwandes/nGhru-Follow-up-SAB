@@ -113,6 +113,7 @@ class MeasurementListViewModel
         }
         _participantRequest.value = participantItem
     }
+
     fun updateParticipantFollowUp(participantItem: ParticipantListItem, participantId: String?) {
         _participantID = participantId
         if (_participantUpdateRequest.value == participantItem) {

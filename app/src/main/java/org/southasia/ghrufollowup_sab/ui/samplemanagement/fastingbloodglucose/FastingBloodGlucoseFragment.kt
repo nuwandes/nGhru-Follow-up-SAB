@@ -333,7 +333,7 @@ class FastingBloodGlucoseFragment : Fragment(), Injectable {
     }
 
     fun isValidFBGRange(): Boolean {
-        if(binding.textInputEditTextFBG.text!=null) {
+        if(binding.textInputEditTextFBG.text !=null && !binding.textInputEditTextFBG.text.toString().equals("")) {
             val value = binding.textInputEditTextFBG.text.toString().toFloat()
             if (value >= FBG_MIN_VAL && value <= FBG_MAX_VAL) {
                 binding.textInputLayoutFBG.error = ""
@@ -346,6 +346,9 @@ class FastingBloodGlucoseFragment : Fragment(), Injectable {
 
             }
         }else{
+            binding.textInputLayoutFBG.error = getString(R.string.error_invalid_input)
+
+            Toast.makeText(activity, getString(R.string.error_blood_glucose_message), Toast.LENGTH_SHORT).show()
             return false
         }
 
