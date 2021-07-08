@@ -135,10 +135,11 @@ class ConsentFragment : Fragment(), Injectable {
             if (upload?.status == Status.SUCCESS) {
                 Log.d("CONSENT_FRAG", "CONSENT UPLOAD SUCCESS")
 
-                participant?.isConsent = true
+                //participant?.isConsent = true
                 val json1: String = gson.toJson(participant)
                 prefs?.edit()?.putString("single_participant", json1)?.apply()
                 val intent = Intent(activity, MeasurementListActivity::class.java)
+                intent.putExtra("CONSENT_STATUS", true)
                 startActivity(intent)
 
             }

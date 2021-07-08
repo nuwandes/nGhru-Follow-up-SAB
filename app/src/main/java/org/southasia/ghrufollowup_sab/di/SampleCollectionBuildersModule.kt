@@ -7,6 +7,7 @@ import org.southasia.ghrufollowup_sab.ui.registerpatient.scanqrcode.errordialog.
 import org.southasia.ghrufollowup_sab.ui.samplecollection.bagscanbarcode.BagScanBarcodeFragment
 import org.southasia.ghrufollowup_sab.ui.samplecollection.bagscanned.BagScannedFragment
 import org.southasia.ghrufollowup_sab.ui.samplecollection.bagscanned.reason.ReasonDialogFragment
+import org.southasia.ghrufollowup_sab.ui.samplecollection.cancel.CancelDialogFragment
 import org.southasia.ghrufollowup_sab.ui.samplecollection.fast.FastFragment
 import org.southasia.ghrufollowup_sab.ui.samplecollection.fast.reshedule.ResheduleDialogFragment
 import org.southasia.ghrufollowup_sab.ui.samplecollection.fasted.FastedFragment
@@ -63,5 +64,8 @@ abstract class SampleCollectionBuildersModule {
 
     @ContributesAndroidInjector
     abstract fun contrubuteCompletedDialogFragment(): org.southasia.ghrufollowup_sab.ui.samplecollection.bagscanned.completed.CompletedDialogFragment
+
+    @ContributesAndroidInjector
+    abstract fun contrubuteCancelDialogFragment(): CancelDialogFragment
 }
 

@@ -90,6 +90,7 @@ class VerificationCompletedDialogFragment : DialogFragment() {
                 val json: String = MemberTypeConverters.gson.toJson(participant)
                 prefs?.edit()?.putString("single_participant", json)?.apply()
                 val intent = Intent(activity, MeasurementListActivity::class.java)
+                intent.putExtra("CONSENT_STATUS", true)
                 startActivity(intent)
             }
             else

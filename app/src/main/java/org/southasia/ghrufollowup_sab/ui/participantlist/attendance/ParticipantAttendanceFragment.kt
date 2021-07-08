@@ -314,6 +314,7 @@ class ParticipantAttendanceFragment : Fragment(), Injectable {
                     val json1: String = gson.toJson(participant)
                     prefs?.edit()?.putString("single_participant", json1)?.apply()
                     val intent = Intent(activity, MeasurementListActivity::class.java)
+                    intent.putExtra("CONSENT_STATUS", true)
                     startActivity(intent)
                 }
                 else

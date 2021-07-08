@@ -853,7 +853,7 @@
     <string name="complete_weight">Complete Weight</string>
     <string name="unable_complete_weight">Unable to Complete</string>
     <string name="string_follow_up_participant_end">Selected participant updated successfully.</string>
-    <string name="fbg_faulty_device">Devise issue</string>
+    <string name="fbg_faulty_device">Device issue</string>
     <string name="fbg_refused">Participant refused</string>
     <string name="fbg_unable_to_collect">Unable to collect blood</string>
     <string name="visit_completed">Visit completed successfully</string>

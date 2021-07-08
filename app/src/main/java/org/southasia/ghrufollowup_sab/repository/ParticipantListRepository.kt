@@ -176,14 +176,17 @@ class ParticipantListRepository @Inject constructor(
 
             if (station.station_name.equals("Consent"))
             {
-                if (station.isCancelled == 1)
-                {
-                    consentStatus = "Canceled"
-                }
-                else
-                {
-                    consentStatus = station.status_text
-                }
+//                if (station.isCancelled == 1)
+//                {
+//                    consentStatus = "Canceled"
+//                }
+//                else
+//                {
+//                    consentStatus = station.status_text
+//                }
+
+                consentStatus = station.status_text
+
             }
 
             if (station.station_name.equals("Intake 24"))
@@ -201,7 +204,7 @@ class ParticipantListRepository @Inject constructor(
 
         val measurementItem0 = MeasurementListItem(
             0,
-            R.drawable.fbg,
+            R.drawable.ic_icon_settings_consent,
             getStringByLocalBefore17(context, R.string.measurement_list_consent, localeManager.getLanguage()),
             consentStatus!!
         )
@@ -243,14 +246,14 @@ class ParticipantListRepository @Inject constructor(
 
         val measurementItem6 = MeasurementListItem(
             6,
-            R.drawable.fbg,
+            R.drawable.ic_icon_bio_samples,
             getStringByLocalBefore17(context, R.string.measurement_list_sample_collection, localeManager.getLanguage()),
             samColStatus!!
         )
 
         val measurementItem7 = MeasurementListItem(
             7,
-            R.drawable.fbg,
+            R.drawable.ic_icon_intake,
             getStringByLocalBefore17(context, R.string.measurement_list_intake, localeManager.getLanguage()),
             intakeStatus!!
         )

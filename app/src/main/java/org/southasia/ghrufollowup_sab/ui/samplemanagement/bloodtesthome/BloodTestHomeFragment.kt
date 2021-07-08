@@ -34,6 +34,7 @@ import org.southasia.ghrufollowup_sab.db.MemberTypeConverters
 import org.southasia.ghrufollowup_sab.di.Injectable
 import org.southasia.ghrufollowup_sab.event.*
 import org.southasia.ghrufollowup_sab.jobs.SyncSampledProcessJob
+import org.southasia.ghrufollowup_sab.ui.samplemanagement.bloodtesthome.cancel.CancelDialogFragment
 import org.southasia.ghrufollowup_sab.ui.samplemanagement.storage.completed.CompletedDialogFragment
 import org.southasia.ghrufollowup_sab.util.*
 import org.southasia.ghrufollowup_sab.vo.*
@@ -305,6 +306,12 @@ class BloodTestHomeFragment : Fragment(), Injectable {
             binding.sampleValidationError = false
             //updateProcessValidUI(binding.hb1AcTextView)
             navController().navigate(R.id.action_sampleMangementHomeViewModel_to_TotalCholesterolFragment)
+        }
+
+        binding.buttonCancel.setOnClickListener {
+            val cancelDialogFragment = CancelDialogFragment()
+            cancelDialogFragment.arguments = bundleOf("participant" to participant)
+            cancelDialogFragment.show(fragmentManager!!)
         }
     }
 

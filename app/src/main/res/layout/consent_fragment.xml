@@ -204,13 +204,16 @@
                             android:gravity="center"
                             android:text="@string/cancel"
                             android:textColor="@color/defult_blue"
-                            android:textSize="@dimen/default_font_size" />
+                            android:textSize="@dimen/default_font_size"
+                            android:visibility="gone"/>
+
                     </LinearLayout>
+
                 </LinearLayout>
 
             </ScrollView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -780,6 +780,7 @@
                     android:layout_marginEnd="@dimen/margin_32"
                     android:background="#E6F6FF"
                     android:orientation="vertical">
+
                     <androidx.appcompat.widget.AppCompatCheckBox
                         android:id="@+id/checkboxNoBloodCollected"
                         android:layout_width="match_parent"
@@ -789,7 +790,9 @@
                         android:paddingLeft="@dimen/margin_20"
                         android:text="@string/no_blood_collected"
                         android:textSize="20sp" />
+
                 </LinearLayout>
+
                 <Button
 
                     android:id="@+id/buttonSubmit"

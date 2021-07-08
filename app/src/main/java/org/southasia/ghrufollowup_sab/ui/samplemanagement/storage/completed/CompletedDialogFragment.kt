@@ -81,8 +81,8 @@ class CompletedDialogFragment : DialogFragment(), Injectable {
             activity?.finish()
             dismiss()
 
-            val intent = Intent(activity, MeasurementListActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(activity, MeasurementListActivity::class.java)
+//            startActivity(intent)
         }
     }
 

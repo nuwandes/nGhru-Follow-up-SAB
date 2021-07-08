@@ -29,6 +29,7 @@ import org.southasia.ghrufollowup_sab.di.Injectable
 import org.southasia.ghrufollowup_sab.jobs.SyncSampledRequestJob
 import org.southasia.ghrufollowup_sab.ui.samplecollection.bagscanned.completed.CompletedDialogFragment
 import org.southasia.ghrufollowup_sab.ui.samplecollection.bagscanned.reason.ReasonDialogFragment
+import org.southasia.ghrufollowup_sab.ui.samplecollection.cancel.CancelDialogFragment
 import org.southasia.ghrufollowup_sab.util.*
 import org.southasia.ghrufollowup_sab.vo.Comment
 import org.southasia.ghrufollowup_sab.vo.Status
@@ -249,6 +250,12 @@ class BagScannedFragment : Fragment(), Injectable {
         binding.lastMealTime.singleClick {
 
             getTime()
+        }
+
+        binding.buttonCancel.singleClick {
+            val cancelDialogFragment = CancelDialogFragment()
+            cancelDialogFragment.arguments = bundleOf("participant" to participant)
+            cancelDialogFragment.show(fragmentManager!!)
         }
 
     }

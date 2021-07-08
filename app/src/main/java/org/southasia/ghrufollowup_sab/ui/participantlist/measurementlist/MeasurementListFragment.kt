@@ -78,6 +78,8 @@ class MeasurementListFragment : Fragment(), Injectable {
 
     var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
 
+    var isConsent : Boolean? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -129,11 +131,23 @@ class MeasurementListFragment : Fragment(), Injectable {
         participant = MemberTypeConverters.gson.fromJson<ParticipantListItem>(json.toString())
         Log.d("PARTICIPANT_ATTENDANCE", " DATA: " + participant!!.participant_id)
 
+
+
+        val intent1 = activity!!.intent
+        val con = intent1?.getBooleanExtra("CONSENT_STATUS", false)
+
+        if (con != null)
+        {
+            Log.d("MEASUREMENT_LIST", " IS_CONSENT: " + con)
+
+            isConsent = con
+        }
+
         binding.measurementProgressBar.visibility = View.VISIBLE
 
         binding.homeViewModel = measurementListViewModel
 
-        val measurementAdapter = MeasurementListAdapter(dataBindingComponent, appExecutors, participant?.isConsent!!) { measurementListItem ->
+        val measurementAdapter = MeasurementListAdapter(dataBindingComponent, appExecutors, isConsent) { measurementListItem ->
 
             Timber.d(measurementListItem.toString())
 
@@ -471,77 +485,32 @@ class MeasurementListFragment : Fragment(), Injectable {
 
         var followUpStatus : String = ""
 
-//        if ((BP_Status != "Completed" || SP_Status != "Completed" || FBG_Status != "Completed") || (BM_Status != "Completed" && QU_Status != "Completed"))
-//        {
-//            if (BP_Status != "Canceled" || SP_Status != "Canceled" || FBG_Status != "Canceled" || (BM_Status != "Canceled" && QU_Status != "Canceled"))
-//            {
-//                followUpStatus = "not_complete"
-//            }
-//            else if (BM_Status != "Completed" || QU_Status != "Completed")
-//            {
-//                if (BM_Status != "Canceled" || QU_Status != "Canceled")
-//                {
-//                    if (BM_Status == "Completed")
-//                    {
-//                        followUpStatus = "questionnaire_pending"
-//                    }
-//                    else if (QU_Status == "Completed")
-//                    {
-//                        followUpStatus = "physical_measurement_pending"
-//                    }
-//                }
-//                else
-//                {
-//                    followUpStatus = "completed"
-//                }
-//            }
-//            else
-//            {
-//                followUpStatus = "completed"
-//            }
-//        }
-//        else if ()
-//        {
-//            followUpStatus = "not_complete"
-//        }
-//        else if ((BM_Status != "Completed" || BM_Status != "Cancelled") || (QU_Status != "Completed" || QU_Status != "Cancelled"))
-//        {
-//            if (BM_Status == "Completed" || BM_Status == "Cancelled")
-//            {
-//                followUpStatus = "questionnaire_pending"
-//            }
-//            else if (QU_Status == "Completed" || QU_Status == "Cancelled")
-//            {
-//                followUpStatus = "physical_measurement_pending"
-//            }
-//        }
-//        else
-//        {
-//
-//        }
 
         if ((BP_Status == "Completed" || BP_Status == "Canceled" )
             && (SP_Status == "Completed" || SP_Status == "Canceled")
             && (FBG_Status == "Completed" || FBG_Status == "Canceled" || FBG_Status == "Processed")
             && (BT_Status == "Completed" || BT_Status == "Canceled")
-            && (INT_Status == "Completed" || INT_Status == "Canceled"))
+            && (INT_Status == "Completed" || INT_Status == "Canceled")
+            && (BM_Status == "Completed" || BM_Status == "Canceled")
+            && (QU_Status == "Completed" || QU_Status == "Canceled"))
         {
-            if ((BM_Status == "Completed" || BM_Status == "Canceled") && (QU_Status == "Completed" || QU_Status == "Canceled"))
-            {
-                followUpStatus = "completed"
-            }
-            else if((BM_Status == "Completed" || BM_Status == "Canceled"))
-            {
-                followUpStatus = "questionnaire_pending"
-            }
-            else if ((QU_Status == "Completed" || QU_Status == "Canceled"))
-            {
-                followUpStatus = "physical_measurement_pending"
-            }
-            else
-            {
-                followUpStatus = "not_complete"
-            }
+//            if ((BM_Status == "Completed" || BM_Status == "Canceled") && (QU_Status == "Completed" || QU_Status == "Canceled"))
+//            {
+//                followUpStatus = "completed"
+//            }
+//            else if((BM_Status == "Completed" || BM_Status == "Canceled"))
+//            {
+//                followUpStatus = "questionnaire_pending"
+//            }
+//            else if ((QU_Status == "Completed" || QU_Status == "Canceled"))
+//            {
+//                followUpStatus = "physical_measurement_pending"
+//            }
+//            else
+//            {
+//                followUpStatus = "not_complete"
+//            }
+            followUpStatus = "completed"
         }
         else
         {

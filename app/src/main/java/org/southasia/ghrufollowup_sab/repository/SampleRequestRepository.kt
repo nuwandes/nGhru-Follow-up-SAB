@@ -224,7 +224,7 @@ class SampleRequestRepository @Inject constructor(
     ): LiveData<Resource<SampleRequest>> {
         return object : NetworkBoundResource<SampleRequest, ResourceData<SampleRequest>>(appExecutors) {
             override fun saveCallResult(item: ResourceData<SampleRequest>) {
-                sampleRequestDao.insert(item.data!!)
+                //sampleRequestDao.insert(item.data!!)
             }
 
 

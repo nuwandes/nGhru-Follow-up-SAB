@@ -5,7 +5,7 @@ import dagger.android.ContributesAndroidInjector
 import org.southasia.ghrufollowup_sab.ui.codeheck.CodeCheckDialogFragment
 import org.southasia.ghrufollowup_sab.ui.samplemanagement.bloodtesthome.BloodTestHomeFragment
 import org.southasia.ghrufollowup_sab.ui.samplemanagement.fastingbloodglucose.FastingBloodGlucoseFragment
-import org.southasia.ghrufollowup_sab.ui.samplemanagement.fastingbloodglucose.cancel.CancelDialogFragment
+import org.southasia.ghrufollowup_sab.ui.samplemanagement.bloodtesthome.cancel.CancelDialogFragment
 import org.southasia.ghrufollowup_sab.ui.samplemanagement.fastingbloodglucose.completed.CompletedDialogFragment
 import org.southasia.ghrufollowup_sab.ui.samplemanagement.hb1ac.Hb1AcFragment
 import org.southasia.ghrufollowup_sab.ui.samplemanagement.hdl.HDLFragment
