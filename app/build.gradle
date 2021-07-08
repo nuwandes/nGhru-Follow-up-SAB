@@ -73,7 +73,7 @@ android {
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode versionBuild
-        versionName "1.1." + versionBuild
+        versionName "1.0." + versionBuild
         testInstrumentationRunner "org.southasia.ghrufollowup.util.GithubTestRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
