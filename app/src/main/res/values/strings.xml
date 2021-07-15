@@ -884,5 +884,21 @@
     <string name="diet_msg_message">Please type in the password to submit the survey.</string>
     <string name="consent_title">Consent</string>
     <string name="consent_message">If the participant provides consent, complete the signing of consent form and take a picture of the signed form.</string>
+    <string name="measurement_list_covid">COVID Questionnaire</string>
+    <string name="ffq_confimation_assistance_text">Did participant require assistance when completing?</string>
+    <string name="cognition_confimation_staff_text">Please confirm the COVID questionnaire has been completed?</string>
+    <string name="ffq_tool_bar_title_1">Scan barcode</string>
+    <string name="ffq_tool_bar_title_2">Contraindications</string>
+    <string name="ffq_tool_bar_title_3">Guide</string>
+    <string name="cognition_title_text2">Covid Questionnaire Confirmation</string>
+    <string name="start_station">Start station</string>
+    <string name="cognition_title_text">Covid Questionnaire</string>
+    <string name="cogtest_msg">Please enter the below ID in the Kobotool questionnaire</string>
+    <string name="station_started">Station started</string>
+    <string name="participant_refeuse">Participant refuse</string>
+    <string name="app_back">Back</string>
+    <string name="consent_confimation_dialog_text">No consent uploaded. Do you want to upload a consent now?</string>
+    <string name="app_yes_button">Yes</string>
+    <string name="app_no_button">No</string>
 
 </resources>

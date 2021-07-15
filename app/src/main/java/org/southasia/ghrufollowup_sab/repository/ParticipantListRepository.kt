@@ -95,6 +95,7 @@ class ParticipantListRepository @Inject constructor(
         var consentStatus: String? = "Not started"
         var bloodTestStatus: String? = "Not started"
         var intakeStatus: String? = "Not started"
+        var covidStatus: String? = "Not started"
 
         for (station in stations)
         {
@@ -200,6 +201,18 @@ class ParticipantListRepository @Inject constructor(
                     intakeStatus = station.status_text
                 }
             }
+
+            if (station.station_name.equals("Covid Questionnaire"))
+            {
+                if (station.isCancelled == 1)
+                {
+                    covidStatus = "Canceled"
+                }
+                else
+                {
+                    covidStatus = station.status_text
+                }
+            }
         }
 
         val measurementItem0 = MeasurementListItem(
@@ -258,6 +271,13 @@ class ParticipantListRepository @Inject constructor(
             intakeStatus!!
         )
 
+        val measurementItem8 = MeasurementListItem(
+            8,
+            R.drawable.self1_36,
+            getStringByLocalBefore17(context, R.string.measurement_list_covid, localeManager.getLanguage()),
+            covidStatus!!
+        )
+
         test.add(measurementItem0)
         test.add(measurementItem1)
         test.add(measurementItem2)
@@ -266,6 +286,7 @@ class ParticipantListRepository @Inject constructor(
         test.add(measurementItem5)
         test.add(measurementItem6)
         test.add(measurementItem7)
+        test.add(measurementItem8)
 
         val homeItems = MutableLiveData<Resource<List<MeasurementListItem>>>()
         val resource = Resource(Status.SUCCESS, test, Message(null, null))

@@ -255,6 +255,18 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
+        <activity
+            android:name="org.southasia.ghrufollowup_sab.CovidQuestionnaireActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+
+        <activity
+            android:name="org.southasia.ghrufollowup_sab.CovidQuestionnaireNewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+
         <meta-data
                 android:name="io.fabric.ApiKey"
                 android:value="77db60b76f2e3c91ac5a461d7e9d3aef7a51dd2f"

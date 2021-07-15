@@ -26,6 +26,7 @@ import org.southasia.ghrufollowup_sab.binding.FragmentDataBindingComponent
 import org.southasia.ghrufollowup_sab.databinding.StatusCompletedDialogFragmentBinding
 import org.southasia.ghrufollowup_sab.databinding.VerificationCompletedDialogFragmentBinding
 import org.southasia.ghrufollowup_sab.db.MemberTypeConverters
+import org.southasia.ghrufollowup_sab.ui.participantlist.attendance.consent.completed.ConsentCompletedDialogFragment
 import org.southasia.ghrufollowup_sab.util.autoCleared
 import org.southasia.ghrufollowup_sab.util.singleClick
 import org.southasia.ghrufollowup_sab.vo.ParticipantListItem
@@ -95,9 +96,12 @@ class VerificationCompletedDialogFragment : DialogFragment() {
             }
             else
             {
-                findNavController().navigate(
-                    R.id.action_global_ConsentFragment,
-                    bundleOf("single_participant" to participant!!))
+                val consentCompletedDialogFragment = ConsentCompletedDialogFragment()
+                consentCompletedDialogFragment.arguments = bundleOf("single_participant" to participant!!)
+                consentCompletedDialogFragment.show(fragmentManager!!)
+//                findNavController().navigate(
+//                    R.id.action_global_ConsentFragment,
+//                    bundleOf("single_participant" to participant!!))
                 dismiss()
             }
 

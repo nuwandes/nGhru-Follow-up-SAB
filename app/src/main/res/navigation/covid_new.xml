@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gripStrength"
+    app:startDestination="@id/StageOneCompletedFragment">
+
+    <fragment
+        android:id="@+id/StageOneCompletedFragment"
+        android:name="org.southasia.ghrufollowup_sab.ui.covid.confirmation.completed.StageOneCompletedDialogFragment"
+        android:label="StageOneCompletedDialogFragment"
+        tools:layout="@layout/stage_one_completed_dialog_fragment">
+
+        <action
+            android:id="@+id/action_stageOne_to_ConfirmationFragment"
+            app:clearTask="true"
+            app:destination="@id/ConfirmationFragment"
+            app:launchSingleTop="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/ConfirmationFragment"
+        android:name="org.southasia.ghrufollowup_sab.ui.covid.confirmation.CovidConfirmationFragment"
+        android:label="ConfirmationFragment"
+        tools:layout="@layout/covid_confirmation_fragment">
+
+    </fragment>
+
+</navigation>

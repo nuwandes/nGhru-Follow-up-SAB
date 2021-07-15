@@ -16,7 +16,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import org.southasia.ghrufollowup_sab.MeasurementListActivity
 import org.southasia.ghrufollowup_sab.R
 import org.southasia.ghrufollowup_sab.binding.FragmentDataBindingComponent
 import org.southasia.ghrufollowup_sab.databinding.CompletedBodyMeasuementDialogFragmentBinding
@@ -80,8 +79,8 @@ class CompletedDialogFragment : DialogFragment(), Injectable {
         binding.homeButton.singleClick {
             activity?.finish()
             dismiss()
-            val intent = Intent(activity, MeasurementListActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(activity, MeasurementListActivity::class.java)
+//            startActivity(intent)
         }
     }
 

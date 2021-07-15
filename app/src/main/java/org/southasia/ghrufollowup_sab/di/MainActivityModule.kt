@@ -73,5 +73,11 @@ abstract class MainActivityModule {
     @ContributesAndroidInjector(modules = [BloodTestBuildersModule::class])
     abstract fun contributeBloodTests(): BloodTestActivity
 
+    @ContributesAndroidInjector(modules = [CovidBuildersModule::class])
+    abstract fun contributeCovid(): CovidQuestionnaireActivity
+
+    @ContributesAndroidInjector(modules = [CovidNewBuildersModule::class])
+    abstract fun contributeCovidNew(): CovidQuestionnaireNewActivity
+
 
 }

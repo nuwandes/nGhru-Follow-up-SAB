@@ -26,7 +26,6 @@ import androidx.navigation.fragment.findNavController
 import com.birbit.android.jobqueue.JobManager
 import com.crashlytics.android.Crashlytics
 import io.reactivex.disposables.CompositeDisposable
-import org.southasia.ghrufollowup_sab.MeasurementListActivity
 import org.southasia.ghrufollowup_sab.R
 import org.southasia.ghrufollowup_sab.binding.FragmentDataBindingComponent
 import org.southasia.ghrufollowup_sab.databinding.WebFragmentBinding
@@ -185,8 +184,8 @@ class WebFragment : Fragment(), Injectable {
                 Toast.makeText(activity!!, getString(R.string.questionnaire_success), Toast.LENGTH_SHORT).show()
                 activity!!.finish()
 
-                val intent = Intent(activity, MeasurementListActivity::class.java)
-                startActivity(intent)
+//                val intent = Intent(activity, MeasurementListActivity::class.java)
+//                startActivity(intent)
 
             } else if (commonResponce?.status == Status.ERROR) {
                 //Crashlytics.logException(Exception(commonResponce.message?.message))

@@ -314,5 +314,14 @@ interface NghruService {
     @POST("api/screening/{screening_id}/blood-test")
     fun addBloodTest(@Path("screening_id") screeningId: String, @Body bloodTestRequest: BloodTestRequest): LiveData<ApiResponse<ResourceData<Message>>>
 
+    @POST("api/screening/{screening_id}/covid-questionnaire")
+    fun addCovidSync(@Path("screening_id") screeningId: String, @Body ffqRequest: CovidRequest): LiveData<ApiResponse<ResourceData<Message>>>
+
+    @PUT("/api/screening/{screening_id}/covid-questionnaire")
+    fun updateCovid(@Body body : CovidRequestNew , @Path("screening_id") screening_id: String): LiveData<ApiResponse<ResourceData<Message>>>
+
+    @PUT("api/screening/{screening_id}/station/cancel")
+    fun addNewCancelRequest(@Path("screening_id") screeningId: String, @Body cancelRequest: CancelRequest): LiveData<ApiResponse<ResourceData<MessageCancel>>>
+
 
 }

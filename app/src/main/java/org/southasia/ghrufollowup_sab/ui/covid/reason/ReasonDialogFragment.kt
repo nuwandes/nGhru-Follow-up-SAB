@@ -1,8 +1,7 @@
-package org.southasia.ghrufollowup_sab.ui.questionnaire.cancel
+package org.southasia.ghrufollowup_sab.ui.covid.reason
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
@@ -13,46 +12,60 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.RelativeLayout
-import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.birbit.android.jobqueue.JobManager
 import org.southasia.ghrufollowup_sab.R
 import org.southasia.ghrufollowup_sab.binding.FragmentDataBindingComponent
-import org.southasia.ghrufollowup_sab.databinding.QuestionnaireCancelDialogFragmentBinding
+import org.southasia.ghrufollowup_sab.databinding.CovidReasonDialogFragmentBinding
+import org.southasia.ghrufollowup_sab.databinding.HeightReasonDialogFragmentBinding
 import org.southasia.ghrufollowup_sab.di.Injectable
-import org.southasia.ghrufollowup_sab.ui.ecg.trace.reason.ReasonDialogFragment
-import org.southasia.ghrufollowup_sab.ui.spirometry.cancel.CancelDialogViewModel
+import org.southasia.ghrufollowup_sab.event.BodyMeasurementDataEventType
+import org.southasia.ghrufollowup_sab.event.BodyMeasurementDataResponse
+import org.southasia.ghrufollowup_sab.event.BodyMeasurementDataRxBus
+import org.southasia.ghrufollowup_sab.ui.intake.readings.completed.CompletedDialogFragment
 import org.southasia.ghrufollowup_sab.util.autoCleared
 import org.southasia.ghrufollowup_sab.util.hideKeyboard
 import org.southasia.ghrufollowup_sab.util.shoKeyboard
+import org.southasia.ghrufollowup_sab.util.singleClick
 import org.southasia.ghrufollowup_sab.vo.Status
+import org.southasia.ghrufollowup_sab.vo.request.BodyMeasurementData
 import org.southasia.ghrufollowup_sab.vo.request.CancelRequest
 import org.southasia.ghrufollowup_sab.vo.request.ParticipantRequest
 import javax.inject.Inject
 
-class CancelDialogFragment : DialogFragment(), Injectable {
+
+class ReasonDialogFragment : DialogFragment(), Injectable {
 
     val TAG = ReasonDialogFragment::class.java.getSimpleName()
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    var binding by autoCleared<QuestionnaireCancelDialogFragmentBinding>()
+    var binding by autoCleared<CovidReasonDialogFragmentBinding>()
+
     var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
+
     @Inject
-    lateinit var viewModel: CancelDialogViewModel
+    lateinit var viewModel: ReasonDialogViewModel
+
 
     lateinit var cancelRequest: CancelRequest
 
     private var participant: ParticipantRequest? = null
+
     @Inject
     lateinit var jobManager: JobManager
+
+    private lateinit var bodyMeasurementData: BodyMeasurementData
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,13 +76,14 @@ class CancelDialogFragment : DialogFragment(), Injectable {
         }
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val dataBinding = DataBindingUtil.inflate<QuestionnaireCancelDialogFragmentBinding>(
+        val dataBinding = DataBindingUtil.inflate<CovidReasonDialogFragmentBinding>(
             inflater,
-            R.layout.questionnaire_cancel_dialog_fragment,
+            R.layout.covid_reason_dialog_fragment,
             container,
             false
         )
@@ -80,72 +94,75 @@ class CancelDialogFragment : DialogFragment(), Injectable {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        cancelRequest = CancelRequest(stationType = "questionnaire")
-        binding.radioGroup.setOnCheckedChangeListener { radioGroup, i ->
+        cancelRequest = CancelRequest()
+
+        bodyMeasurementData = BodyMeasurementData()
+
+        cancelRequest = CancelRequest(stationType = "covid-questionnaire")
+
+        binding.radioGroup.setOnCheckedChangeListener { radioGroup, _ ->
             // println("i $i" + radioGroup.checkedRadioButtonId)
             when (radioGroup.checkedRadioButtonId) {
-                R.id.radioButtonFaultyDevice -> cancelRequest.reason = getString(R.string.intake_cancel_participant_refused)
-                R.id.radioButtonLeaveImmediately -> cancelRequest.reason =
-                    getString(R.string.intake_cancel_participant_unable_to_speak)
-                R.id.radioButtonWrongParticipantLinked -> cancelRequest.reason =
-                    getString(R.string.intake_cancel_technical_issue)
+                R.id.radioButtonParticipantFactor -> cancelRequest.reason =
+                    getString(R.string.participant_factor)
+                R.id.radioButtonTechnicalProblem -> cancelRequest.reason =
+                    getString(R.string.technical_problem)
+                R.id.radioButtonParticipantRefuse -> cancelRequest.reason =
+                    getString(R.string.participant_refeuse)
                 else -> {
                     // binding.textViewError.text = getString(R.string.app_error_please_select_one)
                     binding.textViewError.visibility = View.GONE
                 }
             }
-            if (radioGroup.checkedRadioButtonId == R.id.radioButtonOther) {
-                binding.textInputEditTextOther.visibility = View.VISIBLE
-                binding.textInputEditTextOther.shoKeyboard()
-            } else {
-                binding.textInputEditTextOther.visibility = View.GONE
-            }
+//            if (radioGroup.checkedRadioButtonId == R.id.radioButtonOther) {
+//                binding.textInputEditTextOther.visibility = View.VISIBLE
+//                binding.textInputEditTextOther.shoKeyboard()
+//            } else {
+//                binding.textInputEditTextOther.visibility = View.GONE
+//            }
             binding.executePendingBindings()
         }
 
-        binding.buttonAcceptAndContinue.setOnClickListener {
+//        if (contraindications != null) {
+//            binding.radioGroup.check(R.id.radioButtonContra)
+//        }
+
+        binding.buttonAcceptAndContinue.singleClick {
             binding.root.hideKeyboard()
             if (binding.radioGroup.checkedRadioButtonId == -1) {
                 binding.textViewError.text = getString(R.string.app_error_please_select_one)
                 binding.textViewError.visibility = View.VISIBLE
 
-            } else  {
-                binding.textViewError.text = "";
-                binding.textViewError.visibility = View.GONE
+            } else
+//                if (binding.radioGroup.checkedRadioButtonId == R.id.radioButtonOther) {
+//                cancelRequest.reason = binding.textInputEditTextOther.text.toString()
+//            }
+            if (binding.radioGroup.checkedRadioButtonId != -1) {
 
-                cancelRequest.comment = binding.comment.text.toString()
+                var comment = binding.comment.text.toString()
+                cancelRequest.comment = comment
 
-                if(binding.radioButtonFaultyDevice.isChecked)
-                    cancelRequest.reason = binding.radioButtonFaultyDevice.text.toString()
-                else if(binding.radioButtonLeaveImmediately.isChecked)
-                    cancelRequest.reason = binding.radioButtonLeaveImmediately.text.toString()
-                else
-                    cancelRequest.reason = binding.radioButtonWrongParticipantLinked.text.toString()
-
-                cancelRequest.screeningId = participant?.screeningId!!
                 cancelRequest.syncPending = !isNetworkAvailable()
+                cancelRequest.screeningId = participant?.screeningId!!
+
                 viewModel.setLogin(participant, cancelRequest)
             }
+
 
         }
 
         viewModel.cancelId?.observe(this, Observer { cancelObserver ->
             if (cancelObserver?.status == Status.SUCCESS) {
                 dismiss()
-//                val completedDialogFragment = CompletedDialogFragment()
-//                completedDialogFragment.arguments = bundleOf("is_cancel" to true)
-//                completedDialogFragment.show(fragmentManager!!)
-                Toast.makeText(activity!!, getString(R.string.questionnaire_canceled), Toast.LENGTH_SHORT).show()
-                activity!!.finish()
-//                val intent = Intent(activity, MeasurementListActivity::class.java)
-//                startActivity(intent)
+                val completedDialogFragment = CompletedDialogFragment()
+                completedDialogFragment.arguments = bundleOf("is_cancel" to true)
+                completedDialogFragment.show(fragmentManager!!)
 
             } else if (cancelObserver?.status == Status.ERROR) {
                 binding.textViewError.text = cancelObserver.message?.message.toString()
             }
         })
-
-        binding.buttonCancel.setOnClickListener {
+        binding.buttonCancel.singleClick {
             binding.root.hideKeyboard()
             dismiss()
         }
@@ -159,7 +176,6 @@ class CancelDialogFragment : DialogFragment(), Injectable {
             networkInfo?.isConnected ?: false
         } else false
     }
-
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // the content

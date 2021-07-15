@@ -1,8 +1,7 @@
-package org.southasia.ghrufollowup_sab.ui.spirometry.tests.completed
+package org.southasia.ghrufollowup_sab.ui.covid.completed
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
@@ -18,24 +17,24 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import org.southasia.ghrufollowup_sab.R
 import org.southasia.ghrufollowup_sab.binding.FragmentDataBindingComponent
-import org.southasia.ghrufollowup_sab.databinding.CompletedBodyMeasuementDialogFragmentBinding
+import org.southasia.ghrufollowup_sab.databinding.CompletedCovidDialogFragmentBinding
 import org.southasia.ghrufollowup_sab.di.Injectable
 import org.southasia.ghrufollowup_sab.util.autoCleared
 import org.southasia.ghrufollowup_sab.util.singleClick
 import javax.inject.Inject
 
-class CompletedDialogFragment : DialogFragment(), Injectable {
+class StartedDialogFragment : DialogFragment(), Injectable {
 
-    val TAG = CompletedDialogFragment::class.java.getSimpleName()
+    val TAG = StartedDialogFragment::class.java.getSimpleName()
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
 
-    var binding by autoCleared<CompletedBodyMeasuementDialogFragmentBinding>()
+    var binding by autoCleared<CompletedCovidDialogFragmentBinding>()
     var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
     @Inject
-    lateinit var confirmationdialogViewModel: CompletedDialogViewModel
+    lateinit var confirmationdialogViewModel: StartedDialogViewModel
 
     var isCancel: Boolean = false
 
@@ -52,9 +51,9 @@ class CompletedDialogFragment : DialogFragment(), Injectable {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val dataBinding = DataBindingUtil.inflate<CompletedBodyMeasuementDialogFragmentBinding>(
+        val dataBinding = DataBindingUtil.inflate<CompletedCovidDialogFragmentBinding>(
             inflater,
-            R.layout.completed_body_measuement_dialog_fragment,
+            R.layout.completed_covid_dialog_fragment,
             container,
             false
         )
@@ -70,7 +69,7 @@ class CompletedDialogFragment : DialogFragment(), Injectable {
         if(isCancel){
             binding.textView.text = getString(R.string.station_canceled)
         }else{
-            binding.textView.text = getString(R.string.station_completed)
+            binding.textView.text = getString(R.string.station_started)
         }
         binding.newMemberButton.singleClick {
             activity?.finish()
@@ -79,8 +78,6 @@ class CompletedDialogFragment : DialogFragment(), Injectable {
         binding.homeButton.singleClick {
             activity?.finish()
             dismiss()
-//            val intent = Intent(activity, MeasurementListActivity::class.java)
-//            startActivity(intent)
         }
     }
 

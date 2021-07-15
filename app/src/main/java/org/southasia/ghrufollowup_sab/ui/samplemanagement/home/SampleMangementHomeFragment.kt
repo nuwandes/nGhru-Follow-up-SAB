@@ -399,7 +399,7 @@ class SampleMangementHomeFragment : Fragment(), Injectable {
                 binding.buttonSubmit.visibility = View.GONE
             }
 //            else if (isValied() && (fastingBloodGlucose != null || hb1Ac != null || hOGTT != null)) {
-            else if (isValied()) {
+            else {
                 sampleRequest?.meta?.endTime = endDateTime
                 lipidProfileAllDto = LipidProfileAllDto(
                     totalCholesterol = totalCholesterol,
@@ -411,35 +411,6 @@ class SampleMangementHomeFragment : Fragment(), Injectable {
                 binding.progressBar.visibility = View.VISIBLE
                 binding.buttonSubmit.visibility = View.GONE
             }
-            else {
-
-                // viewModel.sampleValidationError.value = true
-                //binding.sampleValidationError = true
-
-//                if (hb1Ac == null) {
-//                    updateProcessErrorUI(binding.hb1AcTextView)
-//                }
-
-                if (fastingBloodGlucose == null)
-                {
-                    updateProcessErrorUI(binding.fbgTextView)
-                }
-
-//                if (!isValied()) {
-//                    updateProcessErrorUI(binding.lipidTextView)
-//                    updateProcessErrorUI(binding.lipidTextViewTotalCholesterol)
-//                }
-//
-//                if (hOGTT == null) {
-//                    updateProcessErrorUI(binding.HOGTTTextView)
-//                }
-
-
-                /*Snackbar.make(binding.root, "Please fill all tests",
-                        Snackbar.LENGTH_SHORT).withTextColor(Color.WHITE)
-                        .show();*/
-            }
-
         }
 
 //        binding.LinearLayoutLipid.singleClick {

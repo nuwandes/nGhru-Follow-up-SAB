@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gripStrength"
+    app:startDestination="@id/CognitionGuideFragment">
+
+    <fragment
+        android:id="@+id/CognitionGuideFragment"
+        android:name="org.southasia.ghrufollowup_sab.ui.covid.CovidGuideFragment"
+        android:label="CognitionGuideFragment"
+        tools:layout="@layout/covid_guide_fragment">
+    </fragment>
+
+</navigation>

@@ -1,8 +1,7 @@
-package org.southasia.ghrufollowup_sab.ui.spirometry.tests.completed
+package org.southasia.ghrufollowup_sab.ui.covid.confirmation.completed
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
@@ -18,43 +17,35 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import org.southasia.ghrufollowup_sab.R
 import org.southasia.ghrufollowup_sab.binding.FragmentDataBindingComponent
-import org.southasia.ghrufollowup_sab.databinding.CompletedBodyMeasuementDialogFragmentBinding
+import org.southasia.ghrufollowup_sab.databinding.CompletedCovidDialogFragmentBinding
+import org.southasia.ghrufollowup_sab.databinding.StageOneCompletedDialogFragmentBinding
 import org.southasia.ghrufollowup_sab.di.Injectable
 import org.southasia.ghrufollowup_sab.util.autoCleared
 import org.southasia.ghrufollowup_sab.util.singleClick
 import javax.inject.Inject
 
-class CompletedDialogFragment : DialogFragment(), Injectable {
+class StageOneCompletedDialogFragment : DialogFragment(), Injectable {
 
-    val TAG = CompletedDialogFragment::class.java.getSimpleName()
+    val TAG = StageOneCompletedDialogFragment::class.java.getSimpleName()
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
 
-    var binding by autoCleared<CompletedBodyMeasuementDialogFragmentBinding>()
+    var binding by autoCleared<StageOneCompletedDialogFragmentBinding>()
     var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
+
     @Inject
-    lateinit var confirmationdialogViewModel: CompletedDialogViewModel
+    lateinit var confirmationdialogViewModel: StageOneCompletedDialogViewModel
 
-    var isCancel: Boolean = false
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        try {
-            isCancel = arguments?.getBoolean("is_cancel")!!
-        } catch (e: KotlinNullPointerException) {
-
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val dataBinding = DataBindingUtil.inflate<CompletedBodyMeasuementDialogFragmentBinding>(
+        val dataBinding = DataBindingUtil.inflate<StageOneCompletedDialogFragmentBinding>(
             inflater,
-            R.layout.completed_body_measuement_dialog_fragment,
+            R.layout.stage_one_completed_dialog_fragment,
             container,
             false
         )
@@ -65,42 +56,17 @@ class CompletedDialogFragment : DialogFragment(), Injectable {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        binding.isCancel = isCancel!!
 
-        if(isCancel){
-            binding.textView.text = getString(R.string.station_canceled)
-        }else{
-            binding.textView.text = getString(R.string.station_completed)
-        }
-        binding.newMemberButton.singleClick {
-            activity?.finish()
-            dismiss()
-        }
         binding.homeButton.singleClick {
-            activity?.finish()
+            findNavController().navigate(R.id.action_stageOne_to_ConfirmationFragment)
             dismiss()
-//            val intent = Intent(activity, MeasurementListActivity::class.java)
-//            startActivity(intent)
         }
-    }
 
+        binding.backButton.singleClick {
 
-    private fun isNetworkAvailable(): Boolean {
-        val connectivityManager = activity?.getSystemService(Context.CONNECTIVITY_SERVICE)
-        return if (connectivityManager is ConnectivityManager) {
-            val networkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
-            networkInfo?.isConnected ?: false
-        } else false
-    }
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.getItemId()) {
-            android.R.id.home -> {
-                return navController().navigateUp()
-            }
+            dismiss()
+            activity!!.finish()
         }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

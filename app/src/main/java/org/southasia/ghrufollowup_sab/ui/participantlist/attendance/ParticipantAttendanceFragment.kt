@@ -35,6 +35,7 @@ import org.southasia.ghrufollowup_sab.databinding.BasicDetailsFragmentSgBinding
 import org.southasia.ghrufollowup_sab.databinding.ParticipantAttendanceFragmentBinding
 import org.southasia.ghrufollowup_sab.db.MemberTypeConverters.gson
 import org.southasia.ghrufollowup_sab.di.Injectable
+import org.southasia.ghrufollowup_sab.ui.participantlist.attendance.consent.completed.ConsentCompletedDialogFragment
 import org.southasia.ghrufollowup_sab.ui.participantlist.preocessenddialog.NotAbleDialogFragment
 import org.southasia.ghrufollowup_sab.ui.participantlist.verificationcompleted.VerificationCompletedDialogFragment
 import org.southasia.ghrufollowup_sab.util.*
@@ -319,7 +320,10 @@ class ParticipantAttendanceFragment : Fragment(), Injectable {
                 }
                 else
                 {
-                    findNavController().navigate(R.id.action_attendanceFragment_to_ConsentFragment, bundleOf("single_participant" to participant!!))
+                    //findNavController().navigate(R.id.action_attendanceFragment_to_ConsentFragment, bundleOf("single_participant" to participant!!))
+                    val consentCompletedDialogFragment = ConsentCompletedDialogFragment()
+                    consentCompletedDialogFragment.arguments = bundleOf("single_participant" to participant!!)
+                    consentCompletedDialogFragment.show(fragmentManager!!)
                 }
             }
             else

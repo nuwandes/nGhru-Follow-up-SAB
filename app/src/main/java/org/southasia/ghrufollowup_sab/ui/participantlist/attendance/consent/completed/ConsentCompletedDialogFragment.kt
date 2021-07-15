@@ -1,49 +1,58 @@
-package org.southasia.ghrufollowup_sab.ui.spirometry.tests.completed
+package org.southasia.ghrufollowup_sab.ui.participantlist.attendance.consent.completed
 
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
+import android.preference.PreferenceManager
+import android.util.Log
 import android.view.*
 import android.widget.RelativeLayout
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import kotlinx.android.synthetic.main.status_completed_dialog_fragment.*
+import org.southasia.ghrufollowup_sab.MeasurementListActivity
 import org.southasia.ghrufollowup_sab.R
 import org.southasia.ghrufollowup_sab.binding.FragmentDataBindingComponent
-import org.southasia.ghrufollowup_sab.databinding.CompletedBodyMeasuementDialogFragmentBinding
-import org.southasia.ghrufollowup_sab.di.Injectable
+import org.southasia.ghrufollowup_sab.databinding.ConsentCompletedDialogFragmentBinding
+import org.southasia.ghrufollowup_sab.db.MemberTypeConverters.gson
 import org.southasia.ghrufollowup_sab.util.autoCleared
 import org.southasia.ghrufollowup_sab.util.singleClick
-import javax.inject.Inject
+import org.southasia.ghrufollowup_sab.vo.ParticipantListItem
+import java.lang.Exception
 
-class CompletedDialogFragment : DialogFragment(), Injectable {
+class ConsentCompletedDialogFragment : DialogFragment() {
 
-    val TAG = CompletedDialogFragment::class.java.getSimpleName()
+    val TAG = ConsentCompletedDialogFragment::class.java.getSimpleName()
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    var prefs : SharedPreferences? = null
 
+//    @Inject
+//    lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    var binding by autoCleared<CompletedBodyMeasuementDialogFragmentBinding>()
+    var binding by autoCleared<ConsentCompletedDialogFragmentBinding>()
+
     var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
-    @Inject
-    lateinit var confirmationdialogViewModel: CompletedDialogViewModel
 
-    var isCancel: Boolean = false
+//    @Inject
+//    lateinit var statusCompletedDialogViewModel: ConsentCompletedDialogViewModel
+
+    private var participant: ParticipantListItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
-            isCancel = arguments?.getBoolean("is_cancel")!!
-        } catch (e: KotlinNullPointerException) {
+            participant = arguments?.getParcelable<ParticipantListItem>("single_participant")!!
+        } catch (e: Exception) {
 
         }
     }
@@ -52,9 +61,9 @@ class CompletedDialogFragment : DialogFragment(), Injectable {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val dataBinding = DataBindingUtil.inflate<CompletedBodyMeasuementDialogFragmentBinding>(
+        val dataBinding = DataBindingUtil.inflate<ConsentCompletedDialogFragmentBinding>(
             inflater,
-            R.layout.completed_body_measuement_dialog_fragment,
+            R.layout.consent_completed_dialog_fragment,
             container,
             false
         )
@@ -65,22 +74,25 @@ class CompletedDialogFragment : DialogFragment(), Injectable {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        binding.isCancel = isCancel!!
 
-        if(isCancel){
-            binding.textView.text = getString(R.string.station_canceled)
-        }else{
-            binding.textView.text = getString(R.string.station_completed)
-        }
-        binding.newMemberButton.singleClick {
-            activity?.finish()
+        prefs = PreferenceManager.getDefaultSharedPreferences(context)
+
+        Log.d("CONSENT_COMPLETED_FRAG", "PARTICIPANT: " + participant)
+
+        binding.yesButton.singleClick {
+
+            findNavController().navigate(R.id.action_global_ConsentFragment, bundleOf("single_participant" to participant!!))
             dismiss()
         }
-        binding.homeButton.singleClick {
-            activity?.finish()
+
+        binding.noButton.singleClick {
+
+            val json1: String = gson.toJson(participant)
+            prefs?.edit()?.putString("single_participant", json1)?.apply()
+            val intent = Intent(activity, MeasurementListActivity::class.java)
+            intent.putExtra("CONSENT_STATUS", false)
+            startActivity(intent)
             dismiss()
-//            val intent = Intent(activity, MeasurementListActivity::class.java)
-//            startActivity(intent)
         }
     }
 

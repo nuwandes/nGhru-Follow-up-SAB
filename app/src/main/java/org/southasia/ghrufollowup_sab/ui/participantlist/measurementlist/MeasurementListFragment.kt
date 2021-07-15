@@ -59,7 +59,7 @@ class MeasurementListFragment : Fragment(), Injectable {
     private var measurementListObject: List<MeasurementListItem> = arrayListOf()
 
     private var stationListObject: List<ParticipantStation> = arrayListOf()
-    private var stationStatus: String? = ""
+    private var isInProgress: Boolean? = false
 
     private var participantId: String? = ""
 
@@ -70,6 +70,7 @@ class MeasurementListFragment : Fragment(), Injectable {
     private var QU_Status: String? = "Not started"
     private var BT_Status: String? = "Not started"
     private var INT_Status: String? = "Not started"
+    private var COV_STATUS: String? = "Not started"
     private var Folloup_Status: String? = ""
 
     private var participant: ParticipantListItem? = null
@@ -193,6 +194,20 @@ class MeasurementListFragment : Fragment(), Injectable {
             if (measurementListItem.id == 7) {
                 val intent = Intent(activity, IntakeActivity::class.java)
                 startActivity(intent)
+            }
+
+            if (measurementListItem.id == 8) {
+                if (isInProgress!!)
+                {
+                    val intent = Intent(activity, CovidQuestionnaireNewActivity::class.java)
+                    startActivity(intent)
+                }
+                else
+                {
+                    val intent = Intent(activity, CovidQuestionnaireActivity::class.java)
+                    startActivity(intent)
+                }
+
             }
         }
 
@@ -472,6 +487,32 @@ class MeasurementListFragment : Fragment(), Injectable {
                     BT_Status = station.status_text
                 }
             }
+
+            if (station.station_name == "Covid Questionnaire")
+            {
+                if (station.isCancelled == 1)
+                {
+                    COV_STATUS = "Canceled"
+                    isInProgress = false
+                }
+                else
+                {
+                    COV_STATUS = station.status_text
+
+                    if (station.status_code.equals("1"))
+                    {
+                        Log.d("MEASUREMENT_LIST_FRAGMENT", "COVID_STATUS_INSIDE: " + COV_STATUS + " CODE: " + station.status_code)
+                        isInProgress = true
+                    }
+                    else
+                    {
+                        Log.d("MEASUREMENT_LIST_FRAGMENT", "COVID_STATUS_INSIDE: " + COV_STATUS + " CODE: " + station.status_code)
+                        isInProgress = false
+                    }
+                }
+            }
+
+            Log.d("MEASUREMENT_LIST_FRAGMENT", "COVID_STATUS_AFTER: " + COV_STATUS + " CODE: " + station.status_code + " STATUS: " + isInProgress)
         }
 
         Log.d("MEASUREMENT_FRAGMENT", "STATION_STATUSES:"
@@ -481,7 +522,8 @@ class MeasurementListFragment : Fragment(), Injectable {
                 + "SP - "+ SP_Status
                 + "QU - "+ QU_Status
                 + "BT - "+ BT_Status
-                + "INT - "+ INT_Status)
+                + "INT - "+ INT_Status
+                + "COV - "+ COV_STATUS)
 
         var followUpStatus : String = ""
 
@@ -492,7 +534,8 @@ class MeasurementListFragment : Fragment(), Injectable {
             && (BT_Status == "Completed" || BT_Status == "Canceled")
             && (INT_Status == "Completed" || INT_Status == "Canceled")
             && (BM_Status == "Completed" || BM_Status == "Canceled")
-            && (QU_Status == "Completed" || QU_Status == "Canceled"))
+            && (QU_Status == "Completed" || QU_Status == "Canceled")
+            && (COV_STATUS == "Completed" || COV_STATUS == "Canceled"))
         {
 //            if ((BM_Status == "Completed" || BM_Status == "Canceled") && (QU_Status == "Completed" || QU_Status == "Canceled"))
 //            {

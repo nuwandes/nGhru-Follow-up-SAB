@@ -61,19 +61,19 @@ class MeasurementListAdapter (
         val greenColor: String = "#388e3c"
         val redColor: String = "#d34836"
 
-        Log.d("MEASUREMENT_LIST_ADAPTER","CONSENT_STATUS: " + isConsent!!)
+        //.d("MEASUREMENT_LIST_ADAPTER","CONSENT_STATUS: " + isConsent!!)
 
         if (item.station_name == "Consent")
         {
-            Log.d("MEASUREMENT_LIST_ADAPTER","INSIDE_CONSENT: " + isConsent!!)
-            if (isConsent)
+            //Log.d("MEASUREMENT_LIST_ADAPTER","INSIDE_CONSENT: " + isConsent!!)
+            if (isConsent!!)
             {
-                Log.d("MEASUREMENT_LIST_ADAPTER","ISCONSENT_TRUE: " + isConsent!!)
+                //Log.d("MEASUREMENT_LIST_ADAPTER","ISCONSENT_TRUE: " + isConsent!!)
                 item.status = "Completed"
             }
             else
             {
-                Log.d("MEASUREMENT_LIST_ADAPTER","ISCONSENT_FALSE: " + isConsent!!)
+                //Log.d("MEASUREMENT_LIST_ADAPTER","ISCONSENT_FALSE: " + isConsent!!)
                 item.status = "Not started"
             }
             binding.buttonArrow.visibility = View.GONE

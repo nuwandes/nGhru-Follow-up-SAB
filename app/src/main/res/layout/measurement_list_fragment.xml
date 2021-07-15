@@ -111,9 +111,11 @@
                 android:theme="@style/Button"
                 android:textSize="@dimen/default_font_size"
                 android:layout_marginStart="@dimen/height_60"
-                android:layout_marginEnd="@dimen/height_60"/>
+                android:layout_marginEnd="@dimen/height_60"
+                android:layout_marginTop="@dimen/margin_32"/>
 
         </LinearLayout>
 
     </LinearLayout>
+
 </layout>
