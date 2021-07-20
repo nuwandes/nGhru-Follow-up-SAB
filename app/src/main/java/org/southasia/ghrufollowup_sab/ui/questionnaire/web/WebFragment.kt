@@ -221,6 +221,9 @@ class WebFragment : Fragment(), Injectable {
                 super.onPageFinished(view, url)
                 if(questionareJson != null) {
                     binding.webView.loadUrl("javascript:init(" + questionareJson + ")")
+
+                    Log.d("WEB_FRAG","URL: " + url)
+                    Log.d("WEB_FRAG","URL_questionnaire: " + questionareJson)
                 }
 
             }
@@ -252,6 +255,8 @@ class WebFragment : Fragment(), Injectable {
         })
 
         binding.webView.loadUrl("file:///android_asset/q/index.html")
+        Log.d("WEB_FRAG","SECOND_URL: " + "file:///android_asset/q/index.html")
+        Log.d("WEB_FRAG","SECOND_URL_questionnaire: " + questionareJson)
 
         binding.buttonCancel.singleClick {
 

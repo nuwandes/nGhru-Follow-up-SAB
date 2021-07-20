@@ -240,10 +240,11 @@ font-size: 16px/*!
       .sv_main .sv_container .sv_body .sv_p_root > .sv_row {
         padding: 0; }
       .sv_main .sv_container .sv_body .sv_p_root .sv_q_title {
-        margin: 0.5em 0; }
+	     margin: 0.5em 0;
+		 padding-bottom: 10px;}
         .sv_main .sv_container .sv_body .sv_p_root .sv_q_title span {
           font-weight: normal;
-          font-size: 18px !important; }
+          font-size: 18px !important;}
       .sv_main .sv_container .sv_body .sv_p_root .sv_q_description {
         margin-top: -0.6em; }
       .sv_main .sv_container .sv_body .sv_p_root .sv_q {
@@ -251,7 +252,7 @@ font-size: 16px/*!
         box-sizing: border-box;
         overflow: auto; }
         .sv_main .sv_container .sv_body .sv_p_root .sv_q .sv_panel_dynamic .sv_q_title {
-          font-weight: normal; }
+          font-weight: normal;}
         .sv_main .sv_container .sv_body .sv_p_root .sv_q .sv_q_erbox:not([style*="display: none"]):not([style*="display:none"]) {
           margin: 1em 0;
           padding: 1em; }
@@ -282,7 +283,10 @@ font-size: 16px/*!
         .sv_main .sv_container .sv_body .sv_p_root .sv_q div.sv_q_text_root,
         .sv_main .sv_container .sv_body .sv_p_root .sv_q div.sv_q_dropdown_control {
           min-height: 2.43em;
-          min-width: 7em; }
+          min-width: 7em;
+		  margin-top: 10px;
+		  margin-bottom: 10px;
+		  padding: 15px;}
         .sv_main .sv_container .sv_body .sv_p_root .sv_q .sv_select_wrapper {
           width: 100%;
           position: relative;
@@ -351,14 +355,21 @@ font-size: 16px/*!
         width: 100%;
         border-collapse: collapse; }
         .sv_main .sv_container .sv_body .sv_p_root table.sv_q_matrix .sv_matrix_dynamic_button, .sv_main .sv_container .sv_body .sv_p_root table.sv_q_matrix_dropdown .sv_matrix_dynamic_button, .sv_main .sv_container .sv_body .sv_p_root table.sv_q_matrix_dynamic .sv_matrix_dynamic_button {
-          padding: 0.3em 2em; }
+          padding: 0.3em 2em;
+		  margin-top: 10px;
+		  margin-bottom: 10px;
+		  padding: 15px;
+		  }
         @media (min-width: 768px) {
           .sv_main .sv_container .sv_body .sv_p_root table.sv_q_matrix td {
             min-width: 10em; } }
         .sv_main .sv_container .sv_body .sv_p_root table.sv_q_matrix td .sv_q_m_label {
           position: static; }
         .sv_main .sv_container .sv_body .sv_p_root table.sv_q_matrix_dropdown .sv_qcbc .sv_q_checkbox_control_label {
-          margin-right: 1.5em; }
+          margin-right: 1.5em;
+		  margin-top: 10px;
+		  margin-bottom: 10px;
+		  padding: 15px;}
         .sv_main .sv_container .sv_body .sv_p_root table td,
         .sv_main .sv_container .sv_body .sv_p_root table th {
           text-align: left;

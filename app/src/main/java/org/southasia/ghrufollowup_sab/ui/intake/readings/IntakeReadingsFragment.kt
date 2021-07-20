@@ -373,7 +373,7 @@ class IntakeReadingsFragment  : Fragment(), Injectable {
             run {
                 val qName = edittext.text.toString()
 
-                if (qName.equals("lolipop"))
+                if (qName.equals("ghru"))
                 {
                     updateIntakeStation()
                 }
