@@ -2,10 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
        >
     <data>
-        <import type="org.southasia.ghrufollowup_sab.ui.datamanagement.DataManagmentViewModel" />
+        <import type="org.nghru_pk.ghru.ui.datamanagement.DataManagmentViewModel" />
         <variable
                 name="viewModel"
-                type="org.southasia.ghrufollowup_sab.ui.datamanagement.DataManagmentViewModel" />
+                type="org.nghru_pk.ghru.ui.datamanagement.DataManagmentViewModel" />
     </data>
 
     <LinearLayout

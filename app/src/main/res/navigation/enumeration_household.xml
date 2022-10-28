@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/addHouseHoldMember"
-        android:name="org.southasia.ghrufollowup_sab.ui.enumeration.member.AddHouseHoldMemberFragment"
+        android:name="org.nghru_pk.ghru.ui.enumeration.member.AddHouseHoldMemberFragment"
         android:label="addMember"
         tools:layout="@layout/add_house_hold_member_fragment" />
     <action

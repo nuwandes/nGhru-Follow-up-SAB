@@ -37,7 +37,7 @@
 
     <fragment
         android:id="@+id/BasicDetailsFragmentNew"
-        android:name="org.southasia.ghrufollowup_sab.ui.registerpatient_new.basicdetails.BasicDetailsFragmentNew"
+        android:name="org.nghru_pk.ghru.ui.registerpatient_new.basicdetails.BasicDetailsFragmentNew"
         android:label="BasicDetailsFragmentNew"
         tools:layout="@layout/basic_details_fragment_new">
 
@@ -54,7 +54,7 @@
 
     <fragment
         android:id="@+id/reviewFragmentNew"
-        android:name="org.southasia.ghrufollowup_sab.ui.registerpatient_new.review.ReviewFragmentNew"
+        android:name="org.nghru_pk.ghru.ui.registerpatient_new.review.ReviewFragmentNew"
         android:label="ReviewFragmentNew"
         tools:layout="@layout/review_patient_fragment_new">
 
@@ -70,7 +70,7 @@
 
     <fragment
         android:id="@+id/scanBarcodeFragmentNew"
-        android:name="org.southasia.ghrufollowup_sab.ui.registerpatient_new.scanbarcode.ScanBarcodeFragmentNew"
+        android:name="org.nghru_pk.ghru.ui.registerpatient_new.scanbarcode.ScanBarcodeFragmentNew"
         android:label="ScanBarcodeFragmentNew"
         tools:layout="@layout/scan_barcode_patient_gen_fragment_new">
         <action
@@ -85,7 +85,7 @@
 
     <fragment
         android:id="@+id/scanBarcodeManualFragmentNew"
-        android:name="org.southasia.ghrufollowup_sab.ui.registerpatient_new.scanbarcode.manualentry.ManualEntryBarcodeFragmentNew"
+        android:name="org.nghru_pk.ghru.ui.registerpatient_new.scanbarcode.manualentry.ManualEntryBarcodeFragmentNew"
         android:label="ManualEntryBarcodeFragmentNew"
         tools:layout="@layout/register_patient_barcode_manualentry_fragment_new">
         <action
@@ -97,7 +97,7 @@
 
     <fragment
         android:id="@+id/confirmationFragmentNew"
-        android:name="org.southasia.ghrufollowup_sab.ui.registerpatient_new.confirmation.ConfirmationFragmentNew"
+        android:name="org.nghru_pk.ghru.ui.registerpatient_new.confirmation.ConfirmationFragmentNew"
         android:label="ConfirmationFragmentNew"
         tools:layout="@layout/confirmation_fragment_new">
 

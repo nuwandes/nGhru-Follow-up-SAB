@@ -6,19 +6,19 @@
 
     <data>
 
-        <import type="org.southasia.ghrufollowup_sab.ui.fundoscopy.scanbarcode.ScanBarcodeViewModel" />
+        <import type="org.nghru_pk.ghru.ui.fundoscopy.scanbarcode.ScanBarcodeViewModel" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.fundoscopy.scanbarcode.ScanBarcodeViewModel" />
+            type="org.nghru_pk.ghru.ui.fundoscopy.scanbarcode.ScanBarcodeViewModel" />
 
         <variable
             name="userResource"
-            type="org.southasia.ghrufollowup_sab.vo.Resource" />
+            type="org.nghru_pk.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.southasia.ghrufollowup_sab.ui.common.RetryCallback" />
+            type="org.nghru_pk.ghru.ui.common.RetryCallback" />
     </data>
 
 
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="org.southasia.ghrufollowup_sab.SettingActivity"
+        tools:context="org.nghru_pk.ghru.SettingActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

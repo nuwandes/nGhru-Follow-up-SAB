@@ -7,21 +7,21 @@
 
         <variable
             name="participant"
-            type="org.southasia.ghrufollowup_sab.vo.request.ParticipantRequest" />
+            type="org.nghru_pk.ghru.vo.request.ParticipantRequest" />
 
-        <import type="org.southasia.ghrufollowup_sab.ui.covid.CovidGuideViewModel" />
+        <import type="org.nghru_pk.ghru.ui.covid.CovidGuideViewModel" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.covid.CovidGuideViewModel" />
+            type="org.nghru_pk.ghru.ui.covid.CovidGuideViewModel" />
 
         <variable
             name="resource"
-            type="org.southasia.ghrufollowup_sab.vo.Resource" />
+            type="org.nghru_pk.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.southasia.ghrufollowup_sab.ui.common.RetryCallback" />
+            type="org.nghru_pk.ghru.ui.common.RetryCallback" />
 
     </data>
 
@@ -180,7 +180,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
-                            android:text="00017"
+                            android:text="-----"
                             android:textSize="@dimen/large_font_size"
                             android:layout_marginStart="@dimen/margin_20"
                             android:layout_marginTop="@dimen/margin_20"

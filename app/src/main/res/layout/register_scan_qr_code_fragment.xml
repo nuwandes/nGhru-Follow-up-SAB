@@ -5,24 +5,24 @@
 
     <data>
 
-        <import type="org.southasia.ghrufollowup_sab.ui.registerpatient.scanqrcode.ScanQRCodeFragment" />
+        <import type="org.nghru_pk.ghru.ui.registerpatient.scanqrcode.ScanQRCodeFragment" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.registerpatient.scanqrcode.ScanQRCodeFragment" />
+            type="org.nghru_pk.ghru.ui.registerpatient.scanqrcode.ScanQRCodeFragment" />
 
 
-        <import type="org.southasia.ghrufollowup_sab.vo.Resource" />
+        <import type="org.nghru_pk.ghru.vo.Resource" />
 
-        <import type="org.southasia.ghrufollowup_sab.vo.Status" />
+        <import type="org.nghru_pk.ghru.vo.Status" />
 
         <variable
             name="resource"
-            type="org.southasia.ghrufollowup_sab.vo.Resource" />
+            type="org.nghru_pk.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.southasia.ghrufollowup_sab.ui.common.RetryCallback" />
+            type="org.nghru_pk.ghru.ui.common.RetryCallback" />
     </data>
 
 
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="org.southasia.ghrufollowup_sab.SettingActivity"
+        tools:context="org.nghru_pk.ghru.SettingActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

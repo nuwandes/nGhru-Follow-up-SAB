@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/bloodTestHomeFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.bloodtesthome.BloodTestHomeFragment"
+        android:name="org.nghru_pk.ghru.ui.samplemanagement.bloodtesthome.BloodTestHomeFragment"
         android:label="BloodTestHomeFragment"
         tools:layout="@layout/blood_test_home_fragment">
 
@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/FastingBloodGlucoseFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.fastingbloodglucose.FastingBloodGlucoseFragment"
+        android:name="org.nghru_pk.ghru.ui.samplemanagement.fastingbloodglucose.FastingBloodGlucoseFragment"
         android:label="FastingBloodGlucoseFragment"
         tools:layout="@layout/fasting_blood_glucose_fragment">
 
@@ -30,7 +30,7 @@
 
     <fragment
         android:id="@+id/TotalCholesterolFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.totalcholesterol.TotalCholesterolFragment"
+        android:name="org.nghru_pk.ghru.ui.samplemanagement.totalcholesterol.TotalCholesterolFragment"
         android:label="TotalCholesterolFragment"
         tools:layout="@layout/total_cholesterol_fragment">
     </fragment>

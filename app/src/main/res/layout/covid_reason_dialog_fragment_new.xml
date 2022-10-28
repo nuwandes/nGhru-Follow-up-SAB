@@ -5,11 +5,11 @@
     <data>
 
 
-        <import type="org.southasia.ghrufollowup_sab.ui.covid.stageonereason.ReasonDialogViewModelNew" />
+        <import type="org.nghru_pk.ghru.ui.covid.stageonereason.ReasonDialogViewModelNew" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.covid.stageonereason.ReasonDialogViewModelNew" />
+            type="org.nghru_pk.ghru.ui.covid.stageonereason.ReasonDialogViewModelNew" />
     </data>
 
 

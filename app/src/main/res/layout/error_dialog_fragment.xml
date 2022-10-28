@@ -5,11 +5,11 @@
     <data>
 
 
-        <import type="org.southasia.ghrufollowup_sab.ui.registerpatient.scanqrcode.errordialog.ErrorDialogViewModel" />
+        <import type="org.nghru_pk.ghru.ui.registerpatient.scanqrcode.errordialog.ErrorDialogViewModel" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.registerpatient.scanqrcode.errordialog.ErrorDialogViewModel" />
+            type="org.nghru_pk.ghru.ui.registerpatient.scanqrcode.errordialog.ErrorDialogViewModel" />
 
     </data>
 

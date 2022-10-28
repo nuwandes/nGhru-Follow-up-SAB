@@ -7,7 +7,7 @@
 
         <variable
             name="household"
-            type="org.southasia.ghrufollowup_sab.vo.request.HouseholdRequest" />
+            type="org.nghru_pk.ghru.vo.request.HouseholdRequest" />
 
     </data>
 
