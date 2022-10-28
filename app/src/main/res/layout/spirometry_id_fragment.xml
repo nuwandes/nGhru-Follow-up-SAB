@@ -7,22 +7,22 @@
 
         <variable
             name="participant"
-            type="org.southasia.ghrufollowup_sab.vo.request.ParticipantRequest" />
+            type="org.nghru_ins.ghru.vo.request.ParticipantRequest" />
 
-        <import type="org.southasia.ghrufollowup_sab.ui.spirometry.verifyid.SpirometryVerifyIDFragment" />
+        <import type="org.nghru_ins.ghru.ui.spirometry.verifyid.SpirometryVerifyIDFragment" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.spirometry.verifyid.SpirometryVerifyIDFragment" />
+            type="org.nghru_ins.ghru.ui.spirometry.verifyid.SpirometryVerifyIDFragment" />
 
 
         <variable
             name="resource"
-            type="org.southasia.ghrufollowup_sab.vo.Resource" />
+            type="org.nghru_ins.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.southasia.ghrufollowup_sab.ui.common.RetryCallback" />
+            type="org.nghru_ins.ghru.ui.common.RetryCallback" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -30,7 +30,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.southasia.ghrufollowup_sab.SpirometryActivity"
+        tools:context="org.nghru_ins.ghru.SpirometryActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

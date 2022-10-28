@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/ParticipantAttendanceFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.participantlist.attendance.ParticipantAttendanceFragment"
+        android:name="org.nghru_ins.ghru.ui.participantlist.attendance.ParticipantAttendanceFragment"
         android:label="ParticipantAttendance"
         tools:layout="@layout/participant_attendance_fragment">
 
@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/UpdateParticipantFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.participantlist.attendance.updateparticipant.UpdateParticipantFragment"
+        android:name="org.nghru_ins.ghru.ui.participantlist.attendance.updateparticipant.UpdateParticipantFragment"
         android:label="UpdateParticipantFragment"
         tools:layout="@layout/update_participant_fragment">
 
@@ -36,7 +36,7 @@
 
     <fragment
         android:id="@+id/ConsentFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.participantlist.attendance.consent.ConsentFragment"
+        android:name="org.nghru_ins.ghru.ui.participantlist.attendance.consent.ConsentFragment"
         android:label="ConsentFragment"
         tools:layout="@layout/consent_fragment">
 
@@ -44,7 +44,7 @@
 
     <fragment
         android:id="@+id/cameraFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.camera.CameraFragment"
+        android:name="org.nghru_ins.ghru.ui.camera.CameraFragment"
         android:label="CameraFragment"
         tools:layout="@layout/camera_fragment">
 

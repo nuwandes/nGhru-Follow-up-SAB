@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/pendingSampleListFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.pendingsamplelist.PendingSampleListFragment"
+        android:name="org.nghru_ins.ghru.ui.samplemanagement.pendingsamplelist.PendingSampleListFragment"
         android:label="PendingSampleListFragment"
         tools:layout="@layout/pending_sample_list_fragment">
 
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/tubeScanBarcodeFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.tubescanbarcode.TubeScanBarcodeFragment"
+        android:name="org.nghru_ins.ghru.ui.samplemanagement.tubescanbarcode.TubeScanBarcodeFragment"
         android:label="TubeScanBarcodeFragment"
         tools:layout="@layout/tube_scan_barcode_fragment">
 
@@ -43,7 +43,7 @@
 
     <fragment
         android:id="@+id/manualTubeScanBarcodeFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.tubescanbarcode.manualentry.TubeScanManualBarcodeFragment"
+        android:name="org.nghru_ins.ghru.ui.samplemanagement.tubescanbarcode.manualentry.TubeScanManualBarcodeFragment"
         android:label="TubeScanManualBarcodeFragment"
         tools:layout="@layout/sample_management_manual_tubescan">
 
@@ -58,7 +58,7 @@
 
     <fragment
         android:id="@+id/sampleMangementHomeViewModel"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.home.SampleMangementHomeFragment"
+        android:name="org.nghru_ins.ghru.ui.samplemanagement.home.SampleMangementHomeFragment"
         android:label="SampleMangementHomeFragment"
         tools:layout="@layout/sample_mangement_home_fragment">
 
@@ -90,7 +90,7 @@
 
     <fragment
         android:id="@+id/LipidProfileFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.lipidprofile.LipidProfileFragment"
+        android:name="org.nghru_ins.ghru.ui.samplemanagement.lipidprofile.LipidProfileFragment"
         android:label="LipidProfileFragment"
         tools:layout="@layout/lipid_profile_fragment">
 
@@ -98,7 +98,7 @@
 
     <fragment
         android:id="@+id/FastingBloodGlucoseFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.fastingbloodglucose.FastingBloodGlucoseFragment"
+        android:name="org.nghru_ins.ghru.ui.samplemanagement.fastingbloodglucose.FastingBloodGlucoseFragment"
         android:label="FastingBloodGlucoseFragment"
         tools:layout="@layout/fasting_blood_glucose_fragment">
 
@@ -106,7 +106,7 @@
 
     <fragment
         android:id="@+id/Hb1AcFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.hb1ac.Hb1AcFragment"
+        android:name="org.nghru_ins.ghru.ui.samplemanagement.hb1ac.Hb1AcFragment"
         android:label="Hb1AcFragment"
         tools:layout="@layout/hb_ac_fragment">
 
@@ -114,14 +114,14 @@
 
     <fragment
         android:id="@+id/TotalCholesterolFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.totalcholesterol.TotalCholesterolFragment"
+        android:name="org.nghru_ins.ghru.ui.samplemanagement.totalcholesterol.TotalCholesterolFragment"
         android:label="TotalCholesterolFragment"
         tools:layout="@layout/total_cholesterol_fragment">
     </fragment>
 
     <fragment
         android:id="@+id/TriglyceridesFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.triglycerides.TriglyceridesFragment"
+        android:name="org.nghru_ins.ghru.ui.samplemanagement.triglycerides.TriglyceridesFragment"
         android:label="TriglyceridesFragment"
         tools:layout="@layout/triglycerides_fragment">
 
@@ -129,7 +129,7 @@
 
     <fragment
         android:id="@+id/HemoglobinFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.hemoglobin.HemoglobinFragment"
+        android:name="org.nghru_ins.ghru.ui.samplemanagement.hemoglobin.HemoglobinFragment"
         android:label="HemoglobinFragment"
         tools:layout="@layout/hemoglobin_fragment">
 
@@ -137,7 +137,7 @@
 
     <fragment
         android:id="@+id/HDLFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.hdl.HDLFragment"
+        android:name="org.nghru_ins.ghru.ui.samplemanagement.hdl.HDLFragment"
         android:label="HDLFragment"
         tools:layout="@layout/h_d_l_fragment">
 
@@ -146,7 +146,7 @@
 
     <fragment
         android:id="@+id/sampleStorageFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.storage.StorageFragment"
+        android:name="org.nghru_ins.ghru.ui.samplemanagement.storage.StorageFragment"
         android:label="storageFragment"
         tools:layout="@layout/sample_storage_fragment">
 
@@ -161,7 +161,7 @@
 
     <fragment
         android:id="@+id/QRcodeScanFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.storage.scanqrcode.ScanBarcodeFragment"
+        android:name="org.nghru_ins.ghru.ui.samplemanagement.storage.scanqrcode.ScanBarcodeFragment"
         android:label="scanQRFragment"
         tools:layout="@layout/bagscan_storage_fragment">
 
@@ -177,7 +177,7 @@
     <fragment
 
         android:id="@+id/QRcodeManualEntryFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.storage.manualentry.ManualEntryFragment"
+        android:name="org.nghru_ins.ghru.ui.samplemanagement.storage.manualentry.ManualEntryFragment"
         android:label="scanQRFragment"
         tools:layout="@layout/storage_manual_qrcode_entry_fragment">
 
@@ -191,7 +191,7 @@
 
     <fragment
         android:id="@+id/HOGTTFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.samplemanagement.hogtt.HOGTTFragment"
+        android:name="org.nghru_ins.ghru.ui.samplemanagement.hogtt.HOGTTFragment"
         android:label="HOGTTFragment"
         tools:layout="@layout/hogtt_fragment">
 

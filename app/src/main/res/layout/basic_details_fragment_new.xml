@@ -5,25 +5,25 @@
 
     <data>
 
-        <import type="org.southasia.ghrufollowup_sab.vo.request.Gender" />
+        <import type="org.nghru_ins.ghru.vo.request.Gender" />
 
         <variable
             name="member"
-            type="org.southasia.ghrufollowup_sab.vo.request.Member" />
+            type="org.nghru_ins.ghru.vo.request.Member" />
 
-        <import type="org.southasia.ghrufollowup_sab.ui.registerpatient_new.basicdetails.BasicDetailsViewModelNew" />
+        <import type="org.nghru_ins.ghru.ui.registerpatient_new.basicdetails.BasicDetailsViewModelNew" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.registerpatient_new.basicdetails.BasicDetailsViewModelNew" />
+            type="org.nghru_ins.ghru.ui.registerpatient_new.basicdetails.BasicDetailsViewModelNew" />
 
         <variable
             name="memberRequest"
-            type="org.southasia.ghrufollowup_sab.vo.request.MemberRequest" />
+            type="org.nghru_ins.ghru.vo.request.MemberRequest" />
 
         <variable
             name="participantMeta"
-            type="org.southasia.ghrufollowup_sab.vo.request.ParticipantMeta" />
+            type="org.nghru_ins.ghru.vo.request.ParticipantMeta" />
 
 <!--        <variable-->
 <!--            name="memberRequest"-->
@@ -41,7 +41,7 @@
         android:fitsSystemWindows="true"
         android:focusable="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.southasia.ghrufollowup_sab.BodyMeasurementsActivity"
+        tools:context="org.nghru_ins.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

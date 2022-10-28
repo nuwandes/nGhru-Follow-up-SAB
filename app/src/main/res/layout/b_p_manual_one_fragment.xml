@@ -5,35 +5,35 @@
 
     <data>
 
-        <import type="org.southasia.ghrufollowup_sab.vo.BodyMeasurement" />
+        <import type="org.nghru_ins.ghru.vo.BodyMeasurement" />
 
-        <import type="org.southasia.ghrufollowup_sab.ui.bodymeasurements.bp.manual.one.BPManualOneViewModel" />
+        <import type="org.nghru_ins.ghru.ui.bodymeasurements.bp.manual.one.BPManualOneViewModel" />
 
-        <import type="org.southasia.ghrufollowup_sab.vo.BloodPressure" />
+        <import type="org.nghru_ins.ghru.vo.BloodPressure" />
 
         <variable
             name="bloodPressure"
-            type="org.southasia.ghrufollowup_sab.vo.BloodPressure" />
+            type="org.nghru_ins.ghru.vo.BloodPressure" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.bodymeasurements.bp.manual.one.BPManualOneViewModel" />
+            type="org.nghru_ins.ghru.ui.bodymeasurements.bp.manual.one.BPManualOneViewModel" />
 
         <variable
             name="mesurement"
-            type="org.southasia.ghrufollowup_sab.vo.BodyMeasurement" />
+            type="org.nghru_ins.ghru.vo.BodyMeasurement" />
 
         <variable
             name="resource"
-            type="org.southasia.ghrufollowup_sab.vo.Resource" />
+            type="org.nghru_ins.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.southasia.ghrufollowup_sab.ui.common.RetryCallback" />
+            type="org.nghru_ins.ghru.ui.common.RetryCallback" />
 
         <variable
             name="participant"
-            type="org.southasia.ghrufollowup_sab.vo.request.ParticipantRequest" />
+            type="org.nghru_ins.ghru.vo.request.ParticipantRequest" />
 
         <variable
             name="expandProcedure"
@@ -49,7 +49,7 @@
         android:fitsSystemWindows="true"
         android:focusable="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.southasia.ghrufollowup_sab.BodyMeasurementsActivity"
+        tools:context="org.nghru_ins.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

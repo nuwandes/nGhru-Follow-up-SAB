@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/settingFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.setting.SettingFragment"
+        android:name="org.nghru_ins.ghru.ui.setting.SettingFragment"
         android:label="SettingFragment"
         tools:layout="@layout/setting_fragment"></fragment>
 </navigation>

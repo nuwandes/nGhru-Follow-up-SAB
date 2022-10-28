@@ -5,11 +5,11 @@
     <data>
 
 
-        <import type="org.southasia.ghrufollowup_sab.ui.samplecollection.fast.reshedule.ResheduleDialogViewModel" />
+        <import type="org.nghru_ins.ghru.ui.samplecollection.fast.reshedule.ResheduleDialogViewModel" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.samplecollection.fast.reshedule.ResheduleDialogViewModel" />
+            type="org.nghru_ins.ghru.ui.samplecollection.fast.reshedule.ResheduleDialogViewModel" />
 
         <import type="android.text.Html" />
 

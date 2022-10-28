@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="org.southasia.ghrufollowup_sab">
+    package="org.nghru_ins.ghru">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" android:required="false"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" android:required="false"/>
@@ -35,7 +35,7 @@
             android:smallScreens="true"
             android:xlargeScreens="true"/>
     <application
-        android:name="org.southasia.ghrufollowup_sab.NghruApp"
+        android:name="org.nghru_ins.ghru.NghruApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -54,7 +54,7 @@
             android:value="false" />
 
         <activity
-            android:name="org.southasia.ghrufollowup_sab.LoginActivity"
+            android:name="org.nghru_ins.ghru.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -65,7 +65,7 @@
         </activity>
 
         <activity
-            android:name="org.southasia.ghrufollowup_sab.MainActivity"
+            android:name="org.nghru_ins.ghru.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize">
@@ -73,7 +73,7 @@
         </activity>
 
         <activity
-            android:name="org.southasia.ghrufollowup_sab.SettingActivity"
+            android:name="org.nghru_ins.ghru.SettingActivity"
             android:label="@string/setting"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
@@ -82,7 +82,7 @@
         </activity>
 
         <activity
-            android:name="org.southasia.ghrufollowup_sab.BloodPressureActivity"
+            android:name="org.nghru_ins.ghru.BloodPressureActivity"
             android:label="@string/setting"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
@@ -91,7 +91,7 @@
         </activity>
 
         <activity
-            android:name="org.southasia.ghrufollowup_sab.EnumerationActivity"
+            android:name="org.nghru_ins.ghru.EnumerationActivity"
             android:label="@string/enumeration_household_visit_title"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
@@ -100,7 +100,7 @@
         </activity>
 
         <activity
-            android:name="org.southasia.ghrufollowup_sab.SpirometryActivity"
+            android:name="org.nghru_ins.ghru.SpirometryActivity"
             android:label="@string/spirometry_title"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
@@ -117,11 +117,11 @@
                 android:name="com.google.android.gms.version"
                 android:value="@integer/google_play_services_version" />
         <service
-            android:name="org.southasia.ghrufollowup_sab.jobs.SchedulerJobService"
+            android:name="org.nghru_ins.ghru.jobs.SchedulerJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <service
-            android:name="org.southasia.ghrufollowup_sab.jobs.GcmJobService"
+            android:name="org.nghru_ins.ghru.jobs.GcmJobService"
             android:exported="true"
             android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
             <intent-filter>
@@ -129,7 +129,7 @@
             </intent-filter>
         </service>
 
-        <receiver android:name="org.southasia.ghrufollowup_sab.jobs.NetworkChangeReceiver">
+        <receiver android:name="org.nghru_ins.ghru.jobs.NetworkChangeReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
@@ -138,20 +138,20 @@
 
         <!-- Define your service, make sure to add the permision! -->
         <service
-            android:name="org.southasia.ghrufollowup_sab.network.NetworkSchedulerService"
+            android:name="org.nghru_ins.ghru.network.NetworkSchedulerService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
 
         <activity
-                android:name="org.southasia.ghrufollowup_sab.BodyMeasurementsActivity"
+                android:name="org.nghru_ins.ghru.BodyMeasurementsActivity"
                 android:label="@string/enumeration_household_visit_title"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
-                android:name="org.southasia.ghrufollowup_sab.RegisterPatientActivity"
+                android:name="org.nghru_ins.ghru.RegisterPatientActivity"
                 android:label="@string/screening_register_participant"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
@@ -159,110 +159,110 @@
 
 
         <activity
-                android:name="org.southasia.ghrufollowup_sab.ui.scan.BleScanActivity"
+                android:name="org.nghru_ins.ghru.ui.scan.BleScanActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
-                android:name="org.southasia.ghrufollowup_sab.ECGActivity"
+                android:name="org.nghru_ins.ghru.ECGActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
-                android:name="org.southasia.ghrufollowup_sab.SampleCollectionActivity"
+                android:name="org.nghru_ins.ghru.SampleCollectionActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
-                android:name="org.southasia.ghrufollowup_sab.SampleProcessingActivity"
+                android:name="org.nghru_ins.ghru.SampleProcessingActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
-                android:name="org.southasia.ghrufollowup_sab.FundoscopyActivity"
+                android:name="org.nghru_ins.ghru.FundoscopyActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
-                android:name="org.southasia.ghrufollowup_sab.SampleStorageActivity"
+                android:name="org.nghru_ins.ghru.SampleStorageActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="stateHidden|adjustResize"/>
 
 
         <activity
-                android:name="org.southasia.ghrufollowup_sab.WebViewActivity"
+                android:name="org.nghru_ins.ghru.WebViewActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
-                android:name="org.southasia.ghrufollowup_sab.ReportViewActivity"
+                android:name="org.nghru_ins.ghru.ReportViewActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
-                android:name="org.southasia.ghrufollowup_sab.ActivityTrackerActivity"
+                android:name="org.nghru_ins.ghru.ActivityTrackerActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
-            android:name="org.southasia.ghrufollowup_sab.ScreeningHomeActivity"
+            android:name="org.nghru_ins.ghru.ScreeningHomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize"></activity>
 
         <activity
-            android:name="org.southasia.ghrufollowup_sab.SampleHomeActivity"
+            android:name="org.nghru_ins.ghru.SampleHomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize"></activity>
 
         <activity
-            android:name="org.southasia.ghrufollowup_sab.IntakeActivity"
+            android:name="org.nghru_ins.ghru.IntakeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
-            android:name="org.southasia.ghrufollowup_sab.PatientAttendanceActivity"
+            android:name="org.nghru_ins.ghru.PatientAttendanceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
-            android:name="org.southasia.ghrufollowup_sab.MeasurementListActivity"
+            android:name="org.nghru_ins.ghru.MeasurementListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
-            android:name="org.southasia.ghrufollowup_sab.UpdatePatientActivity"
+            android:name="org.nghru_ins.ghru.UpdatePatientActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
-            android:name="org.southasia.ghrufollowup_sab.BloodTestActivity"
+            android:name="org.nghru_ins.ghru.BloodTestActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
-            android:name="org.southasia.ghrufollowup_sab.CovidQuestionnaireActivity"
+            android:name="org.nghru_ins.ghru.CovidQuestionnaireActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
-            android:name="org.southasia.ghrufollowup_sab.CovidQuestionnaireNewActivity"
+            android:name="org.nghru_ins.ghru.CovidQuestionnaireNewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize"/>

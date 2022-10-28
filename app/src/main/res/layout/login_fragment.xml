@@ -20,28 +20,28 @@
 
     <data>
 
-        <import type="org.southasia.ghrufollowup_sab.vo.User" />
+        <import type="org.nghru_ins.ghru.vo.User" />
 
-        <import type="org.southasia.ghrufollowup_sab.vo.Devices" />
+        <import type="org.nghru_ins.ghru.vo.Devices" />
 
         <variable
             name="user"
-            type="org.southasia.ghrufollowup_sab.vo.User" />
+            type="org.nghru_ins.ghru.vo.User" />
 
 
         <variable
             name="devices"
-            type="org.southasia.ghrufollowup_sab.vo.Devices" />
+            type="org.nghru_ins.ghru.vo.Devices" />
 
         <variable
             name="userResource"
-            type="org.southasia.ghrufollowup_sab.vo.Resource" />
+            type="org.nghru_ins.ghru.vo.Resource" />
 
-        <import type="org.southasia.ghrufollowup_sab.vo.Status" />
+        <import type="org.nghru_ins.ghru.vo.Status" />
 
         <variable
             name="retryCallback"
-            type="org.southasia.ghrufollowup_sab.ui.common.RetryCallback" />
+            type="org.nghru_ins.ghru.ui.common.RetryCallback" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -91,7 +91,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_logo_nhealth"
+            app:srcCompat="@drawable/nghru_ins"
             tools:ignore="VectorDrawableCompat" />
 
         <ImageView

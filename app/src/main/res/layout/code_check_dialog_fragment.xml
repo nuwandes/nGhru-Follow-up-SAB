@@ -5,11 +5,11 @@
     <data>
 
 
-        <import type="org.southasia.ghrufollowup_sab.ui.codeheck.CodeCheckDialogViewModel" />
+        <import type="org.nghru_ins.ghru.ui.codeheck.CodeCheckDialogViewModel" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.codeheck.CodeCheckDialogViewModel" />
+            type="org.nghru_ins.ghru.ui.codeheck.CodeCheckDialogViewModel" />
 
     </data>
 
