@@ -5,11 +5,11 @@
     <data>
 
 
-        <import type="org.southasia.ghrufollowup_sab.ui.samplemanagement.storage.reason.ReasonDialogViewModel" />
+        <import type="org.nghru_lk.ghru.ui.samplemanagement.storage.reason.ReasonDialogViewModel" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.samplemanagement.storage.reason.ReasonDialogViewModel" />
+            type="org.nghru_lk.ghru.ui.samplemanagement.storage.reason.ReasonDialogViewModel" />
     </data>
 
 

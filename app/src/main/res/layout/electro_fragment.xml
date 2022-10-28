@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="org.southasia.ghrufollowup_sab.ui.ecg.guide.GuideViewModel" />
+        <import type="org.nghru_lk.ghru.ui.ecg.guide.GuideViewModel" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.ecg.guide.GuideViewModel" />
+            type="org.nghru_lk.ghru.ui.ecg.guide.GuideViewModel" />
     </data>
 
 
@@ -22,7 +22,7 @@
         android:focusable="true"
         android:orientation="horizontal"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.southasia.ghrufollowup_sab.BodyMeasurementsActivity"
+        tools:context="org.nghru_lk.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <ImageView

@@ -5,11 +5,11 @@
 
         <variable
             name="bloodPressure"
-            type="org.southasia.ghrufollowup_sab.vo.BloodPressure" />
+            type="org.nghru_lk.ghru.vo.BloodPressure" />
 
         <variable
             name="homeItem"
-            type="org.southasia.ghrufollowup_sab.vo.HomeItem" />
+            type="org.nghru_lk.ghru.vo.HomeItem" />
     </data>
 
 

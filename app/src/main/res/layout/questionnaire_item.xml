@@ -7,7 +7,7 @@
 
         <variable
             name="questionnaire"
-            type="org.southasia.ghrufollowup_sab.vo.Questionnaire" />
+            type="org.nghru_lk.ghru.vo.Questionnaire" />
     </data>
 
 

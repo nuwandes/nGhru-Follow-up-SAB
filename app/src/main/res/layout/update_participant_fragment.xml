@@ -7,7 +7,7 @@
 
         <variable
             name="participant"
-            type="org.southasia.ghrufollowup_sab.vo.ParticipantListItem" />
+            type="org.nghru_lk.ghru.vo.ParticipantListItem" />
 
         <variable
             name="expandProcedure"
@@ -16,9 +16,9 @@
 
         <variable
             name="retryCallback"
-            type="org.southasia.ghrufollowup_sab.ui.common.RetryCallback" />
+            type="org.nghru_lk.ghru.ui.common.RetryCallback" />
 
-        <import type="org.southasia.ghrufollowup_sab.vo.request.Gender" />
+        <import type="org.nghru_lk.ghru.vo.request.Gender" />
     </data>
 
     <LinearLayout

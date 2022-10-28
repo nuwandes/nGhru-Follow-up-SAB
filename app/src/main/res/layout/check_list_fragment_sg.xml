@@ -33,11 +33,11 @@
             name="radioGroupFastDurationMinValue"
             type="Boolean" />
 
-        <import type="org.southasia.ghrufollowup_sab.vo.Resource" />
+        <import type="org.nghru_lk.ghru.vo.Resource" />
 
         <variable
             name="resource"
-            type="org.southasia.ghrufollowup_sab.vo.Resource" />
+            type="org.nghru_lk.ghru.vo.Resource" />
 
     </data>
 
@@ -47,7 +47,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:fitsSystemWindows="true"
-        tools:context="org.southasia.ghrufollowup_sab.SettingActivity"
+        tools:context="org.nghru_lk.ghru.SettingActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

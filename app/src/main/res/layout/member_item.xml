@@ -7,7 +7,7 @@
 
         <variable
             name="member"
-            type="org.southasia.ghrufollowup_sab.vo.request.Member" />
+            type="org.nghru_lk.ghru.vo.request.Member" />
 
         <variable
             name="count"

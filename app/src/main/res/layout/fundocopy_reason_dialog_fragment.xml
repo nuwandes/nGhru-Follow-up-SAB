@@ -5,11 +5,11 @@
     <data>
 
 
-        <import type="org.southasia.ghrufollowup_sab.ui.fundoscopy.reading.reason.ReasonDialogViewModel" />
+        <import type="org.nghru_lk.ghru.ui.fundoscopy.reading.reason.ReasonDialogViewModel" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.fundoscopy.reading.reason.ReasonDialogViewModel" />
+            type="org.nghru_lk.ghru.ui.fundoscopy.reading.reason.ReasonDialogViewModel" />
     </data>
 
 

@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.home.HomeFragment"
+        android:name="org.nghru_lk.ghru.ui.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/home_fragment">
 

@@ -7,7 +7,7 @@
 
         <variable
             name="homeEmumerationListItem"
-            type="org.southasia.ghrufollowup_sab.vo.HomeEmumerationListItem" />
+            type="org.nghru_lk.ghru.vo.HomeEmumerationListItem" />
     </data>
 
 

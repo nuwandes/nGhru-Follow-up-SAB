@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="org.southasia.ghrufollowup_sab.ui.bodymeasurements.bp.info.InfoViewModel" />
+        <import type="org.nghru_lk.ghru.ui.bodymeasurements.bp.info.InfoViewModel" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.bodymeasurements.bp.info.InfoViewModel" />
+            type="org.nghru_lk.ghru.ui.bodymeasurements.bp.info.InfoViewModel" />
     </data>
 
 
@@ -22,7 +22,7 @@
         android:focusable="true"
         android:orientation="horizontal"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.southasia.ghrufollowup_sab.BodyMeasurementsActivity"
+        tools:context="org.nghru_lk.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <ImageView

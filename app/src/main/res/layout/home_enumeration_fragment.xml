@@ -6,22 +6,22 @@
 
         <variable
             name="user"
-            type="org.southasia.ghrufollowup_sab.vo.User" />
+            type="org.nghru_lk.ghru.vo.User" />
 
-        <import type="org.southasia.ghrufollowup_sab.ui.enumeration.EnumerationViewModel" />
+        <import type="org.nghru_lk.ghru.ui.enumeration.EnumerationViewModel" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.enumeration.EnumerationViewModel" />
+            type="org.nghru_lk.ghru.ui.enumeration.EnumerationViewModel" />
 
 
         <variable
             name="userResource"
-            type="org.southasia.ghrufollowup_sab.vo.Resource" />
+            type="org.nghru_lk.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.southasia.ghrufollowup_sab.ui.common.RetryCallback" />
+            type="org.nghru_lk.ghru.ui.common.RetryCallback" />
     </data>
 
     <LinearLayout

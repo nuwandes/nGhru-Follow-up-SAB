@@ -5,27 +5,27 @@
 
     <data>
 
-        <import type="org.southasia.ghrufollowup_sab.ui.samplecollection.bagscanbarcode.BagScanBarcodeViewModel" />
+        <import type="org.nghru_lk.ghru.ui.samplecollection.bagscanbarcode.BagScanBarcodeViewModel" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.samplecollection.bagscanbarcode.BagScanBarcodeViewModel" />
+            type="org.nghru_lk.ghru.ui.samplecollection.bagscanbarcode.BagScanBarcodeViewModel" />
 
 
         <variable
             name="userResource"
-            type="org.southasia.ghrufollowup_sab.vo.Resource" />
+            type="org.nghru_lk.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.southasia.ghrufollowup_sab.ui.common.RetryCallback" />
+            type="org.nghru_lk.ghru.ui.common.RetryCallback" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="org.southasia.ghrufollowup_sab.SettingActivity"
+        tools:context="org.nghru_lk.ghru.SettingActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout
