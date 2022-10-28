@@ -65,7 +65,7 @@ class MeasurementListFragment : Fragment(), Injectable {
 
     private var BM_Status: String? = "Not started"
     private var BP_Status: String? = "Not started"
-    private var SP_Status: String? = "Not started"
+    //private var SP_Status: String? = "Not started"
     private var FBG_Status: String? = "Not started"
     private var QU_Status: String? = "Not started"
     private var BT_Status: String? = "Not started"
@@ -197,16 +197,18 @@ class MeasurementListFragment : Fragment(), Injectable {
             }
 
             if (measurementListItem.id == 8) {
-                if (isInProgress!!)
-                {
-                    val intent = Intent(activity, CovidQuestionnaireNewActivity::class.java)
-                    startActivity(intent)
-                }
-                else
-                {
-                    val intent = Intent(activity, CovidQuestionnaireActivity::class.java)
-                    startActivity(intent)
-                }
+//                if (isInProgress!!)
+//                {
+//                    val intent = Intent(activity, CovidQuestionnaireNewActivity::class.java)
+//                    startActivity(intent)
+//                }
+//                else
+//                {
+//                    val intent = Intent(activity, CovidQuestionnaireActivity::class.java)
+//                    startActivity(intent)
+//                }
+                val intent = Intent(activity, CovidSurveyActivity::class.java)
+                startActivity(intent)
 
             }
         }
@@ -440,17 +442,17 @@ class MeasurementListFragment : Fragment(), Injectable {
                 }
             }
 
-            if (station.station_name == "Spirometry")
-            {
-                if (station.isCancelled == 1)
-                {
-                    SP_Status = "Canceled"
-                }
-                else
-                {
-                    SP_Status = station.status_text
-                }
-            }
+//            if (station.station_name == "Spirometry")
+//            {
+//                if (station.isCancelled == 1)
+//                {
+//                    SP_Status = "Canceled"
+//                }
+//                else
+//                {
+//                    SP_Status = station.status_text
+//                }
+//            }
 
             if (station.station_name == "Health Questionnaire")
             {
@@ -519,7 +521,7 @@ class MeasurementListFragment : Fragment(), Injectable {
                 + "BM - "+ BM_Status
                 + "BP - "+ BP_Status
                 + "FBG - "+ FBG_Status
-                + "SP - "+ SP_Status
+//                + "SP - "+ SP_Status
                 + "QU - "+ QU_Status
                 + "BT - "+ BT_Status
                 + "INT - "+ INT_Status
@@ -529,7 +531,7 @@ class MeasurementListFragment : Fragment(), Injectable {
 
 
         if ((BP_Status == "Completed" || BP_Status == "Canceled" )
-            && (SP_Status == "Completed" || SP_Status == "Canceled")
+//            && (SP_Status == "Completed" || SP_Status == "Canceled")
             && (FBG_Status == "Completed" || FBG_Status == "Canceled" || FBG_Status == "Processed")
             && (BT_Status == "Completed" || BT_Status == "Canceled")
             && (INT_Status == "Completed" || INT_Status == "Canceled")

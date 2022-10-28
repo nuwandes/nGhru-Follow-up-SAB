@@ -152,7 +152,7 @@ class ParticipantListFragment : Fragment(), Injectable {
         statuses.add(getString(R.string.filter2_default))
         statuses.add(getString(R.string.follow_up_1))
         statuses.add(getString(R.string.follow_up_2))
-        //statuses.add(getString(R.string.follow_up_3))
+        statuses.add(getString(R.string.follow_up_9))
         //statuses.add(getString(R.string.follow_up_4))
         statuses.add(getString(R.string.follow_up_5))
         statuses.add(getString(R.string.follow_up_6))
@@ -793,6 +793,10 @@ class ParticipantListFragment : Fragment(), Injectable {
         else if (binding.filterTwo.selectedItem.toString().equals("Unable to contact"))
         {
             returnString = "unable_to_contact"
+        }
+        else if (binding.filterTwo.selectedItem.toString().equals("Not scheduled"))
+        {
+            returnString = "not_scheduled"
         }
 
         return returnString

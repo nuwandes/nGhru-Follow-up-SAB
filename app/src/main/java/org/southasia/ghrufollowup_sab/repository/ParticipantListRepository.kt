@@ -89,7 +89,7 @@ class ParticipantListRepository @Inject constructor(
 
         var bodyStatus: String? = "Not started"
         var bloodStatus: String? = "Not started"
-        var spiroStatus: String? = "Not started"
+        //var spiroStatus: String? = "Not started"
         var queStatus: String? = "Not started"
         var samColStatus: String? = "Not started"
         var consentStatus: String? = "Not started"
@@ -135,17 +135,17 @@ class ParticipantListRepository @Inject constructor(
                 }
             }
 
-            if (station.station_name.equals("Spirometry"))
-            {
-                if (station.isCancelled == 1)
-                {
-                    spiroStatus = "Canceled"
-                }
-                else
-                {
-                    spiroStatus = station.status_text
-                }
-            }
+//            if (station.station_name.equals("Spirometry"))
+//            {
+//                if (station.isCancelled == 1)
+//                {
+//                    spiroStatus = "Canceled"
+//                }
+//                else
+//                {
+//                    spiroStatus = station.status_text
+//                }
+//            }
 
             if (station.station_name.equals("Health Questionnaire"))
             {
@@ -236,12 +236,12 @@ class ParticipantListRepository @Inject constructor(
             bloodStatus!!
         )
 
-        val measurementItem3 = MeasurementListItem(
-            3,
-            R.drawable.ic_icon_spirometry,
-            getStringByLocalBefore17(context, R.string.spirometry, localeManager.getLanguage()),
-            spiroStatus!!
-        )
+//        val measurementItem3 = MeasurementListItem(
+//            3,
+//            R.drawable.ic_icon_spirometry,
+//            getStringByLocalBefore17(context, R.string.spirometry, localeManager.getLanguage()),
+//            spiroStatus!!
+//        )
 
         val measurementItem4 = MeasurementListItem(
             4,
@@ -281,7 +281,7 @@ class ParticipantListRepository @Inject constructor(
         test.add(measurementItem0)
         test.add(measurementItem1)
         test.add(measurementItem2)
-        test.add(measurementItem3)
+        //test.add(measurementItem3)
         test.add(measurementItem4)
         test.add(measurementItem5)
         test.add(measurementItem6)

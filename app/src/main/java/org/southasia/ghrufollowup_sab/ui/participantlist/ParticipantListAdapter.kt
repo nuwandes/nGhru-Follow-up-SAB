@@ -60,7 +60,7 @@ class ParticipantListAdapter (
         {
             item.statusId = R.drawable.ic_icon_status_warning_yellow
         }
-        else if (item.status.equals("not_complete"))
+        else if (item.status.equals("not_complete") || item.status.equals("not_scheduled"))
         {
             item.statusId = R.drawable.ic_icon_status_warning_yellow
         }

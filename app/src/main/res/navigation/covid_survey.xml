@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/covid_survey"
+    app:startDestination="@id/languageListFragment">
+
+    <fragment
+        android:id="@+id/languageListFragment"
+        android:name="org.southasia.ghrufollowup_sab.ui.covidsurvey.LanguageListFragment"
+        android:label="LanguageListFragment"
+        tools:layout="@layout/language_list_fragment">
+
+        <action
+            android:id="@+id/action_languageList_to_surveyFragment"
+            app:clearTask="true"
+            app:destination="@id/surveyFragment"
+            app:launchSingleTop="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/surveyFragment"
+        android:name="org.southasia.ghrufollowup_sab.ui.covidsurvey.survey.CovidSurveyFragment"
+        android:label="CovidSurveyFragment"
+        tools:layout="@layout/covid_survey_fragment">
+
+    </fragment>
+
+</navigation>
