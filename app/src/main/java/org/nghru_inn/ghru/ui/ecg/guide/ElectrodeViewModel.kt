@@ -1,0 +1,10 @@
+package org.nghru_inn.ghru.ui.ecg.guide
+
+import androidx.lifecycle.ViewModel
+import javax.inject.Inject
+
+
+class ElectrodeViewModel
+@Inject constructor() : ViewModel() {
+
+}

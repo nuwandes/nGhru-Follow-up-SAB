@@ -9,21 +9,21 @@
 
         <variable
                 name="sample"
-                type="org.southasia.ghrufollowup_sab.vo.request.SampleRequest" />
+                type="org.nghru_inn.ghru.vo.request.SampleRequest" />
 
-        <import type="org.southasia.ghrufollowup_sab.ui.bodymeasurements.home.BodyMeasurementHomeViewModel" />
+        <import type="org.nghru_inn.ghru.ui.bodymeasurements.home.BodyMeasurementHomeViewModel" />
 
         <variable
                 name="viewModel"
-                type="org.southasia.ghrufollowup_sab.ui.bodymeasurements.home.BodyMeasurementHomeViewModel" />
+                type="org.nghru_inn.ghru.ui.bodymeasurements.home.BodyMeasurementHomeViewModel" />
 
         <variable
                 name="participant"
-                type="org.southasia.ghrufollowup_sab.vo.request.ParticipantRequest" />
+                type="org.nghru_inn.ghru.vo.request.ParticipantRequest" />
 
         <variable
             name="selectedParticipant"
-            type="org.southasia.ghrufollowup_sab.vo.ParticipantListItem" />
+            type="org.nghru_inn.ghru.vo.ParticipantListItem" />
 
         <variable
                 name="sampleValidationError"
@@ -36,7 +36,7 @@
             android:background="@color/white"
             android:fitsSystemWindows="true"
             app:navGraph="@navigation/body_measurements"
-            tools:context="org.southasia.ghrufollowup_sab.BodyMeasurementsActivity"
+            tools:context="org.nghru_inn.ghru.BodyMeasurementsActivity"
             tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

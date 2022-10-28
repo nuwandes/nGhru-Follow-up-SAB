@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/scanBarcodeFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.ecg.scanbarcode.ScanBarcodeFragment"
+        android:name="org.nghru_inn.ghru.ui.ecg.scanbarcode.ScanBarcodeFragment"
         android:label="ScanBarcodeFragment"
         tools:layout="@layout/ecg_scan_barcode_patient_fragment">
 
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/manualScanFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.ecg.manualentry.ManualEntryECGFragment"
+        android:name="org.nghru_inn.ghru.ui.ecg.manualentry.ManualEntryECGFragment"
         android:label="ManualScanFragment"
         tools:layout="@layout/ecg_manual_barcode_fragment">
 
@@ -37,7 +37,7 @@
 
     <fragment
         android:id="@+id/verifyIDFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.ecg.verifyid.ECGVerifyIDFragment"
+        android:name="org.nghru_inn.ghru.ui.ecg.verifyid.ECGVerifyIDFragment"
         android:label="VerifyIDFragment"
         tools:layout="@layout/verify_id_fragment">
         <action
@@ -48,7 +48,7 @@
 
     <fragment
         android:id="@+id/guideMainFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.ecg.guide.main.GuideMainFragment"
+        android:name="org.nghru_inn.ghru.ui.ecg.guide.main.GuideMainFragment"
         android:label="GuideMainFragment"
         tools:layout="@layout/guide_main_fragment">
 
@@ -59,7 +59,7 @@
 
     <fragment
         android:id="@+id/inputFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.ecg.main.InputFragment"
+        android:name="org.nghru_inn.ghru.ui.ecg.main.InputFragment"
         android:label="InputFragment"
         tools:layout="@layout/input_fragment">
 
@@ -70,7 +70,7 @@
 
     <fragment
         android:id="@+id/traceFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.ecg.trace.TraceFragment"
+        android:name="org.nghru_inn.ghru.ui.ecg.trace.TraceFragment"
         android:label="TraceFragment"
         tools:layout="@layout/trace_fragment">
 

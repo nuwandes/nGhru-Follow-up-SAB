@@ -5,11 +5,11 @@
     <data>
 
 
-        <import type="org.southasia.ghrufollowup_sab.ui.ecg.trace.complete.CompleteDialogViewModel" />
+        <import type="org.nghru_inn.ghru.ui.ecg.trace.complete.CompleteDialogViewModel" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.ecg.trace.complete.CompleteDialogViewModel" />
+            type="org.nghru_inn.ghru.ui.ecg.trace.complete.CompleteDialogViewModel" />
     </data>
 
 

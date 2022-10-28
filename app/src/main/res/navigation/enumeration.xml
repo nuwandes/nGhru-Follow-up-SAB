@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeEnumerationFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.homeenumeration.HomeEnumerationFragment"
+        android:name="org.nghru_inn.ghru.ui.homeenumeration.HomeEnumerationFragment"
         android:label="HomeEnumerationFragment"
         tools:layout="@layout/home_enumeration_fragment">
         <action
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/stationFragments"
-        android:name="org.southasia.ghrufollowup_sab.ui.station.StationFragment"
+        android:name="org.nghru_inn.ghru.ui.station.StationFragment"
         android:label="StationFragment"
         tools:layout="@layout/station_fragment">
 
@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/devicesFragment"
-        android:name="org.southasia.ghrufollowup_sab.ui.devices.DevicesFragment"
+        android:name="org.nghru_inn.ghru.ui.devices.DevicesFragment"
         android:label="DevicesFragment"
         tools:layout="@layout/devices_fragment">
 

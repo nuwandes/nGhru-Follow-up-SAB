@@ -5,11 +5,11 @@
     <data>
 
 
-        <import type="org.southasia.ghrufollowup_sab.ui.bodymeasurements.height.reason.ReasonDialogViewModel" />
+        <import type="org.nghru_inn.ghru.ui.bodymeasurements.height.reason.ReasonDialogViewModel" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.bodymeasurements.height.reason.ReasonDialogViewModel" />
+            type="org.nghru_inn.ghru.ui.bodymeasurements.height.reason.ReasonDialogViewModel" />
     </data>
 
 

@@ -7,7 +7,7 @@
 
         <variable
             name="participantListItem"
-            type="org.southasia.ghrufollowup_sab.vo.ParticipantListItem" />
+            type="org.nghru_inn.ghru.vo.ParticipantListItem" />
     </data>
 
 

@@ -5,11 +5,11 @@
     <data>
 
 
-        <import type="org.southasia.ghrufollowup_sab.ui.stationcheck.StationCheckDialogViewModel" />
+        <import type="org.nghru_inn.ghru.ui.stationcheck.StationCheckDialogViewModel" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.stationcheck.StationCheckDialogViewModel" />
+            type="org.nghru_inn.ghru.ui.stationcheck.StationCheckDialogViewModel" />
 
     </data>
 
