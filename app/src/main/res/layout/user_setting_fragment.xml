@@ -3,11 +3,11 @@
 
     <data>
 
-        <import type="org.southasia.ghrufollowup_sab.ui.usersetting.UserSettingViewModel" />
+        <import type="org.nghru_hpv.ghru.ui.usersetting.UserSettingViewModel" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.usersetting.UserSettingViewModel" />
+            type="org.nghru_hpv.ghru.ui.usersetting.UserSettingViewModel" />
     </data>
 
     <LinearLayout

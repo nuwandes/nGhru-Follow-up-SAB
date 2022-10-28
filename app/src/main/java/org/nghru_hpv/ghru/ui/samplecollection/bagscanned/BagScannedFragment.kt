@@ -29,7 +29,6 @@ import org.nghru_hpv.ghru.di.Injectable
 import org.nghru_hpv.ghru.jobs.SyncSampledRequestJob
 import org.nghru_hpv.ghru.ui.samplecollection.bagscanned.completed.CompletedDialogFragment
 import org.nghru_hpv.ghru.ui.samplecollection.bagscanned.reason.ReasonDialogFragment
-import org.nghru_hpv.ghru.ui.samplecollection.cancel.CancelDialogFragment
 import org.nghru_hpv.ghru.util.*
 import org.nghru_hpv.ghru.vo.Comment
 import org.nghru_hpv.ghru.vo.Status

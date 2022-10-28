@@ -6,15 +6,15 @@
 
         <variable
             name="user"
-            type="org.southasia.ghrufollowup_sab.vo.User" />
+            type="org.nghru_hpv.ghru.vo.User" />
 
         <variable
             name="userResource"
-            type="org.southasia.ghrufollowup_sab.vo.Resource" />
+            type="org.nghru_hpv.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.southasia.ghrufollowup_sab.ui.common.RetryCallback" />
+            type="org.nghru_hpv.ghru.ui.common.RetryCallback" />
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -44,7 +44,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        app:srcCompat="@drawable/ic_nhealth"
+                        app:srcCompat="@drawable/hpv_text_only"
                         android:contentDescription="@string/imageview"
                         android:visibility="gone"/>
 

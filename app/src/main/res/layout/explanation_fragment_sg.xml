@@ -5,22 +5,22 @@
 
     <data>
 
-        <import type="org.southasia.ghrufollowup_sab.ui.registerpatient_sg.explanation.ExplanationViewModelSG" />
+        <import type="org.nghru_hpv.ghru.ui.registerpatient_sg.explanation.ExplanationViewModelSG" />
 
         <variable
             name="viewModel"
-            type="org.southasia.ghrufollowup_sab.ui.registerpatient_sg.explanation.ExplanationViewModelSG" />
+            type="org.nghru_hpv.ghru.ui.registerpatient_sg.explanation.ExplanationViewModelSG" />
 
         <import type="android.text.Html" />
 
 
         <variable
             name="userResource"
-            type="org.southasia.ghrufollowup_sab.vo.Resource" />
+            type="org.nghru_hpv.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.southasia.ghrufollowup_sab.ui.common.RetryCallback" />
+            type="org.nghru_hpv.ghru.ui.common.RetryCallback" />
     </data>
 
 
@@ -29,7 +29,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.southasia.ghrufollowup_sab.BodyMeasurementsActivity"
+        tools:context="org.nghru_hpv.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

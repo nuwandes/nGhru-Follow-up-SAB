@@ -7,22 +7,22 @@
 
         <variable
             name="user"
-            type="org.southasia.ghrufollowup_sab.vo.User" />
+            type="org.nghru_hpv.ghru.vo.User" />
 
-        <import type="org.southasia.ghrufollowup_sab.ui.participantlist.measurementlist.MeasurementListViewModel" />
+        <import type="org.nghru_hpv.ghru.ui.participantlist.measurementlist.MeasurementListViewModel" />
 
         <variable
             name="homeViewModel"
-            type="org.southasia.ghrufollowup_sab.ui.participantlist.measurementlist.MeasurementListViewModel" />
+            type="org.nghru_hpv.ghru.ui.participantlist.measurementlist.MeasurementListViewModel" />
 
 
         <variable
             name="userResource"
-            type="org.southasia.ghrufollowup_sab.vo.Resource" />
+            type="org.nghru_hpv.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.southasia.ghrufollowup_sab.ui.common.RetryCallback" />
+            type="org.nghru_hpv.ghru.ui.common.RetryCallback" />
     </data>
 
     <LinearLayout

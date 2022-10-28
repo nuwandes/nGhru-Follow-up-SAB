@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:469569511879:android:8ffbce1f748eeb45",
         "android_client_info": {
-          "package_name": "org.southasia.ghrufollowup"
+          "package_name": "org.nghru_hpv.ghru"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "469569511879-q8oohuetq0can9b6p20q3gjajvbjp5p4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "org.southasia.ghrufollowup",
+            "package_name": "org.nghru_hpv.ghru",
             "certificate_hash": "48690dd504dc9288a3d6793393cc09f36f208cc1"
           }
         },
@@ -26,7 +26,7 @@
           "client_id": "469569511879-gsefi35utfm15qbfi9vlkoisfrasre64.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "org.southasia.ghrufollowup",
+            "package_name": "org.nghru_hpv.ghru",
             "certificate_hash": "2bca55569821b85f993131796f92dc22fe69c056"
           }
         },

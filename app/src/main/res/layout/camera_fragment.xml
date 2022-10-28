@@ -14,7 +14,7 @@
         android:background="@color/white"
         android:fitsSystemWindows="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.southasia.ghrufollowup_sab.BodyMeasurementsActivity"
+        tools:context="org.nghru_hpv.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

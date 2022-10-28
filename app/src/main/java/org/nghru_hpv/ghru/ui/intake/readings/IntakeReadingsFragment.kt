@@ -147,6 +147,9 @@ class IntakeReadingsFragment  : Fragment(), Injectable {
                     participant = participantResource.data?.data
                     participant?.meta = meta
 
+                    val intakeRequest = IntakeRequestNew(meta = participant!!.meta)
+                    viewModel.setIntakeMeta(intakeRequest = intakeRequest, screen_id = participant!!.screeningId)
+
                 }
                 else if (participantResource?.status == Status.ERROR)
                 {
@@ -174,6 +177,9 @@ class IntakeReadingsFragment  : Fragment(), Injectable {
                         binding.titleGender.setText(participant!!.gender)
                         binding.titleParticipantId.setText(participant!!.screeningId)
                         binding.titleAge.setText(participant?.age?.ageInYears.toString() + "Y")
+
+                        val intakeRequest = IntakeRequestNew(meta = participant!!.meta)
+                        viewModel.setIntakeMeta(intakeRequest = intakeRequest, screen_id = participant!!.screeningId)
 
                     }
                     else if (participantResource?.status == Status.ERROR)

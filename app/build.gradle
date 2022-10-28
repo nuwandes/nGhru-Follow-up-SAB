@@ -69,7 +69,7 @@ android {
     compileSdkVersion build_versions.target_sdk
     buildToolsVersion build_versions.build_tools
     defaultConfig {
-        applicationId "org.southasia.ghrufollowup"
+        applicationId "org.nghru_hpv.ghru"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode versionBuild
@@ -96,7 +96,8 @@ android {
         //def serverUrl = '\"' + (System.getenv("SERVER_URL") ?: "https://nhealth-staging.appspot.com") + '\"'
         // def serverUrl =  '\"' + (System.getenv("SERVER_URL")?: "https://devsite.nghru.org/")+'\"'
         // def serverUrl = '\"' + (System.getenv("SERVER_URL") ?: "https://nhealth-staging.appspot.com") + '\"'
-        def serverUrl = '\"' + (System.getenv("SERVER_URL") ?: "https://ghru-follow-up-tool.appspot.com") + '\"'
+        //def serverUrl = '\"' + (System.getenv("SERVER_URL") ?: "https://ghru-follow-up-tool.appspot.com") + '\"'
+        def serverUrl =  '\"' + (System.getenv("SERVER_URL")?: "https://hpv.ghrusouthasia.com/")+'\"'
         def clientSecret = "\"phOJqrz6a4RlzlmC2TYtMnuPfOLwZRHirHYXlTaS\""
 
         debug {
