@@ -207,7 +207,16 @@ class MeasurementListFragment : Fragment(), Injectable {
                     val intent = Intent(activity, CovidQuestionnaireActivity::class.java)
                     startActivity(intent)
                 }
+            }
 
+            if (measurementListItem.id == 9) {
+                val intent = Intent(activity, ECGActivity::class.java)
+                startActivity(intent)
+            }
+
+            if (measurementListItem.id == 10) {
+                val intent = Intent(activity, FundoscopyActivity::class.java)
+                startActivity(intent)
             }
         }
 
