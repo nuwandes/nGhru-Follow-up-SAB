@@ -96,6 +96,8 @@ class ParticipantListRepository @Inject constructor(
         var bloodTestStatus: String? = "Not started"
         var intakeStatus: String? = "Not started"
         var covidStatus: String? = "Not started"
+        var ecgStatus: String? = "Not started"
+        var fundoStatus: String? = "Not started"
 
         for (station in stations)
         {
@@ -213,6 +215,30 @@ class ParticipantListRepository @Inject constructor(
                     covidStatus = station.status_text
                 }
             }
+
+            if (station.station_name.equals("ECG"))
+            {
+                if (station.isCancelled == 1)
+                {
+                    ecgStatus = "Canceled"
+                }
+                else
+                {
+                    ecgStatus = station.status_text
+                }
+            }
+
+            if (station.station_name.equals("Fundoscopy"))
+            {
+                if (station.isCancelled == 1)
+                {
+                    fundoStatus = "Canceled"
+                }
+                else
+                {
+                    fundoStatus = station.status_text
+                }
+            }
         }
 
         val measurementItem0 = MeasurementListItem(
@@ -278,6 +304,20 @@ class ParticipantListRepository @Inject constructor(
             covidStatus!!
         )
 
+        val measurementItem9 = MeasurementListItem(
+            9,
+            R.drawable.ic_icon_ecg,
+            getStringByLocalBefore17(context, R.string.ecg, localeManager.getLanguage()),
+            ecgStatus!!
+        )
+
+        val measurementItem10 = MeasurementListItem(
+            10,
+            R.drawable.ic_icon_fundoscopy,
+            getStringByLocalBefore17(context, R.string.fundoscopy, localeManager.getLanguage()),
+            fundoStatus!!
+        )
+
         test.add(measurementItem0)
         test.add(measurementItem1)
         test.add(measurementItem2)
@@ -287,6 +327,8 @@ class ParticipantListRepository @Inject constructor(
         test.add(measurementItem6)
         test.add(measurementItem7)
         test.add(measurementItem8)
+        test.add(measurementItem9)
+        test.add(measurementItem10)
 
         val homeItems = MutableLiveData<Resource<List<MeasurementListItem>>>()
         val resource = Resource(Status.SUCCESS, test, Message(null, null))
