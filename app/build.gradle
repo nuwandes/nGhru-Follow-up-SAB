@@ -96,10 +96,10 @@ android {
         //def serverUrl = '\"' + (System.getenv("SERVER_URL") ?: "https://nhealth-staging.appspot.com") + '\"'
         // def serverUrl =  '\"' + (System.getenv("SERVER_URL")?: "https://devsite.nghru.org/")+'\"'
         // def serverUrl = '\"' + (System.getenv("SERVER_URL") ?: "https://nhealth-staging.appspot.com") + '\"'
-        //def serverUrl = '\"' + (System.getenv("SERVER_URL") ?: "https://ghru-follow-up-tool.appspot.com") + '\"'
+        def serverUrl = '\"' + (System.getenv("SERVER_URL") ?: "https://ghru-follow-up-tool.appspot.com") + '\"'
 //        def serverUrl =  '\"' + (System.getenv("SERVER_URL")?: "https://lk.nghru.org/")+'\"'
 
-        def serverUrl =  '\"' + (System.getenv("SERVER_URL")?: "https://lk.ghrusouthasia.com/")+'\"'
+        //def serverUrl =  '\"' + (System.getenv("SERVER_URL")?: "https://lk.ghrusouthasia.com/")+'\"'
 
         def clientSecret = "\"phOJqrz6a4RlzlmC2TYtMnuPfOLwZRHirHYXlTaS\""
 
