@@ -65,7 +65,8 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone">
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -281,7 +282,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_error_bg"
-                        android:visibility="@{safeUnbox(safeUnbox(viewModel.fundoscopySyncError)) ? View.VISIBLE : View.GONE}">
+                        android:visibility="gone">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -315,66 +316,108 @@
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_margin="10dp"
-                            app:srcCompat="@drawable/icon_user" />
+                            app:srcCompat="@drawable/icon_user"
+                            android:contentDescription="@string/imageview" />
+
+                        <!--                    <TextView-->
+                        <!--                        android:layout_width="200dp"-->
+                        <!--                        android:layout_height="wrap_content"-->
+                        <!--                        android:layout_marginStart="10dp"-->
+                        <!--                        android:layout_marginTop="15dp"-->
+                        <!--                        android:fontFamily="@font/roboto"-->
+                        <!--                        android:text="@{participant.firstName + ' ' + participant.lastName}"-->
+                        <!--                        android:textColor="@color/black"-->
+                        <!--                        android:textSize="20sp" />-->
 
                         <TextView
+                            android:id="@+id/title_name"
                             android:layout_width="200dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:layout_marginTop="15dp"
                             android:fontFamily="@font/roboto"
-                            android:text="@{participant.firstName + ' ' + participant.lastName}"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+                        <ImageView
+                            android:contentDescription="@string/imageview"
+                            android:layout_width="5dp"
+                            android:layout_height="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="30dp"
+                            app:srcCompat="@drawable/gray_ellipse" />
+
+                        <!--                    <TextView-->
+                        <!--                        android:layout_width="wrap_content"-->
+                        <!--                        android:layout_height="wrap_content"-->
+                        <!--                        android:layout_marginStart="10dp"-->
+                        <!--                        android:layout_marginTop="15dp"-->
+                        <!--                        android:fontFamily="@font/roboto"-->
+                        <!--                        android:text="@{participant.gender}"-->
+                        <!--                        android:textColor="@color/black"-->
+                        <!--                        android:textSize="20sp" />-->
+
+                        <TextView
+                            android:id="@+id/title_gender"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="15dp"
+                            android:fontFamily="@font/roboto"
                             android:textColor="@color/black"
                             android:textSize="20sp" />
 
                         <ImageView
                             android:layout_width="5dp"
                             android:layout_height="5dp"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:layout_marginTop="30dp"
-                            app:srcCompat="@drawable/gray_ellipse" />
+                            app:srcCompat="@drawable/gray_ellipse" android:contentDescription="@string/imageview" />
+
+                        <!--                    <TextView-->
+                        <!--                        android:layout_width="wrap_content"-->
+                        <!--                        android:layout_height="wrap_content"-->
+                        <!--                        android:layout_marginStart="10dp"-->
+                        <!--                        android:layout_marginTop="15dp"-->
+                        <!--                        android:fontFamily="@font/roboto"-->
+                        <!--                        android:text="@{participant.age.ageInYears.toString() +'Y' }"-->
+                        <!--                        android:textColor="@color/black"-->
+                        <!--                        android:textSize="20sp" />-->
 
                         <TextView
+                            android:id="@+id/title_age"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:layout_marginTop="15dp"
                             android:fontFamily="@font/roboto"
-                            android:text="@{participant.gender}"
                             android:textColor="@color/black"
                             android:textSize="20sp" />
 
                         <ImageView
                             android:layout_width="5dp"
                             android:layout_height="5dp"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:layout_marginTop="30dp"
-                            app:srcCompat="@drawable/gray_ellipse" />
+                            app:srcCompat="@drawable/gray_ellipse" android:contentDescription="@string/imageview"  />
+
+                        <!--                    <TextView-->
+                        <!--                        android:layout_width="wrap_content"-->
+                        <!--                        android:layout_height="wrap_content"-->
+                        <!--                        android:layout_marginStart="10dp"-->
+                        <!--                        android:layout_marginTop="15dp"-->
+                        <!--                        android:fontFamily="@font/roboto"-->
+                        <!--                        android:text="@{participant.screeningId }"-->
+                        <!--                        android:textColor="@color/black"-->
+                        <!--                        android:textSize="20sp" />-->
 
                         <TextView
+                            android:id="@+id/title_participant_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
                             android:layout_marginTop="15dp"
                             android:fontFamily="@font/roboto"
-                            android:text="@{participant.age.ageInYears.toString() +'Y' }"
-                            android:textColor="@color/black"
-                            android:textSize="20sp" />
-
-                        <ImageView
-                            android:layout_width="5dp"
-                            android:layout_height="5dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="30dp"
-                            app:srcCompat="@drawable/gray_ellipse" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="15dp"
-                            android:fontFamily="@font/roboto"
-                            android:text="@{participant.screeningId }"
                             android:textColor="@color/black"
                             android:textSize="20sp" />
 

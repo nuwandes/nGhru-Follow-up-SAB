@@ -132,18 +132,6 @@ class ReasonDialogFragment : DialogFragment(), Injectable {
                 cancelRequest.screeningId = participant?.screeningId!!
                 viewModel.setLogin(participant, cancelRequest)
             }
-
-            //println(cancelRequest.toString())
-//                if (isNetworkAvailable()) {
-
-//                } else {
-//                    jobManager.addJobInBackground(SyncCancelrequestJob(participant!!, cancelRequest))
-//                    val completedDialogFragment = CompletedDialogFragment()
-//                    completedDialogFragment.arguments = bundleOf("is_cancel" to true)
-//                    completedDialogFragment.show(fragmentManager!!)
-//                }
-
-
         }
         viewModel.cancelId?.observe(this, Observer { householdResource ->
             if (householdResource?.status == Status.SUCCESS) {

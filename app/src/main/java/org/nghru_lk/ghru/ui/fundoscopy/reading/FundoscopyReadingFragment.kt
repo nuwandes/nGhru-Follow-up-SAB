@@ -2,9 +2,12 @@ package org.nghru_lk.ghru.ui.fundoscopy.reading
 
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
+import android.preference.PreferenceManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,20 +29,21 @@ import org.nghru_lk.ghru.AppExecutors
 import org.nghru_lk.ghru.R
 import org.nghru_lk.ghru.binding.FragmentDataBindingComponent
 import org.nghru_lk.ghru.databinding.FundosReadingBinding
+import org.nghru_lk.ghru.db.MemberTypeConverters
 import org.nghru_lk.ghru.di.Injectable
 import org.nghru_lk.ghru.ui.fundoscopy.reading.completed.CompletedDialogFragment
 import org.nghru_lk.ghru.ui.fundoscopy.reading.reason.ReasonDialogFragment
 import org.nghru_lk.ghru.util.autoCleared
+import org.nghru_lk.ghru.util.fromJson
 import org.nghru_lk.ghru.util.getLocalTimeString
 import org.nghru_lk.ghru.util.singleClick
-import org.nghru_lk.ghru.vo.Measurements
-import org.nghru_lk.ghru.vo.StationDeviceData
-import org.nghru_lk.ghru.vo.Status
+import org.nghru_lk.ghru.vo.*
 import org.nghru_lk.ghru.vo.request.ParticipantRequest
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.Date
 import javax.inject.Inject
 
 
@@ -73,10 +77,15 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
     private var didDilation: Boolean? = null
     private var cataractObservation : String = ""
 
+    var prefs : SharedPreferences? = null
+    private var selectedParticipant: ParticipantListItem? = null
+    var user: User? = null
+    var meta: Meta? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
-            participant = arguments?.getParcelable<ParticipantRequest>("participant")!!
+            participant = arguments?.getParcelable<ParticipantRequest>("ParticipantRequest")!!
         } catch (e: KotlinNullPointerException) {
 
         }
@@ -105,7 +114,58 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
         super.onActivityCreated(savedInstanceState)
         binding.setLifecycleOwner(this)
         binding.viewModel = fundoscopyReadingViewModel
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(context)
+
+        val json : String? = prefs?.getString("single_participant","")
+        selectedParticipant = MemberTypeConverters.gson.fromJson<ParticipantListItem>(json.toString())
+        Log.d("PARTICIPANT_ATTENDANCE", " DATA: " + selectedParticipant!!.participant_id)
+
+        binding.titleName.setText(selectedParticipant!!.firstname + " " + selectedParticipant!!.last_name)
+        binding.titleGender.setText(selectedParticipant!!.gender)
+        binding.titleParticipantId.setText(selectedParticipant!!.participant_id)
+
+        val dob_year: String = selectedParticipant!!.dob!!.substring(0,4)
+        val dob_month: String = selectedParticipant!!.dob!!.substring(5,7)
+        val dob_date : String = selectedParticipant!!.dob!!.substring(8,10)
+
+        val participantAge: String = getAge(dob_year.toInt(), dob_month.toInt(), dob_date.toInt())
+        binding.titleAge.setText(participantAge + "Y")
+
+        fundoscopyReadingViewModel.setScreeningId(selectedParticipant!!.participant_id)
+
+        fundoscopyReadingViewModel.participant.observe(this, Observer { participantResource ->
+
+            if (participantResource?.status == Status.SUCCESS) {
+                participant = participantResource.data?.data
+                participant?.meta = meta
+
+                Log.d("BLOOD_PRESSURE_HOME", "PAR_REQ_SUCCESS")
+
+            } else if (participantResource?.status == Status.ERROR) {
+
+                Log.d("BLOOD_PRESSURE_HOME", "PAR_REQ_FAILED")
+            }
+            binding.executePendingBindings()
+        })
+
         binding.participant = participant
+
+        fundoscopyReadingViewModel.setUser("user")
+        fundoscopyReadingViewModel.user?.observe(this, Observer { userData ->
+            if (userData?.data != null) {
+                // setupNavigationDrawer(userData.data)
+
+                val sTime: String = convertTimeTo24Hours()
+                val sDate: String = getDate()
+                val sDateTime:String = sDate + " " + sTime
+
+                user = userData.data
+                meta = Meta(collectedBy = user?.id, startTime = sDateTime)
+                //meta?.registeredBy = user?.id
+            }
+
+        })
 
         val adapter = AssetAdapter(dataBindingComponent, appExecutors) { homeemumerationlistItem ->
 
@@ -205,7 +265,7 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
         val adapter_Device_list = ArrayAdapter(context!!, R.layout.basic_spinner_dropdown_item, deviceListName)
         binding.deviceIdSpinner.setAdapter(adapter_Device_list);
 
-        fundoscopyReadingViewModel.setStationName(Measurements.FUNDOSCOPY)
+        fundoscopyReadingViewModel.setStationName(Measurements.BLOOD_PRESSURE)
         fundoscopyReadingViewModel.stationDeviceList?.observe(this, Observer {
             if (it.status.equals(Status.SUCCESS)) {
                 deviceListObject = it.data!!
@@ -335,6 +395,26 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
         }catch(p: ParseException){
             return ""
         }
+    }
+
+    private fun getAge(year: Int, month: Int, date: Int) : String
+    {
+        val dob : Calendar = Calendar.getInstance()
+        val today : Calendar = Calendar.getInstance()
+
+        dob.set(year, month, date)
+
+        var age : Int = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR)
+
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR))
+        {
+            age--
+        }
+
+        val ageInt : Int = age
+        val ageString : String = ageInt.toString()
+
+        return ageString
     }
 
     /**
