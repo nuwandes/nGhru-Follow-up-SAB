@@ -98,7 +98,7 @@ class FundoscopyReadingViewModel
             if (screeningId == null) {
                 AbsentLiveData.create()
             } else {
-                participantRepository.getParticipantRequest(screeningId, "bp")
+                participantRepository.getParticipantRequest(screeningId, "fundoscopy")
             }
         }
 
