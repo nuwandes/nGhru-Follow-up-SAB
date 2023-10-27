@@ -172,7 +172,7 @@ class TraceFragment : Fragment(), Injectable {
         val adapter = ArrayAdapter(context!!, R.layout.basic_spinner_dropdown_item, deviceListName)
         binding.deviceIdSpinner.setAdapter(adapter);
 
-        verifyIDViewModel.setStationName(Measurements.BLOOD_PRESSURE)
+        verifyIDViewModel.setStationName(Measurements.ECG)
         verifyIDViewModel.stationDeviceList?.observe(this, Observer {
             if (it.status.equals(Status.SUCCESS)) {
                 deviceListObject = it.data!!

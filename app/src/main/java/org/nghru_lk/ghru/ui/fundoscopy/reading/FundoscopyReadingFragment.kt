@@ -265,7 +265,7 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
         val adapter_Device_list = ArrayAdapter(context!!, R.layout.basic_spinner_dropdown_item, deviceListName)
         binding.deviceIdSpinner.setAdapter(adapter_Device_list);
 
-        fundoscopyReadingViewModel.setStationName(Measurements.BLOOD_PRESSURE)
+        fundoscopyReadingViewModel.setStationName(Measurements.FUNDOSCOPY)
         fundoscopyReadingViewModel.stationDeviceList?.observe(this, Observer {
             if (it.status.equals(Status.SUCCESS)) {
                 deviceListObject = it.data!!
