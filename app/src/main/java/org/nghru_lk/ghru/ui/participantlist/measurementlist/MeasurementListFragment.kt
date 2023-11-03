@@ -71,6 +71,8 @@ class MeasurementListFragment : Fragment(), Injectable {
     private var BT_Status: String? = "Not started"
     private var INT_Status: String? = "Not started"
     private var COV_STATUS: String? = "Not started"
+    private var ECG_Status: String? = "Not started"
+    private var FUN_Status: String? = "Not started"
     private var Folloup_Status: String? = ""
 
     private var participant: ParticipantListItem? = null
@@ -497,6 +499,30 @@ class MeasurementListFragment : Fragment(), Injectable {
                 }
             }
 
+            if (station.station_name == "Fundoscopy")
+            {
+                if (station.isCancelled == 1)
+                {
+                    FUN_Status = "Canceled"
+                }
+                else
+                {
+                    FUN_Status = station.status_text
+                }
+            }
+
+            if (station.station_name == "ECG")
+            {
+                if (station.isCancelled == 1)
+                {
+                    ECG_Status = "Canceled"
+                }
+                else
+                {
+                    ECG_Status = station.status_text
+                }
+            }
+
             if (station.station_name == "Covid Questionnaire")
             {
                 if (station.isCancelled == 1)
@@ -532,7 +558,9 @@ class MeasurementListFragment : Fragment(), Injectable {
                 + "QU - "+ QU_Status
                 + "BT - "+ BT_Status
                 + "INT - "+ INT_Status
-                + "COV - "+ COV_STATUS)
+                + "COV - "+ COV_STATUS
+                + "ECG - "+ ECG_Status
+                + "FUN - "+ FUN_Status)
 
         var followUpStatus : String = ""
 
@@ -544,7 +572,9 @@ class MeasurementListFragment : Fragment(), Injectable {
             && (INT_Status == "Completed" || INT_Status == "Canceled")
             && (BM_Status == "Completed" || BM_Status == "Canceled")
             && (QU_Status == "Completed" || QU_Status == "Canceled")
-            && (COV_STATUS == "Completed" || COV_STATUS == "Canceled"))
+            && (COV_STATUS == "Completed" || COV_STATUS == "Canceled")
+            && (ECG_Status == "Completed" || ECG_Status == "Canceled")
+            && (FUN_Status == "Completed" || FUN_Status == "Canceled"))
         {
 //            if ((BM_Status == "Completed" || BM_Status == "Canceled") && (QU_Status == "Completed" || QU_Status == "Canceled"))
 //            {
