@@ -444,6 +444,13 @@ class AppModule {
     fun provideAxivityDao(db: NGRHUDb): AxivityDao {
         return db.axivityDao()
     }
+
+    @Singleton
+    @Provides
+    fun provideParticipantListItemDao(db: NGRHUDb): ParticipantListItemDao {
+        return db.participantListItemDao()
+    }
+
     @Provides
     internal fun provideBloodPressureMetaRequestLifecycleObserver(bloodPressureMetaRequestDao: BloodPresureRequestDao): BloodPressureMetaRequestLifecycleObserver {
         return BloodPressureMetaRequestLifecycleObserver(bloodPressureMetaRequestDao)
