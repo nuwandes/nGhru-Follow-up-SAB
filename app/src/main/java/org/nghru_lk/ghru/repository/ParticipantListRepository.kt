@@ -9,6 +9,7 @@ import org.nghru_lk.ghru.AppExecutors
 import org.nghru_lk.ghru.R
 import org.nghru_lk.ghru.api.ApiResponse
 import org.nghru_lk.ghru.api.NghruService
+import org.nghru_lk.ghru.db.ParticipantListItemDao
 import org.nghru_lk.ghru.util.LocaleManager
 import org.nghru_lk.ghru.vo.*
 import org.nghru_lk.ghru.vo.request.ParticipantListWithMeta
@@ -22,7 +23,8 @@ class ParticipantListRepository @Inject constructor(
     private val appExecutors: AppExecutors,
     private val nghruService: NghruService,
     private val context: Context,
-    private val localeManager: LocaleManager
+    private val localeManager: LocaleManager,
+    private val participantListItemDao: ParticipantListItemDao
 //    private var stationItems: MutableLiveData<Resource<List<ParticipantStation>>>
 ) : Serializable {
 
@@ -360,6 +362,22 @@ class ParticipantListRepository @Inject constructor(
         return object : NetworkOnlyBoundResource<ResourceData<ParticipantListWithMeta>>(appExecutors) {
             override fun createCall(): LiveData<ApiResponse<ResourceData<ParticipantListWithMeta>>> {
                 return nghruService.filterParticipants(page, status, site, keyWord)
+            }
+        }.asLiveData()
+    }
+
+    fun insertParticipantListItemList(participantListItemList: List<ParticipantListItem>):
+            LiveData<Resource<List<ParticipantListItem>>> {
+        participantListItemDao.deleteAll()
+        return object : LocalBoundInsertAllResource<List<ParticipantListItem>>(appExecutors) {
+
+            override fun loadFromDb(): LiveData<List<ParticipantListItem>> {
+                return participantListItemDao.getAllParticipantListItems()
+            }
+
+            override fun insertDb(): Unit {
+
+                return participantListItemDao.insertAll(participantListItemList)
             }
         }.asLiveData()
     }

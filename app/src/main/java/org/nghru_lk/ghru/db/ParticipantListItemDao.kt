@@ -19,4 +19,13 @@ interface ParticipantListItemDao {
 
     @Query("DELETE FROM participant_list_item WHERE id = :id")
     fun deleteRequest(id : Long)
+
+    @Query("DELETE FROM participant_list_item")
+    fun deleteAll()
+
+    @Query("SELECT * FROM participant_list_item")
+    fun getAllParticipantListItems(): LiveData<List<ParticipantListItem>>
+
+    @Insert
+    fun insertAll(participantListItemList: List<ParticipantListItem>)
 }

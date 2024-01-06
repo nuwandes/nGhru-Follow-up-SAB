@@ -2,6 +2,7 @@ package org.nghru_lk.ghru.vo.request
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.Embedded
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import org.nghru_lk.ghru.vo.ParticipantListItem
@@ -11,7 +12,7 @@ import java.io.Serializable
 
 class ParticipantListWithMeta (
     @Expose @SerializedName("meta") val meta: ParticipantListMeta?,
-    @Expose @SerializedName("body") val listRequest: ArrayList<ParticipantListItem?>?= null
+    @Expose @SerializedName("body") val listRequest: List<ParticipantListItem>?= null
 ) : Serializable, Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readParcelable(ParticipantListMeta::class.java.classLoader),

@@ -84,7 +84,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
 
     var dateFormat : String = "yyyy-MM-dd hh:mm"
 
-    private var participantListObject: ArrayList<ParticipantListItem?> = arrayListOf()
+    private var participantListObject: List<ParticipantListItem> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -234,7 +234,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
             else if(it?.status == Status.ERROR){
                 // binding.textViewError.visibility = View.VISIBLE
                 // binding.textViewError.setText(it.message?.message)
-                loadMainActivity()
+                //loadMainActivity()
             }
 
         })
@@ -243,9 +243,9 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
             binding.progressBar.visibility = View.GONE
             if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
 
-                //loginViewModel.setFilterId(page=1, status = "all", site = "all", keyWord = "")
+                loginViewModel.setFilterId(page=1, status = "all", site = "all", keyWord = "")
 
-               loadMainActivity()
+               //loadMainActivity()
             }
         })
         binding.buttonLogin.singleClick {
@@ -349,7 +349,9 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
             {
                 if (it.status.equals(Status.SUCCESS))
                 {
-                    participantListObject = it.data!!.data!!.listRequest!!
+                    //participantListObject = it.data!!.data!!.listRequest!!
+
+                    loginViewModel.setParticipantListItemList(it.data!!.data!!.listRequest!!)
 
                     // save the data in local db
 
@@ -366,6 +368,16 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
                 Toast.makeText(activity, "Check internet connection", Toast.LENGTH_LONG).show()
             }
 
+        })
+
+        loginViewModel.getParticipantListItemList.observe(this, Observer {
+            binding.progressBar.visibility = View.GONE
+            if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
+
+                //loginViewModel.setFilterId(page=1, status = "all", site = "all", keyWord = "")
+
+                loadMainActivity()
+            }
         })
     }
 

@@ -66,7 +66,7 @@ class ParticipantListFragment : Fragment(), Injectable {
 
     private var statuses: MutableList<String> = arrayListOf()
 
-    private var participantListObject: ArrayList<ParticipantListItem?> = arrayListOf()
+    private var participantListObject: List<ParticipantListItem?> = arrayListOf()
 
     private var participantListMeta: ParticipantListMeta? = null
 

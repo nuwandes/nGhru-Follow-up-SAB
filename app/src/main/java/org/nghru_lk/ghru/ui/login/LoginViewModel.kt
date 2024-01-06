@@ -8,10 +8,7 @@ import org.nghru_lk.ghru.repository.AccessTokenRepository
 import org.nghru_lk.ghru.repository.ParticipantListRepository
 import org.nghru_lk.ghru.repository.StationDevicesRepository
 import org.nghru_lk.ghru.util.AbsentLiveData
-import org.nghru_lk.ghru.vo.AccessToken
-import org.nghru_lk.ghru.vo.Resource
-import org.nghru_lk.ghru.vo.ResourceData
-import org.nghru_lk.ghru.vo.StationDeviceData
+import org.nghru_lk.ghru.vo.*
 import org.nghru_lk.ghru.vo.request.ParticipantListWithMeta
 import javax.inject.Inject
 
@@ -38,11 +35,7 @@ class LoginViewModel
 
     private val _email = MutableLiveData<String>()
 
-    private val _stationDevice = MutableLiveData<String>()
-
     //private val _hemoDevice = MutableLiveData<String>()
-
-    private val _stationDeviceList = MutableLiveData<List<StationDeviceData>>()
 
     private var isOnline : Boolean = false
 
@@ -63,45 +56,12 @@ class LoginViewModel
         _email.value = update
     }
 
-    fun setStationDevice(stationDevice: String) {
-        val update = stationDevice
-        if (_stationDevice.value == update) {
-            return
-        }
-        _stationDevice.value = update
-    }
-
-    fun setStationDeviceList(stationDeviceList: List<StationDeviceData>) {
-        val update = stationDeviceList
-        if (_stationDeviceList.value == update) {
-            return
-        }
-        _stationDeviceList.value = update
-    }
-
     var accessToken: LiveData<Resource<AccessToken>>? = Transformations
         .switchMap(_loginId) { input ->
             input.ifExists { email, password ->
                 accessTokenRepository.loginUser(email, password,isOnline)
             }
         }
-
-    var stationDevices: LiveData<Resource<ResourceData<List<StationDeviceData>>>>? = Transformations
-        .switchMap(_stationDevice) { input ->
-            stationDevicesRepository.loadStationDevices()
-        }
-
-//    var hemoDevices: LiveData<Resource<ResourceData<List<StationDeviceData>>>>? = Transformations
-//        .switchMap(_hemoDevice) { input ->
-//            stationDevicesRepository.loadHemoDevices()
-//        }
-
-
-    var stationDeviceList: LiveData<Resource<List<StationDeviceData>>>? = Transformations
-        .switchMap(_stationDeviceList) { input ->
-            stationDevicesRepository.insertStationDeviceList(_stationDeviceList.value!!)
-        }
-
 
     var refreshToken: LiveData<Resource<AccessToken>>? = Transformations
         .switchMap(_accessToken) { accessToken ->
@@ -111,7 +71,6 @@ class LoginViewModel
                 accessTokenRepository.refreshToken(accessToken)
             }
         }
-
 
     fun setRefreshToken(accessToken: AccessToken?) {
         if (_accessToken.value != accessToken) {
@@ -180,5 +139,52 @@ class LoginViewModel
     }
 //    --------------------------------------------------------------------------------------------------------
 
+    private val _participantListItemList = MutableLiveData<List<ParticipantListItem>>()
 
+    fun setParticipantListItemList(participantListItemList: List<ParticipantListItem>) {
+        val update = participantListItemList
+        if (_participantListItemList.value == update) {
+            return
+        }
+        _participantListItemList.value = update
+    }
+
+    var getParticipantListItemList: LiveData<Resource<List<ParticipantListItem>>> = Transformations
+        .switchMap(_participantListItemList) { input ->
+            repository.insertParticipantListItemList(_participantListItemList.value!!)
+        }
+
+    // -------------------------------------------------------------------------------------------------------
+
+    private val _stationDevice = MutableLiveData<String>()
+
+    fun setStationDevice(stationDevice: String) {
+        val update = stationDevice
+        if (_stationDevice.value == update) {
+            return
+        }
+        _stationDevice.value = update
+    }
+
+    var stationDevices: LiveData<Resource<ResourceData<List<StationDeviceData>>>>? = Transformations
+        .switchMap(_stationDevice) { input ->
+            stationDevicesRepository.loadStationDevices()
+        }
+
+    //---------------------------------------------------------------------------------------------------------
+
+    private val _stationDeviceList = MutableLiveData<List<StationDeviceData>>()
+
+    fun setStationDeviceList(stationDeviceList: List<StationDeviceData>) {
+        val update = stationDeviceList
+        if (_stationDeviceList.value == update) {
+            return
+        }
+        _stationDeviceList.value = update
+    }
+
+    var stationDeviceList: LiveData<Resource<List<StationDeviceData>>>? = Transformations
+        .switchMap(_stationDeviceList) { input ->
+            stationDevicesRepository.insertStationDeviceList(_stationDeviceList.value!!)
+        }
 }
