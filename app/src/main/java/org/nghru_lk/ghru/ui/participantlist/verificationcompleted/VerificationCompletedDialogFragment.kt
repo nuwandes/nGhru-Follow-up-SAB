@@ -85,24 +85,24 @@ class VerificationCompletedDialogFragment : DialogFragment() {
             // measurement list displays with nav control, if validation path is ok
 
 //            if (isConsentExist!!)
-            if (participant?.isConsent!!)
-            {
+//            if (participant?.isConsent!!)
+//            {
                 val json: String = MemberTypeConverters.gson.toJson(participant)
                 prefs?.edit()?.putString("single_participant", json)?.apply()
                 val intent = Intent(activity, MeasurementListActivity::class.java)
-                intent.putExtra("CONSENT_STATUS", true)
+                //intent.putExtra("CONSENT_STATUS", true)
                 startActivity(intent)
-            }
-            else
-            {
-                val consentCompletedDialogFragment = ConsentCompletedDialogFragment()
-                consentCompletedDialogFragment.arguments = bundleOf("single_participant" to participant!!)
-                consentCompletedDialogFragment.show(fragmentManager!!)
-//                findNavController().navigate(
-//                    R.id.action_global_ConsentFragment,
-//                    bundleOf("single_participant" to participant!!))
-                dismiss()
-            }
+//            }
+//            else
+//            {
+//                val consentCompletedDialogFragment = ConsentCompletedDialogFragment()
+//                consentCompletedDialogFragment.arguments = bundleOf("single_participant" to participant!!)
+//                consentCompletedDialogFragment.show(fragmentManager!!)
+////                findNavController().navigate(
+////                    R.id.action_global_ConsentFragment,
+////                    bundleOf("single_participant" to participant!!))
+//                dismiss()
+//            }
 
 
         }

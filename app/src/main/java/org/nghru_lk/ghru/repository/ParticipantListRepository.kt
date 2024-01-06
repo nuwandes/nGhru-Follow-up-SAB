@@ -318,7 +318,7 @@ class ParticipantListRepository @Inject constructor(
             fundoStatus!!
         )
 
-        test.add(measurementItem0)
+        //test.add(measurementItem0)
         test.add(measurementItem1)
         test.add(measurementItem2)
         //test.add(measurementItem3)
