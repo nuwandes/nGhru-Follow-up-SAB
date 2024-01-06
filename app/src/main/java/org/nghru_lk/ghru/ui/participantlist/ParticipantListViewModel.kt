@@ -234,4 +234,21 @@ class ParticipantListViewModel
         }
     }
 
+    // load participant from local db
+
+    private val _noParam = MutableLiveData<String>()
+
+    fun setAllParticipantListItemsFromDb(noParam: String) {
+        val update = noParam.toString().toLowerCase()
+        if (_noParam.value == update) {
+            return
+        }
+        _noParam.value = update
+    }
+
+    var getAllParticipantListItemsFromDb: LiveData<Resource<List<ParticipantListItem>>>? = Transformations
+        .switchMap(_noParam) { input ->
+            repository.getAllParticipantItemList()
+        }
+
 }

@@ -66,7 +66,7 @@ class ParticipantListFragment : Fragment(), Injectable {
 
     private var statuses: MutableList<String> = arrayListOf()
 
-    private var participantListObject: List<ParticipantListItem?> = arrayListOf()
+    private var participantListObject: List<ParticipantListItem> = arrayListOf()
 
     private var participantListMeta: ParticipantListMeta? = null
 
@@ -177,7 +177,15 @@ class ParticipantListFragment : Fragment(), Injectable {
 
         // first time populate the list --------------------------------------------------------------
 
-        //participantListViewModel.setFilterId(page=1, status = "all", site = "all", keyWord = searchKey!!)
+        if (isNetworkAvailable())
+        {
+            participantListViewModel.setFilterId(page=1, status = "all", site = "all", keyWord = searchKey!!)
+        }
+        else
+        {
+            participantListViewModel.setAllParticipantListItemsFromDb("GET")
+        }
+
 
         participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {
 
@@ -191,7 +199,6 @@ class ParticipantListFragment : Fragment(), Injectable {
                     participantListMeta = it.data.data!!.meta
                     binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
                     binding.participantProgressBar.visibility = View.GONE
-                    //listItemOnClick()
                 }
                 else
                 {
@@ -201,44 +208,35 @@ class ParticipantListFragment : Fragment(), Injectable {
             }
             else
             {
-                Toast.makeText(activity, "Check internet connection", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "Check your network connection", Toast.LENGTH_LONG).show()
             }
+
+        })
+
+        participantListViewModel.getAllParticipantListItemsFromDb?.observe(activity!!, Observer {
+
+            if (it.status.equals(Status.SUCCESS))
+            {
+                Toast.makeText(activity, "Locally loaded successfully", Toast.LENGTH_LONG).show()
+                participantListObject = it.data!!
+                participantAdapter.submitList(it.data)
+                participantAdapter.notifyDataSetChanged()
+                binding.participantProgressBar.visibility = View.GONE
+            }
+            else
+            {
+                Toast.makeText(activity, "Locally loading failed", Toast.LENGTH_LONG).show()
+            }
+
 
         })
 
         // ---------------------------------------------------------------------------------------------
 
-
-//        participantListViewModel.participantlistItem.observe(this, Observer {
-//
-////                if (it.status.equals(Status.SUCCESS)) {
-////
-//////                    participantListObject.addAll(it.data!!.data?.listRequest!!)
-////                    participantListObject = it.data!!.data!!.listRequest!!
-////                    participantAdapter.submitList(participantListObject)
-////                    participantAdapter.notifyDataSetChanged()
-////
-////                    participantListMeta = it.data.data!!.meta
-////                    binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
-////                    total_pages = it.data.data.meta!!.last_page!!.toInt()
-////
-//////                    total_pages = Integer.parseInt(it.data.data!!.meta!!.total)
-////
-////                }
-////                else
-////                {
-////                    participantAdapter.submitList(emptyList())
-////                }
-//
-//
-//
-//        })
-
         binding.firstButton.singleClick {
 
             if (participantListMeta != null)
             {
-                //binding.participantProgressBar.visibility = View.GONE
                 val lastPage = participantListMeta!!.last_page!!.toInt()
 
                 val firstPage = lastPage - (lastPage-1)
@@ -252,15 +250,6 @@ class ParticipantListFragment : Fragment(), Injectable {
                     selectedSite  = filter_one.selectedItem.toString()
                 }
 
-//                if (filter_two.selectedItem.toString().equals("All"))
-//                {
-//                    selectedStatus  = filter_two.selectedItem.toString().toLowerCase()
-//                }
-//                else
-//                {
-//                    selectedStatus  = filter_two.selectedItem.toString()
-//                }
-
                 participantListViewModel.setFilterId(page=firstPage, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
 
                 participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {
@@ -272,13 +261,10 @@ class ParticipantListFragment : Fragment(), Injectable {
                         participantAdapter.notifyDataSetChanged()
                         participantListMeta = it.data.data!!.meta
                         binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
-                        //binding.participantProgressBar.visibility = View.GONE
-                        //listItemOnClick()
                     }
                     else
                     {
                         participantAdapter.submitList(emptyList())
-                        //binding.participantProgressBar.visibility = View.GONE
                     }
                 })
             }
@@ -292,7 +278,6 @@ class ParticipantListFragment : Fragment(), Injectable {
 
             if (participantListMeta != null)
             {
-                //binding.participantProgressBar.visibility = View.GONE
                 val newPageNumber = participantListMeta!!.current_page!!.toInt() - 1
 
                 if (filter_one.selectedItem.toString().equals("All"))
@@ -303,15 +288,6 @@ class ParticipantListFragment : Fragment(), Injectable {
                 {
                     selectedSite  = filter_one.selectedItem.toString()
                 }
-
-//                if (filter_two.selectedItem.toString().equals("All"))
-//                {
-//                    selectedStatus  = filter_two.selectedItem.toString().toLowerCase()
-//                }
-//                else
-//                {
-//                    selectedStatus  = filter_two.selectedItem.toString()
-//                }
 
                 participantListViewModel.setFilterId(page=newPageNumber, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
 
@@ -324,13 +300,10 @@ class ParticipantListFragment : Fragment(), Injectable {
                         participantAdapter.notifyDataSetChanged()
                         participantListMeta = it.data.data!!.meta
                         binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
-                        //binding.participantProgressBar.visibility = View.GONE
-                        //listItemOnClick()
                     }
                     else
                     {
                         participantAdapter.submitList(emptyList())
-                        //binding.participantProgressBar.visibility = View.GONE
                     }
                 })
             }
@@ -344,7 +317,6 @@ class ParticipantListFragment : Fragment(), Injectable {
 
             if (participantListMeta != null)
             {
-                //binding.participantProgressBar.visibility = View.GONE
                 if (participantListMeta!!.current_page!!.toInt() != participantListMeta!!.last_page!!.toInt())
                 {
                     val newPageNumber = participantListMeta!!.current_page!!.toInt() + 1
@@ -360,15 +332,6 @@ class ParticipantListFragment : Fragment(), Injectable {
                         selectedSite  = filter_one.selectedItem.toString()
                     }
 
-//                    if (filter_two.selectedItem.toString().equals("All"))
-//                    {
-//                        selectedStatus  = filter_two.selectedItem.toString().toLowerCase()
-//                    }
-//                    else
-//                    {
-//                        selectedStatus  = filter_two.selectedItem.toString()
-//                    }
-
                     participantListViewModel.setFilterId(page=newPageNumber, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
 
                     participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {
@@ -380,13 +343,10 @@ class ParticipantListFragment : Fragment(), Injectable {
                             participantAdapter.notifyDataSetChanged()
                             participantListMeta = it.data.data!!.meta
                             binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
-                            //binding.participantProgressBar.visibility = View.GONE
-                            //listItemOnClick()
                         }
                         else
                         {
                             participantAdapter.submitList(emptyList())
-                            //binding.participantProgressBar.visibility = View.GONE
                         }
                     })
                 }
@@ -419,15 +379,6 @@ class ParticipantListFragment : Fragment(), Injectable {
                     selectedSite  = filter_one.selectedItem.toString()
                 }
 
-//                if (filter_two.selectedItem.toString().equals("All"))
-//                {
-//                    selectedStatus  = filter_two.selectedItem.toString().toLowerCase()
-//                }
-//                else
-//                {
-//                    selectedStatus  = filter_two.selectedItem.toString()
-//                }
-
                 participantListViewModel.setFilterId(page=lastPage, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
 
                 participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {
@@ -439,13 +390,10 @@ class ParticipantListFragment : Fragment(), Injectable {
                         participantAdapter.notifyDataSetChanged()
                         participantListMeta = it.data.data!!.meta
                         binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
-                        //binding.participantProgressBar.visibility = View.GONE
-                        //listItemOnClick()
                     }
                     else
                     {
                         participantAdapter.submitList(emptyList())
-                        //binding.participantProgressBar.visibility = View.GONE
                     }
                 })
             }
@@ -455,225 +403,184 @@ class ParticipantListFragment : Fragment(), Injectable {
             }
         }
 
-        binding.filterTwo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parentView: AdapterView<*>, @NonNull selectedItemView: View?, position: Int, id: Long)
-            {
-                if (position == 0)
-                {
-                    if (participantListMeta != null)
-                    {
-//                        selectedStatus = statuses[position]
-                        //selectedStatus  = filter_two.selectedItem.toString().toLowerCase()
-                        if (filter_one.selectedItem.toString().equals("All"))
-                        {
-                            selectedSite  = filter_one.selectedItem.toString().toLowerCase()
-                        }
-                        else
-                        {
-                            selectedSite = binding.filterOne.selectedItem.toString()
-                        }
-                        participantListViewModel.setFilterId(page=1, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
-//
-                        participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {
-
-                            if (it.status.equals(Status.SUCCESS))
-                            {
-//                        participantListObject.addAll(it.data!!.data?.listRequest!!)
-                                participantListObject = it.data!!.data!!.listRequest!!
-                                participantAdapter.submitList(participantListObject)
-                                participantAdapter.notifyDataSetChanged()
-                                participantListMeta = it.data.data!!.meta
-                                binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
-                                //listItemOnClick()
-                            }
-                            else
-                            {
-                                participantAdapter.submitList(emptyList())
-                            }
-                        })
-                    }
-                    else
-                    {
-                        //selectedStatus  = filter_two.selectedItem.toString().toLowerCase()
-                        if (filter_one.selectedItem.toString().equals("All"))
-                        {
-                            selectedSite  = filter_one.selectedItem.toString().toLowerCase()
-                        }
-                        else
-                        {
-                            selectedSite = binding.filterOne.selectedItem.toString()
-                        }
-                        participantListViewModel.setFilterId(page=1, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
-//
-                        participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {
-
-                            if (it.status.equals(Status.SUCCESS))
-                            {
-//                        participantListObject.addAll(it.data!!.data?.listRequest!!)
-                                participantListObject = it.data!!.data!!.listRequest!!
-                                participantAdapter.submitList(participantListObject)
-                                participantAdapter.notifyDataSetChanged()
-                                participantListMeta = it.data.data!!.meta
-                                binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
-                                //listItemOnClick()
-                            }
-                            else
-                            {
-                                participantAdapter.submitList(emptyList())
-                            }
-                        })
-                    }
-                }
-                else
-                {
-                    //selectedStatus = statuses[position]
-
-                    if (filter_one.selectedItem.toString().equals("All"))
-                    {
-                        selectedSite  = filter_one.selectedItem.toString().toLowerCase()
-                    }
-                    else
-                    {
-                        selectedSite = binding.filterOne.selectedItem.toString()
-                    }
-                    participantListViewModel.setFilterId(page=1, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
-//
-                    participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {
-
-                        if (it.status.equals(Status.SUCCESS))
-                        {
-//                        participantListObject.addAll(it.data!!.data?.listRequest!!)
-                            participantListObject = it.data!!.data!!.listRequest!!
-                            participantAdapter.submitList(participantListObject)
-                            participantAdapter.notifyDataSetChanged()
-                            participantListMeta = it.data.data!!.meta
-                            binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
-                            //listItemOnClick()
-                        }
-                        else
-                        {
-                            participantAdapter.submitList(emptyList())
-                        }
-                    })
-                }
-
-            }
-
-            override fun onNothingSelected(parentView: AdapterView<*>) {
-
-            }
-
-        }
-
-        binding.filterOne.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parentView: AdapterView<*>, @NonNull selectedItemView: View?, position: Int, id: Long)
-            {
-                if (position == 0)
-                {
-                    if (participantListMeta != null)
-                    {
-                        selectedSite  = filter_one.selectedItem.toString().toLowerCase()
-
-//                        if (filter_two.selectedItem.toString().equals("All"))
-//                        {
-//                            selectedStatus  = filter_two.selectedItem.toString().toLowerCase()
-//                        }
-//                        else
-//                        {
-//                            selectedStatus = binding.filterTwo.selectedItem.toString()
-//                        }
-                        participantListViewModel.setFilterId(page=1, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
-
-                        participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {
-
-                            if (it.status.equals(Status.SUCCESS))
-                            {
-//                        participantListObject.addAll(it.data!!.data?.listRequest!!)
-                                participantListObject = it.data!!.data!!.listRequest!!
-                                participantAdapter.submitList(participantListObject)
-                                participantAdapter.notifyDataSetChanged()
-                                participantListMeta = it.data.data!!.meta
-                                binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
-                                //listItemOnClick()
-                            }
-                            else
-                            {
-                                participantAdapter.submitList(emptyList())
-                            }
-                        })
-                    }
-                    else
-                    {
-                        selectedSite  = filter_one.selectedItem.toString().toLowerCase()
-
-//                        if (filter_two.selectedItem.toString().equals("All"))
-//                        {
-//                            selectedStatus  = filter_two.selectedItem.toString().toLowerCase()
-//                        }
-//                        else
-//                        {
-//                            selectedStatus = binding.filterTwo.selectedItem.toString()
-//                        }
-                        participantListViewModel.setFilterId(page=1, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
-
-                        participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {
-
-                            if (it.status.equals(Status.SUCCESS))
-                            {
-//                        participantListObject.addAll(it.data!!.data?.listRequest!!)
-                                participantListObject = it.data!!.data!!.listRequest!!
-                                participantAdapter.submitList(participantListObject)
-                                participantAdapter.notifyDataSetChanged()
-                                participantListMeta = it.data.data!!.meta
-                                binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
-                                //listItemOnClick()
-                            }
-                            else
-                            {
-                                participantAdapter.submitList(emptyList())
-                            }
-                        })
-                    }
-                }
-                else
-                {
-                    selectedSite = siteNames[position]
-
-//                    if (filter_two.selectedItem.toString().equals("All"))
+//        binding.filterTwo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parentView: AdapterView<*>, @NonNull selectedItemView: View?, position: Int, id: Long)
+//            {
+//                if (position == 0)
+//                {
+//                    if (participantListMeta != null)
 //                    {
-//                        selectedStatus  = filter_two.selectedItem.toString().toLowerCase()
+//                        if (filter_one.selectedItem.toString().equals("All"))
+//                        {
+//                            selectedSite  = filter_one.selectedItem.toString().toLowerCase()
+//                        }
+//                        else
+//                        {
+//                            selectedSite = binding.filterOne.selectedItem.toString()
+//                        }
+//                        participantListViewModel.setFilterId(page=1, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
+////
+//                        participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {
+//
+//                            if (it.status.equals(Status.SUCCESS))
+//                            {
+//                                participantListObject = it.data!!.data!!.listRequest!!
+//                                participantAdapter.submitList(participantListObject)
+//                                participantAdapter.notifyDataSetChanged()
+//                                participantListMeta = it.data.data!!.meta
+//                                binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
+//                            }
+//                            else
+//                            {
+//                                participantAdapter.submitList(emptyList())
+//                            }
+//                        })
 //                    }
 //                    else
 //                    {
-//                        selectedStatus = binding.filterTwo.selectedItem.toString()
+//                        if (filter_one.selectedItem.toString().equals("All"))
+//                        {
+//                            selectedSite  = filter_one.selectedItem.toString().toLowerCase()
+//                        }
+//                        else
+//                        {
+//                            selectedSite = binding.filterOne.selectedItem.toString()
+//                        }
+//                        participantListViewModel.setFilterId(page=1, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
+////
+//                        participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {
+//
+//                            if (it.status.equals(Status.SUCCESS))
+//                            {
+//                                participantListObject = it.data!!.data!!.listRequest!!
+//                                participantAdapter.submitList(participantListObject)
+//                                participantAdapter.notifyDataSetChanged()
+//                                participantListMeta = it.data.data!!.meta
+//                                binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
+//                            }
+//                            else
+//                            {
+//                                participantAdapter.submitList(emptyList())
+//                            }
+//                        })
 //                    }
-                    participantListViewModel.setFilterId(page=1, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
-
-                    participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {
-
-                        if (it.status.equals(Status.SUCCESS))
-                        {
-//                        participantListObject.addAll(it.data!!.data?.listRequest!!)
-                            participantListObject = it.data!!.data!!.listRequest!!
-                            participantAdapter.submitList(participantListObject)
-                            participantAdapter.notifyDataSetChanged()
-                            participantListMeta = it.data.data!!.meta
-                            binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
-                            //listItemOnClick()
-                        }
-                        else
-                        {
-                            participantAdapter.submitList(emptyList())
-                        }
-                    })
-                }
-            }
-
-            override fun onNothingSelected(parentView: AdapterView<*>) {
-
-            }
-
-        }
+//                }
+//                else
+//                {
+//                    if (filter_one.selectedItem.toString().equals("All"))
+//                    {
+//                        selectedSite  = filter_one.selectedItem.toString().toLowerCase()
+//                    }
+//                    else
+//                    {
+//                        selectedSite = binding.filterOne.selectedItem.toString()
+//                    }
+//                    participantListViewModel.setFilterId(page=1, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
+////
+//                    participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {
+//
+//                        if (it.status.equals(Status.SUCCESS))
+//                        {
+//                            participantListObject = it.data!!.data!!.listRequest!!
+//                            participantAdapter.submitList(participantListObject)
+//                            participantAdapter.notifyDataSetChanged()
+//                            participantListMeta = it.data.data!!.meta
+//                            binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
+//                        }
+//                        else
+//                        {
+//                            participantAdapter.submitList(emptyList())
+//                        }
+//                    })
+//                }
+//
+//            }
+//
+//            override fun onNothingSelected(parentView: AdapterView<*>) {
+//
+//            }
+//
+//        }
+//
+//        binding.filterOne.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parentView: AdapterView<*>, @NonNull selectedItemView: View?, position: Int, id: Long)
+//            {
+//                if (position == 0)
+//                {
+//                    if (participantListMeta != null)
+//                    {
+//                        selectedSite  = filter_one.selectedItem.toString().toLowerCase()
+//
+//                        participantListViewModel.setFilterId(page=1, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
+//
+//                        participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {
+//
+//                            if (it.status.equals(Status.SUCCESS))
+//                            {
+//                                participantListObject = it.data!!.data!!.listRequest!!
+//                                participantAdapter.submitList(participantListObject)
+//                                participantAdapter.notifyDataSetChanged()
+//                                participantListMeta = it.data.data!!.meta
+//                                binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
+//                            }
+//                            else
+//                            {
+//                                participantAdapter.submitList(emptyList())
+//                            }
+//                        })
+//                    }
+//                    else
+//                    {
+//                        selectedSite  = filter_one.selectedItem.toString().toLowerCase()
+//
+//                        participantListViewModel.setFilterId(page=1, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
+//
+//                        participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {
+//
+//                            if (it.status.equals(Status.SUCCESS))
+//                            {
+//                                participantListObject = it.data!!.data!!.listRequest!!
+//                                participantAdapter.submitList(participantListObject)
+//                                participantAdapter.notifyDataSetChanged()
+//                                participantListMeta = it.data.data!!.meta
+//                                binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
+//                            }
+//                            else
+//                            {
+//                                participantAdapter.submitList(emptyList())
+//                            }
+//                        })
+//                    }
+//                }
+//                else
+//                {
+//                    selectedSite = siteNames[position]
+//
+//                    participantListViewModel.setFilterId(page=1, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
+//
+//                    participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {
+//
+//                        if (it.status.equals(Status.SUCCESS))
+//                        {
+//                            participantListObject = it.data!!.data!!.listRequest!!
+//                            participantAdapter.submitList(participantListObject)
+//                            participantAdapter.notifyDataSetChanged()
+//                            participantListMeta = it.data.data!!.meta
+//                            binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
+//                        }
+//                        else
+//                        {
+//                            participantAdapter.submitList(emptyList())
+//                        }
+//                    })
+//                }
+//            }
+//
+//            override fun onNothingSelected(parentView: AdapterView<*>) {
+//
+//            }
+//
+//        }
 
         participantListViewModel.setUser("Login")
         participantListViewModel.user?.observe(this, Observer { user ->
@@ -715,14 +622,6 @@ class ParticipantListFragment : Fragment(), Injectable {
                 selectedSite = binding.filterOne.selectedItem.toString()
             }
 
-//            if (filter_two.selectedItem.toString().equals("All"))
-//            {
-//                selectedStatus  = filter_two.selectedItem.toString().toLowerCase()
-//            }
-//            else
-//            {
-//                selectedStatus = binding.filterTwo.selectedItem.toString()
-//            }
             participantListViewModel.setFilterId(page=1, status = getStatusString(), site = getStatusString(), keyWord = searchKey!!)
 
             participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {

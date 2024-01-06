@@ -28,4 +28,7 @@ interface ParticipantListItemDao {
 
     @Insert
     fun insertAll(participantListItemList: List<ParticipantListItem>)
+
+    @Query("SELECT * FROM participant_list_item")
+    fun getAllParticipantListItemsToHome(): LiveData<List<ParticipantListItem>>
 }

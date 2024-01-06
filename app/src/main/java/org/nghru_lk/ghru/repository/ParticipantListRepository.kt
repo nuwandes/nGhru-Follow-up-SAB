@@ -382,7 +382,14 @@ class ParticipantListRepository @Inject constructor(
         }.asLiveData()
     }
 
-
+    fun getAllParticipantItemList(
+    ): LiveData<Resource<List<ParticipantListItem>>> {
+        return object : LocalBoundResource<List<ParticipantListItem>>(appExecutors) {
+            override fun loadFromDb(): LiveData<List<ParticipantListItem>> {
+                return participantListItemDao.getAllParticipantListItemsToHome()
+            }
+        }.asLiveData()
+    }
 
 
 }
