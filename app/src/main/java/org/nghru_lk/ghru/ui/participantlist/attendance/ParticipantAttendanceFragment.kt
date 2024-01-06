@@ -132,28 +132,28 @@ class ParticipantAttendanceFragment : Fragment(), Injectable {
 
         binding.participantDetails.setText(participant!!.firstname + " " + participant!!.last_name+ ", " + participant!!.gender + ", " + participantAge + " Years, "  + participant!!.participant_id)
 
-        basicDetailsViewModelNew.setParticipantForGetAsset(participant!!.participant_id!!)
+        //basicDetailsViewModelNew.setParticipantForGetAsset(participant!!.participant_id!!)
 
-        basicDetailsViewModelNew.getAssets?.observe(this, Observer { assertsResource ->
-            if (assertsResource?.status == Status.SUCCESS) {
-                println(assertsResource.data?.data)
-                if (assertsResource.data?.data?.size != 0)
-                {
-                    Log.d("ATTENDANCE_FRAG", "ASSET EXISTS")
-                    participant?.isConsent = true
-
-                }
-                else
-                {
-                    Log.d("ATTENDANCE_FRAG", "ASSET NOT EXISTS")
-                    participant?.isConsent = false
-                }
-            }
-            else
-            {
-                Log.d("ATTENDANCE_FRAG", "GET ASSET REQUEST FAILED")
-            }
-        })
+//        basicDetailsViewModelNew.getAssets?.observe(this, Observer { assertsResource ->
+//            if (assertsResource?.status == Status.SUCCESS) {
+//                println(assertsResource.data?.data)
+//                if (assertsResource.data?.data?.size != 0)
+//                {
+//                    Log.d("ATTENDANCE_FRAG", "ASSET EXISTS")
+//                    participant?.isConsent = true
+//
+//                }
+//                else
+//                {
+//                    Log.d("ATTENDANCE_FRAG", "ASSET NOT EXISTS")
+//                    participant?.isConsent = false
+//                }
+//            }
+//            else
+//            {
+//                Log.d("ATTENDANCE_FRAG", "GET ASSET REQUEST FAILED")
+//            }
+//        })
 
         binding.buttonAbleYes.singleClick {
             //binding.buttonAbleYes.setTextColor(R.color.black)
@@ -310,21 +310,21 @@ class ParticipantAttendanceFragment : Fragment(), Injectable {
                         + ", VERFI_ID: " + participant!!.verification_id
                         + ", RESCH_DATE: " +participant!!.rescheduled_date)
 
-                if (participant?.isConsent!!)
-                {
+//                if (participant?.isConsent!!)
+//                {
                     val json1: String = gson.toJson(participant)
                     prefs?.edit()?.putString("single_participant", json1)?.apply()
                     val intent = Intent(activity, MeasurementListActivity::class.java)
-                    intent.putExtra("CONSENT_STATUS", true)
+                    //intent.putExtra("CONSENT_STATUS", true)
                     startActivity(intent)
-                }
-                else
-                {
-                    //findNavController().navigate(R.id.action_attendanceFragment_to_ConsentFragment, bundleOf("single_participant" to participant!!))
-                    val consentCompletedDialogFragment = ConsentCompletedDialogFragment()
-                    consentCompletedDialogFragment.arguments = bundleOf("single_participant" to participant!!)
-                    consentCompletedDialogFragment.show(fragmentManager!!)
-                }
+//                }
+//                else
+//                {
+//                    //findNavController().navigate(R.id.action_attendanceFragment_to_ConsentFragment, bundleOf("single_participant" to participant!!))
+//                    val consentCompletedDialogFragment = ConsentCompletedDialogFragment()
+//                    consentCompletedDialogFragment.arguments = bundleOf("single_participant" to participant!!)
+//                    consentCompletedDialogFragment.show(fragmentManager!!)
+//                }
             }
             else
             {

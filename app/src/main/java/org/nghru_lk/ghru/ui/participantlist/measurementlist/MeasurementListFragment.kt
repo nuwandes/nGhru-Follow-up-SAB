@@ -81,7 +81,7 @@ class MeasurementListFragment : Fragment(), Injectable {
 
     var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
 
-    var isConsent : Boolean? = null
+    //var isConsent : Boolean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -137,20 +137,20 @@ class MeasurementListFragment : Fragment(), Injectable {
 
 
         val intent1 = activity!!.intent
-        val con = intent1?.getBooleanExtra("CONSENT_STATUS", false)
-
-        if (con != null)
-        {
-            Log.d("MEASUREMENT_LIST", " IS_CONSENT: " + con)
-
-            isConsent = con
-        }
+//        val con = intent1?.getBooleanExtra("CONSENT_STATUS", false)
+//
+//        if (con != null)
+//        {
+//            Log.d("MEASUREMENT_LIST", " IS_CONSENT: " + con)
+//
+//            isConsent = con
+//        }
 
         binding.measurementProgressBar.visibility = View.VISIBLE
 
         binding.homeViewModel = measurementListViewModel
 
-        val measurementAdapter = MeasurementListAdapter(dataBindingComponent, appExecutors, isConsent) { measurementListItem ->
+        val measurementAdapter = MeasurementListAdapter(dataBindingComponent, appExecutors) { measurementListItem ->
 
             Timber.d(measurementListItem.toString())
 
