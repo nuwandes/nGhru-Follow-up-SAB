@@ -5,19 +5,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import org.nghru_lk.ghru.repository.AccessTokenRepository
+import org.nghru_lk.ghru.repository.ParticipantListRepository
 import org.nghru_lk.ghru.repository.StationDevicesRepository
 import org.nghru_lk.ghru.util.AbsentLiveData
 import org.nghru_lk.ghru.vo.AccessToken
 import org.nghru_lk.ghru.vo.Resource
 import org.nghru_lk.ghru.vo.ResourceData
 import org.nghru_lk.ghru.vo.StationDeviceData
+import org.nghru_lk.ghru.vo.request.ParticipantListWithMeta
 import javax.inject.Inject
 
 
 class LoginViewModel
 @Inject constructor(
     accessTokenRepository: AccessTokenRepository,
-    stationDevicesRepository: StationDevicesRepository
+    stationDevicesRepository: StationDevicesRepository,
+    repository: ParticipantListRepository
 ) : ViewModel() {
 
 
@@ -141,6 +144,41 @@ class LoginViewModel
         }
 
     }
+
+    // Get All Participant data from API
+
+    //    Get participants with search and filter ---------------------------------------------------------------
+
+    private val _filterId: MutableLiveData<FilterId> = MutableLiveData()
+
+    var filterparticipantListItems: LiveData<Resource<ResourceData<ParticipantListWithMeta>>>? = Transformations
+        .switchMap(_filterId) { input ->
+            input.ifExists { page, status, site, keyWord ->
+                repository.filterParticipantListItems(page!!, status!!.toString(), site!!.toString(), keyWord!!.toString())
+
+            }
+        }
+
+    fun setFilterId(page: Int, status: String, site: String, keyWord: String) {
+        val update =
+            FilterId(page = page, status = status, site = site, keyWord = keyWord)
+        if (_filterId.value == update) {
+            return
+        }
+        _filterId.value = update
+    }
+
+    data class FilterId(val page: Int?, val status: String?, val site: String?, val keyWord: String?) {
+
+        fun <T> ifExists(f: (Int?, String?, String?, String?) -> LiveData<T>): LiveData<T> {
+            return if (page == null || status == null || site == null || keyWord == null) {
+                AbsentLiveData.create()
+            } else {
+                f(page, status, site, keyWord)
+            }
+        }
+    }
+//    --------------------------------------------------------------------------------------------------------
 
 
 }

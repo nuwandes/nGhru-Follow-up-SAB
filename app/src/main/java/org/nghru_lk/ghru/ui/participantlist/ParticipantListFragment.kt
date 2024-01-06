@@ -177,7 +177,7 @@ class ParticipantListFragment : Fragment(), Injectable {
 
         // first time populate the list --------------------------------------------------------------
 
-        participantListViewModel.setFilterId(page=1, status = "all", site = "all", keyWord = searchKey!!)
+        //participantListViewModel.setFilterId(page=1, status = "all", site = "all", keyWord = searchKey!!)
 
         participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {
 

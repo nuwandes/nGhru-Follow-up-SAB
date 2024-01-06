@@ -291,9 +291,6 @@ interface NghruService {
     fun getSingleParticipant(@Path("screening_id") screening_id: String): LiveData<ApiResponse<StationData<List<ParticipantStation>>>>
 
     @GET("/api/v2/participants")
-    fun filterParticipants(@Query("page") page: Int, @Query("status") status: String, @Query("site") site: String, @Query("keyword") keyWord: String): LiveData<ApiResponse<ResourceData<ParticipantListWithMeta>>>
-
-    @GET("/api/v2/participants")
     fun allParticipants(): LiveData<ApiResponse<ResourceData<ParticipantListWithMeta>>>
 
     @GET("/api/v2/sites")
@@ -323,5 +320,10 @@ interface NghruService {
     @PUT("api/screening/{screening_id}/station/cancel")
     fun addNewCancelRequest(@Path("screening_id") screeningId: String, @Body cancelRequest: CancelRequest): LiveData<ApiResponse<ResourceData<MessageCancel>>>
 
+
+    // when login all the API data need to be saved locally
+
+    @GET("/api/v2/participants")
+    fun filterParticipants(@Query("page") page: Int, @Query("status") status: String, @Query("site") site: String, @Query("keyword") keyWord: String): LiveData<ApiResponse<ResourceData<ParticipantListWithMeta>>>
 
 }

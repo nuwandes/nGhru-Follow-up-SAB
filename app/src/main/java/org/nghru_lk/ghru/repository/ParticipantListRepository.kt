@@ -35,15 +35,6 @@ class ParticipantListRepository @Inject constructor(
         }.asLiveData()
     }
 
-    fun filterParticipantListItems(page:Int, status: String, site:String, keyWord: String): LiveData<Resource<ResourceData<ParticipantListWithMeta>>> {
-
-        return object : NetworkOnlyBoundResource<ResourceData<ParticipantListWithMeta>>(appExecutors) {
-            override fun createCall(): LiveData<ApiResponse<ResourceData<ParticipantListWithMeta>>> {
-                return nghruService.filterParticipants(page, status, site, keyWord)
-            }
-        }.asLiveData()
-    }
-
     fun getSiteSpinnerItems(id: String): LiveData<Resource<ResourceData<Array<String>>>> {
 
         return object : NetworkOnlyBoundResource<ResourceData<Array<String>>>(appExecutors) {
@@ -362,6 +353,18 @@ class ParticipantListRepository @Inject constructor(
         Resources(assets, metrics, currentResources.configuration)
         return string
     }
+
+    // getting API data
+    fun filterParticipantListItems(page:Int, status: String, site:String, keyWord: String): LiveData<Resource<ResourceData<ParticipantListWithMeta>>> {
+
+        return object : NetworkOnlyBoundResource<ResourceData<ParticipantListWithMeta>>(appExecutors) {
+            override fun createCall(): LiveData<ApiResponse<ResourceData<ParticipantListWithMeta>>> {
+                return nghruService.filterParticipants(page, status, site, keyWord)
+            }
+        }.asLiveData()
+    }
+
+
 
 
 }

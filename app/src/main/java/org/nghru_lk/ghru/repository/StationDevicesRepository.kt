@@ -28,15 +28,6 @@ class StationDevicesRepository @Inject constructor(
         }.asLiveData()
     }
 
-//    fun loadHemoDevices(): LiveData<Resource<ResourceData<List<StationDeviceData>>>> {
-//
-//        return object : NetworkOnlyBoundResource<ResourceData<List<StationDeviceData>>>(appExecutors) {
-//            override fun createCall(): LiveData<ApiResponse<ResourceData<List<StationDeviceData>>>> {
-//                return nghruService.getHemoglobinStationDevices()
-//            }
-//        }.asLiveData()
-//    }
-
     fun insertStationDeviceList(stationDevicesList: List<StationDeviceData>):
             LiveData<Resource<List<StationDeviceData>>> {
         stationDevicesDao.deleteAll()

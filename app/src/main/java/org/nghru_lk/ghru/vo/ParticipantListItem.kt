@@ -2,35 +2,45 @@ package org.nghru_lk.ghru.vo
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
+@Entity(tableName = "participant_list_item")
 data class ParticipantListItem (
-    @Expose @SerializedName("firstname") var firstname: String?,
-    @Expose @SerializedName("last_name") var last_name: String?,
-    @Expose @SerializedName("participant_id") var participant_id: String?,
-    @Expose @SerializedName("gender") var gender: String?,
-    @Expose @SerializedName("dob") var dob: String?,
-    @Expose @SerializedName("nid") var nid: String?,
-    @Expose @SerializedName("phone") var phone: String?,
-    @Expose @SerializedName("site") var site: String?,
-    @Expose @SerializedName("status") var status: String?,
-    @Expose @SerializedName("address") var address: ParticipantListAddress?,
-    @Expose @SerializedName("team") var team: String?,
-    @Expose @SerializedName("height") var height: String?,
-    @Expose @SerializedName("is_able") var is_able: Boolean = false,
-    @Expose @SerializedName("inablitiy_reason") var inablitiy_reason: String?,
-    @Expose @SerializedName("is_verified") var is_verified: Boolean = false,
-    @Expose @SerializedName("verification_dob") var verification_dob: String?,
-    @Expose @SerializedName("verification_id") var verification_id: String?,
-    @Expose @SerializedName("is_rescheduled") var is_rescheduled: Boolean = false,
-    @Expose @SerializedName("rescheduled_date") var rescheduled_date: String?
+
+    @Expose @SerializedName("firstname") @ColumnInfo(name = "firstname") var firstname: String?,
+    @Expose @SerializedName("last_name") @ColumnInfo(name = "last_name") var last_name: String?,
+    @Expose @SerializedName("participant_id") @ColumnInfo(name = "participant_id") var participant_id: String?,
+    @Expose @SerializedName("gender") @ColumnInfo(name = "gender") var gender: String?,
+    @Expose @SerializedName("dob") @ColumnInfo(name = "dob") var dob: String?,
+    @Expose @SerializedName("nid") @ColumnInfo(name = "nid") var nid: String?,
+    @Expose @SerializedName("phone") @ColumnInfo(name = "phone") var phone: String?,
+    @Expose @SerializedName("site") @ColumnInfo(name = "site") var site: String?,
+    @Expose @SerializedName("status") @ColumnInfo(name = "status") var status: String?,
+    @Expose @SerializedName("address") @Embedded(prefix = "address_") var address: ParticipantListAddress?,
+    @Expose @SerializedName("team") @ColumnInfo(name = "team") var team: String?,
+    @Expose @SerializedName("height") @ColumnInfo(name = "height") var height: String?,
+    @Expose @SerializedName("is_able") @ColumnInfo(name = "is_able") var is_able: Boolean = false,
+    @Expose @SerializedName("inablitiy_reason") @ColumnInfo(name = "inablitiy_reason") var inablitiy_reason: String?,
+    @Expose @SerializedName("is_verified") @ColumnInfo(name = "is_verified") var is_verified: Boolean = false,
+    @Expose @SerializedName("verification_dob") @ColumnInfo(name = "verification_dob") var verification_dob: String?,
+    @Expose @SerializedName("verification_id") @ColumnInfo(name = "verification_id") var verification_id: String?,
+    @Expose @SerializedName("is_rescheduled") @ColumnInfo(name = "is_rescheduled") var is_rescheduled: Boolean = false,
+    @Expose @SerializedName("rescheduled_date") @ColumnInfo(name = "rescheduled_date") var rescheduled_date: String?
 
 ) : Serializable, Parcelable {
-
+    @PrimaryKey(autoGenerate = true)
     var id: Int = 0
+
+    @ColumnInfo(name = "statusId")
     var statusId: Int =0
+
+    @ColumnInfo(name = "isConsent")
     var isConsent: Boolean? = null
 
     constructor(parcel: Parcel) : this(
@@ -101,10 +111,10 @@ data class ParticipantListItem (
 }
 
 data class ParticipantListAddress(
-    @Expose @field:SerializedName("street") var street: String,
-    @Expose @field:SerializedName("locality") var locality: String,
-    @Expose @field:SerializedName("postcode") var postcode: String,
-    @Expose @field:SerializedName("country") var country: String
+    @Expose @field:SerializedName("street") @ColumnInfo(name = "street") var street: String,
+    @Expose @field:SerializedName("locality") @ColumnInfo(name = "locality") var locality: String,
+    @Expose @field:SerializedName("postcode") @ColumnInfo(name = "postcode") var postcode: String,
+    @Expose @field:SerializedName("country") @ColumnInfo(name = "country") var country: String
 
 ) : Serializable, Parcelable {
     constructor(parcel: Parcel) : this(

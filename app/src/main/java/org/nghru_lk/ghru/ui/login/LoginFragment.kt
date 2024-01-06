@@ -12,6 +12,7 @@ import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingComponent
@@ -35,6 +36,7 @@ import org.nghru_lk.ghru.util.TokenManager
 import org.nghru_lk.ghru.util.autoCleared
 import org.nghru_lk.ghru.util.hideKeyboard
 import org.nghru_lk.ghru.util.singleClick
+import org.nghru_lk.ghru.vo.ParticipantListItem
 import org.nghru_lk.ghru.vo.Status
 import pub.devrel.easypermissions.EasyPermissions
 import timber.log.Timber
@@ -81,6 +83,8 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
     var prefs : SharedPreferences? = null
 
     var dateFormat : String = "yyyy-MM-dd hh:mm"
+
+    private var participantListObject: ArrayList<ParticipantListItem?> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -234,24 +238,14 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
             }
 
         })
-//        loginViewModel.hemoDevices?.observe(this, Observer {
-//            binding.progressBar.visibility = View.GONE
-//
-//            if (it?.status == Status.SUCCESS) {
-//                loginViewModel.setStationDeviceList(it.data?.data!!)
-//            }
-//            else if(it?.status == Status.ERROR){
-//                // binding.textViewError.visibility = View.VISIBLE
-//                // binding.textViewError.setText(it.message?.message)
-//                loadMainActivity()
-//            }
-//
-//        })
+
         loginViewModel.stationDeviceList?.observe(this, Observer {
             binding.progressBar.visibility = View.GONE
             if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
 
-               loadMainActivity()
+                loginViewModel.setFilterId(page=1, status = "all", site = "all", keyWord = "")
+
+               //loadMainActivity()
             }
         })
         binding.buttonLogin.singleClick {
@@ -346,6 +340,33 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
             }
         }
         // loginViewModel.setDevices("devices")
+
+
+
+        loginViewModel.filterparticipantListItems?.observe(activity!!, Observer {
+
+            if (isNetworkAvailable())
+            {
+                if (it.status.equals(Status.SUCCESS))
+                {
+                    participantListObject = it.data!!.data!!.listRequest!!
+
+                    // save the data in local db
+
+
+                    Toast.makeText(activity, "All participant API call Success", Toast.LENGTH_LONG).show()
+                }
+                else
+                {
+                    Toast.makeText(activity, "All participant API call failed", Toast.LENGTH_LONG).show()
+                }
+            }
+            else
+            {
+                Toast.makeText(activity, "Check internet connection", Toast.LENGTH_LONG).show()
+            }
+
+        })
     }
 
     var isLoginClick: Boolean = false
