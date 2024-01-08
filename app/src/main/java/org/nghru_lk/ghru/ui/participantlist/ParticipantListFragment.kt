@@ -228,7 +228,6 @@ class ParticipantListFragment : Fragment(), Injectable {
                 Toast.makeText(activity, "Locally loading failed", Toast.LENGTH_LONG).show()
             }
 
-
         })
 
         // ---------------------------------------------------------------------------------------------
@@ -714,12 +713,12 @@ class ParticipantListFragment : Fragment(), Injectable {
                     val statusCompletedDialogFragment = StatusCompletedDialogFragment()
                     statusCompletedDialogFragment.arguments = bundleOf("single_participant" to singleParticipant!!)
                     statusCompletedDialogFragment.show(fragmentManager!!)
-                    Log.d("PARTICIPANT_LIST" , " dOB_IS: " + singleParticipant.dob)
+                    Log.d("PARTICIPANT_LIST" , " dOB_IS: " + singleParticipant.dob + " verification_IS: " + singleParticipant.verification_id)
                 }
                 else
                 {
                     val json: String = MemberTypeConverters.gson.toJson(singleParticipant)
-                    Log.d("PARTICIPANT_LIST" , " dOB_IS: " + singleParticipant.dob)
+                    Log.d("PARTICIPANT_LIST" , " dOB_IS: " + singleParticipant.dob + " verification_IS: " + singleParticipant.verification_id)
                     prefs?.edit()?.putString("single_participant", json)?.apply()
                     val intent = Intent(activity, PatientAttendanceActivity::class.java)
                     startActivity(intent)

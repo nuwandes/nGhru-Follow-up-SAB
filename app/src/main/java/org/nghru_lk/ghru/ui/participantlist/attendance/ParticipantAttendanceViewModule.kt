@@ -103,4 +103,22 @@ class ParticipantAttendanceViewModule
                 assetRepository.getConsentAssets(participantId, "consent")
             }
         }
+
+    // to update the ParticipantListItem ----------------------------------------------------------------------
+
+    private val _participantListItem = MutableLiveData<ParticipantListItem>()
+
+    fun setUpdateParticipantListItemFromLocalDb(participantItem: ParticipantListItem) {
+        if (_participantListItem.value == participantItem) {
+            return
+        }
+        _participantListItem.value = participantItem
+    }
+
+    var getUpdateParticipantListItemFromLocalDb: LiveData<Resource<ParticipantListItem>>? = Transformations
+        .switchMap(_participantListItem) { participantListItem ->
+            repository.updateSingleParticipant(participantListItem)
+        }
+
+    // ----------------------------------------------------------------------------------------------------------
 }

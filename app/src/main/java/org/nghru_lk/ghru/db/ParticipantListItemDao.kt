@@ -1,8 +1,10 @@
 package org.nghru_lk.ghru.db
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
-import org.nghru_lk.ghru.vo.Axivity
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import org.nghru_lk.ghru.vo.ParticipantListItem
 
 @Dao
@@ -31,4 +33,10 @@ interface ParticipantListItemDao {
 
     @Query("SELECT * FROM participant_list_item")
     fun getAllParticipantListItemsToHome(): LiveData<List<ParticipantListItem>>
+
+    @Query("UPDATE participant_list_item SET inablitiy_reason = :inabilityReason, is_able = :isAble, is_rescheduled= :isReschedule, is_verified = :isVerified WHERE participant_id =:participantId")
+    fun update(inabilityReason: String?, isAble: Boolean?, isReschedule: Boolean?, isVerified: Boolean?, participantId: String) : Int
+
+    @Query("SELECT * FROM participant_list_item WHERE participant_id = :id")
+    fun getSingleParticipantByParticipantId(id: String): LiveData<ParticipantListItem>
 }
