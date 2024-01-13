@@ -41,6 +41,7 @@ import org.nghru_lk.ghru.databinding.ActivityTrackerFragmentBinding
 import org.nghru_lk.ghru.db.MemberTypeConverters
 import org.nghru_lk.ghru.di.Injectable
 import org.nghru_lk.ghru.event.AxivityRxBus
+import org.nghru_lk.ghru.jobs.SyncAxivityJob
 import org.nghru_lk.ghru.ui.activitytracker.activitytracker.completed.CompletedDialogFragment
 import org.nghru_lk.ghru.ui.activitytracker.activitytracker.reason.ReasonDialogFragment
 import org.nghru_lk.ghru.util.*
@@ -297,6 +298,10 @@ class ActivityTackeFragment : Fragment(), Injectable {
 
         binding.submitButton.singleClick {
 
+            val axivity = Axivity(
+                sessionId= "123456789", startTime = "20.25", endTime = "20.25", serialNumber =  "5678"
+            )
+
             if (axivity != null) {
 
                 val endTime: String = convertTimeTo24Hours()
@@ -309,18 +314,17 @@ class ActivityTackeFragment : Fragment(), Injectable {
                 axivity?.syncPending = !isNetworkAvailable()
                 axivity?.screeningId = participant?.screeningId!!
                 axivity?.endTime =  endDateTime
-                //if (isNetworkAvailable()) {
-                if (axivity?.meta != null)
-                {
-                    viewModel.setAxivity(axivity = axivity!!, participantId = participant!!)
+                if (isNetworkAvailable()) {
+                    if (axivity?.meta != null)
+                    {
+                        viewModel.setAxivity(axivity = axivity!!, participantId = participant!!)
+                    }
+                } else {
+                    jobManager.addJobInBackground(SyncAxivityJob(participant?.screeningId!!, axivity!!))
+                    val completedDialogFragment = CompletedDialogFragment()
+                    completedDialogFragment.arguments = bundleOf("is_cancel" to false)
+                    completedDialogFragment.show(fragmentManager!!)
                 }
-
-//                } else {
-//                    jobManager.addJobInBackground(SyncAxivityJob(participant?.screeningId!!, axivity!!))
-//                    val completedDialogFragment = CompletedDialogFragment()
-//                    completedDialogFragment.arguments = bundleOf("is_cancel" to false)
-//                    completedDialogFragment.show(fragmentManager!!)
-//                }
             } else {
                 Toast.makeText(activity!!, "Please configure axivity", Toast.LENGTH_LONG).show()
 
