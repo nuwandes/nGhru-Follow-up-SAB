@@ -5,11 +5,13 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.birbit.android.jobqueue.JobManager
 import org.nghru_lk.ghru.AppExecutors
 import org.nghru_lk.ghru.R
 import org.nghru_lk.ghru.api.ApiResponse
 import org.nghru_lk.ghru.api.NghruService
 import org.nghru_lk.ghru.db.ParticipantListItemDao
+import org.nghru_lk.ghru.jobs.SyncAxivityJob
 import org.nghru_lk.ghru.util.LocaleManager
 import org.nghru_lk.ghru.vo.*
 import org.nghru_lk.ghru.vo.request.ParticipantListWithMeta
@@ -24,7 +26,8 @@ class ParticipantListRepository @Inject constructor(
     private val nghruService: NghruService,
     private val context: Context,
     private val localeManager: LocaleManager,
-    private val participantListItemDao: ParticipantListItemDao
+    private val participantListItemDao: ParticipantListItemDao,
+    private val jobManager: JobManager
 //    private var stationItems: MutableLiveData<Resource<List<ParticipantStation>>>
 ) : Serializable {
 
@@ -329,17 +332,6 @@ class ParticipantListRepository @Inject constructor(
         return homeItems
     }
 
-    fun updateParticipantItem(
-        participant: ParticipantListItem,
-        screening_id: String
-    ): LiveData<Resource<ResourceData<ParticipantListItem>>> {
-        return object : NetworkOnlyBcakgroundBoundResource<ResourceData<ParticipantListItem>>(appExecutors) {
-            override fun createCall(): LiveData<ApiResponse<ResourceData<ParticipantListItem>>> {
-                return nghruService.updateParticipant(screening_id, participant)
-            }
-        }.asLiveData()
-    }
-
 
     private fun getStringByLocalBefore17(context: Context, resId: Int, language: String): String {
         val currentResources = context.resources
@@ -391,26 +383,74 @@ class ParticipantListRepository @Inject constructor(
         }.asLiveData()
     }
 
-    fun updateSingleParticipant(participant: ParticipantListItem
-    ): LiveData<Resource<ParticipantListItem>> {
-        return object : LocalBoundUpateResource<ParticipantListItem, Int>(appExecutors) {
-            override fun loadFromDb(rowId: Int): LiveData<ParticipantListItem> {
-                return participantListItemDao.getSingleParticipantByParticipantId(participant.participant_id!!)
-            }
+//    fun updateSingleParticipant(participant: ParticipantListItem
+//    ): LiveData<Resource<ParticipantListItem>> {
+//        return object : LocalBoundUpateResource<ParticipantListItem, Int>(appExecutors) {
+//            override fun loadFromDb(rowId: Int): LiveData<ParticipantListItem> {
+//                return participantListItemDao.getSingleParticipantByParticipantId(participant.participant_id!!)
+//            }
+//
+//            override fun updateDb(): Int {
+//                return participantListItemDao.updateSingleParticipantListItem(
+//                    participant.inablitiy_reason,
+//                    participant.is_able,
+//                    participant.is_rescheduled,
+//                    participant.is_verified,
+//                    participant.isSync,
+//                    participant.participant_id!!
+//                )
+//            }
+//
+//        }.asLiveData()
+//    }
 
+    fun updateAndSyncParticipant(
+        participant: ParticipantListItem
+    ): LiveData<Resource<ParticipantListItem>> {
+        return object : MyNetworkBoundUpdateResource<ParticipantListItem,ResourceData<ParticipantListItem>>(appExecutors) {
+
+            override fun createJob(insertedID: Int) {
+                participant.id = insertedID
+                //jobManager.addJobInBackground(SyncAxivityJob(participantId?.screeningId!!, axivity!!))
+            }
+            override fun isNetworkAvilable(): Boolean {
+
+                return participant.isSync!!
+            }
             override fun updateDb(): Int {
-                return participantListItemDao.update(
+
+                return participantListItemDao.updateSingleParticipantListItem(
                     participant.inablitiy_reason,
                     participant.is_able,
                     participant.is_rescheduled,
                     participant.is_verified,
-                    participant.participant_id!!
-                )
-
+                    participant.isSync,
+                    participant.participant_id!!)
+            }
+            override fun createCall(): LiveData<ApiResponse<ResourceData<ParticipantListItem>>> {
+                return nghruService.updateParticipant(participant.participant_id!!, participant)
             }
 
         }.asLiveData()
     }
 
+    fun updateParticipantItem(
+        participant: ParticipantListItem,
+        screening_id: String
+    ): LiveData<Resource<ResourceData<ParticipantListItem>>> {
+        return object : NetworkOnlyBcakgroundBoundResource<ResourceData<ParticipantListItem>>(appExecutors) {
+            override fun createCall(): LiveData<ApiResponse<ResourceData<ParticipantListItem>>> {
+                return nghruService.updateParticipant(screening_id, participant)
+            }
+        }.asLiveData()
+    }
 
+    fun getAllUnSyncParticipantItem(
+    ): LiveData<Resource<ParticipantListItem>> {
+        return object : LocalBoundResource<ParticipantListItem>(appExecutors) {
+            override fun loadFromDb(): LiveData<ParticipantListItem> {
+                return participantListItemDao.getAllUnSyncParticipantListItem(true)
+            }
+        }.asLiveData()
+    }
 }

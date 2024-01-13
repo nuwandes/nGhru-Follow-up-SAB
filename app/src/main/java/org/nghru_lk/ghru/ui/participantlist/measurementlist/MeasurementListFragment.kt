@@ -130,6 +130,7 @@ class MeasurementListFragment : Fragment(), Injectable {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
+
         val json : String? = prefs?.getString("single_participant","")
         participant = MemberTypeConverters.gson.fromJson<ParticipantListItem>(json.toString())
         Log.d("PARTICIPANT_ATTENDANCE", " DATA: " + participant!!.participant_id)

@@ -40,6 +40,7 @@ import org.nghru_lk.ghru.di.Injectable
 import org.nghru_lk.ghru.event.SpirometryDeviceRecordTestRxBus
 import org.nghru_lk.ghru.event.SpirometryListRecordTestRxBus
 import org.nghru_lk.ghru.event.SpirometryRecordTestRxBus
+import org.nghru_lk.ghru.jobs.SyncSpirometryJob
 import org.nghru_lk.ghru.ui.spirometry.cancel.CancelDialogFragment
 import org.nghru_lk.ghru.ui.spirometry.tests.completed.CompletedDialogFragment
 import org.nghru_lk.ghru.util.*
@@ -330,45 +331,45 @@ class TestFragment : Fragment(), Injectable {
 
                 binding.linearLayoutErrorMessage.collapse()
                 Timber.d(recordList.toString())
-//                if (isNetworkAvailable()) {
-//                    viewModel.setData(
-//                        participant,
-//                        recordList,
-//                        binding.comment.text.toString(),
-//                        selectedDeviceID,
-//                        binding.textFieldTurbineID.text.toString(),
-//                        nuvoairLauncherMeasurement = nuvoairLauncherMeasurement
-//                    )
-//                } else {
-//
-//                    val mSpirometryTesList = ArrayList<SpirometryTest>()
-//                    recordList.forEachIndexed { index, spirometryRecord ->
-//                        mSpirometryTesList.add(
-//                            SpirometryTest(
-//                                testNumber = index,
-//                                fev = spirometryRecord.fev.value.toString(),
-//                                fvc = spirometryRecord.fvc.value.toString(),
-//                                ratio = spirometryRecord.ratio.value.toString(),
-//                                pev = spirometryRecord.pEFR.value.toString()
-//                            )
-//                        )
-//                    }
-//                    val mSpirometryTests = SpirometryTests(
-//                        tests = mSpirometryTesList,
-//                        device_id = selectedDeviceID,
-//                        turbine_id = binding.textFieldTurbineID.text.toString(),
-//                        deviceData = nuvoairLauncherMeasurement
-//                    )
-//                    val mSpirometryData = SpirometryData(body = mSpirometryTests)
-//                    val gson = GsonBuilder().setPrettyPrinting().create()
-//                    val mSpirometryRequest = SpirometryRequest(
-//                        data = gson.toJson(mSpirometryData),
-//                        comment = binding.comment.text.toString(),
-//                        meta = participant?.meta
-//                    )
-//                    //jobManager.addJobInBackground(SyncSpirometryJob(participant, mSpirometryRequest))
-//
-//                }
+                if (isNetworkAvailable()) {
+                    viewModel.setData(
+                        participant,
+                        recordList,
+                        binding.comment.text.toString(),
+                        selectedDeviceID,
+                        binding.textFieldTurbineID.text.toString(),
+                        nuvoairLauncherMeasurement = nuvoairLauncherMeasurement
+                    )
+                } else {
+
+                    val mSpirometryTesList = ArrayList<SpirometryTest>()
+                    recordList.forEachIndexed { index, spirometryRecord ->
+                        mSpirometryTesList.add(
+                            SpirometryTest(
+                                testNumber = index,
+                                fev = spirometryRecord.fev.value.toString(),
+                                fvc = spirometryRecord.fvc.value.toString(),
+                                ratio = spirometryRecord.ratio.value.toString(),
+                                pev = spirometryRecord.pEFR.value.toString()
+                            )
+                        )
+                    }
+                    val mSpirometryTests = SpirometryTests(
+                        tests = mSpirometryTesList,
+                        device_id = selectedDeviceID,
+                        turbine_id = binding.textFieldTurbineID.text.toString(),
+                        deviceData = nuvoairLauncherMeasurement
+                    )
+                    val mSpirometryData = SpirometryData(body = mSpirometryTests)
+                    val gson = GsonBuilder().setPrettyPrinting().create()
+                    val mSpirometryRequest = SpirometryRequest(
+                        data = gson.toJson(mSpirometryData),
+                        comment = binding.comment.text.toString(),
+                        meta = participant?.meta
+                    )
+                    jobManager.addJobInBackground(SyncSpirometryJob(mSpirometryRequest))
+
+                }
 
 
                 val mSpirometryTesList = ArrayList<SpirometryTest>()

@@ -57,12 +57,21 @@ class ParticipantAttendanceViewModule
     private var _participantId: String? = null
     private val _participantRequest: MutableLiveData<ParticipantListItem> = MutableLiveData()
 
-    var participantUpdateComplete:LiveData<Resource<ResourceData<ParticipantListItem>>>? = Transformations
+//    var participantUpdateComplete:LiveData<Resource<ResourceData<ParticipantListItem>>>? = Transformations
+//        .switchMap(_participantUpdateRequest) { participantRequest ->
+//            if (participantRequest == null) {
+//                AbsentLiveData.create()
+//            } else {
+//                repository.updateParticipantItem(participantRequest,_participantId!!)
+//            }
+//        }
+
+    var participantUpdateComplete:LiveData<Resource<ParticipantListItem>>? = Transformations
         .switchMap(_participantUpdateRequest) { participantRequest ->
             if (participantRequest == null) {
                 AbsentLiveData.create()
             } else {
-                repository.updateParticipantItem(participantRequest,_participantId!!)
+                repository.updateAndSyncParticipant(participantRequest)
             }
         }
 
@@ -73,8 +82,15 @@ class ParticipantAttendanceViewModule
         }
         _participantRequest.value = participantItem
     }
-    fun updateParticipant(participantItem: ParticipantListItem, participantId: String?) {
-        _participantId = participantId
+//    fun updateParticipant(participantItem: ParticipantListItem, participantId: String?) {
+//        _participantId = participantId
+//        if (_participantUpdateRequest.value == participantItem) {
+//            return
+//        }
+//        _participantUpdateRequest.value = participantItem
+//    }
+
+    fun updateParticipant(participantItem: ParticipantListItem) {
         if (_participantUpdateRequest.value == participantItem) {
             return
         }
@@ -115,10 +131,10 @@ class ParticipantAttendanceViewModule
         _participantListItem.value = participantItem
     }
 
-    var getUpdateParticipantListItemFromLocalDb: LiveData<Resource<ParticipantListItem>>? = Transformations
-        .switchMap(_participantListItem) { participantListItem ->
-            repository.updateSingleParticipant(participantListItem)
-        }
+//    var getUpdateParticipantListItemFromLocalDb: LiveData<Resource<ParticipantListItem>>? = Transformations
+//        .switchMap(_participantListItem) { participantListItem ->
+//            repository.updateSingleParticipant(participantListItem)
+//        }
 
     // ----------------------------------------------------------------------------------------------------------
 }

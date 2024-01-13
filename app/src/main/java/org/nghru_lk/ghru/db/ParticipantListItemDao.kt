@@ -34,9 +34,12 @@ interface ParticipantListItemDao {
     @Query("SELECT * FROM participant_list_item")
     fun getAllParticipantListItemsToHome(): LiveData<List<ParticipantListItem>>
 
-    @Query("UPDATE participant_list_item SET inablitiy_reason = :inabilityReason, is_able = :isAble, is_rescheduled= :isReschedule, is_verified = :isVerified WHERE participant_id =:participantId")
-    fun update(inabilityReason: String?, isAble: Boolean?, isReschedule: Boolean?, isVerified: Boolean?, participantId: String) : Int
+    @Query("UPDATE participant_list_item SET inablitiy_reason = :inabilityReason, is_able = :isAble, is_rescheduled= :isReschedule, is_verified = :isVerified , is_sync = :isSync WHERE participant_id =:participantId")
+    fun updateSingleParticipantListItem(inabilityReason: String?, isAble: Boolean?, isReschedule: Boolean?, isVerified: Boolean?, isSync: Boolean?, participantId: String) : Int
 
     @Query("SELECT * FROM participant_list_item WHERE participant_id = :id")
     fun getSingleParticipantByParticipantId(id: String): LiveData<ParticipantListItem>
+
+    @Query("SELECT * FROM participant_list_item WHERE is_sync = :isSync")
+    fun getAllUnSyncParticipantListItem(isSync: Boolean?): LiveData<ParticipantListItem>
 }

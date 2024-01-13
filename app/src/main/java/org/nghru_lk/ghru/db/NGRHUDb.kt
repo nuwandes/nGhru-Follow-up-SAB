@@ -41,7 +41,7 @@ import org.nghru_lk.ghru.vo.request.Member
         Axivity :: class,
         ParticipantListItem :: class
     ],
-    version = 12,
+    version = 13,
     exportSchema = true
 )
 abstract class NGRHUDb : RoomDatabase() {

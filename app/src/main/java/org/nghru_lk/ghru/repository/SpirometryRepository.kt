@@ -73,9 +73,7 @@ class SpirometryRepository @Inject constructor(
             override fun createJob(insertedID: Long) {
                 spirometryRequest.id = insertedID
                 jobManager.addJobInBackground(SyncSpirometryJob(spirometryRequest))
-
             }
-
 
             override fun isNetworkAvilable(): Boolean {
                 return spirometryRequest.syncPending

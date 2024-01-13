@@ -373,18 +373,21 @@ class ParticipantAttendanceFragment : Fragment(), Injectable {
 
                 // update api call
 
-                if (isNetworkAvailable())
-                {
-                    basicDetailsViewModelNew.updateParticipant(participant!!, participant!!.participant_id)
-                }
-                else
-                {
-                    participant!!.is_able = false
-                    participant!!.is_rescheduled = false
-                    participant!!.is_verified = false
+                basicDetailsViewModelNew.updateParticipant(participant!!)
 
-                    basicDetailsViewModelNew.setUpdateParticipantListItemFromLocalDb(participant!!)
-                }
+//                if (isNetworkAvailable())
+//                {
+//                    basicDetailsViewModelNew.updateParticipant(participant!!)
+//                }
+//                else
+//                {
+//                    participant!!.is_able = false
+//                    participant!!.is_rescheduled = false
+//                    participant!!.is_verified = false
+//                    participant!!.isSync = true
+//
+//                    basicDetailsViewModelNew.setUpdateParticipantListItemFromLocalDb(participant!!)
+//                }
 
 
                 Log.d(TAG, "END_BUTTON IS_ABLE: " + participant!!.is_able
@@ -397,7 +400,7 @@ class ParticipantAttendanceFragment : Fragment(), Injectable {
 
                 basicDetailsViewModelNew.participantUpdateComplete?.observe(this, Observer { assertsResource ->
                     if (assertsResource?.status == Status.SUCCESS) {
-                        println(assertsResource.data?.data)
+                        //println(assertsResource.data?.data)
                         if (assertsResource.data != null) {
                         val notAbleDialogFragment = NotAbleDialogFragment()
                             notAbleDialogFragment.show(fragmentManager!!)
@@ -414,24 +417,24 @@ class ParticipantAttendanceFragment : Fragment(), Injectable {
                     }
                 })
 
-                basicDetailsViewModelNew.getUpdateParticipantListItemFromLocalDb?.observe(this, Observer { assertsResource ->
-                    if (assertsResource?.status == Status.SUCCESS) {
-
-                        if (assertsResource.data != null) {
-                            val notAbleDialogFragment = NotAbleDialogFragment()
-                            notAbleDialogFragment.show(fragmentManager!!)
-
-                            //Toast.makeText(activity!!, "Update Participant success", Toast.LENGTH_LONG).show()
-                            Log.d(TAG, "END_BUTTON_SUCCESS" + assertsResource.message.toString())
-
-                        } else {
-                            Log.d(TAG, "END_BUTTON_FAILED" + assertsResource.message.toString())
-                            Toast.makeText(activity, "Unable to update the participant via " + assertsResource.message.toString(), Toast.LENGTH_LONG).show()
-                            Crashlytics.logException(Exception("Participant Update " + assertsResource.message.toString()))
-                            binding.executePendingBindings()
-                        }
-                    }
-                })
+//                basicDetailsViewModelNew.getUpdateParticipantListItemFromLocalDb?.observe(this, Observer { assertsResource ->
+//                    if (assertsResource?.status == Status.SUCCESS) {
+//
+//                        if (assertsResource.data != null) {
+//                            val notAbleDialogFragment = NotAbleDialogFragment()
+//                            notAbleDialogFragment.show(fragmentManager!!)
+//
+//                            //Toast.makeText(activity!!, "Update Participant success", Toast.LENGTH_LONG).show()
+//                            Log.d(TAG, "END_BUTTON_SUCCESS" + assertsResource.message.toString())
+//
+//                        } else {
+//                            Log.d(TAG, "END_BUTTON_FAILED" + assertsResource.message.toString())
+//                            Toast.makeText(activity, "Unable to update the participant via " + assertsResource.message.toString(), Toast.LENGTH_LONG).show()
+//                            Crashlytics.logException(Exception("Participant Update " + assertsResource.message.toString()))
+//                            binding.executePendingBindings()
+//                        }
+//                    }
+//                })
 
             }
             else
