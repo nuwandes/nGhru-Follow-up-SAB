@@ -11,6 +11,7 @@ import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.preference.PreferenceManager
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -37,19 +38,20 @@ import org.nghru_lk.ghru.R
 import org.nghru_lk.ghru.UsbSerialPort
 import org.nghru_lk.ghru.binding.FragmentDataBindingComponent
 import org.nghru_lk.ghru.databinding.ActivityTrackerFragmentBinding
+import org.nghru_lk.ghru.db.MemberTypeConverters
 import org.nghru_lk.ghru.di.Injectable
 import org.nghru_lk.ghru.event.AxivityRxBus
 import org.nghru_lk.ghru.ui.activitytracker.activitytracker.completed.CompletedDialogFragment
 import org.nghru_lk.ghru.ui.activitytracker.activitytracker.reason.ReasonDialogFragment
 import org.nghru_lk.ghru.util.*
-import org.nghru_lk.ghru.vo.Axivity
-import org.nghru_lk.ghru.vo.Status
+import org.nghru_lk.ghru.vo.*
 import org.nghru_lk.ghru.vo.request.ParticipantRequest
 import java.io.File
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.Date
 import javax.inject.Inject
 
 
@@ -85,6 +87,10 @@ class ActivityTackeFragment : Fragment(), Injectable {
     private var selectedDeviceID: String? = null
 
     var mUsbManager :UsbManager? = null
+    var prefs : SharedPreferences? = null
+    private var selectedParticipant: ParticipantListItem? = null
+    var user: User? = null
+    var meta: Meta? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -163,6 +169,56 @@ class ActivityTackeFragment : Fragment(), Injectable {
         binding.setLifecycleOwner(this)
         binding.viewModel = viewModel
         binding.participant = participant
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(context)
+
+        val json : String? = prefs?.getString("single_participant","")
+        selectedParticipant = MemberTypeConverters.gson.fromJson<ParticipantListItem>(json.toString())
+        Log.d("PARTICIPANT_ATTENDANCE", " DATA: " + selectedParticipant!!.participant_id)
+
+        binding.titleName.setText(selectedParticipant!!.firstname + " " + selectedParticipant!!.last_name)
+        binding.titleGender.setText(selectedParticipant!!.gender)
+        binding.titleParticipantId.setText(selectedParticipant!!.participant_id)
+
+        viewModel.setScreeningId(selectedParticipant!!.participant_id)
+
+        viewModel.participant.observe(this, Observer { participantResource ->
+
+            if (participantResource?.status == Status.SUCCESS) {
+                participant = participantResource.data?.data
+                participant?.meta = meta
+
+                Log.d("BLOOD_PRESSURE_HOME", "PAR_REQ_SUCCESS")
+
+            } else if (participantResource?.status == Status.ERROR) {
+
+                Log.d("BLOOD_PRESSURE_HOME", "PAR_REQ_FAILED")
+            }
+            binding.executePendingBindings()
+        })
+
+        val dob_year: String = selectedParticipant!!.dob!!.substring(0,4)
+        val dob_month: String = selectedParticipant!!.dob!!.substring(5,7)
+        val dob_date : String = selectedParticipant!!.dob!!.substring(8,10)
+
+        val participantAge: String = getAge(dob_year.toInt(), dob_month.toInt(), dob_date.toInt())
+        binding.titleAge.setText(participantAge + "Y")
+
+        viewModel.setUser("user")
+        viewModel.user?.observe(this, Observer { userData ->
+            if (userData?.data != null) {
+                // setupNavigationDrawer(userData.data)
+
+                val sTime: String = convertTimeTo24Hours()
+                val sDate: String = getDate()
+                val sDateTime:String = sDate + " " + sTime
+
+                user = userData.data
+                meta = Meta(collectedBy = user?.id, startTime = sDateTime)
+                //meta?.registeredBy = user?.id
+            }
+
+        })
 
         val usbDevices = UsbSerialPort.getDevices(mUsbManager)
 
@@ -469,6 +525,26 @@ class ActivityTackeFragment : Fragment(), Injectable {
 
         dialog = builder.create()
         dialog.show()
+    }
+
+    private fun getAge(year: Int, month: Int, date: Int) : String
+    {
+        val dob : Calendar = Calendar.getInstance()
+        val today : Calendar = Calendar.getInstance()
+
+        dob.set(year, month, date)
+
+        var age : Int = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR)
+
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR))
+        {
+            age--
+        }
+
+        val ageInt : Int = age
+        val ageString : String = ageInt.toString()
+
+        return ageString
     }
 
     /**

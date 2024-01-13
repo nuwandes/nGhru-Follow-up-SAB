@@ -194,23 +194,23 @@ class MeasurementListFragment : Fragment(), Injectable {
                 startActivity(intent)
             }
 
-            if (measurementListItem.id == 7) {
-                val intent = Intent(activity, IntakeActivity::class.java)
-                startActivity(intent)
-            }
+//            if (measurementListItem.id == 7) {
+//                val intent = Intent(activity, IntakeActivity::class.java)
+//                startActivity(intent)
+//            }
 
-            if (measurementListItem.id == 8) {
-                if (isInProgress!!)
-                {
-                    val intent = Intent(activity, CovidQuestionnaireNewActivity::class.java)
-                    startActivity(intent)
-                }
-                else
-                {
-                    val intent = Intent(activity, CovidQuestionnaireActivity::class.java)
-                    startActivity(intent)
-                }
-            }
+//            if (measurementListItem.id == 8) {
+//                if (isInProgress!!)
+//                {
+//                    val intent = Intent(activity, CovidQuestionnaireNewActivity::class.java)
+//                    startActivity(intent)
+//                }
+//                else
+//                {
+//                    val intent = Intent(activity, CovidQuestionnaireActivity::class.java)
+//                    startActivity(intent)
+//                }
+//            }
 
             if (measurementListItem.id == 9) {
                 val intent = Intent(activity, ECGActivity::class.java)
@@ -219,6 +219,11 @@ class MeasurementListFragment : Fragment(), Injectable {
 
             if (measurementListItem.id == 10) {
                 val intent = Intent(activity, FundoscopyActivity::class.java)
+                startActivity(intent)
+            }
+
+            if (measurementListItem.id == 11) {
+                val intent = Intent(activity, ActivityTrackerActivity::class.java)
                 startActivity(intent)
             }
         }

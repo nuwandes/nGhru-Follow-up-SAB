@@ -180,7 +180,8 @@
                         android:layout_height="5dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="30dp"
-                        app:srcCompat="@drawable/gray_ellipse" android:contentDescription="@string/imageview"  />
+                        app:srcCompat="@drawable/gray_ellipse"
+                        android:contentDescription="@string/imageview"  />
 
 <!--                    <TextView-->
 <!--                        android:layout_width="wrap_content"-->
@@ -201,7 +202,6 @@
                         android:fontFamily="@font/roboto"
                         android:textColor="@color/black"
                         android:textSize="20sp" />
-
 
                 </LinearLayout>
 
