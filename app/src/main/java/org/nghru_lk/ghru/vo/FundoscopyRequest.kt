@@ -51,6 +51,14 @@ data class FundoscopyRequest(
         fundoscopyMetaId= parcel.readLong()
     }
 
+    constructor(comment: String?, device_id: String?, pupil_dilation: Boolean?, cataract_observation: String?) : this(
+        comment = comment,
+        device_id = device_id,
+        pupil_dilation = pupil_dilation,
+        meta = null,
+        cataract_observation = cataract_observation
+    )
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(comment)
         parcel.writeString(device_id)

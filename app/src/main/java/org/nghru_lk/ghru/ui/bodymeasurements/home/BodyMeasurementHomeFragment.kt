@@ -32,6 +32,7 @@ import org.nghru_lk.ghru.di.Injectable
 import org.nghru_lk.ghru.event.BodyMeasurementDataEventType
 import org.nghru_lk.ghru.event.BodyMeasurementDataRxBus
 import org.nghru_lk.ghru.event.BusProvider
+import org.nghru_lk.ghru.jobs.SyncBodyMeasurementMetaJob
 import org.nghru_lk.ghru.ui.bodymeasurements.home.completed.CompletedDialogFragment
 import org.nghru_lk.ghru.ui.bodymeasurements.home.reason.ReasonDialogFragment
 import org.nghru_lk.ghru.util.*
@@ -337,46 +338,46 @@ class BodyMeasurementHomeFragment : Fragment(), Injectable {
 
                 meta?.endTime = endDateTime
 
-                val bodyMeasurementMeta = BodyMeasurementMeta(meta = meta, body = bodyMeasurement)
-                bodyMeasurementMeta.screeningId = selectedParticipant!!.participant_id!!
+//                val bodyMeasurementMeta = BodyMeasurementMeta(meta = meta, body = bodyMeasurement)
+//                bodyMeasurementMeta.screeningId = selectedParticipant!!.participant_id!!
                 //bodyMeasurementMeta.syncPending = !isNetworkAvailable()
-                if(isNetworkAvailable()){
-                    bodyMeasurementMeta.syncPending =false
-                }else{
-                    bodyMeasurementMeta.syncPending =true
-
-                }
-                viewModel.setBodyMeasurementMeta(bodyMeasurementMeta)
+//                if(isNetworkAvailable()){
+//                    bodyMeasurementMeta.syncPending =false
+//                }else{
+//                    bodyMeasurementMeta.syncPending =true
+//
+//                }
+                //viewModel.setBodyMeasurementMeta(bodyMeasurementMeta)
 
                 binding.progressBar.visibility = View.VISIBLE
                 binding.buttonSubmit.visibility = View.GONE
-//                if (isNetworkAvailable()) {
-//
-//
-////                    viewModel.setBodyMeasurementMeta(
-////                        BodyMeasurementMeta(meta = meta, body = bodyMeasurement),
-////                        participantRequest!!
-////                    )
-//
-//                    val bodyMeasurementMeta = BodyMeasurementMeta(meta = meta, body = bodyMeasurement)
-//                    bodyMeasurementMeta.screeningId = participantRequest?.screeningId!!
-//                    bodyMeasurementMeta.syncPending = !isNetworkAvailable()
-//                    viewModel.setBodyMeasurementMeta(bodyMeasurementMeta)
-//
-//                    binding.progressBar.visibility = View.VISIBLE
-//                    binding.buttonSubmit.visibility = View.GONE
-//                } else {
-//
-//                    jobManager.addJobInBackground(
-//                        SyncBodyMeasurementMetaJob(
-//                            bodyMeasurementRequest = BodyMeasurementMeta(meta = meta, body = bodyMeasurement),
-//                            screeningId = participantRequest?.screeningId!!
-//                        )
-//                    )
-//                    val completedDialogFragment = CompletedDialogFragment()
-//                    completedDialogFragment.arguments = bundleOf("is_cancel" to false)
-//                    completedDialogFragment.show(fragmentManager!!)
-//                }
+                if (isNetworkAvailable()) {
+
+
+                    viewModel.setBodyMeasurementMeta(
+                        BodyMeasurementMeta(meta = meta, body = bodyMeasurement),
+                        participantRequest!!
+                    )
+
+                    val bodyMeasurementMeta = BodyMeasurementMeta(meta = meta, body = bodyMeasurement)
+                    bodyMeasurementMeta.screeningId = participantRequest?.screeningId!!
+                    bodyMeasurementMeta.syncPending = !isNetworkAvailable()
+                    viewModel.setBodyMeasurementMeta(bodyMeasurementMeta)
+
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.buttonSubmit.visibility = View.GONE
+                } else {
+
+                    jobManager.addJobInBackground(
+                        SyncBodyMeasurementMetaJob(
+                            bodyMeasurementMeta = BodyMeasurementMeta(meta = meta, body = bodyMeasurement),
+                            screeningId = participantRequest?.screeningId!!
+                        )
+                    )
+                    val completedDialogFragment = CompletedDialogFragment()
+                    completedDialogFragment.arguments = bundleOf("is_cancel" to false)
+                    completedDialogFragment.show(fragmentManager!!)
+                }
 
 
             } else {

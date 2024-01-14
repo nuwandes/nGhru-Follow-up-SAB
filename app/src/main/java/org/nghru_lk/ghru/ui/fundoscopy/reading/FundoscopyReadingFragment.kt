@@ -31,6 +31,7 @@ import org.nghru_lk.ghru.binding.FragmentDataBindingComponent
 import org.nghru_lk.ghru.databinding.FundosReadingBinding
 import org.nghru_lk.ghru.db.MemberTypeConverters
 import org.nghru_lk.ghru.di.Injectable
+import org.nghru_lk.ghru.jobs.SyncFundoscopyJob
 import org.nghru_lk.ghru.ui.fundoscopy.reading.completed.CompletedDialogFragment
 import org.nghru_lk.ghru.ui.fundoscopy.reading.reason.ReasonDialogFragment
 import org.nghru_lk.ghru.util.autoCleared
@@ -227,7 +228,9 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
                 val endDateTime:String = endDate + " " + endTime
 
                 participant?.meta?.endTime =  endDateTime
-//                if (isNetworkAvailable()) {
+
+                if (isNetworkAvailable())
+                {
                     fundoscopyReadingViewModel.setParticipantComplete(
                         participant!!,
                         binding.comment.text.toString(),
@@ -235,19 +238,24 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
                         didDilation!!,isNetworkAvailable(),
                         cataractObservation
                     )
-//                } else {
-//                    jobManager.addJobInBackground(
-//                        SyncFundoscopyJob(
-//                            participant,
-//                            binding.comment.text.toString(),
-//                            selectedDeviceID!!,
-//                            didDilation!!
-//                        )
-//                    )
-//                    val completedDialogFragment = CompletedDialogFragment()
-//                    completedDialogFragment.arguments = bundleOf("is_cancel" to false)
-//                    completedDialogFragment.show(fragmentManager!!)
-//                }
+                } else {
+                    val fundoscopyRequest = FundoscopyRequest(
+                        comment = binding.comment.text.toString(),
+                        device_id = selectedDeviceID!!,
+                        pupil_dilation = didDilation!!,
+                        meta = participant!!.meta,
+                        cataract_observation = cataractObservation
+                    )
+                    jobManager.addJobInBackground(
+                        SyncFundoscopyJob(
+                            participant,
+                            fundoscopyRequest
+                        )
+                    )
+                    val completedDialogFragment = CompletedDialogFragment()
+                    completedDialogFragment.arguments = bundleOf("is_cancel" to false)
+                    completedDialogFragment.show(fragmentManager!!)
+                }
 
             } else {
 

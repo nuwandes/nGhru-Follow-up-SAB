@@ -26,10 +26,12 @@ import org.nghru_lk.ghru.R
 import org.nghru_lk.ghru.binding.FragmentDataBindingComponent
 import org.nghru_lk.ghru.databinding.EcgCompleteDialogFragmentBinding
 import org.nghru_lk.ghru.di.Injectable
+import org.nghru_lk.ghru.jobs.SyncECGJob
 import org.nghru_lk.ghru.ui.ecg.trace.completed.CompletedDialogFragment
 import org.nghru_lk.ghru.util.autoCleared
 import org.nghru_lk.ghru.util.getLocalTimeString
 import org.nghru_lk.ghru.util.singleClick
+import org.nghru_lk.ghru.vo.ECGStatus
 import org.nghru_lk.ghru.vo.Status
 import org.nghru_lk.ghru.vo.request.ParticipantRequest
 import java.text.DateFormat
@@ -117,15 +119,19 @@ class CompleteDialogFragment : DialogFragment(), Injectable {
             val endDateTime:String = endDate + " " + endTime
 
             participant?.meta?.endTime = endDateTime
-//            if (isNetworkAvailable()) {
-            confirmationdialogViewModel.setECGRemote(participant!!, status, comment, device_id!!,isNetworkAvailable())
-//            } else {
-//                val mECGStatus = ECGStatus(status, comment, device_id, meta= participant?.meta)
-//                jobManager.addJobInBackground(SyncECGJob(participant, mECGStatus))
-//                val completedDialogFragment = CompletedDialogFragment()
-//                completedDialogFragment.arguments = bundleOf("is_cancel" to false)
-//                completedDialogFragment.show(fragmentManager!!)
-//            }
+
+            if (isNetworkAvailable())
+            {
+                confirmationdialogViewModel.setECGRemote(participant!!, status, comment, device_id!!,isNetworkAvailable())
+            }
+            else
+            {
+                val mECGStatus = ECGStatus(status, comment, device_id, meta= participant?.meta)
+                jobManager.addJobInBackground(SyncECGJob(participant, mECGStatus))
+                val completedDialogFragment = CompletedDialogFragment()
+                completedDialogFragment.arguments = bundleOf("is_cancel" to false)
+                completedDialogFragment.show(fragmentManager!!)
+            }
         }
         binding.buttonCancel.singleClick {
             dismiss()

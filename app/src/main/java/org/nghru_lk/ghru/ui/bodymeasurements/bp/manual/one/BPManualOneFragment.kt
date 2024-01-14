@@ -34,6 +34,7 @@ import org.nghru_lk.ghru.databinding.BPManualOneFragmentBinding
 import org.nghru_lk.ghru.db.MemberTypeConverters
 import org.nghru_lk.ghru.di.Injectable
 import org.nghru_lk.ghru.event.BPRecordRxBus
+import org.nghru_lk.ghru.jobs.SyncBloodPresureRequestJob
 import org.nghru_lk.ghru.ui.bodymeasurements.bp.reason.ReasonDialogFragment
 import org.nghru_lk.ghru.ui.bodymeasurements.review.completed.CompletedDialogFragment
 import org.nghru_lk.ghru.util.*
@@ -263,7 +264,8 @@ class BPManualOneFragment : Fragment(), Injectable {
 
                 mBloodPressureMetaRequest = BloodPressureMetaRequest(meta = meta!!, body = mBloodPressureRequest)
 
-//                if (isNetworkAvailable()) {
+                if (isNetworkAvailable())
+                {
                     mBloodPressureMetaRequest?.syncPending = !isNetworkAvailable()
 
                     bPManualOneViewModel.setBloodPressureMetaRequestRemote(
@@ -273,17 +275,17 @@ class BPManualOneFragment : Fragment(), Injectable {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.textViewError.setText("")
                     binding.textViewError.visibility = View.GONE
-//                } else {
-//                    mBloodPressureMetaRequest?.syncPending = true
-//                    jobManager.addJobInBackground(
-//                        SyncBloodPresureRequestJob(
-//                            participantRequest?.screeningId!!,
-//                            mBloodPressureMetaRequest!!
-//                        )
-//                    )
-//                    val completedDialogFragment = CompletedDialogFragment()
-//                    completedDialogFragment.show(fragmentManager!!)
-//                }
+                } else {
+                    mBloodPressureMetaRequest?.syncPending = true
+                    jobManager.addJobInBackground(
+                        SyncBloodPresureRequestJob(
+                            participantRequest?.screeningId!!,
+                            mBloodPressureMetaRequest!!
+                        )
+                    )
+                    val completedDialogFragment = CompletedDialogFragment()
+                    completedDialogFragment.show(fragmentManager!!)
+                }
             }
 
         }
