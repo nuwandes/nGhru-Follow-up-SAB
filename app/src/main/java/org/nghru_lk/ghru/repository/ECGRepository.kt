@@ -29,21 +29,18 @@ class ECGRepository @Inject constructor(
 ) : Serializable {
 
     fun syncECG(
-        participantRequest: ParticipantRequest,
-        status: String,
-        comment: String?,
-        device_id: String,
+        screeningId : String?,
+        ecgStatus: ECGStatus?,
         isOnline : Boolean
     ): LiveData<Resource<ECG>> {
         return object : MyNetworkBoundResource<ECG,ResourceData<ECG>>(appExecutors) {
 
             override fun createJob(insertedID: Long) {
-                val mECGStatus = ECGStatus(status, comment, device_id, meta= participantRequest?.meta)
-                mECGStatus.syncPending = !isOnline
-                mECGStatus.id = insertedID
+                ecgStatus?.syncPending = !isOnline
+                ecgStatus?.id = insertedID
                 jobManager.addJobInBackground(
 
-                    SyncECGJob(participantRequest, mECGStatus)
+                    SyncECGJob(screeningId, ecgStatus!!)
                 )
             }
             override fun isNetworkAvilable(): Boolean {
@@ -51,17 +48,15 @@ class ECGRepository @Inject constructor(
                 return !isOnline
             }
             override fun saveDb(): Long {
-                val mECGStatus = ECGStatus(status, comment, device_id, meta= participantRequest?.meta)
-                mECGStatus.syncPending = !isOnline
-                var ecgMetaNewId = metaNewDao.insert(participantRequest?.meta!!)
-                mECGStatus.metaId = ecgMetaNewId
-                mECGStatus.screeningId = participantRequest?.screeningId
-                return  ecgStatusDao.insert(mECGStatus)
+                ecgStatus?.syncPending = !isOnline
+                var ecgMetaNewId = metaNewDao.insert(ecgStatus?.meta!!)
+                ecgStatus.metaId = ecgMetaNewId
+                ecgStatus.screeningId = screeningId!!
+                return  ecgStatusDao.insert(ecgStatus)
             }
             override fun createCall(): LiveData<ApiResponse<ResourceData<ECG>>> {
-                val mECGStatus = ECGStatus(status, comment, device_id, meta= participantRequest?.meta)
-                mECGStatus.syncPending = !isOnline
-                return nghruService.addECGSync(participantRequest.screeningId, mECGStatus)
+                ecgStatus?.syncPending = !isOnline
+                return nghruService.addECGSync(screeningId!!, ecgStatus!!)
             }
         }.asLiveData()
     }

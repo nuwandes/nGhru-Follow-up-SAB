@@ -126,34 +126,32 @@ class BodyMeasurementHomeViewModel
 
     fun setBodyMeasurementMeta(
         bodyMeasurementRequest: BodyMeasurementMeta,
-        particap: ParticipantRequest
+        screeningId: String?
     ) {
-        val update = BodyMeasurementMetaId(bodyMeasurementRequest, particap)
+        val update = BodyMeasurementMetaId(bodyMeasurementRequest, screeningId)
         if (_bodyMeasurementMeta.value == update) {
             return
         }
         _bodyMeasurementMeta.value = update
     }
 
-
     val participantMetas: LiveData<Resource<ResourceData<Message>>>? = Transformations
         .switchMap(_bodyMeasurementMeta) { input ->
-            input.ifExists { bodyMeasurementMeta, participantRequest ->
+            input.ifExists { bodyMeasurementMeta, screeningID ->
 
-                bodyMeasurementRequestRepository.syncBodyMeasurementMeta(bodyMeasurementMeta!!, participantRequest!!)
+                bodyMeasurementRequestRepository.syncBodyMeasurementMeta(bodyMeasurementMeta!!, screeningID!!)
             }
         }
 
-
     data class BodyMeasurementMetaId(
         val bodyMeasurementMeta: BodyMeasurementMeta?,
-        val participantRequest: ParticipantRequest?
+        val screeningId: String?
     ) {
-        fun <T> ifExists(f: (BodyMeasurementMeta?, ParticipantRequest?) -> LiveData<T>): LiveData<T> {
-            return if (bodyMeasurementMeta == null && participantRequest == null) {
+        fun <T> ifExists(f: (BodyMeasurementMeta?, String?) -> LiveData<T>): LiveData<T> {
+            return if (bodyMeasurementMeta == null && screeningId == null) {
                 AbsentLiveData.create()
             } else {
-                f(bodyMeasurementMeta, participantRequest)
+                f(bodyMeasurementMeta, screeningId)
             }
         }
     }

@@ -60,8 +60,8 @@ class ActivityTackeViewModel @Inject constructor(
 
     var axivitySync: LiveData<Resource<Message>>? = Transformations
         .switchMap(_axivityId) { input ->
-            input.ifExists { axivity, participantRequest ->
-                axivityRepository.syncAxivity(axivity = axivity!!, participantId = participantRequest!!)
+            input.ifExists { axivity, screeningId ->
+                axivityRepository.syncAxivity(screeningId = screeningId!!, axivity = axivity!! )
             }
         }
 
@@ -72,18 +72,18 @@ class ActivityTackeViewModel @Inject constructor(
         _participantId.value = participantId
     }
 
-    fun setAxivity(participantId: ParticipantRequest, axivity: Axivity) {
-        val update = AxivityId(participantRequest = participantId, axivity = axivity)
+    fun setAxivity(screeningId: String?, axivity: Axivity) {
+        val update = AxivityId(axivity = axivity, screeningId = screeningId)
         if (_axivityId.value == update) {
             return
         }
         _axivityId.value = update
     }
 
-    data class AxivityId(val axivity: Axivity?, val participantRequest: ParticipantRequest?) {
+    data class AxivityId(val axivity: Axivity?, val screeningId: String?) {
 
-        fun <T> ifExists(f: (Axivity?, ParticipantRequest?) -> LiveData<T>): LiveData<T> {
-            return if (axivity == null && participantRequest == null) {
+        fun <T> ifExists(f: (Axivity?, String?) -> LiveData<T>): LiveData<T> {
+            return if (axivity == null && screeningId == null) {
                 AbsentLiveData.create()
             } else {
 //                axivity!!.comment="COMMENT"
@@ -92,7 +92,7 @@ class ActivityTackeViewModel @Inject constructor(
 //                axivity!!.meta!!.collectedBy = "COLLECTED_BY"
 //                axivity!!.meta!!.startTime = "META_START_TIME"
 //                axivity!!.meta!!.endTime = "META_END_TIME"
-                f(axivity, participantRequest)
+                f(axivity, screeningId)
             }
         }
     }

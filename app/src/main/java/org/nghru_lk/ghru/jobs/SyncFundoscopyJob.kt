@@ -10,7 +10,7 @@ import org.nghru_lk.ghru.vo.request.ParticipantRequest
 import timber.log.Timber
 
 class SyncFundoscopyJob(
-    private val participantRequest: ParticipantRequest?,
+    private val screeningId: String?,
     private val fundoscopyRequest : FundoscopyRequest
 ) : Job(
     Params(JobPriority.FUNDOSCOPY)
@@ -21,7 +21,7 @@ class SyncFundoscopyJob(
 
 
     override fun onAdded() {
-        Timber.d("Executing onAdded() for comment $participantRequest")
+        Timber.d("Executing onAdded() for comment $screeningId")
     }
 
     override fun shouldReRunOnThrowable(throwable: Throwable, runCount: Int, maxRunCount: Int): RetryConstraint {
@@ -37,8 +37,8 @@ class SyncFundoscopyJob(
     }
 
     override fun onRun() {
-        Timber.d("Executing onRun() for household $participantRequest")
-        RemoteHouseholdService().getInstance().addFundoscopy(participantRequest!!,fundoscopyRequest)
+        Timber.d("Executing onRun() for household $screeningId")
+        RemoteHouseholdService().getInstance().addFundoscopy(screeningId!!,fundoscopyRequest)
         FundoscopyRequestRxBus.getInstance().post(SyncResponseEventType.SUCCESS,fundoscopyRequest)
         //   SyncSampleStorageRequestRxBus.getInstance().post(SyncResponseEventType.SUCCESS, sampleStorageRequest)
     }

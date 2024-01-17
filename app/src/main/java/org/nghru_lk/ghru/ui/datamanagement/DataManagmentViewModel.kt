@@ -25,7 +25,8 @@ class DataManagmentViewModel
                     axivityRepository : AxivityRepository,
                     householdRequestRepository : HouseholdRequestRepository,
                     participantRequestRepository : ParticipantRequestRepository,
-                    membersRepository: MembersRepository
+                    membersRepository: MembersRepository,
+                    bloodTestRepository: BloodTestRepository
 
 
 ) : ViewModel() {
@@ -52,6 +53,7 @@ class DataManagmentViewModel
     private val _recordSample : MutableLiveData<SampleRequest> = MutableLiveData()
     private val _recordActivity : MutableLiveData<Axivity> = MutableLiveData()
     private val _householdRequestSync: MutableLiveData<HouseholdRequestMeta> = MutableLiveData()
+    private val _recordBloodTest : MutableLiveData<BloodTestRequest> = MutableLiveData()
 
     fun setStationNameBP(stationName: Measurements) {
         val update = stationName.toString().toLowerCase()
@@ -331,6 +333,19 @@ class DataManagmentViewModel
                 membersRepository.syncMembers(memberX, participantRequest)
             }
 
+        }
+
+    fun setRecordBloodTest(syncRecord: BloodTestRequest)
+    {
+        if(_recordBloodTest.value == syncRecord)
+        {
+            return
+        }
+        _recordBloodTest.value = syncRecord
+    }
+    var syncRecordBloodTestRequest : LiveData<Resource<ResourceData<ECG>>>?= Transformations
+        .switchMap(_recordBloodTest) { input ->
+            bloodTestRepository.syncBloodTestWhenBackToOnline(_recordBloodTest.value!!)
         }
 
 }

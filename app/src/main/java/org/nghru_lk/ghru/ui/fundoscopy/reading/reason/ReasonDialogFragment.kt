@@ -52,9 +52,10 @@ class ReasonDialogFragment : DialogFragment(), Injectable {
 
     lateinit var cancelRequest: CancelRequest
 
-    private var participant: ParticipantRequest? = null
+    //private var participant: ParticipantRequest? = null
     private var problematic: String? = null
     private var problemWith: String? = null
+    private var screeningId : String? = null
 
     @Inject
     lateinit var jobManager: JobManager
@@ -62,7 +63,7 @@ class ReasonDialogFragment : DialogFragment(), Injectable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
-            participant = arguments?.getParcelable<ParticipantRequest>("participant")!!
+            screeningId = arguments?.getString("participant")!!
         } catch (e: KotlinNullPointerException) {
 
         }
@@ -130,8 +131,8 @@ class ReasonDialogFragment : DialogFragment(), Injectable {
                 cancelRequest.reason = problematic  //"Problematic eye: $problematic, Problem with?: $problemWith"
                 cancelRequest.comment = binding.comment.text.toString()
                 cancelRequest.syncPending =!isNetworkAvailable()
-                cancelRequest.screeningId = participant?.screeningId!!
-                viewModel.setLogin(participant, cancelRequest)
+                cancelRequest.screeningId = screeningId!!
+                viewModel.setLogin(screeningId, cancelRequest)
             }
 
 

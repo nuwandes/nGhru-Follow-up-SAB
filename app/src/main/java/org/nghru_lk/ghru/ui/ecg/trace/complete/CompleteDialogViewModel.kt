@@ -5,15 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import org.nghru_lk.ghru.repository.ECGRepository
+import org.nghru_lk.ghru.repository.UserRepository
 import org.nghru_lk.ghru.util.AbsentLiveData
 import org.nghru_lk.ghru.vo.ECG
+import org.nghru_lk.ghru.vo.ECGStatus
 import org.nghru_lk.ghru.vo.Resource
+import org.nghru_lk.ghru.vo.User
 import org.nghru_lk.ghru.vo.request.ParticipantRequest
 import javax.inject.Inject
 
 
 class CompleteDialogViewModel
-@Inject constructor(eCGRepository: ECGRepository) : ViewModel() {
+@Inject constructor(eCGRepository: ECGRepository,
+                    userRepository: UserRepository
+) : ViewModel() {
 
     private val _participantRequestRemote: MutableLiveData<ECGId> = MutableLiveData()
     private var isOnline : Boolean = false
@@ -29,15 +34,14 @@ class CompleteDialogViewModel
 
     var eCGSaveRemote: LiveData<Resource<ECG>>? = Transformations
         .switchMap(_participantRequestRemote) { input ->
-            input.ifExists { participantRequest, status, comment, device_id ->
-                eCGRepository.syncECG(participantRequest, status, comment, device_id,isOnline)
+            input.ifExists { screeningId, ecgStatus ->
+                eCGRepository.syncECG(screeningId, ecgStatus, isOnline)
             }
         }
 
-    fun setECGRemote(participantRequest: ParticipantRequest, status: String, comment: String?, device_id: String, online : Boolean) {
-
+    fun setECGRemote(screeningId: String?, ecgStatus: ECGStatus?, online : Boolean) {
         isOnline = online
-        val update = ECGId(participantRequest, status, comment, device_id)
+        val update = ECGId(screeningId, ecgStatus)
         if (_participantRequestRemote.value == update) {
             return
         }
@@ -48,17 +52,34 @@ class CompleteDialogViewModel
     }
 
     data class ECGId(
-        val participantRequest: ParticipantRequest?,
-        val status: String?,
-        val comment: String?,
-        val device_id: String
+        val screeningId: String?,
+        val ecgStatus: ECGStatus?
     ) {
-        fun <T> ifExists(f: (ParticipantRequest, String, String?, String) -> LiveData<T>): LiveData<T> {
-            return if (participantRequest == null || status.isNullOrBlank()) {
+        fun <T> ifExists(f: (String, ECGStatus) -> LiveData<T>): LiveData<T> {
+            return if (screeningId == null || ecgStatus == null) {
                 AbsentLiveData.create()
             } else {
-                f(participantRequest, status!!, comment, device_id)
+                f(screeningId, ecgStatus)
             }
+        }
+    }
+
+    //    ---------------------------------------------------------------------------------------------------------
+
+    private val _email = MutableLiveData<String>()
+
+    val user: LiveData<Resource<User>>? = Transformations
+        .switchMap(_email) { emailx ->
+            if (emailx == null) {
+                AbsentLiveData.create()
+            } else {
+                userRepository.loadUserDB()
+            }
+        }
+
+    fun setUser(email: String?) {
+        if (_email.value != email) {
+            _email.value = email
         }
     }
 }

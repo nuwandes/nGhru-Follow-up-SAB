@@ -31,13 +31,13 @@ import org.nghru_lk.ghru.ui.ecg.trace.completed.CompletedDialogFragment
 import org.nghru_lk.ghru.util.autoCleared
 import org.nghru_lk.ghru.util.getLocalTimeString
 import org.nghru_lk.ghru.util.singleClick
-import org.nghru_lk.ghru.vo.ECGStatus
-import org.nghru_lk.ghru.vo.Status
+import org.nghru_lk.ghru.vo.*
 import org.nghru_lk.ghru.vo.request.ParticipantRequest
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.Date
 import javax.inject.Inject
 
 class CompleteDialogFragment : DialogFragment(), Injectable {
@@ -54,14 +54,16 @@ class CompleteDialogFragment : DialogFragment(), Injectable {
 
     @Inject
     lateinit var jobManager: JobManager
-    private var participant: ParticipantRequest? = null
+    private var participant: ParticipantListItem? = null
     private var comment: String? = null
     private var device_id: String? = null
+    var user: User? = null
+    var meta: Meta? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
-            participant = arguments?.getParcelable<ParticipantRequest>("participant")!!
+            participant = arguments?.getParcelable<ParticipantListItem>("participant")!!
             comment = arguments?.getString("comment")
             device_id = arguments?.getString("deviceId")
         } catch (e: KotlinNullPointerException) {
@@ -87,6 +89,23 @@ class CompleteDialogFragment : DialogFragment(), Injectable {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        confirmationdialogViewModel.setUser("user")
+
+        confirmationdialogViewModel.user?.observe(this, Observer { userData ->
+            if (userData?.data != null) {
+                // setupNavigationDrawer(userData.data)
+
+                val sTime: String = convertTimeTo24Hours()
+                val sDate: String = getDate()
+                val sDateTime:String = sDate + " " + sTime
+
+                user = userData.data
+                meta = Meta(collectedBy = user?.id, startTime = sDateTime)
+                //meta?.registeredBy = user?.id
+            }
+
+        })
 
         confirmationdialogViewModel.eCGSaveRemote?.observe(this, Observer { participant ->
 
@@ -118,16 +137,16 @@ class CompleteDialogFragment : DialogFragment(), Injectable {
             val endDate: String = getDate()
             val endDateTime:String = endDate + " " + endTime
 
-            participant?.meta?.endTime = endDateTime
+            meta?.endTime = endDateTime
+            val mECGStatus = ECGStatus(status, comment, device_id, meta= meta)
 
             if (isNetworkAvailable())
             {
-                confirmationdialogViewModel.setECGRemote(participant!!, status, comment, device_id!!,isNetworkAvailable())
+                confirmationdialogViewModel.setECGRemote(participant?.participant_id,mECGStatus, isNetworkAvailable())
             }
             else
             {
-                val mECGStatus = ECGStatus(status, comment, device_id, meta= participant?.meta)
-                jobManager.addJobInBackground(SyncECGJob(participant, mECGStatus))
+                jobManager.addJobInBackground(SyncECGJob(participant?.participant_id, mECGStatus))
                 val completedDialogFragment = CompletedDialogFragment()
                 completedDialogFragment.arguments = bundleOf("is_cancel" to false)
                 completedDialogFragment.show(fragmentManager!!)

@@ -3,23 +3,24 @@ package org.nghru_lk.ghru.jobs
 import com.birbit.android.jobqueue.Job
 import com.birbit.android.jobqueue.Params
 import com.birbit.android.jobqueue.RetryConstraint
+import org.nghru_lk.ghru.sync.BloodTestRxBus
 import org.nghru_lk.ghru.sync.ECGStatusRxBus
 import org.nghru_lk.ghru.sync.SyncResponseEventType
+import org.nghru_lk.ghru.vo.BloodTestRequest
 import org.nghru_lk.ghru.vo.ECGStatus
 import org.nghru_lk.ghru.vo.request.ParticipantRequest
 import timber.log.Timber
 
-class SyncECGJob(private val screeningId: String?,
-                 private val eCGStatus: ECGStatus) : Job(
-    Params(JobPriority.ECG)
+class SyncBloodTestJob(private val bloodTestRequest: BloodTestRequest) : Job(
+    Params(JobPriority.BLOOD_TEST)
         .setRequiresNetwork(true)
-        .groupBy("ECG")
+        .groupBy("BLOOD_TEST")
         .persist()
 ) {
 
 
     override fun onAdded() {
-        Timber.d("Executing onAdded() for comment $screeningId")
+        Timber.d("Executing onAdded() for comment ${bloodTestRequest.screeningId}")
     }
 
     override fun shouldReRunOnThrowable(throwable: Throwable, runCount: Int, maxRunCount: Int): RetryConstraint {
@@ -35,23 +36,17 @@ class SyncECGJob(private val screeningId: String?,
     }
 
     override fun onRun() {
-        Timber.d("Executing onRun() for household $screeningId")
-        RemoteHouseholdService().getInstance().addECG(screeningId!!, eCGStatus)
-        //   SyncSampleStorageRequestRxBus.getInstance().post(SyncResponseEventType.SUCCESS, sampleStorageRequest)
-        ECGStatusRxBus.getInstance().post(SyncResponseEventType.SUCCESS,eCGStatus)
+        Timber.d("Executing onRun() for household $bloodTestRequest.screeningId")
+        RemoteHouseholdService().getInstance().addBloodTest(bloodTestRequest)
+        BloodTestRxBus.getInstance().post(SyncResponseEventType.SUCCESS,bloodTestRequest)
     }
 
     override fun onCancel(cancelReason: Int, throwable: Throwable?) {
         Timber.d("canceling job. reason: %d, throwable: %s", cancelReason, throwable)
-        ECGStatusRxBus.getInstance().post(SyncResponseEventType.FAILED,eCGStatus)
-        //Crashlytics.logException(throwable)
-
-        //Crashlytics.log("SyncSpirometryJob " + participantRequest.toString())
-        // sync to remote failed
-        //    SyncSampleStorageRequestRxBus.getInstance().post(SyncResponseEventType.FAILED, sampleStorageRequest)
+        BloodTestRxBus.getInstance().post(SyncResponseEventType.FAILED,bloodTestRequest)
     }
     companion object {
 
-        private val TAG = SyncECGJob::class.java.getCanonicalName()
+        private val TAG = SyncBloodTestJob::class.java.getCanonicalName()
     }
 }

@@ -41,7 +41,7 @@ class CancelRequestRepository @Inject constructor(
             override fun createJob(insertedID: Long) {
                 cancelRequest.id = insertedID
                 cancelRequest.createdDateTime = getLocalTimeString()
-                jobManager.addJobInBackground(SyncCancelrequestJob(participantRequest!!, cancelRequest))
+                jobManager.addJobInBackground(SyncCancelrequestJob(participantRequest.screeningId, cancelRequest))
             }
             override fun isNetworkAvilable(): Boolean {
 
@@ -132,7 +132,7 @@ class CancelRequestRepository @Inject constructor(
             override fun createJob(insertedID: Long) {
                 cancelRequest.id = insertedID
                 cancelRequest.createdDateTime = getLocalTimeString()
-                jobManager.addJobInBackground(SyncCancelrequestJob(participantRequest!!, cancelRequest))
+                jobManager.addJobInBackground(SyncCancelrequestJob(participantRequest.screeningId, cancelRequest))
             }
             override fun isNetworkAvilable(): Boolean {
 
@@ -144,6 +144,33 @@ class CancelRequestRepository @Inject constructor(
             }
             override fun createCall(): LiveData<ApiResponse<ResourceData<MessageCancel>>> {
                 return nghruService.addNewCancelRequest(participantRequest.screeningId, cancelRequest)
+            }
+
+        }.asLiveData()
+    }
+
+    fun syncCancelRequestUpdated(
+        screeningId : String,
+        cancelRequest: CancelRequest
+    ): LiveData<Resource<MessageCancel>>{
+
+        return object : MyNetworkBoundResource<MessageCancel,ResourceData<MessageCancel>>(appExecutors) {
+
+            override fun createJob(insertedID: Long) {
+                cancelRequest.id = insertedID
+                cancelRequest.createdDateTime = getLocalTimeString()
+                jobManager.addJobInBackground(SyncCancelrequestJob(screeningId, cancelRequest))
+            }
+            override fun isNetworkAvilable(): Boolean {
+
+                return cancelRequest.syncPending
+            }
+            override fun saveDb(): Long {
+                cancelRequest.createdDateTime = getLocalTimeString()
+                return cancelRequestDao.insert(cancelRequest)
+            }
+            override fun createCall(): LiveData<ApiResponse<ResourceData<MessageCancel>>> {
+                return nghruService.addCancelRequest(screeningId, cancelRequest)
             }
 
         }.asLiveData()

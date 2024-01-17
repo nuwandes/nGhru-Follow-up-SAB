@@ -32,6 +32,7 @@ import org.nghru_lk.ghru.databinding.SampleMangementHomeFragmentBinding
 import org.nghru_lk.ghru.db.MemberTypeConverters
 import org.nghru_lk.ghru.di.Injectable
 import org.nghru_lk.ghru.event.*
+import org.nghru_lk.ghru.jobs.SyncBloodTestJob
 import org.nghru_lk.ghru.ui.samplemanagement.bloodtesthome.cancel.CancelDialogFragment
 import org.nghru_lk.ghru.ui.samplemanagement.storage.completed.CompletedDialogFragment
 import org.nghru_lk.ghru.util.*
@@ -73,7 +74,7 @@ class BloodTestHomeFragment : Fragment(), Injectable {
 
     private var bloodTestData: BloodTests? = null
 
-    private var participant: ParticipantRequest? = null
+    //private var participant: ParticipantRequest? = null
 
     var user: User? = null
     var meta: Meta? = null
@@ -164,14 +165,14 @@ class BloodTestHomeFragment : Fragment(), Injectable {
         binding.titleGender.setText(selectedParticipant!!.gender)
         binding.titleParticipantId.setText(selectedParticipant!!.participant_id)
 
-        viewModel.setScreeningId(selectedParticipant!!.participant_id)
+        //viewModel.setScreeningId(selectedParticipant!!.participant_id)
 
         viewModel.participant.observe(this, Observer { participantResource ->
 
             if (participantResource?.status == Status.SUCCESS)
             {
-                participant = participantResource.data?.data
-                participant?.meta = meta
+                //participant = participantResource.data?.data
+                //participant?.meta = meta
                 Log.d("FASTED_FRAG", "PAR_REQ_SUCCESS")
             }
             else if (participantResource?.status == Status.ERROR)
@@ -236,18 +237,24 @@ class BloodTestHomeFragment : Fragment(), Injectable {
                     tch = totalCholesterol,
                     fbg = fastingBloodGlucose)
 
-                    participant?.meta?.endTime = endDateTime
+                    meta?.endTime = endDateTime
 
-                val bloodTestRequest = BloodTestRequest(meta = participant?.meta, body = bloodTestData)
-                bloodTestRequest.screeningId = participant?.screeningId!!
-                if(isNetworkAvailable()){
+                val bloodTestRequest = BloodTestRequest(meta = meta, body = bloodTestData)
+                bloodTestRequest.screeningId = selectedParticipant?.participant_id!!
+
+                if (isNetworkAvailable())
+                {
                     bloodTestRequest.syncPending =false
-                }else{
-                    bloodTestRequest.syncPending =true
-
+                    viewModel.setBloodRequest(bloodTestRequest, bloodTestRequest.screeningId)
                 }
-
-                viewModel.setBloodRequest(bloodTestRequest, bloodTestRequest.screeningId)
+                else
+                {
+                    bloodTestRequest.syncPending =true
+                    jobManager.addJobInBackground(SyncBloodTestJob(bloodTestRequest))
+                    val completedDialogFragment = CompletedDialogFragment()
+                    completedDialogFragment.arguments = bundleOf("is_cancel" to false)
+                    completedDialogFragment.show(fragmentManager!!)
+                }
 
                 binding.progressBar.visibility = View.VISIBLE
                 binding.buttonSubmit.visibility = View.GONE
@@ -264,11 +271,6 @@ class BloodTestHomeFragment : Fragment(), Injectable {
                 {
                     updateProcessErrorUI(binding.TCTextView)
                 }
-
-//                if (!isValied()) {
-//                    updateProcessErrorUI(binding.TCTextView)
-//                    updateProcessErrorUI(binding.fbgTextView)
-//                }
             }
 
         }
@@ -287,7 +289,7 @@ class BloodTestHomeFragment : Fragment(), Injectable {
 //                    "BloodTestRequest",
 //                    BloodTestRequest(meta = meta, b).toString()
 //                )
-                Crashlytics.setString("participant", participant.toString())
+                Crashlytics.setString("participant", selectedParticipant!!.participant_id.toString())
                 Crashlytics.logException(Exception("BodyMeasurementMeta " + chkPocess.message.toString()))
             }
         })
@@ -308,7 +310,7 @@ class BloodTestHomeFragment : Fragment(), Injectable {
 
         binding.buttonCancel.setOnClickListener {
             val cancelDialogFragment = CancelDialogFragment()
-            cancelDialogFragment.arguments = bundleOf("participant" to participant)
+            cancelDialogFragment.arguments = bundleOf("participant" to selectedParticipant!!.participant_id)
             cancelDialogFragment.show(fragmentManager!!)
         }
     }

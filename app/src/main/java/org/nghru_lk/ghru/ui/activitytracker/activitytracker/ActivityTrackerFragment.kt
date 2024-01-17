@@ -73,7 +73,7 @@ class ActivityTackeFragment : Fragment(), Injectable {
     @Inject
     lateinit var viewModel: ActivityTackeViewModel
 
-    private var participant: ParticipantRequest? = null
+    //private var participant: ParticipantRequest? = null
 
     private val disposables = CompositeDisposable()
 
@@ -96,7 +96,7 @@ class ActivityTackeFragment : Fragment(), Injectable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
-            participant = arguments?.getParcelable<ParticipantRequest>("ParticipantRequest")!!
+            //participant = arguments?.getParcelable<ParticipantRequest>("ParticipantRequest")!!
         } catch (e: KotlinNullPointerException) {
 
         }
@@ -169,7 +169,7 @@ class ActivityTackeFragment : Fragment(), Injectable {
         super.onActivityCreated(savedInstanceState)
         binding.setLifecycleOwner(this)
         binding.viewModel = viewModel
-        binding.participant = participant
+        //binding.participant = participant
 
         prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -181,13 +181,13 @@ class ActivityTackeFragment : Fragment(), Injectable {
         binding.titleGender.setText(selectedParticipant!!.gender)
         binding.titleParticipantId.setText(selectedParticipant!!.participant_id)
 
-        viewModel.setScreeningId(selectedParticipant!!.participant_id)
+        //viewModel.setScreeningId(selectedParticipant!!.participant_id)
 
         viewModel.participant.observe(this, Observer { participantResource ->
 
             if (participantResource?.status == Status.SUCCESS) {
-                participant = participantResource.data?.data
-                participant?.meta = meta
+                //participant = participantResource.data?.data
+                //participant?.meta = meta
 
                 Log.d("BLOOD_PRESSURE_HOME", "PAR_REQ_SUCCESS")
 
@@ -308,19 +308,19 @@ class ActivityTackeFragment : Fragment(), Injectable {
                 val endDate: String = getDate()
                 val endDateTime:String = endDate + " " + endTime
 
-                participant?.meta?.endTime =  endDateTime
-                axivity?.meta = participant?.meta
+                meta?.endTime =  endDateTime
+                axivity?.meta = meta
                 axivity?.dominantWrist = selectedDeviceID?.toLowerCase()
                 axivity?.syncPending = !isNetworkAvailable()
-                axivity?.screeningId = participant?.screeningId!!
+                axivity?.screeningId = selectedParticipant?.participant_id!!
                 axivity?.endTime =  endDateTime
                 if (isNetworkAvailable()) {
                     if (axivity?.meta != null)
                     {
-                        viewModel.setAxivity(axivity = axivity!!, participantId = participant!!)
+                        viewModel.setAxivity(screeningId = selectedParticipant?.participant_id, axivity = axivity)
                     }
                 } else {
-                    jobManager.addJobInBackground(SyncAxivityJob(participant?.screeningId!!, axivity!!))
+                    jobManager.addJobInBackground(SyncAxivityJob(selectedParticipant?.participant_id!!, axivity!!))
                     val completedDialogFragment = CompletedDialogFragment()
                     completedDialogFragment.arguments = bundleOf("is_cancel" to false)
                     completedDialogFragment.show(fragmentManager!!)
@@ -333,7 +333,7 @@ class ActivityTackeFragment : Fragment(), Injectable {
         binding.buttonCancel.singleClick {
 
             val reasonDialogFragment = ReasonDialogFragment()
-            reasonDialogFragment.arguments = bundleOf("participant" to participant)
+            reasonDialogFragment.arguments = bundleOf("participant" to selectedParticipant?.participant_id)
             reasonDialogFragment.show(fragmentManager!!)
         }
 
@@ -349,7 +349,7 @@ class ActivityTackeFragment : Fragment(), Injectable {
             try
             {
                 ainaIntent = Intent(action)
-                ainaIntent.putExtra("data", bundleOf("user" to participant?.screeningId))
+                ainaIntent.putExtra("data", bundleOf("user" to selectedParticipant?.participant_id))
                 activity!!.startActivityForResult(ainaIntent, requestCode)
 
                 Log.d("ACTIVITY_TRACKER_FRAG", "AX3_PACKAGE_OK: ")

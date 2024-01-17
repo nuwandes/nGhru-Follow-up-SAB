@@ -64,7 +64,7 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
     @Inject
     lateinit var fundoscopyReadingViewModel: FundoscopyReadingViewModel
 
-    private var participant: ParticipantRequest? = null
+    //private var participant: ParticipantRequest? = null
 
     private var adapter by autoCleared<AssetAdapter>()
 
@@ -86,7 +86,7 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
-            participant = arguments?.getParcelable<ParticipantRequest>("ParticipantRequest")!!
+            //participant = arguments?.getParcelable<ParticipantRequest>("ParticipantRequest")!!
         } catch (e: KotlinNullPointerException) {
 
         }
@@ -133,13 +133,13 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
         val participantAge: String = getAge(dob_year.toInt(), dob_month.toInt(), dob_date.toInt())
         binding.titleAge.setText(participantAge + "Y")
 
-        fundoscopyReadingViewModel.setScreeningId(selectedParticipant!!.participant_id)
+        //fundoscopyReadingViewModel.setScreeningId(selectedParticipant!!.participant_id)
 
         fundoscopyReadingViewModel.participant.observe(this, Observer { participantResource ->
 
             if (participantResource?.status == Status.SUCCESS) {
-                participant = participantResource.data?.data
-                participant?.meta = meta
+                //participant = participantResource.data?.data
+                //participant?.meta = meta
 
                 Log.d("BLOOD_PRESSURE_HOME", "PAR_REQ_SUCCESS")
 
@@ -150,7 +150,7 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
             binding.executePendingBindings()
         })
 
-        binding.participant = participant
+        //binding.participant = participant
 
         fundoscopyReadingViewModel.setUser("user")
         fundoscopyReadingViewModel.user?.observe(this, Observer { userData ->
@@ -191,16 +191,16 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
                 }
             }
         })
-        binding.syncLayout.singleClick {
-            fundoscopyReadingViewModel.setParticipant(
-                participant!!,
-                binding.comment.text.toString(),
-                selectedDeviceID!!,
-                didDilation!!,
-                cataractObservation
-            )
-
-        }
+//        binding.syncLayout.singleClick {
+//            fundoscopyReadingViewModel.setParticipant(
+//                participant!!,
+//                binding.comment.text.toString(),
+//                selectedDeviceID!!,
+//                didDilation!!,
+//                cataractObservation
+//            )
+//
+//        }
 
         fundoscopyReadingViewModel.fundoscopyComplete?.observe(this, Observer { participant ->
 
@@ -227,28 +227,27 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
                 val endDate: String = getDate()
                 val endDateTime:String = endDate + " " + endTime
 
-                participant?.meta?.endTime =  endDateTime
+                meta?.endTime =  endDateTime
+
+                val fundoscopyRequest = FundoscopyRequest(
+                    comment = binding.comment.text.toString(),
+                    device_id = selectedDeviceID!!,
+                    pupil_dilation = didDilation!!,
+                    meta = meta,
+                    cataract_observation = cataractObservation)
 
                 if (isNetworkAvailable())
                 {
-                    fundoscopyReadingViewModel.setParticipantComplete(
-                        participant!!,
-                        binding.comment.text.toString(),
-                        selectedDeviceID!!,
-                        didDilation!!,isNetworkAvailable(),
-                        cataractObservation
+                    fundoscopyReadingViewModel.setFundoRequest(
+                        selectedParticipant?.participant_id,
+                        fundoscopyRequest
                     )
-                } else {
-                    val fundoscopyRequest = FundoscopyRequest(
-                        comment = binding.comment.text.toString(),
-                        device_id = selectedDeviceID!!,
-                        pupil_dilation = didDilation!!,
-                        meta = participant!!.meta,
-                        cataract_observation = cataractObservation
-                    )
+                }
+                else
+                {
                     jobManager.addJobInBackground(
                         SyncFundoscopyJob(
-                            participant,
+                            selectedParticipant?.participant_id,
                             fundoscopyRequest
                         )
                     )
@@ -264,7 +263,7 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
         binding.buttonCancel.singleClick {
 
             val reasonDialogFragment = ReasonDialogFragment()
-            reasonDialogFragment.arguments = bundleOf("participant" to participant)
+            reasonDialogFragment.arguments = bundleOf("participant" to selectedParticipant?.participant_id)
             reasonDialogFragment.show(fragmentManager!!)
         }
 

@@ -66,7 +66,7 @@ class BPManualOneFragment : Fragment(), Injectable {
     lateinit var bPManualOneViewModel: BPManualOneViewModel
 
 
-    private var participantRequest: ParticipantRequest? = null
+    //private var participantRequest: ParticipantRequest? = null
 
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: BPRecordAdapter
@@ -90,7 +90,7 @@ class BPManualOneFragment : Fragment(), Injectable {
         super.onCreate(savedInstanceState)
         try {
             //   measurement = arguments?.getParcelable<BodyMeasurement>(Constants.ARG_BODY_MEASURMENT)!!
-            participantRequest = arguments?.getParcelable<ParticipantRequest>("ParticipantRequest")!!
+            //participantRequest = arguments?.getParcelable<ParticipantRequest>("ParticipantRequest")!!
 
             //   Log.d("measurement", measurement?.height?.value)
         } catch (e: KotlinNullPointerException) {
@@ -178,13 +178,13 @@ class BPManualOneFragment : Fragment(), Injectable {
         binding.titleGender.setText(selectedParticipant!!.gender)
         binding.titleParticipantId.setText(selectedParticipant!!.participant_id)
 
-        bPManualOneViewModel.setScreeningId(selectedParticipant!!.participant_id)
+        //bPManualOneViewModel.setScreeningId(selectedParticipant!!.participant_id)
 
         bPManualOneViewModel.participant.observe(this, Observer { participantResource ->
 
             if (participantResource?.status == Status.SUCCESS) {
-                participantRequest = participantResource.data?.data
-                participantRequest?.meta = meta
+                //participantRequest = participantResource.data?.data
+                //participantRequest?.meta = meta
 
                 Log.d("BLOOD_PRESSURE_HOME", "PAR_REQ_SUCCESS")
 
@@ -218,7 +218,7 @@ class BPManualOneFragment : Fragment(), Injectable {
 
         })
 
-        binding.participant = participantRequest
+        //binding.participant = participantRequest
         // bPManualOneViewModel.setBodyMeasurement(measurement!!)
         binding.bloodPressure = bPManualOneViewModel.getBloodPressure().value
 
@@ -253,7 +253,7 @@ class BPManualOneFragment : Fragment(), Injectable {
                     device_id = selectedDeviceID.toString()
                 )
                 mBloodPressureRequest.syncPending = !isNetworkAvailable()
-                mBloodPressureRequest.screeningId = participantRequest?.screeningId!!
+                mBloodPressureRequest.screeningId = selectedParticipant?.participant_id!!
                 mBloodPressureRequest.bloodPresureRequestList = bloodPresureRequestList
 
                 val eTime: String = convertTimeTo24Hours()
@@ -270,7 +270,7 @@ class BPManualOneFragment : Fragment(), Injectable {
 
                     bPManualOneViewModel.setBloodPressureMetaRequestRemote(
                         mBloodPressureMetaRequest!!,
-                        participantRequest!!
+                        selectedParticipant?.participant_id!!
                     )
                     binding.progressBar.visibility = View.VISIBLE
                     binding.textViewError.setText("")
@@ -279,7 +279,7 @@ class BPManualOneFragment : Fragment(), Injectable {
                     mBloodPressureMetaRequest?.syncPending = true
                     jobManager.addJobInBackground(
                         SyncBloodPresureRequestJob(
-                            participantRequest?.screeningId!!,
+                            selectedParticipant?.participant_id!!,
                             mBloodPressureMetaRequest!!
                         )
                     )
@@ -297,7 +297,7 @@ class BPManualOneFragment : Fragment(), Injectable {
                 completedDialogFragment.show(fragmentManager!!)
             } else if (it?.status == Status.ERROR) {
                 Crashlytics.setString("mBloodPressureMetaRequest", mBloodPressureMetaRequest.toString())
-                Crashlytics.setString("participant", participantRequest.toString())
+                Crashlytics.setString("participant", selectedParticipant?.participant_id.toString())
                 Crashlytics.logException(Exception("bloodPressureRequestRemote " + it.message.toString()))
                 binding.textViewError.visibility = View.VISIBLE
                 binding.textViewError.setText(it.message?.message)
@@ -307,7 +307,7 @@ class BPManualOneFragment : Fragment(), Injectable {
 
         binding.textViewSkip.singleClick {
             val reasonDialogFragment = ReasonDialogFragment()
-            reasonDialogFragment.arguments = bundleOf("participant" to participantRequest)
+            reasonDialogFragment.arguments = bundleOf("participant" to selectedParticipant?.participant_id)
             reasonDialogFragment.show(fragmentManager!!)
         }
         if (BuildConfig.DEBUG) {
@@ -346,7 +346,8 @@ class BPManualOneFragment : Fragment(), Injectable {
 
         binding.buttonAddTest.singleClick {
 
-            val bundle = bundleOf("ParticipantRequest" to participantRequest, Constants.ARG_BODY_MEASURMENT to bPManualOneViewModel.getBodyMeasurement().value)
+            //val bundle = bundleOf("ParticipantRequest" to participantRequest, Constants.ARG_BODY_MEASURMENT to bPManualOneViewModel.getBodyMeasurement().value)
+            val bundle = bundleOf(Constants.ARG_BODY_MEASURMENT to bPManualOneViewModel.getBodyMeasurement().value)
             navController().navigate(R.id.action_pPManualOneFragment_to_bPManualTwoFragment, bundle)
 
         }

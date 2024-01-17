@@ -53,7 +53,8 @@ class ReasonDialogFragment : DialogFragment(), Injectable {
 
     lateinit var cancelRequest: CancelRequest
 
-    private var participant: ParticipantRequest? = null
+    //private var participant: ParticipantRequest? = null
+    private var screeningId : String? = null
 
     @Inject
     lateinit var jobManager: JobManager
@@ -61,12 +62,11 @@ class ReasonDialogFragment : DialogFragment(), Injectable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
-            participant = arguments?.getParcelable<ParticipantRequest>("participant")!!
+            screeningId = arguments?.getString("participant")!!
         } catch (e: KotlinNullPointerException) {
 
         }
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,7 +81,6 @@ class ReasonDialogFragment : DialogFragment(), Injectable {
         binding = dataBinding
         return dataBinding.root
     }
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -129,8 +128,8 @@ class ReasonDialogFragment : DialogFragment(), Injectable {
 
                 cancelRequest.comment = binding.comment.text.toString()
                 cancelRequest.syncPending = !isNetworkAvailable()
-                cancelRequest.screeningId = participant?.screeningId!!
-                viewModel.setLogin(participant, cancelRequest)
+                cancelRequest.screeningId = screeningId!!
+                viewModel.setLogin(screeningId, cancelRequest)
             }
         }
         viewModel.cancelId?.observe(this, Observer { householdResource ->

@@ -45,11 +45,11 @@ class BodyMeasurementRequestRepository @Inject constructor(
 
     fun syncBodyMeasurementMeta(
         bodyMeasurementRequest: BodyMeasurementMeta,
-        particap: ParticipantRequest
+        screeningId: String
     ): LiveData<Resource<ResourceData<Message>>> {
         return object : NetworkOnlyBoundResource<ResourceData<Message>>(appExecutors) {
             override fun createCall(): LiveData<ApiResponse<ResourceData<Message>>> {
-                return nghruService.addBodyMeasurementMeta(particap.screeningId, bodyMeasurementRequest)
+                return nghruService.addBodyMeasurementMeta(screeningId, bodyMeasurementRequest)
             }
         }.asLiveData()
     }

@@ -290,6 +290,10 @@ class DataManagementListFragment : Fragment(), Injectable {
             {
                 dataManagmentViewModel.setHouseholdRequestSyncRemote(record)
             }
+            else if(record is BloodTestRequest)
+            {
+                dataManagmentViewModel.setRecordBloodTest(record)
+            }
 //            else if(record is Measurements)
 //            {
 //                dataManagmentViewModel.setStationRegistration(record)
@@ -393,6 +397,13 @@ class DataManagementListFragment : Fragment(), Injectable {
 //            }
             currentRow ++
             syncNow(currentRow)
+        })
+        dataManagmentViewModel.syncRecordBloodTestRequest?.observe(this, Observer {
+            if(it.status != Status.LOADING)
+            {
+                currentRow ++
+                syncNow(currentRow)
+            }
         })
 //        dataManagmentViewModel.stationRegistration?.observe(this, Observer {
 //

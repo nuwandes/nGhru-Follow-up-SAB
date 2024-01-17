@@ -69,12 +69,12 @@ class BloodTestHomeViewModel
         _bloodRequest.value = bloodRequest
     }
 
-    var syncBloodRequest: LiveData<Resource<ResourceData<Message>>>? = Transformations
+    var syncBloodRequest: LiveData<Resource<ECG>>? = Transformations
         .switchMap(_bloodRequest) { cogPostRequest ->
             if (cogPostRequest == null) {
                 AbsentLiveData.create()
             } else {
-                bloodTestRepository.syncBloodTest(cogPostRequest,_participant!!)
+                bloodTestRepository.syncBloodTest(cogPostRequest)
             }
         }
 

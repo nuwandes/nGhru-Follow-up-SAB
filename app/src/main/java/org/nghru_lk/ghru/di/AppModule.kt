@@ -451,6 +451,12 @@ class AppModule {
         return db.participantListItemDao()
     }
 
+    @Singleton
+    @Provides
+    fun provideBloodTestDao(db: NGRHUDb): BloodTestDao {
+        return db.bloodTestDao()
+    }
+
     @Provides
     internal fun provideBloodPressureMetaRequestLifecycleObserver(bloodPressureMetaRequestDao: BloodPresureRequestDao): BloodPressureMetaRequestLifecycleObserver {
         return BloodPressureMetaRequestLifecycleObserver(bloodPressureMetaRequestDao)

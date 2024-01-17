@@ -351,10 +351,10 @@ class RemoteHouseholdService {
 
 
     @Throws(IOException::class, RemoteException::class)
-    fun addECG(participantRequest: ParticipantRequest?, eCGStatus: ECGStatus) {
+    fun addECG(screeningId: String?, eCGStatus: ECGStatus) {
 
         // Remote call can be executed synchronously since the job calling it is already backgrounded.]
-        val response = service.addECG(participantRequest?.screeningId!!, eCGStatus).execute()
+        val response = service.addECG(screeningId!!, eCGStatus).execute()
 
         if (response == null || !response.isSuccessful || response.errorBody() != null) {
             //L.d("error remote response: " + response.toString())
@@ -366,11 +366,11 @@ class RemoteHouseholdService {
 
 
     @Throws(IOException::class, RemoteException::class)
-    fun addFundoscopy(participantRequest: ParticipantRequest?, fundoscopyRequest:FundoscopyRequest) {
+    fun addFundoscopy(screeningId: String?, fundoscopyRequest:FundoscopyRequest) {
 
         // Remote call can be executed synchronously since the job calling it is already backgrounded.]
         val response =
-            service.addFundoscopy(participantRequest?.screeningId!!, fundoscopyRequest )
+            service.addFundoscopy(screeningId!!, fundoscopyRequest )
                 .execute()
 
         if (response == null || !response.isSuccessful || response.errorBody() != null) {
@@ -397,12 +397,12 @@ class RemoteHouseholdService {
 
     @Throws(IOException::class, RemoteException::class)
     fun addCancelRequestSync(
-        participantRequest: ParticipantRequest,
+        screeningId: String,
         cancelRequest: CancelRequest
     ) {
 
         // Remote call can be executed synchronously since the job calling it is already backgrounded.]
-        val response = service.addCancelRequestSync(participantRequest.screeningId, cancelRequest).execute()
+        val response = service.addCancelRequestSync(screeningId, cancelRequest).execute()
 
         if (response == null || !response.isSuccessful || response.errorBody() != null) {
             //L.d("error remote response: " + response.toString())
@@ -414,12 +414,12 @@ class RemoteHouseholdService {
 
     @Throws(IOException::class, RemoteException::class)
     fun addCancelAxivityRequestSync(
-        participantRequest: ParticipantRequest,
+        screeningId: String,
         cancelRequest: CancelRequest
     ) {
 
         // Remote call can be executed synchronously since the job calling it is already backgrounded.]
-        val response = service.addCancelAxivityRequestSync(participantRequest.screeningId, cancelRequest).execute()
+        val response = service.addCancelAxivityRequestSync(screeningId, cancelRequest).execute()
 
         if (response == null || !response.isSuccessful || response.errorBody() != null) {
             //L.d("error remote response: " + response.toString())
@@ -492,6 +492,20 @@ class RemoteHouseholdService {
 
         // Remote call can be executed synchronously since the job calling it is already backgrounded.]
         val response = service.addBloodPresureRequestSync(screeningId, bloodPressureMetaRequest).execute()
+
+        if (response == null || !response.isSuccessful || response.errorBody() != null) {
+            //L.d("error remote response: " + response.toString())
+            throw RemoteException(response)
+        }
+
+        //L.d("successful remote response: " + response.toString())
+    }
+
+    @Throws(IOException::class, RemoteException::class)
+    fun addBloodTest(bloodTestRequest: BloodTestRequest) {
+
+        // Remote call can be executed synchronously since the job calling it is already backgrounded.]
+        val response = service.addBloodTest(bloodTestRequest.screeningId!!, bloodTestRequest).execute()
 
         if (response == null || !response.isSuccessful || response.errorBody() != null) {
             //L.d("error remote response: " + response.toString())

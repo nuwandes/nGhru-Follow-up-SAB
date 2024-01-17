@@ -32,7 +32,7 @@ class BloodPressureRequestRepository @Inject constructor(
 
     fun syncBloodPressureMetaRequest(
         bloodPressureMetaRequest: BloodPressureMetaRequest,
-        particapant: ParticipantRequest
+        screeningId: String
 
     ): LiveData<Resource<BloodPressureMetaRequest>> {
         return object : MyNetworkBoundResource<BloodPressureMetaRequest,ResourceData<BloodPressureMetaRequest>>(appExecutors) {
@@ -40,7 +40,7 @@ class BloodPressureRequestRepository @Inject constructor(
                 bloodPressureMetaRequest?.body.id = insertedID
                 jobManager.addJobInBackground(
                     SyncBloodPresureRequestJob(
-                        particapant?.screeningId!!,
+                        screeningId,
                         bloodPressureMetaRequest!!
                     )
                 )
@@ -62,7 +62,7 @@ class BloodPressureRequestRepository @Inject constructor(
                 return idBloodPressureRequest
             }
             override fun createCall(): LiveData<ApiResponse<ResourceData<BloodPressureMetaRequest>>> {
-                return nghruService.addBloodPresureRequest(particapant.screeningId, bloodPressureMetaRequest)
+                return nghruService.addBloodPresureRequest(screeningId, bloodPressureMetaRequest)
             }
         }.asLiveData()
     }

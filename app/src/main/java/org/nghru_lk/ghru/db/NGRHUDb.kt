@@ -39,9 +39,10 @@ import org.nghru_lk.ghru.vo.request.Member
         SpirometryRequest::class,
         FundoscopyRequest::class,
         Axivity :: class,
-        ParticipantListItem :: class
+        ParticipantListItem :: class,
+        BloodTestRequest :: class
     ],
-    version = 13,
+    version = 15,
     exportSchema = true
 )
 abstract class NGRHUDb : RoomDatabase() {
@@ -101,6 +102,8 @@ abstract class NGRHUDb : RoomDatabase() {
     abstract fun axivityDao() : AxivityDao
 
     abstract fun participantListItemDao() : ParticipantListItemDao
+
+    abstract fun bloodTestDao() : BloodTestDao
 
 }
 

@@ -31,7 +31,7 @@ class BPManualTwoFragment : Fragment(), Injectable {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     //  private var measurement: BodyMeasurement? = null
-    private var participant: ParticipantRequest? = null
+    //private var participant: ParticipantRequest? = null
 
     var binding by autoCleared<BPManualTwoFragmentBinding>()
 
@@ -46,7 +46,7 @@ class BPManualTwoFragment : Fragment(), Injectable {
         super.onCreate(savedInstanceState)
         try {
             // measurement = arguments?.getParcelable<BodyMeasurement>(Constants.ARG_BODY_MEASURMENT)!!
-            participant = arguments?.getParcelable<ParticipantRequest>("ParticipantRequest")!!
+            //participant = arguments?.getParcelable<ParticipantRequest>("ParticipantRequest")!!
             //  Log.d("measurement", measurement?.height?.value)
         } catch (e: KotlinNullPointerException) {
 

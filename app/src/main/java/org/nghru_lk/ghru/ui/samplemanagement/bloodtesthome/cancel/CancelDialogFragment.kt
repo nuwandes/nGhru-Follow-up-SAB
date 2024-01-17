@@ -49,14 +49,15 @@ class CancelDialogFragment : DialogFragment(), Injectable {
 
     lateinit var cancelRequest: CancelRequest
 
-    private var participant: ParticipantRequest? = null
+    //private var participant: ParticipantRequest? = null
+    private var screeningId : String? = null
     @Inject
     lateinit var jobManager: JobManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
-            participant = arguments?.getParcelable<ParticipantRequest>("participant")!!
+            screeningId = arguments?.getString("participant")!!
         } catch (e: KotlinNullPointerException) {
 
         }
@@ -123,9 +124,9 @@ class CancelDialogFragment : DialogFragment(), Injectable {
                 else
                     cancelRequest.reason = binding.radioButtonFBGUnable.text.toString()
 
-                cancelRequest.screeningId = participant?.screeningId!!
+                cancelRequest.screeningId = screeningId!!
                 cancelRequest.syncPending = !isNetworkAvailable()
-                viewModel.setLogin(participant, cancelRequest)
+                viewModel.setLogin(screeningId!!, cancelRequest)
 
             }
 

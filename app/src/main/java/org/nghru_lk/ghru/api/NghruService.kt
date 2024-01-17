@@ -132,13 +132,6 @@ interface NghruService {
     @POST("api/screening/{screening_id}/body-measurement")
     fun addBodyMeasurementMetaSync(@Path("screening_id") screeningId: String, @Body bodyMeasurementRequest: BodyMeasurementMeta): Call<ResourceData<BodyMeasurementRequest>>
 
-
-    @POST("api/screening/{screening_id}/ecg")
-    fun addECGSync(@Path("screening_id") screeningId: String, @Body mECGStatus: ECGStatus): LiveData<ApiResponse<ResourceData<ECG>>>
-
-    @POST("api/screening/{screening_id}/ecg")
-    fun addECG(@Path("screening_id") screeningId: String, @Body mECGStatus: ECGStatus): Call<ResourceData<ECG>>
-
     @POST("api/screening/{screening_id}/fundoscopy")
     fun addFundoscopyGSync(@Path("screening_id") screeningId: String, @Body fundoscopyRequest: FundoscopyRequest?): LiveData<ApiResponse<ResourceData<ECG>>>
 
@@ -308,9 +301,6 @@ interface NghruService {
     @PUT("api/v2/participants/{screening_id}")
     fun updateParticipantFollowUpStatus(@Path("screening_id") screeningId: String, @Body participant: ParticipantListItem): LiveData<ApiResponse<ResourceData<ParticipantListItem>>>
 
-    @POST("api/screening/{screening_id}/blood-test")
-    fun addBloodTest(@Path("screening_id") screeningId: String, @Body bloodTestRequest: BloodTestRequest): LiveData<ApiResponse<ResourceData<Message>>>
-
     @POST("api/screening/{screening_id}/covid-questionnaire")
     fun addCovidSync(@Path("screening_id") screeningId: String, @Body ffqRequest: CovidRequest): LiveData<ApiResponse<ResourceData<Message>>>
 
@@ -325,5 +315,19 @@ interface NghruService {
 
     @GET("/api/v2/participants")
     fun filterParticipants(@Query("page") page: Int, @Query("status") status: String, @Query("site") site: String, @Query("keyword") keyWord: String): LiveData<ApiResponse<ResourceData<ParticipantListWithMeta>>>
+
+    @POST("api/screening/{screening_id}/ecg")
+    fun addECGSync(@Path("screening_id") screeningId: String, @Body mECGStatus: ECGStatus): LiveData<ApiResponse<ResourceData<ECG>>>
+
+    @POST("api/screening/{screening_id}/ecg")
+    fun addECG(@Path("screening_id") screeningId: String, @Body mECGStatus: ECGStatus): Call<ResourceData<ECG>>
+
+    @POST("api/screening/{screening_id}/blood-test")
+    fun addBloodTestSync(@Path("screening_id") screeningId: String, @Body bloodTestRequest: BloodTestRequest): LiveData<ApiResponse<ResourceData<ECG>>>
+
+    @POST("api/screening/{screening_id}/blood-test")
+    fun addBloodTest(@Path("screening_id") screeningId: String, @Body bloodTestRequest: BloodTestRequest): Call<ResourceData<ECG>>
+
+
 
 }

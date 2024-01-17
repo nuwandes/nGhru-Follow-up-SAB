@@ -29,45 +29,35 @@ class FundoscopyRepository @Inject constructor(
     ) : Serializable {
 
     fun syncFundoscopy(
-        participantRequest: ParticipantRequest,
-        comment: String?,
-        device_id: String?,
-        pupil_dilation:Boolean,
-        isOnline : Boolean,
-        cataractObservation : String
+        screeningId: String?,
+        fundoscopyRequest: FundoscopyRequest?
     ): LiveData<Resource<ECG>> {
         return object : MyNetworkBoundResource<ECG,ResourceData<ECG>>(appExecutors) {
 
             override fun createJob(insertedID: Long) {
-                val mFundoscopyRequest =  FundoscopyRequest(comment = comment, device_id = device_id, meta = participantRequest?.meta,pupil_dilation = pupil_dilation,cataract_observation = cataractObservation)
-                mFundoscopyRequest.id = insertedID
-                mFundoscopyRequest.screeningId = participantRequest?.screeningId!!
-                mFundoscopyRequest.syncPending = !isOnline
+
                 jobManager.addJobInBackground(
                     SyncFundoscopyJob(
-                        participantRequest,
-                        mFundoscopyRequest
+                        screeningId,
+                        fundoscopyRequest!!
                     )
-
                 )
             }
             override fun isNetworkAvilable(): Boolean {
-                return !isOnline
+                return true
             }
             override fun saveDb(): Long {
 
                 //var ecgMetaNewId = metaNewDao.insert(participantRequest?.meta!!)
-                val mFundoscopyRequest =  FundoscopyRequest(comment = comment, device_id = device_id, meta = participantRequest?.meta,pupil_dilation = pupil_dilation,cataract_observation = cataractObservation)
-                mFundoscopyRequest.screeningId = participantRequest?.screeningId!!
-                //mFundoscopyRequest.fundoscopyMetaId = ecgMetaNewId
-                mFundoscopyRequest.syncPending = !isOnline
-                var id =  fundoscopyRequestDao.insert(mFundoscopyRequest)
+
+                fundoscopyRequest!!.syncPending = false
+                var id =  fundoscopyRequestDao.insert(fundoscopyRequest)
                 return id
             }
             override fun createCall(): LiveData<ApiResponse<ResourceData<ECG>>> {
                 return nghruService.addFundoscopyGSync(
-                    participantRequest.screeningId,
-                    FundoscopyRequest(comment = comment, device_id = device_id, meta = participantRequest?.meta,pupil_dilation = pupil_dilation,cataract_observation = cataractObservation)
+                    screeningId!!,
+                    fundoscopyRequest
                 )
             }
         }.asLiveData()

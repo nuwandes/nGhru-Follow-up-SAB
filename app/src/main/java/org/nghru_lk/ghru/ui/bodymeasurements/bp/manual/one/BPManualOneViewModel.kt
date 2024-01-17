@@ -94,25 +94,25 @@ class BPManualOneViewModel
 
     var bloodPressureRequestRemote: LiveData<Resource<BloodPressureMetaRequest>>? = Transformations
             .switchMap(_bloodPressureRequestRemote) { member ->
-                member.ifExists { bloodPressureMetaRequest, participantRequest ->
-                    bloodPressureRequestRepository.syncBloodPressureMetaRequest(bloodPressureMetaRequest!!, participantRequest!!)
+                member.ifExists { bloodPressureMetaRequest, screeningId ->
+                    bloodPressureRequestRepository.syncBloodPressureMetaRequest(bloodPressureMetaRequest!!, screeningId!!)
                 }
             }
 
-    fun setBloodPressureMetaRequestRemote(bloodPressureMetaRequest: BloodPressureMetaRequest, participant: ParticipantRequest) {
-        val measurementRequestId = BloodPressureMetaRequestId(bloodPressureMetaRequest, participant)
+    fun setBloodPressureMetaRequestRemote(bloodPressureMetaRequest: BloodPressureMetaRequest, screeningId: String) {
+        val measurementRequestId = BloodPressureMetaRequestId(bloodPressureMetaRequest, screeningId)
         if (_bloodPressureRequestRemote.value == measurementRequestId) {
             return
         }
         _bloodPressureRequestRemote.value = measurementRequestId
     }
 
-    data class BloodPressureMetaRequestId(val bloodPressureMetaRequest: BloodPressureMetaRequest?, val participant: ParticipantRequest?) {
-        fun <T> ifExists(f: (BloodPressureMetaRequest?, ParticipantRequest?) -> LiveData<T>): LiveData<T> {
-            return if (bloodPressureMetaRequest == null || participant == null) {
+    data class BloodPressureMetaRequestId(val bloodPressureMetaRequest: BloodPressureMetaRequest?, val screeningId: String?) {
+        fun <T> ifExists(f: (BloodPressureMetaRequest?, String?) -> LiveData<T>): LiveData<T> {
+            return if (bloodPressureMetaRequest == null || screeningId == null) {
                 AbsentLiveData.create()
             } else {
-                f(bloodPressureMetaRequest, participant)
+                f(bloodPressureMetaRequest, screeningId)
             }
         }
     }

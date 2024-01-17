@@ -27,13 +27,13 @@ class AxivityRepository @Inject constructor(
     ) : Serializable {
 
     fun syncAxivity(
-        participantId: ParticipantRequest, axivity: Axivity?
+        screeningId: String, axivity: Axivity?
     ): LiveData<Resource<Message>> {
         return object : MyNetworkBoundResource<Message,ResourceData<Message>>(appExecutors) {
 
             override fun createJob(insertedID: Long) {
                 axivity?.id = insertedID
-                jobManager.addJobInBackground(SyncAxivityJob(participantId?.screeningId!!, axivity!!))
+                jobManager.addJobInBackground(SyncAxivityJob(screeningId, axivity!!))
             }
             override fun isNetworkAvilable(): Boolean {
 
@@ -45,7 +45,7 @@ class AxivityRepository @Inject constructor(
             }
             override fun createCall(): LiveData<ApiResponse<ResourceData<Message>>> {
                 // val mECGStatus = ECGStatus(status, comment)
-                return nghruService.addAxivity(participantId.screeningId, axivity!!)
+                return nghruService.addAxivity(screeningId, axivity!!)
             }
 
         }.asLiveData()

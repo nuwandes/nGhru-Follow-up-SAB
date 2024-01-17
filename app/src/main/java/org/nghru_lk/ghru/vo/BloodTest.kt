@@ -87,10 +87,10 @@ data class BloodTests(
 }
 
 data class BloodTestData(
-    @Expose @field:SerializedName("value") var value: String?,
-    @Expose @field:SerializedName("lot_id") var lot_id: String?,
-    @Expose @field:SerializedName("comment") var comment: String?,
-    @Expose @field:SerializedName("device_id") var device_id: String?
+    @Expose @field:SerializedName("value") @ColumnInfo(name = "value")var value: String?,
+    @Expose @field:SerializedName("lot_id") @ColumnInfo(name = "lot_id")var lot_id: String?,
+    @Expose @field:SerializedName("comment") @ColumnInfo(name = "comment")var comment: String?,
+    @Expose @field:SerializedName("device_id") @ColumnInfo(name = "device_id")var device_id: String?
 ): Serializable, Parcelable {
 
 

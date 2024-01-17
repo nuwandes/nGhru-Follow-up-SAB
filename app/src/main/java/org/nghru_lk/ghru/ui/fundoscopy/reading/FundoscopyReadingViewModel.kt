@@ -24,7 +24,7 @@ class FundoscopyReadingViewModel
 
     private val _participantId: MutableLiveData<ParticipantRequest> = MutableLiveData()
 
-    private val _participantIdComplte: MutableLiveData<ParticipantRequest> = MutableLiveData()
+    private val _participantIdComplte: MutableLiveData<String> = MutableLiveData()
     private var comment: String? = null
     private var device_id: String? = null
     private var pupil_dilation : Boolean = false
@@ -55,15 +55,6 @@ class FundoscopyReadingViewModel
             }
         }
 
-    var fundoscopyComplete: LiveData<Resource<ECG>>? = Transformations
-        .switchMap(_participantIdComplte) { participantId ->
-            if (participantId == null) {
-                AbsentLiveData.create()
-            } else {
-                fundoscopyRepository.syncFundoscopy(participantId, comment, device_id,pupil_dilation,isOnline,cataractObservation!!)
-            }
-        }
-
     fun setParticipant(participantId: ParticipantRequest, mComment: String?, mDevice_id: String,dilation: Boolean,observation : String) {
         comment = mComment
         device_id = mDevice_id
@@ -76,7 +67,7 @@ class FundoscopyReadingViewModel
         _participantId.value = participantId
     }
 
-    fun setParticipantComplete(participantId: ParticipantRequest, mComment: String?, mDevice_id: String,dilation: Boolean,online: Boolean,observation : String) {
+    fun setParticipantComplete(participantId: String, mComment: String?, mDevice_id: String,dilation: Boolean,online: Boolean,observation : String) {
         comment = mComment
         device_id = mDevice_id
         pupil_dilation = dilation
@@ -127,4 +118,36 @@ class FundoscopyReadingViewModel
             _email.value = email
         }
     }
+
+    // update fundo request --------------------------------------------------
+
+    private val _fundoId: MutableLiveData<FundoId> = MutableLiveData()
+
+    fun setFundoRequest(screeningId: String?, fundoscopyRequest: FundoscopyRequest) {
+        val update = FundoId(fundoscopyRequest = fundoscopyRequest, screeningId = screeningId)
+        if (_fundoId.value == update) {
+            return
+        }
+        _fundoId.value = update
+    }
+
+    data class FundoId(val fundoscopyRequest: FundoscopyRequest?, val screeningId: String?) {
+
+        fun <T> ifExists(f: (FundoscopyRequest?, String?) -> LiveData<T>): LiveData<T> {
+            return if (fundoscopyRequest == null && screeningId == null) {
+                AbsentLiveData.create()
+            } else {
+                f(fundoscopyRequest, screeningId)
+            }
+        }
+    }
+
+    var fundoscopyComplete: LiveData<Resource<ECG>>? = Transformations
+        .switchMap(_fundoId) { participantId ->
+            participantId.ifExists { fundoRequest, screeningId ->
+                fundoscopyRepository.syncFundoscopy(screeningId = screeningId!!, fundoscopyRequest = fundoRequest )
+            }
+        }
+
+    // -----------------------------------------------------------------------
 }

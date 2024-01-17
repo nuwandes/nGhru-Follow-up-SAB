@@ -48,7 +48,7 @@ class TraceFragment : Fragment(), Injectable {
     @Inject
     lateinit var verifyIDViewModel: TraceViewModel
 
-    private var participant: ParticipantRequest? = null
+    //private var participant: ParticipantRequest? = null
 
     private var deviceListName: MutableList<String> = arrayListOf()
     private var deviceListObject: List<StationDeviceData> = arrayListOf()
@@ -62,7 +62,7 @@ class TraceFragment : Fragment(), Injectable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
-            participant = arguments?.getParcelable<ParticipantRequest>("ParticipantRequest")!!
+            //participant = arguments?.getParcelable<ParticipantRequest>("ParticipantRequest")!!
         } catch (e: KotlinNullPointerException) {
 
         }
@@ -111,13 +111,13 @@ class TraceFragment : Fragment(), Injectable {
         val participantAge: String = getAge(dob_year.toInt(), dob_month.toInt(), dob_date.toInt())
         binding.titleAge.setText(participantAge + "Y")
 
-        verifyIDViewModel.setScreeningId(selectedParticipant!!.participant_id)
+        //verifyIDViewModel.setScreeningId(selectedParticipant!!.participant_id)
 
         verifyIDViewModel.participant.observe(this, Observer { participantResource ->
 
             if (participantResource?.status == Status.SUCCESS) {
-                participant = participantResource.data?.data
-                participant?.meta = meta
+                //participant = participantResource.data?.data
+                //participant?.meta = meta
 
                 Log.d("BLOOD_PRESSURE_HOME", "PAR_REQ_SUCCESS")
 
@@ -128,7 +128,7 @@ class TraceFragment : Fragment(), Injectable {
             binding.executePendingBindings()
         })
 
-        binding.participant = participant
+        //binding.participant = participant
 
         verifyIDViewModel.setUser("user")
         verifyIDViewModel.user?.observe(this, Observer { userData ->
@@ -148,7 +148,7 @@ class TraceFragment : Fragment(), Injectable {
 
         binding.buttonCancel.singleClick {
             val reasonDialogFragment = ReasonDialogFragment()
-            reasonDialogFragment.arguments = bundleOf("participant" to participant)
+            reasonDialogFragment.arguments = bundleOf("participant" to selectedParticipant?.participant_id)
             reasonDialogFragment.show(fragmentManager!!)
         }
 
@@ -161,7 +161,7 @@ class TraceFragment : Fragment(), Injectable {
             }
             else {
                 val completeDialogFragment = CompleteDialogFragment()
-                completeDialogFragment.arguments = bundleOf("participant" to participant, "comment" to binding.comment.text.toString(), "deviceId" to selectedDeviceID
+                completeDialogFragment.arguments = bundleOf("participant" to selectedParticipant, "comment" to binding.comment.text.toString(), "deviceId" to selectedDeviceID
                 )
                 completeDialogFragment.show(fragmentManager!!)
             }

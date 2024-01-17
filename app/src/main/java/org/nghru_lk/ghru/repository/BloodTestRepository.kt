@@ -1,11 +1,17 @@
 package org.nghru_lk.ghru.repository
 
 import androidx.lifecycle.LiveData
+import com.birbit.android.jobqueue.JobManager
 import org.nghru_lk.ghru.AppExecutors
 import org.nghru_lk.ghru.api.ApiResponse
 import org.nghru_lk.ghru.api.NghruService
+import org.nghru_lk.ghru.db.BloodTestDao
+import org.nghru_lk.ghru.db.MetaNewDao
+import org.nghru_lk.ghru.jobs.SyncBloodTestJob
+import org.nghru_lk.ghru.jobs.SyncECGJob
 import org.nghru_lk.ghru.vo.BloodTestRequest
 import org.nghru_lk.ghru.vo.*
+import org.nghru_lk.ghru.vo.request.ParticipantRequest
 import java.io.Serializable
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -18,17 +24,59 @@ import javax.inject.Singleton
 @Singleton
 class BloodTestRepository @Inject constructor(
     private val appExecutors: AppExecutors,
-    private val nghruService: NghruService
+    private val nghruService: NghruService,
+    private val bloodTestDao: BloodTestDao,
+    private val jobManager: JobManager
 ) : Serializable {
 
-    fun syncBloodTest(
-        chkRequest: BloodTestRequest,
-        screening_id: String
+//    fun syncBloodTest(
+//        chkRequest: BloodTestRequest,
+//        screening_id: String
+//
+//    ): LiveData<Resource<ResourceData<Message>>> {
+//        return object : NetworkOnlyBcakgroundBoundResource<ResourceData<Message>>(appExecutors) {
+//            override fun createCall(): LiveData<ApiResponse<ResourceData<Message>>> {
+//                return nghruService.addBloodTestSync(screening_id, chkRequest)
+//            }
+//        }.asLiveData()
+//    }
 
-    ): LiveData<Resource<ResourceData<Message>>> {
-        return object : NetworkOnlyBcakgroundBoundResource<ResourceData<Message>>(appExecutors) {
-            override fun createCall(): LiveData<ApiResponse<ResourceData<Message>>> {
-                return nghruService.addBloodTest(screening_id, chkRequest)
+    fun syncBloodTestWhenBackToOnline(
+        bloodRequest: BloodTestRequest
+    ): LiveData<Resource<ResourceData<ECG>>> {
+        return object : SyncNetworkOnlyBcakgroundBoundResource<ResourceData<ECG>>(appExecutors) {
+            override fun createCall(): LiveData<ApiResponse<ResourceData<ECG>>> {
+                return nghruService.addBloodTestSync(bloodRequest.screeningId, bloodRequest)
+            }
+
+            override fun deleteCall() {
+                return bloodTestDao.deleteRequest(bloodRequest.id)
+            }
+        }.asLiveData()
+    }
+
+    fun syncBloodTest(
+        bloodRequest: BloodTestRequest
+    ): LiveData<Resource<ECG>> {
+        return object : MyNetworkBoundResource<ECG,ResourceData<ECG>>(appExecutors) {
+
+            override fun createJob(insertedID: Long) {
+                bloodRequest.id = insertedID
+                jobManager.addJobInBackground(
+
+                    SyncBloodTestJob(bloodRequest)
+                )
+            }
+            override fun isNetworkAvilable(): Boolean {
+                return false
+            }
+            override fun saveDb(): Long {
+                bloodRequest.syncPending = true
+                return  bloodTestDao.insert(bloodRequest)
+            }
+            override fun createCall(): LiveData<ApiResponse<ResourceData<ECG>>> {
+                bloodRequest.syncPending = false
+                return nghruService.addBloodTestSync(bloodRequest.screeningId, bloodRequest)
             }
         }.asLiveData()
     }

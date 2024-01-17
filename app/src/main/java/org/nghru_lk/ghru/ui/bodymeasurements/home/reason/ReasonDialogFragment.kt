@@ -54,7 +54,8 @@ class ReasonDialogFragment : DialogFragment(), Injectable {
 
     lateinit var cancelRequest: CancelRequest
 
-    private var participant: ParticipantRequest? = null
+    //private var participant: ParticipantRequest? = null
+    private var screeningId : String? = null
 
     @Inject
     lateinit var jobManager: JobManager
@@ -62,7 +63,7 @@ class ReasonDialogFragment : DialogFragment(), Injectable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
-            participant = arguments?.getParcelable<ParticipantRequest>("participant")!!
+            screeningId = arguments?.getString("participant")!!
         } catch (e: KotlinNullPointerException) {
 
         }
@@ -120,9 +121,9 @@ class ReasonDialogFragment : DialogFragment(), Injectable {
             cancelRequest.comment = binding.comment.text.toString()
             //println(cancelRequest.toString())
 //            if (isNetworkAvailable()) {
-            cancelRequest.screeningId = participant?.screeningId!!
+            cancelRequest.screeningId = screeningId!!
             cancelRequest.syncPending = !isNetworkAvailable()
-            viewModel.setLogin(participant, cancelRequest)
+            viewModel.setLogin(screeningId, cancelRequest)
 //            } else {
 //                jobManager.addJobInBackground(SyncCancelrequestJob(participant!!, cancelRequest))
 //                dismiss()

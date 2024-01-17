@@ -74,7 +74,7 @@ class BodyMeasurementHomeFragment : Fragment(), Injectable {
 
     private var bodyMeasurement: BodyMeasurement? = null
 
-    private var participantRequest: ParticipantRequest? = null
+    //private var participantRequest: ParticipantRequest? = null
 
     var user: User? = null
     var meta: Meta? = null
@@ -159,7 +159,7 @@ class BodyMeasurementHomeFragment : Fragment(), Injectable {
         binding.setLifecycleOwner(this)
         binding.viewModel = viewModel
         binding.sample = sampleRequest
-        binding.participant = participantRequest
+        //binding.participant = participantRequest
 
         prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -173,13 +173,13 @@ class BodyMeasurementHomeFragment : Fragment(), Injectable {
 
 //        height = BodyMeasurementData()
 
-        viewModel.setScreeningId(selectedParticipant!!.participant_id)
+        //viewModel.setScreeningId(selectedParticipant!!.participant_id)
 
         viewModel.participant.observe(this, Observer { participantResource ->
 
             if (participantResource?.status == Status.SUCCESS) {
-                participantRequest = participantResource.data?.data
-                participantRequest?.meta = meta
+                //participantRequest = participantResource.data?.data
+                //participantRequest?.meta = meta
 
                 Log.d("BODY_MEASUREMENT_HOME", "PAR_REQ_SUCCESS")
 //                if (!participantResource.data?.stationStatus!!) {
@@ -309,7 +309,7 @@ class BodyMeasurementHomeFragment : Fragment(), Injectable {
                     "BodyMeasurementMeta",
                     BodyMeasurementMeta(meta = meta, body = bodyMeasurement).toString()
                 )
-                Crashlytics.setString("participant", participantRequest.toString())
+                Crashlytics.setString("participant", selectedParticipant!!.participant_id.toString())
                 Crashlytics.logException(Exception("BodyMeasurementMeta " + sampleMangementPocess.message.toString()))
             }
         })
@@ -319,7 +319,7 @@ class BodyMeasurementHomeFragment : Fragment(), Injectable {
 
         binding.buttonCancel.singleClick {
             val reasonDialogFragment = ReasonDialogFragment()
-            reasonDialogFragment.arguments = bundleOf("participant" to participantRequest)
+            reasonDialogFragment.arguments = bundleOf("participant" to selectedParticipant!!.participant_id)
             reasonDialogFragment.show(fragmentManager!!)
         }
 
@@ -351,16 +351,15 @@ class BodyMeasurementHomeFragment : Fragment(), Injectable {
 
                 binding.progressBar.visibility = View.VISIBLE
                 binding.buttonSubmit.visibility = View.GONE
-                if (isNetworkAvailable()) {
-
-
+                if (isNetworkAvailable())
+                {
                     viewModel.setBodyMeasurementMeta(
                         BodyMeasurementMeta(meta = meta, body = bodyMeasurement),
-                        participantRequest!!
+                        selectedParticipant!!.participant_id
                     )
 
                     val bodyMeasurementMeta = BodyMeasurementMeta(meta = meta, body = bodyMeasurement)
-                    bodyMeasurementMeta.screeningId = participantRequest?.screeningId!!
+                    bodyMeasurementMeta.screeningId = selectedParticipant?.participant_id!!
                     bodyMeasurementMeta.syncPending = !isNetworkAvailable()
                     viewModel.setBodyMeasurementMeta(bodyMeasurementMeta)
 
@@ -371,7 +370,7 @@ class BodyMeasurementHomeFragment : Fragment(), Injectable {
                     jobManager.addJobInBackground(
                         SyncBodyMeasurementMetaJob(
                             bodyMeasurementMeta = BodyMeasurementMeta(meta = meta, body = bodyMeasurement),
-                            screeningId = participantRequest?.screeningId!!
+                            screeningId = selectedParticipant?.participant_id!!
                         )
                     )
                     val completedDialogFragment = CompletedDialogFragment()

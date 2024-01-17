@@ -10,7 +10,7 @@ import org.nghru_lk.ghru.vo.request.ParticipantRequest
 import timber.log.Timber
 
 class SyncCancelrequestJob(
-    private val participantRequest: ParticipantRequest,
+    private val screeningId : String,
     private val cancelRequest: CancelRequest
 ) : Job(
     Params(JobPriority.CANCEL_REQUEST)
@@ -21,7 +21,7 @@ class SyncCancelrequestJob(
 
 
     override fun onAdded() {
-        Timber.d("Executing onAdded() for comment $participantRequest")
+        Timber.d("Executing onAdded() for comment $screeningId")
     }
 
     override fun shouldReRunOnThrowable(throwable: Throwable, runCount: Int, maxRunCount: Int): RetryConstraint {
@@ -37,13 +37,13 @@ class SyncCancelrequestJob(
     }
 
     override fun onRun() {
-        Timber.d("Executing onRun() for household $participantRequest")
+        Timber.d("Executing onRun() for household $screeningId")
         if(cancelRequest.stationType == "axivity" || cancelRequest.stationType == "spirometry" || cancelRequest.stationType == "blood-pressure")
         {
-            RemoteHouseholdService().getInstance().addCancelAxivityRequestSync(participantRequest, cancelRequest)
+            RemoteHouseholdService().getInstance().addCancelAxivityRequestSync(screeningId, cancelRequest)
         }
         else {
-            RemoteHouseholdService().getInstance().addCancelRequestSync(participantRequest, cancelRequest)
+            //RemoteHouseholdService().getInstance().addCancelRequestSync(screeningId, cancelRequest)
         }
         //  SyncSampleStorageRequestRxBus.getInstance().post(SyncResponseEventType.SUCCESS, survey)
         CancelRequestRxBus.getInstance().post(SyncResponseEventType.SUCCESS,cancelRequest)
