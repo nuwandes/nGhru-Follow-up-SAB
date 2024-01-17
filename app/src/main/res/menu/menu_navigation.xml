@@ -12,7 +12,8 @@
         <item
             android:id="@+id/dataManagementListFragment"
             android:icon="@drawable/ic_icon_data"
-            android:title="@string/side_menu_data_management"/>
+            android:title="@string/side_menu_data_management"
+            android:visible="false"/>
     </group>
 
     <group

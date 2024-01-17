@@ -46,18 +46,18 @@ class BloodPressureRequestRepository @Inject constructor(
                 )
             }
             override fun isNetworkAvilable(): Boolean {
-                return bloodPressureMetaRequest.syncPending
+                return false
             }
             override fun saveDb(): Long {
 
                 var idMeta = metaNewDao.insert(bloodPressureMetaRequest?.meta)
                 bloodPressureMetaRequest?.body?.metaId = idMeta
                 var idBloodPressureRequest = bloodPressureRequestDao.insert(bloodPressureMetaRequest?.body)
-                for(t in bloodPressureMetaRequest?.body?.bloodPresureRequestList!!)
-                {
-                    t.bloodPresureRequestId=idBloodPressureRequest
-                    bloodPressureItemRequestDao.insert(t)
-                }
+//                for(t in bloodPressureMetaRequest?.body?.bloodPresureRequestList!!)
+//                {
+//                    t.bloodPresureRequestId=idBloodPressureRequest
+//                    bloodPressureItemRequestDao.insert(t)
+//                }
 
                 return idBloodPressureRequest
             }

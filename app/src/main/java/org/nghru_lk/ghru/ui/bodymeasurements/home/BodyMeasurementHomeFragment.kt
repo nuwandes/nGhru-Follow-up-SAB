@@ -324,13 +324,24 @@ class BodyMeasurementHomeFragment : Fragment(), Injectable {
         }
 
         binding.buttonSubmit.singleClick {
+            if (selectedParticipant!!.height != null)
+            {
+                val bodyValue = BodyMeasurementValueData(BodyMeasurementValueDto("cm", selectedParticipant!!.height!!.toDouble()))
+                height = BodyMeasurementData("","", bodyValue, CancelRequest("", "", ""))
+            }
+            else
+            {
+                var dumyHeight : String = "0.0"
+                val bodyValue = BodyMeasurementValueData(BodyMeasurementValueDto("cm", dumyHeight.toDouble()))
+                height = BodyMeasurementData("","", bodyValue, CancelRequest("", "", ""))
+            }
 
-            val bodyValue = BodyMeasurementValueData(BodyMeasurementValueDto("cm", selectedParticipant!!.height!!.toDouble()))
-            height = BodyMeasurementData("","", bodyValue, CancelRequest("", "", ""))
+            //val bodyValue = BodyMeasurementValueData(BodyMeasurementValueDto("cm", selectedParticipant!!.height!!.toDouble()))
+
 
             if (hipWaist != null && bodyComposition != null) {
                 bodyMeasurement =
-                    BodyMeasurement(height = height, hipWaist = hipWaist, bodyComposition = bodyComposition)
+                    BodyMeasurement(height = null, hipWaist = hipWaist, bodyComposition = bodyComposition)
 
                 val endTime: String = convertTimeTo24Hours()
                 val endDate: String = getDate()
