@@ -62,7 +62,7 @@ class BloodPressureRequestRepository @Inject constructor(
                 return idBloodPressureRequest
             }
             override fun createCall(): LiveData<ApiResponse<ResourceData<BloodPressureMetaRequest>>> {
-                return nghruService.addBloodPresureRequest(screeningId, bloodPressureMetaRequest)
+                return nghruService.addBloodPresureRequestSync(screeningId, bloodPressureMetaRequest)
             }
         }.asLiveData()
     }
@@ -161,7 +161,7 @@ class BloodPressureRequestRepository @Inject constructor(
     ): LiveData<Resource<ResourceData<BloodPressureMetaRequest>>> {
         return object : SyncNetworkOnlyBcakgroundBoundResource<ResourceData<BloodPressureMetaRequest>>(appExecutors) {
             override fun createCall(): LiveData<ApiResponse<ResourceData<BloodPressureMetaRequest>>> {
-                return nghruService.addBloodPresureRequest(screeningId, bloodPressureMetaRequest)
+                return nghruService.addBloodPresureRequestSync(screeningId, bloodPressureMetaRequest)
             }
 
             override fun deleteCall() {

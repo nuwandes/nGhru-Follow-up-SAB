@@ -13,6 +13,7 @@ object JobPriority {
     val BODY_MESEASUMENT = 1500
     val BLOOD_PRESURE = 1600
     val BLOOD_TEST = 1700
+    val PARTICIPANT_LIST_ITEM = 1800
     val PARICIPANT_IMAGE = 2000
     val PARICIPANT = 2500
     val MEMBERS = 5000

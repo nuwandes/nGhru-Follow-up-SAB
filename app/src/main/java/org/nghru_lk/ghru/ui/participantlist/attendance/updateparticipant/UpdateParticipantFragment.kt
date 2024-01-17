@@ -24,12 +24,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.birbit.android.jobqueue.JobManager
 import com.crashlytics.android.Crashlytics
 import org.nghru_lk.ghru.R
 import org.nghru_lk.ghru.binding.FragmentDataBindingComponent
 import org.nghru_lk.ghru.databinding.UpdateParticipantFragmentBinding
 import org.nghru_lk.ghru.db.MemberTypeConverters.gson
 import org.nghru_lk.ghru.di.Injectable
+import org.nghru_lk.ghru.jobs.SyncParticipantListItemJob
 import org.nghru_lk.ghru.ui.participantlist.preocessenddialog.NotAbleDialogFragment
 import org.nghru_lk.ghru.util.*
 import org.nghru_lk.ghru.vo.*
@@ -65,6 +67,9 @@ class UpdateParticipantFragment : Fragment(), Injectable {
     var selectedGender : String? = null
 
     var isGenderSelected : Boolean = false
+
+    @Inject
+    lateinit var jobManager: JobManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -266,7 +271,19 @@ class UpdateParticipantFragment : Fragment(), Injectable {
                 participant!!.phone = binding.phoneEditText.text.toString()
 
 
-                updateParticipantViewModule.updateParticipant(participant!!, participant!!.participant_id)
+                //updateParticipantViewModule.updateParticipant(participant!!)
+                if (isNetworkAvailable())
+                {
+                    participant?.isSync =false
+                    updateParticipantViewModule.updateParticipant(participant!!)
+                }
+                else
+                {
+                    participant?.isSync =true
+                    jobManager.addJobInBackground(SyncParticipantListItemJob(participant!!))
+                    val notAbleDialogFragment = NotAbleDialogFragment()
+                    notAbleDialogFragment.show(fragmentManager!!)
+                }
                 Log.d("UPDATE_PARTICIPANT", "VALIDATION SUCCESS")
             }
             else
@@ -286,7 +303,7 @@ class UpdateParticipantFragment : Fragment(), Injectable {
 
         updateParticipantViewModule.participantUpdateComplete?.observe(this, Observer { assertsResource ->
             if (assertsResource?.status == Status.SUCCESS) {
-                println(assertsResource.data?.data)
+                println(assertsResource.data)
                 if (assertsResource.data != null) {
                 val notAbleDialogFragment = NotAbleDialogFragment()
                     notAbleDialogFragment.show(fragmentManager!!)

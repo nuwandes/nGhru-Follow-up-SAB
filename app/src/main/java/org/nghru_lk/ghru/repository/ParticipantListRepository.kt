@@ -12,6 +12,7 @@ import org.nghru_lk.ghru.api.ApiResponse
 import org.nghru_lk.ghru.api.NghruService
 import org.nghru_lk.ghru.db.ParticipantListItemDao
 import org.nghru_lk.ghru.jobs.SyncAxivityJob
+import org.nghru_lk.ghru.jobs.SyncParticipantListItemJob
 import org.nghru_lk.ghru.util.LocaleManager
 import org.nghru_lk.ghru.vo.*
 import org.nghru_lk.ghru.vo.request.ParticipantListWithMeta
@@ -432,7 +433,7 @@ class ParticipantListRepository @Inject constructor(
 
             override fun createJob(insertedID: Int) {
                 participant.id = insertedID
-                //jobManager.addJobInBackground(SyncAxivityJob(participantId?.screeningId!!, axivity!!))
+                jobManager.addJobInBackground(SyncParticipantListItemJob(participant))
             }
             override fun isNetworkAvilable(): Boolean {
 
@@ -449,7 +450,7 @@ class ParticipantListRepository @Inject constructor(
                     participant.participant_id!!)
             }
             override fun createCall(): LiveData<ApiResponse<ResourceData<ParticipantListItem>>> {
-                return nghruService.updateParticipant(participant.participant_id!!, participant)
+                return nghruService.updateParticipantSync(participant.participant_id!!, participant)
             }
 
         }.asLiveData()
@@ -461,7 +462,7 @@ class ParticipantListRepository @Inject constructor(
     ): LiveData<Resource<ResourceData<ParticipantListItem>>> {
         return object : NetworkOnlyBcakgroundBoundResource<ResourceData<ParticipantListItem>>(appExecutors) {
             override fun createCall(): LiveData<ApiResponse<ResourceData<ParticipantListItem>>> {
-                return nghruService.updateParticipant(screening_id, participant)
+                return nghruService.updateParticipantSync(screening_id, participant)
             }
         }.asLiveData()
     }

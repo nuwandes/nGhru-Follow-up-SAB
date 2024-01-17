@@ -488,14 +488,14 @@ class RemoteHouseholdService {
     }
 
     @Throws(IOException::class, RemoteException::class)
-    fun addBloodPressuerMetaRequestSync(screeningId: String, bloodPressureMetaRequest: BloodPressureMetaRequest) {
+    fun addBloodPressuerMetaRequest(screeningId: String, bloodPressureMetaRequest: BloodPressureMetaRequest) {
 
         // Remote call can be executed synchronously since the job calling it is already backgrounded.]
-        val response = service.addBloodPresureRequestSync(screeningId, bloodPressureMetaRequest).execute()
+        val response = service.addBloodPresureRequest(screeningId, bloodPressureMetaRequest).execute()
 
         if (response == null || !response.isSuccessful || response.errorBody() != null) {
             //L.d("error remote response: " + response.toString())
-            throw RemoteException(response)
+            //throw RemoteException(response)
         }
 
         //L.d("successful remote response: " + response.toString())
@@ -510,6 +510,20 @@ class RemoteHouseholdService {
         if (response == null || !response.isSuccessful || response.errorBody() != null) {
             //L.d("error remote response: " + response.toString())
             throw RemoteException(response)
+        }
+
+        //L.d("successful remote response: " + response.toString())
+    }
+
+    @Throws(IOException::class, RemoteException::class)
+    fun updateParticipantVerifiedStatus(participantListItem: ParticipantListItem) {
+
+        // Remote call can be executed synchronously since the job calling it is already backgrounded.]
+        val response = service.updateParticipant(participantListItem.participant_id!!, participantListItem).execute()
+
+        if (response == null || !response.isSuccessful || response.errorBody() != null) {
+            //L.d("error remote response: " + response.toString())
+            //throw RemoteException(response)
         }
 
         //L.d("successful remote response: " + response.toString())

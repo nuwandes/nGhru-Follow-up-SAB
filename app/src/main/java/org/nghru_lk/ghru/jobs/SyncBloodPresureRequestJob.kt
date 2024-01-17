@@ -38,7 +38,7 @@ class SyncBloodPresureRequestJob(
     override fun onRun() {
         Timber.d("Executing onRun() for household $bloodPresureMetaRequest")
 
-        RemoteHouseholdService().getInstance().addBloodPressuerMetaRequestSync(screeningId, bloodPresureMetaRequest)
+        RemoteHouseholdService().getInstance().addBloodPressuerMetaRequest(screeningId, bloodPresureMetaRequest)
         BloodPressureMetaRequestRxBus.getInstance().post(SyncResponseEventType.SUCCESS, bloodPresureMetaRequest)
     }
 

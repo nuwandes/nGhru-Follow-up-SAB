@@ -250,10 +250,10 @@ interface NghruService {
 //    fun uploadTest( @PartMap params: Map<String, RequestBody>): LiveData<ApiResponse<String>>
 
     @POST("api/screening/{screening_id}/blood-pressure")
-    fun addBloodPresureRequest(@Path("screening_id") screeningId: String, @Body bloodPressureMetaRequest: BloodPressureMetaRequest): LiveData<ApiResponse<ResourceData<BloodPressureMetaRequest>>>
+    fun addBloodPresureRequestSync(@Path("screening_id") screeningId: String, @Body bloodPressureMetaRequest: BloodPressureMetaRequest): LiveData<ApiResponse<ResourceData<BloodPressureMetaRequest>>>
 
     @POST("api/screening/{screening_id}/blood-pressure")
-    fun addBloodPresureRequestSync(@Path("screening_id") screeningId: String, @Body bloodPressureMetaRequest: BloodPressureMetaRequest): Call<ResourceData<BloodPressureMetaRequest>>
+    fun addBloodPresureRequest(@Path("screening_id") screeningId: String, @Body bloodPressureMetaRequest: BloodPressureMetaRequest): Call<ResourceData<BloodPressureMetaRequest>>
 
 
     @POST("api/screening/{screening_id}/axivity")
@@ -292,9 +292,6 @@ interface NghruService {
     @GET("/api/v1/participants")
     fun paginateParticipants(@Query("page") page: Int): LiveData<ApiResponse<ResourceData<ParticipantListWithMeta>>>
 
-    @PUT("api/v2/participants/{screening_id}")
-    fun updateParticipant(@Path("screening_id") screeningId: String, @Body participant: ParticipantListItem): LiveData<ApiResponse<ResourceData<ParticipantListItem>>>
-
     @POST("api/screening/{screening_id}/sample")
     fun addFbgSync(@Path("screening_id") screeningId: String, @Body fbgData: FastingBloodGlucoseWithMeta): LiveData<ApiResponse<ResourceData<CommonResponce>>>
 
@@ -328,6 +325,10 @@ interface NghruService {
     @POST("api/screening/{screening_id}/blood-test")
     fun addBloodTest(@Path("screening_id") screeningId: String, @Body bloodTestRequest: BloodTestRequest): Call<ResourceData<ECG>>
 
+    @PUT("api/v2/participants/{screening_id}")
+    fun updateParticipantSync(@Path("screening_id") screeningId: String, @Body participant: ParticipantListItem): LiveData<ApiResponse<ResourceData<ParticipantListItem>>>
 
+    @PUT("api/v2/participants/{screening_id}")
+    fun updateParticipant(@Path("screening_id") screeningId: String, @Body participant: ParticipantListItem): Call<ResourceData<ECG>>
 
 }

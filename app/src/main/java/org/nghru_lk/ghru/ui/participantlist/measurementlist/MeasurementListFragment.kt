@@ -22,12 +22,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.birbit.android.jobqueue.JobManager
 import com.crashlytics.android.Crashlytics
 import org.nghru_lk.ghru.*
 import org.nghru_lk.ghru.binding.FragmentDataBindingComponent
 import org.nghru_lk.ghru.databinding.MeasurementListFragmentBinding
 import org.nghru_lk.ghru.db.MemberTypeConverters
 import org.nghru_lk.ghru.di.Injectable
+import org.nghru_lk.ghru.jobs.SyncParticipantListItemJob
 import org.nghru_lk.ghru.ui.participantlist.measurementlist.completevisitcompleted.VisitCompletedDialogFragment
 import org.nghru_lk.ghru.ui.participantlist.measurementlist.completevisitwarning.VisitWarningDialogFragment
 import org.nghru_lk.ghru.util.autoCleared
@@ -82,6 +84,8 @@ class MeasurementListFragment : Fragment(), Injectable {
     var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
 
     //var isConsent : Boolean? = null
+    @Inject
+    lateinit var jobManager: JobManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -383,13 +387,25 @@ class MeasurementListFragment : Fragment(), Injectable {
             }
             else
             {
-                measurementListViewModel.updateParticipantFollowUp(participant!!, participant!!.participant_id)
+                if (isNetworkAvailable())
+                {
+                    participant?.isSync =false
+                    measurementListViewModel.updateParticipantFollowUp(participant!!)
+                }
+                else
+                {
+                    participant?.isSync =true
+                    jobManager.addJobInBackground(SyncParticipantListItemJob(participant!!))
+                    val completedDialogFragment = VisitCompletedDialogFragment()
+                    completedDialogFragment.arguments = bundleOf("is_cancel" to false)
+                    completedDialogFragment.show(fragmentManager!!)
+                }
             }
         }
 
         measurementListViewModel.participantFollowUpStatusUpdate?.observe(this, Observer { assertsResource ->
             if (assertsResource?.status == Status.SUCCESS) {
-                println(assertsResource.data?.data)
+                println(assertsResource.data)
                 if (assertsResource.data != null) {
 
                     val completedDialogFragment = VisitCompletedDialogFragment()

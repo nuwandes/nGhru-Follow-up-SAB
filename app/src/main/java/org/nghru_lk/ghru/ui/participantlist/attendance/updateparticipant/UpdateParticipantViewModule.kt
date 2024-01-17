@@ -54,14 +54,14 @@ class UpdateParticipantViewModule
     private var _participantId: String? = null
     private val _participantRequest: MutableLiveData<ParticipantListItem> = MutableLiveData()
 
-    var participantUpdateComplete:LiveData<Resource<ResourceData<ParticipantListItem>>>? = Transformations
-        .switchMap(_participantUpdateRequest) { participantRequest ->
-            if (participantRequest == null) {
-                AbsentLiveData.create()
-            } else {
-                repository.updateParticipantItem(participantRequest,_participantId!!)
-            }
-        }
+//    var participantUpdateComplete:LiveData<Resource<ResourceData<ParticipantListItem>>>? = Transformations
+//        .switchMap(_participantUpdateRequest) { participantRequest ->
+//            if (participantRequest == null) {
+//                AbsentLiveData.create()
+//            } else {
+//                repository.updateParticipantItem(participantRequest,_participantId!!)
+//            }
+//        }
 
     fun setParticipant(participantItem: ParticipantListItem, participantId: String?) {
         _participantId = participantId
@@ -70,13 +70,29 @@ class UpdateParticipantViewModule
         }
         _participantRequest.value = participantItem
     }
-    fun updateParticipant(participantItem: ParticipantListItem, participantId: String?) {
-        _participantId = participantId
+//    fun updateParticipant(participantItem: ParticipantListItem, participantId: String?) {
+//        _participantId = participantId
+//        if (_participantUpdateRequest.value == participantItem) {
+//            return
+//        }
+//        _participantUpdateRequest.value = participantItem
+//    }
+
+//    --------------------------------------------------------------------------------------------------------
+
+    fun updateParticipant(participantItem: ParticipantListItem) {
         if (_participantUpdateRequest.value == participantItem) {
             return
         }
         _participantUpdateRequest.value = participantItem
     }
 
-//    --------------------------------------------------------------------------------------------------------
+    var participantUpdateComplete:LiveData<Resource<ParticipantListItem>>? = Transformations
+        .switchMap(_participantUpdateRequest) { participantRequest ->
+            if (participantRequest == null) {
+                AbsentLiveData.create()
+            } else {
+                repository.updateAndSyncParticipant(participantRequest)
+            }
+        }
 }

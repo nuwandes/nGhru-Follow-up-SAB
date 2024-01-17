@@ -42,4 +42,7 @@ interface ParticipantListItemDao {
 
     @Query("SELECT * FROM participant_list_item WHERE is_sync = :isSync")
     fun getAllUnSyncParticipantListItem(isSync: Boolean?): LiveData<ParticipantListItem>
+
+    @Query("UPDATE participant_list_item SET is_sync= 0 WHERE is_sync = 1 AND participant_id = :screeningId")
+    fun update(screeningId: String): Int
 }

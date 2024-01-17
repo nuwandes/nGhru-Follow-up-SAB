@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.birbit.android.jobqueue.JobManager
 import com.crashlytics.android.Crashlytics
 import org.nghru_lk.ghru.MeasurementListActivity
 import org.nghru_lk.ghru.R
@@ -35,6 +36,7 @@ import org.nghru_lk.ghru.databinding.BasicDetailsFragmentSgBinding
 import org.nghru_lk.ghru.databinding.ParticipantAttendanceFragmentBinding
 import org.nghru_lk.ghru.db.MemberTypeConverters.gson
 import org.nghru_lk.ghru.di.Injectable
+import org.nghru_lk.ghru.jobs.SyncParticipantListItemJob
 import org.nghru_lk.ghru.ui.participantlist.attendance.consent.completed.ConsentCompletedDialogFragment
 import org.nghru_lk.ghru.ui.participantlist.preocessenddialog.NotAbleDialogFragment
 import org.nghru_lk.ghru.ui.participantlist.verificationcompleted.VerificationCompletedDialogFragment
@@ -78,6 +80,8 @@ class ParticipantAttendanceFragment : Fragment(), Injectable {
     var cal = Calendar.getInstance()
 
     private var isConsentExist : Boolean? = false
+    @Inject
+    lateinit var jobManager: JobManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -370,24 +374,20 @@ class ParticipantAttendanceFragment : Fragment(), Injectable {
                     participant!!.rescheduled_date = null
                 }
 
-
                 // update api call
 
-                basicDetailsViewModelNew.updateParticipant(participant!!)
-
-//                if (isNetworkAvailable())
-//                {
-//                    basicDetailsViewModelNew.updateParticipant(participant!!)
-//                }
-//                else
-//                {
-//                    participant!!.is_able = false
-//                    participant!!.is_rescheduled = false
-//                    participant!!.is_verified = false
-//                    participant!!.isSync = true
-//
-//                    basicDetailsViewModelNew.setUpdateParticipantListItemFromLocalDb(participant!!)
-//                }
+                if (isNetworkAvailable())
+                {
+                    participant?.isSync =false
+                    basicDetailsViewModelNew.updateParticipant(participant!!)
+                }
+                else
+                {
+                    participant?.isSync =true
+                    jobManager.addJobInBackground(SyncParticipantListItemJob(participant!!))
+                    val notAbleDialogFragment = NotAbleDialogFragment()
+                    notAbleDialogFragment.show(fragmentManager!!)
+                }
 
 
                 Log.d(TAG, "END_BUTTON IS_ABLE: " + participant!!.is_able

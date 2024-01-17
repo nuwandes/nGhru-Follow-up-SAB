@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.*
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -19,6 +20,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.birbit.android.jobqueue.JobManager
 import com.crashlytics.android.Crashlytics
 import org.nghru_lk.ghru.MainActivity
 import org.nghru_lk.ghru.R
@@ -27,6 +29,8 @@ import org.nghru_lk.ghru.databinding.CompletedBodyMeasuementDialogFragmentBindin
 import org.nghru_lk.ghru.databinding.VisitCompletedDialogFragmentBinding
 import org.nghru_lk.ghru.databinding.VisitWarningDialogFragmentBinding
 import org.nghru_lk.ghru.di.Injectable
+import org.nghru_lk.ghru.jobs.SyncParticipantListItemJob
+import org.nghru_lk.ghru.ui.participantlist.measurementlist.completevisitcompleted.VisitCompletedDialogFragment
 import org.nghru_lk.ghru.util.autoCleared
 import org.nghru_lk.ghru.util.singleClick
 import org.nghru_lk.ghru.vo.ParticipantListItem
@@ -49,6 +53,9 @@ class VisitWarningDialogFragment : DialogFragment(), Injectable {
     var isCancel: Boolean = false
 
     private var participant: ParticipantListItem? = null
+
+    @Inject
+    lateinit var jobManager: JobManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,12 +94,27 @@ class VisitWarningDialogFragment : DialogFragment(), Injectable {
 
         binding.continueButton.singleClick {
 
-            warningDialogViewModel.updateParticipantFollowUp(participant!!, participant!!.participant_id)
+            if (isNetworkAvailable())
+            {
+                participant?.isSync =false
+                warningDialogViewModel.updateParticipantFollowUp(participant!!)
+            }
+            else
+            {
+                participant?.isSync =true
+                jobManager.addJobInBackground(SyncParticipantListItemJob(participant!!))
+                activity?.finish()
+                dismiss()
+                val intent = Intent(activity, MainActivity::class.java)
+                startActivity(intent)
+            }
+
+
         }
 
         warningDialogViewModel.participantFollowUpStatusUpdate?.observe(this, Observer { assertsResource ->
             if (assertsResource?.status == Status.SUCCESS) {
-                println(assertsResource.data?.data)
+                println(assertsResource.data)
                 if (assertsResource.data != null) {
 
                     activity?.finish()
