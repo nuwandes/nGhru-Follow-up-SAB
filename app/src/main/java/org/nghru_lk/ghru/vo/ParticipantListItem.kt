@@ -31,7 +31,15 @@ data class ParticipantListItem (
     @Expose @SerializedName("verification_dob") @ColumnInfo(name = "verification_dob") var verification_dob: String?,
     @Expose @SerializedName("verification_id") @ColumnInfo(name = "verification_id") var verification_id: String?,
     @Expose @SerializedName("is_rescheduled") @ColumnInfo(name = "is_rescheduled") var is_rescheduled: Boolean = false,
-    @Expose @SerializedName("rescheduled_date") @ColumnInfo(name = "rescheduled_date") var rescheduled_date: String?
+    @Expose @SerializedName("rescheduled_date") @ColumnInfo(name = "rescheduled_date") var rescheduled_date: String?,
+    @Expose @SerializedName("bm_status") @ColumnInfo(name = "bm_status") var bm_status: Int =0,
+    @Expose @SerializedName("bp_status") @ColumnInfo(name = "bp_status") var bp_status: Int =0,
+    @Expose @SerializedName("bt_status") @ColumnInfo(name = "bt_status") var bt_status: Int =0,
+    @Expose @SerializedName("que_status") @ColumnInfo(name = "que_status") var que_status: Int =0,
+    @Expose @SerializedName("sam_status") @ColumnInfo(name = "sam_status") var sam_status: Int =0,
+    @Expose @SerializedName("ecg_status") @ColumnInfo(name = "ecg_status") var ecg_status: Int =0,
+    @Expose @SerializedName("fun_status") @ColumnInfo(name = "fun_status") var fun_status: Int =0,
+    @Expose @SerializedName("act_status") @ColumnInfo(name = "act_status") var act_status: Int =0
 
 ) : Serializable, Parcelable {
     @PrimaryKey(autoGenerate = true)
@@ -62,7 +70,15 @@ data class ParticipantListItem (
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readByte() != 0.toByte(),
-        parcel.readString()!!
+        parcel.readString()!!,
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt()
     ) {
         id = parcel.readInt()
         statusId = parcel.readInt()
@@ -92,6 +108,14 @@ data class ParticipantListItem (
         parcel.writeByte(if (is_rescheduled) 1 else 0)
         parcel.writeString(rescheduled_date)
         parcel.writeByte(if (isSync) 1 else 0)
+        parcel.writeInt(bm_status)
+        parcel.writeInt(bp_status)
+        parcel.writeInt(bt_status)
+        parcel.writeInt(que_status)
+        parcel.writeInt(sam_status)
+        parcel.writeInt(ecg_status)
+        parcel.writeInt(fun_status)
+        parcel.writeInt(act_status)
     }
 
     override fun describeContents(): Int {

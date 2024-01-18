@@ -80,4 +80,29 @@ class BloodTestRepository @Inject constructor(
             }
         }.asLiveData()
     }
+
+    fun insertBloodTest(
+        bloodTestRequest: BloodTestRequest
+    ): LiveData<Resource<BloodTestRequest>> {
+        return object : LocalBoundInsertResource<BloodTestRequest>(appExecutors) {
+            override fun loadFromDb(rowId: Long): LiveData<BloodTestRequest> {
+                return bloodTestDao.getBloodTestByScreeningId(bloodTestRequest!!.screeningId)
+            }
+
+            override fun insertDb(): Long {
+
+                return bloodTestDao.insert(bloodTestRequest!!)
+            }
+        }.asLiveData()
+    }
+
+    fun getBloodTestListFromLocalDB(
+
+    ): LiveData<Resource<List<BloodTestRequest>>> {
+        return object : LocalBoundResource<List<BloodTestRequest>>(appExecutors) {
+            override fun loadFromDb(): LiveData<List<BloodTestRequest>> {
+                return bloodTestDao.getECGStatusesSyncPending()
+            }
+        }.asLiveData()
+    }
 }

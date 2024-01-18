@@ -70,8 +70,6 @@ class DataManagementListFragment : Fragment(), Injectable {
 
         adapter.notifyDataSetChanged()
 
-
-
         return dataBinding.root
     }
 
@@ -87,8 +85,8 @@ class DataManagementListFragment : Fragment(), Injectable {
         dataManagmentViewModel.setStationNameBP(Measurements.BLOOD_PRESSURE)
 
         dataManagmentViewModel.stationBPLocalList?.observe(this, Observer {
-            if (it != null) {
-                recordList.addAll(it)
+            if (it.data != null) {
+                recordList.addAll(it.data!!)
                 adapter.notifyDataSetChanged()
             }
 
@@ -151,6 +149,16 @@ class DataManagementListFragment : Fragment(), Injectable {
         })
 
         dataManagmentViewModel.stationActivityLocalList?.observe(this, Observer {
+
+            if(it.data != null)
+            {
+                recordList.addAll(it.data!!)
+                adapter.notifyDataSetChanged()
+            }
+            dataManagmentViewModel.setStationBloodTest(Measurements.BLOOD_GLUCOSE)
+        })
+
+        dataManagmentViewModel.stationBloodTestLocalList?.observe(this, Observer {
 
             if(it.data != null)
             {

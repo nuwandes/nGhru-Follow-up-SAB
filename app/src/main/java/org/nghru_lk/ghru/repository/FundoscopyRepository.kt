@@ -88,4 +88,19 @@ class FundoscopyRepository @Inject constructor(
             }
         }.asLiveData()
     }
+
+    fun insertFundo(
+        fundoscopyRequest: FundoscopyRequest
+    ): LiveData<Resource<FundoscopyRequest>> {
+        return object : LocalBoundInsertResource<FundoscopyRequest>(appExecutors) {
+            override fun loadFromDb(rowId: Long): LiveData<FundoscopyRequest> {
+                return fundoscopyRequestDao.getFundoByScreeningId(fundoscopyRequest.screeningId)
+            }
+
+            override fun insertDb(): Long {
+
+                return fundoscopyRequestDao.insert(fundoscopyRequest)
+            }
+        }.asLiveData()
+    }
 }

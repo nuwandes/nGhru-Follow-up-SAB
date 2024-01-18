@@ -82,4 +82,19 @@ class BodyMeasurementMetaRepository @Inject constructor(
             }
         }.asLiveData()
     }
+
+    fun insertBMMeta(
+        bodyMeasurementMeta: BodyMeasurementMeta
+    ): LiveData<Resource<BodyMeasurementMeta>> {
+        return object : LocalBoundInsertResource<BodyMeasurementMeta>(appExecutors) {
+            override fun loadFromDb(rowId: Long): LiveData<BodyMeasurementMeta> {
+                return bodyMeasurementMetaDao.getBMByScreeningId(bodyMeasurementMeta.screeningId)
+            }
+
+            override fun insertDb(): Long {
+
+                return bodyMeasurementMetaDao.insert(bodyMeasurementMeta!!)
+            }
+        }.asLiveData()
+    }
 }

@@ -183,4 +183,21 @@ class BodyMeasurementHomeViewModel
     }
 
 //    ------------------------------------------------------------------------------------------------------------
+
+    private val _bMMetaLocal: MutableLiveData<BodyMeasurementMeta> = MutableLiveData()
+
+    fun setbPMetaLocal(bodyMeasurementRequest: BodyMeasurementMeta) {
+        if (_bMMetaLocal.value != bodyMeasurementRequest) {
+            _bMMetaLocal.postValue(bodyMeasurementRequest)
+        }
+    }
+
+    var insertbPMetaLocal: LiveData<Resource<BodyMeasurementMeta>>? = Transformations
+        .switchMap(_bMMetaLocal) { bMMetaLocal ->
+            if (bMMetaLocal == null) {
+                AbsentLiveData.create()
+            } else {
+                bodyMeasurementMetaRepository.insertBMMeta(bMMetaLocal)
+            }
+        }
 }

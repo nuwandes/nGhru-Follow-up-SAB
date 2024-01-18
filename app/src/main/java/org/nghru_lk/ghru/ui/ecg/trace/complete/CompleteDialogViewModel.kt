@@ -82,4 +82,23 @@ class CompleteDialogViewModel
             _email.value = email
         }
     }
+
+    // ----------------------------------------------------------------------------------------------------
+
+    private val _ecgLocal: MutableLiveData<ECGStatus> = MutableLiveData()
+
+    fun setEcgLocal(ecgStatus: ECGStatus?) {
+        if (_ecgLocal.value != ecgStatus) {
+            _ecgLocal.postValue(ecgStatus)
+        }
+    }
+
+    var insertEcgLocal: LiveData<Resource<ECGStatus>>? = Transformations
+        .switchMap(_ecgLocal) { ecgLocal ->
+            if (ecgLocal == null) {
+                AbsentLiveData.create()
+            } else {
+                eCGRepository.insertEcg(ecgLocal)
+            }
+        }
 }

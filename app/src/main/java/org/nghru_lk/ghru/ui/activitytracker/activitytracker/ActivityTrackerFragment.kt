@@ -314,12 +314,17 @@ class ActivityTackeFragment : Fragment(), Injectable {
                 axivity?.syncPending = !isNetworkAvailable()
                 axivity?.screeningId = selectedParticipant?.participant_id!!
                 axivity?.endTime =  endDateTime
+
                 if (isNetworkAvailable()) {
                     if (axivity?.meta != null)
                     {
                         viewModel.setAxivity(screeningId = selectedParticipant?.participant_id, axivity = axivity)
                     }
                 } else {
+
+                    axivity?.syncPending = true
+                    viewModel.setAxivityLocal(axivity)
+
                     jobManager.addJobInBackground(SyncAxivityJob(selectedParticipant?.participant_id!!, axivity!!))
                     val completedDialogFragment = CompletedDialogFragment()
                     completedDialogFragment.arguments = bundleOf("is_cancel" to false)
@@ -330,6 +335,18 @@ class ActivityTackeFragment : Fragment(), Injectable {
 
             }
         }
+
+        viewModel.insertAxivityLocal?.observe(this, Observer { axivityResource ->
+            if (axivityResource?.status == Status.SUCCESS)
+            {
+                Toast.makeText(context, "Axivity locally saved", Toast.LENGTH_LONG).show()
+            }
+            else
+            {
+                Toast.makeText(activity!!, "Failed", Toast.LENGTH_LONG).show()
+            }
+        })
+
         binding.buttonCancel.singleClick {
 
             val reasonDialogFragment = ReasonDialogFragment()

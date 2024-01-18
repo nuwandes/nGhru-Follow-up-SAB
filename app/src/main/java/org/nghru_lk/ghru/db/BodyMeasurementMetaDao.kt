@@ -40,6 +40,9 @@ interface BodyMeasurementMetaDao {
     @Query("SELECT * FROM body_measurement_meta WHERE sync_pending = 1 ORDER BY id ASC")
     fun getBodyMeasurementMetasSyncPending(): LiveData<List<BodyMeasurementMeta>>
 
+    @Query("SELECT * FROM body_measurement_meta WHERE screening_id = :screeningId")
+    fun getBMByScreeningId(screeningId: String): LiveData<BodyMeasurementMeta>
+
     //SELECT * FROM access_token LIMIT 1
 
 }

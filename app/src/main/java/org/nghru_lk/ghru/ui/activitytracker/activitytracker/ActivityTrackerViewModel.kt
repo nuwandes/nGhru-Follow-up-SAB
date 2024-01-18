@@ -12,6 +12,7 @@ import org.nghru_lk.ghru.repository.UserRepository
 import org.nghru_lk.ghru.util.AbsentLiveData
 import org.nghru_lk.ghru.vo.*
 import org.nghru_lk.ghru.vo.request.ParticipantRequest
+import org.nghru_lk.ghru.vo.request.SampleRequest
 import javax.inject.Inject
 
 
@@ -139,4 +140,21 @@ class ActivityTackeViewModel @Inject constructor(
     }
 
 //    ---------------------------------------------------------------------------------------------------------
+
+    private val _axivityLocal: MutableLiveData<Axivity> = MutableLiveData()
+
+    fun setAxivityLocal(axivity: Axivity) {
+        if (_axivityLocal.value != axivity) {
+            _axivityLocal.postValue(axivity)
+        }
+    }
+
+    var insertAxivityLocal: LiveData<Resource<Axivity>>? = Transformations
+        .switchMap(_axivityLocal) { axivityLocal ->
+            if (axivityLocal == null) {
+                AbsentLiveData.create()
+            } else {
+                axivityRepository.insertAxivity(axivityLocal)
+            }
+        }
 }

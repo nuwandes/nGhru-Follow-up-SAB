@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -277,6 +278,8 @@ class BPManualOneFragment : Fragment(), Injectable {
                     binding.textViewError.visibility = View.GONE
                 } else {
                     mBloodPressureMetaRequest?.syncPending = true
+                    bPManualOneViewModel.setbPMetaLocal(mBloodPressureMetaRequest!!)
+
                     jobManager.addJobInBackground(
                         SyncBloodPresureRequestJob(
                             selectedParticipant?.participant_id!!,
@@ -287,8 +290,22 @@ class BPManualOneFragment : Fragment(), Injectable {
                     completedDialogFragment.show(fragmentManager!!)
                 }
             }
-
         }
+
+        bPManualOneViewModel.insertbPMetaLocal?.observe(this, Observer {
+            binding.progressBar.visibility = View.GONE
+            if (it.status.equals(Status.SUCCESS)) {
+
+                Toast.makeText(context, "Blood Pressure locally saved", Toast.LENGTH_LONG).show()
+            } else if (it?.status == Status.ERROR) {
+                Crashlytics.setString("mBloodPressureMetaRequest", mBloodPressureMetaRequest.toString())
+                Crashlytics.setString("participant", selectedParticipant?.participant_id.toString())
+                Crashlytics.logException(Exception("bloodPressureRequestRemote " + it.message.toString()))
+                binding.textViewError.visibility = View.VISIBLE
+                binding.textViewError.setText(it.message?.message)
+
+            }
+        })
 
         bPManualOneViewModel.bloodPressureRequestRemote?.observe(this, Observer {
             binding.progressBar.visibility = View.GONE

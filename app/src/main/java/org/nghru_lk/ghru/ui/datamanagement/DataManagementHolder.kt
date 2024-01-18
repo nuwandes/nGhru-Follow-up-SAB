@@ -4,10 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.data_management_item.view.*
 import org.nghru_lk.ghru.R
-import org.nghru_lk.ghru.vo.Axivity
-import org.nghru_lk.ghru.vo.ECGStatus
-import org.nghru_lk.ghru.vo.FundoscopyRequest
-import org.nghru_lk.ghru.vo.SpirometryRequest
+import org.nghru_lk.ghru.vo.*
 import org.nghru_lk.ghru.vo.request.*
 
 class DataManagementHolder (v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
@@ -107,6 +104,13 @@ class DataManagementHolder (v: View) : RecyclerView.ViewHolder(v), View.OnClickL
             view.imgStation.setImageResource(R.drawable.ic_icon_register_patient)
             view.textViewScreeningID.text = participant.screeningId
             view.textViewDate.text = participant.createdDateTime
+        }
+        else if(record is BloodTestRequest)
+        {
+            var bloodTest : BloodTestRequest = record
+            view.imgStation.setImageResource(R.drawable.fbg)
+            view.textViewScreeningID.text = bloodTest.screeningId
+            view.textViewDate.text = bloodTest.meta?.endTime
         }
 
     }

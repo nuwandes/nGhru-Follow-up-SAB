@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
@@ -146,12 +147,37 @@ class CompleteDialogFragment : DialogFragment(), Injectable {
             }
             else
             {
+                mECGStatus.syncPending = true
+                mECGStatus.screeningId = participant?.participant_id!!
+                confirmationdialogViewModel.setEcgLocal(mECGStatus)
+
+                dismiss()
                 jobManager.addJobInBackground(SyncECGJob(participant?.participant_id, mECGStatus))
                 val completedDialogFragment = CompletedDialogFragment()
                 completedDialogFragment.arguments = bundleOf("is_cancel" to false)
                 completedDialogFragment.show(fragmentManager!!)
+
             }
         }
+
+        confirmationdialogViewModel.insertEcgLocal?.observe(this, Observer { ecgRes ->
+
+            if (ecgRes?.status == Status.SUCCESS)
+            {
+                Toast.makeText(activity, "ECG locally saved", Toast.LENGTH_LONG).show()
+            }
+            else if (ecgRes?.status == Status.ERROR)
+            {
+                Crashlytics.setString("comment", comment.toString())
+                Crashlytics.setString("participant", participant.toString())
+                Crashlytics.logException(Exception("eCGSaveRemote " + ecgRes.message.toString()))
+                binding.progressBar.visibility = View.GONE
+                binding.textViewError.setText(ecgRes.message?.message)
+                binding.textViewError.visibility = View.VISIBLE
+                binding.executePendingBindings()
+            }
+        })
+
         binding.buttonCancel.singleClick {
             dismiss()
         }

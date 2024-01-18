@@ -31,4 +31,7 @@ interface FundoscopyRequestDao {
 
     @Query("SELECT * FROM fundoscopy_request WHERE sync_pending = 1 ORDER BY id ASC")
     fun getFundoscopyRequestSyncPending(): LiveData<List<FundoscopyRequest>>
+
+    @Query("SELECT * FROM fundoscopy_request WHERE screening_id = :screeningId")
+    fun getFundoByScreeningId(screeningId: String): LiveData<FundoscopyRequest>
 }

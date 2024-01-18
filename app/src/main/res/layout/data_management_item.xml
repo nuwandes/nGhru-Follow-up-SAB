@@ -57,7 +57,8 @@
                     android:id="@+id/imgStatus"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/icon_not_sync"/>
+                    android:src="@drawable/icon_not_sync"
+                android:visibility="gone"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -68,7 +69,8 @@
                     android:layout_marginTop="5dp"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+                android:visibility="gone"/>
         </LinearLayout>
 
 

@@ -32,5 +32,8 @@ interface ECGStatusDao {
     @Query("SELECT * FROM ecg_status WHERE sync_pending = 1 ORDER BY id ASC")
     fun getECGStatusesSyncPending():LiveData<List<ECGStatus>>
 
+    @Query("SELECT * FROM ecg_status WHERE screening_id = :screeningId")
+    fun getEcgByScreeningId(screeningId: String): LiveData<ECGStatus>
+
 
 }

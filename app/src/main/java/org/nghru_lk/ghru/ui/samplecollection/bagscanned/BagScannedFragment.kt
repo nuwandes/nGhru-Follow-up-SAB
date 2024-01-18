@@ -148,6 +148,8 @@ class BagScannedFragment : Fragment(), Injectable {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.buttonSubmit.visibility = View.GONE
                     binding.textViewError.visibility = View.GONE
+
+                    //insert data locally
                     viewModel.setSampleLocal(sampleRequest)
 
                     binding.checkLayout.background = resources.getDrawable(R.drawable.ic_base_check, null)

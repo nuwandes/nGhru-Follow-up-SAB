@@ -33,5 +33,6 @@ interface BloodTestDao {
     @Query("SELECT * FROM blood_test_request WHERE sync_pending = 1 ORDER BY id ASC")
     fun getECGStatusesSyncPending():LiveData<List<BloodTestRequest>>
 
-
+    @Query("SELECT * FROM blood_test_request WHERE screening_id = :screeningId")
+    fun getBloodTestByScreeningId(screeningId: String): LiveData<BloodTestRequest>
 }

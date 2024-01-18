@@ -80,4 +80,21 @@ class BloodTestHomeViewModel
 
     // ----------------------------------------------------------------------------
 
+    private val _bTLocal: MutableLiveData<BloodTestRequest> = MutableLiveData()
+
+    fun setBTLocal(bloodRequest: BloodTestRequest) {
+        if (_bTLocal.value != bloodRequest) {
+            _bTLocal.postValue(bloodRequest)
+        }
+    }
+
+    var insertBTLocal: LiveData<Resource<BloodTestRequest>>? = Transformations
+        .switchMap(_bTLocal) { bTLocal ->
+            if (bTLocal == null) {
+                AbsentLiveData.create()
+            } else {
+                bloodTestRepository.insertBloodTest(bTLocal)
+            }
+        }
+
 }

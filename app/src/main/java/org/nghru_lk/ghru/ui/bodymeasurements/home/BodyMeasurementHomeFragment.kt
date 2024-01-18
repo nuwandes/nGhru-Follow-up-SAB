@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingComponent
@@ -314,9 +315,6 @@ class BodyMeasurementHomeFragment : Fragment(), Injectable {
             }
         })
 
-
-
-
         binding.buttonCancel.singleClick {
             val reasonDialogFragment = ReasonDialogFragment()
             reasonDialogFragment.arguments = bundleOf("participant" to selectedParticipant!!.participant_id)
@@ -371,12 +369,18 @@ class BodyMeasurementHomeFragment : Fragment(), Injectable {
 
                     val bodyMeasurementMeta = BodyMeasurementMeta(meta = meta, body = bodyMeasurement)
                     bodyMeasurementMeta.screeningId = selectedParticipant?.participant_id!!
-                    bodyMeasurementMeta.syncPending = !isNetworkAvailable()
+                    bodyMeasurementMeta.syncPending = false
                     viewModel.setBodyMeasurementMeta(bodyMeasurementMeta)
 
                     binding.progressBar.visibility = View.VISIBLE
                     binding.buttonSubmit.visibility = View.GONE
                 } else {
+
+                    val bodyMeasurementMeta = BodyMeasurementMeta(meta = meta, body = bodyMeasurement)
+                    bodyMeasurementMeta.screeningId = selectedParticipant?.participant_id!!
+                    bodyMeasurementMeta.syncPending = true
+
+                    viewModel.setbPMetaLocal(bodyMeasurementMeta)
 
                     jobManager.addJobInBackground(
                         SyncBodyMeasurementMetaJob(
@@ -410,6 +414,22 @@ class BodyMeasurementHomeFragment : Fragment(), Injectable {
                 binding.executePendingBindings()
             }
         }
+
+        viewModel.insertbPMetaLocal?.observe(this, Observer { sampleMangementPocess ->
+
+            if (sampleMangementPocess?.status == Status.SUCCESS)
+            {
+                Toast.makeText(context, "Body measurement locally saved", Toast.LENGTH_LONG).show()
+            }
+            else if(sampleMangementPocess?.status == Status.ERROR){
+                Crashlytics.setString(
+                    "BodyMeasurementMeta",
+                    BodyMeasurementMeta(meta = meta, body = bodyMeasurement).toString()
+                )
+                Crashlytics.setString("participant", selectedParticipant!!.participant_id.toString())
+                Crashlytics.logException(Exception("BodyMeasurementMeta " + sampleMangementPocess.message.toString()))
+            }
+        })
 
 //        binding.linearLayoutHeight.singleClick {
 //            // viewModel.sampleValidationError.value = false

@@ -169,4 +169,29 @@ class BloodPressureRequestRepository @Inject constructor(
             }
         }.asLiveData()
     }
+
+    fun insertBPMeta(
+        bloodPressureMetaRequest: BloodPressureMetaRequest?
+    ): LiveData<Resource<BloodPressureMetaRequest>> {
+        return object : LocalBoundInsertResource<BloodPressureMetaRequest>(appExecutors) {
+            override fun loadFromDb(rowId: Long): LiveData<BloodPressureMetaRequest> {
+                return bloodPressureMetaRequestDao.getBPByScreeningId(bloodPressureMetaRequest!!.body.screeningId)
+            }
+
+            override fun insertDb(): Long {
+
+                return bloodPressureMetaRequestDao.insert(bloodPressureMetaRequest!!)
+            }
+        }.asLiveData()
+    }
+
+    fun getBloodPressureListFromLocalDB(
+
+    ): LiveData<Resource<List<BloodPressureMetaRequest>>> {
+        return object : LocalBoundResource<List<BloodPressureMetaRequest>>(appExecutors) {
+            override fun loadFromDb(): LiveData<List<BloodPressureMetaRequest>> {
+                return bloodPressureMetaRequestDao.getBPStatusesSyncPending()
+            }
+        }.asLiveData()
+    }
 }

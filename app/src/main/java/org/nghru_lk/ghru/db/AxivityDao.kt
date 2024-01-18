@@ -21,4 +21,7 @@ interface AxivityDao {
 
     @Query("DELETE FROM axivity WHERE id = :id")
     fun deleteRequest(id : Long)
+
+    @Query("SELECT * FROM axivity WHERE screening_id = :screeningId")
+    fun getAxivityByScreeningId(screeningId: String): LiveData<Axivity>
 }

@@ -28,4 +28,10 @@ interface BloodPressureMetaRequestDao {
     @Query("SELECT * FROM blood_pressure_meta WHERE blood_pressure_request_id = :bloodPressureID")
     fun getBloodPressureMetaRequestByBloodPressureID(bloodPressureID: Long): BloodPressureMetaRequest
 
+    @Query("SELECT * FROM blood_pressure_meta WHERE bodyscreening_id = :screeningId")
+    fun getBPByScreeningId(screeningId: String): LiveData<BloodPressureMetaRequest>
+
+    @Query("SELECT * FROM blood_pressure_meta WHERE sync_pending = 1 ORDER BY id ASC")
+    fun getBPStatusesSyncPending():LiveData<List<BloodPressureMetaRequest>>
+
 }

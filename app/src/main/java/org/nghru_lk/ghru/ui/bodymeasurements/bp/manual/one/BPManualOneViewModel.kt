@@ -139,5 +139,20 @@ class BPManualOneViewModel
 
 //    ---------------------------------------------------------------------------------------------------------
 
+    private val _bPMetaLocal: MutableLiveData<BloodPressureMetaRequest> = MutableLiveData()
 
+    fun setbPMetaLocal(bloodPressureMetaRequest: BloodPressureMetaRequest) {
+        if (_bPMetaLocal.value != bloodPressureMetaRequest) {
+            _bPMetaLocal.postValue(bloodPressureMetaRequest)
+        }
+    }
+
+    var insertbPMetaLocal: LiveData<Resource<BloodPressureMetaRequest>>? = Transformations
+        .switchMap(_bPMetaLocal) { bPMetaLocal ->
+            if (bPMetaLocal == null) {
+                AbsentLiveData.create()
+            } else {
+                bloodPressureRequestRepository.insertBPMeta(bPMetaLocal)
+            }
+        }
 }

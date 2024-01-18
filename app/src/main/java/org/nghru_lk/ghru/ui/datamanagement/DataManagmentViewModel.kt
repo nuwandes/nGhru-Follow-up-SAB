@@ -39,6 +39,7 @@ class DataManagmentViewModel
     private val _stationCancel = MutableLiveData<String>()
     private val _stationSample = MutableLiveData<String>()
     private val _stationActivity = MutableLiveData<String>()
+    private val _stationBloodTest = MutableLiveData<String>()
     private val _stationEnumaration = MutableLiveData<String>()
     private var _stationRegistration =  MutableLiveData<String>()
     private var _memberHouseHoldId = MutableLiveData<String>()
@@ -62,9 +63,9 @@ class DataManagmentViewModel
         }
         _stationNameBP.value = update
     }
-    var stationBPLocalList: LiveData<MutableList<BloodPressureMetaRequest>>? = Transformations
+    var stationBPLocalList: LiveData<Resource<List<BloodPressureMetaRequest>>>? = Transformations
         .switchMap(_stationNameBP) { input ->
-            bloodPressureRequestRepository.getBloodPressureMetaRequestFromLocalDB()
+            bloodPressureRequestRepository.getBloodPressureListFromLocalDB()
         }
 
     fun setStationNameBM(stationName: Measurements) {
@@ -154,6 +155,18 @@ class DataManagmentViewModel
     var stationActivityLocalList: LiveData<Resource<List<Axivity>>>? = Transformations
         .switchMap(_stationActivity) { input ->
             axivityRepository.getAxivityListFromLocalDB()
+        }
+
+    fun setStationBloodTest(stationName: Measurements) {
+        val update = stationName.toString().toLowerCase()
+        if (_stationBloodTest.value == update) {
+            return
+        }
+        _stationBloodTest.value = update
+    }
+    var stationBloodTestLocalList: LiveData<Resource<List<BloodTestRequest>>>? = Transformations
+        .switchMap(_stationBloodTest) { input ->
+            bloodTestRepository.getBloodTestListFromLocalDB()
         }
 
 

@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingComponent
@@ -237,10 +238,10 @@ class BloodTestHomeFragment : Fragment(), Injectable {
                     tch = totalCholesterol,
                     fbg = fastingBloodGlucose)
 
-                    meta?.endTime = endDateTime
-
                 val bloodTestRequest = BloodTestRequest(meta = meta, body = bloodTestData)
                 bloodTestRequest.screeningId = selectedParticipant?.participant_id!!
+
+                meta?.endTime = endDateTime
 
                 if (isNetworkAvailable())
                 {
@@ -250,6 +251,8 @@ class BloodTestHomeFragment : Fragment(), Injectable {
                 else
                 {
                     bloodTestRequest.syncPending =true
+                    viewModel.setBTLocal(bloodTestRequest)
+
                     jobManager.addJobInBackground(SyncBloodTestJob(bloodTestRequest))
                     val completedDialogFragment = CompletedDialogFragment()
                     completedDialogFragment.arguments = bundleOf("is_cancel" to false)
@@ -274,6 +277,19 @@ class BloodTestHomeFragment : Fragment(), Injectable {
             }
 
         }
+
+        viewModel.insertBTLocal?.observe(this, Observer { bTLocalRes ->
+
+            if (bTLocalRes?.status == Status.SUCCESS)
+            {
+                Toast.makeText(activity, "Blood Test locally saved", Toast.LENGTH_LONG).show()
+            }
+            else if(bTLocalRes?.status == Status.ERROR)
+            {
+                Crashlytics.setString("participant", selectedParticipant!!.participant_id.toString())
+                Crashlytics.logException(Exception("BodyMeasurementMeta " + bTLocalRes.message.toString()))
+            }
+        })
 
         viewModel.syncBloodRequest?.observe(this, Observer { chkPocess ->
 

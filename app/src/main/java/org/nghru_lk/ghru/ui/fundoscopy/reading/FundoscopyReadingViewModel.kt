@@ -150,4 +150,21 @@ class FundoscopyReadingViewModel
         }
 
     // -----------------------------------------------------------------------
+
+    private val _fundoLocal: MutableLiveData<FundoscopyRequest> = MutableLiveData()
+
+    fun setFundoLocal(fundoscopyRequest: FundoscopyRequest) {
+        if (_fundoLocal.value != fundoscopyRequest) {
+            _fundoLocal.postValue(fundoscopyRequest)
+        }
+    }
+
+    var insertFundoLocal: LiveData<Resource<FundoscopyRequest>>? = Transformations
+        .switchMap(_fundoLocal) { fundoLocal ->
+            if (fundoLocal == null) {
+                AbsentLiveData.create()
+            } else {
+                fundoscopyRepository.insertFundo(fundoLocal)
+            }
+        }
 }

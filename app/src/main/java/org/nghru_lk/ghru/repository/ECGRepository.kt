@@ -106,4 +106,19 @@ class ECGRepository @Inject constructor(
             }
         }.asLiveData()
     }
+
+    fun insertEcg(
+        ecgStatus: ECGStatus?
+    ): LiveData<Resource<ECGStatus>> {
+        return object : LocalBoundInsertResource<ECGStatus>(appExecutors) {
+            override fun loadFromDb(rowId: Long): LiveData<ECGStatus> {
+                return ecgStatusDao.getEcgByScreeningId(ecgStatus!!.screeningId)
+            }
+
+            override fun insertDb(): Long {
+
+                return ecgStatusDao.insert(ecgStatus!!)
+            }
+        }.asLiveData()
+    }
 }

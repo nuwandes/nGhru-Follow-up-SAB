@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -176,6 +177,7 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
         binding.assetList.adapter = adapter
         val layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         binding.assetList.setLayoutManager(layoutManager)
+
         fundoscopyReadingViewModel.asserts?.observe(this, Observer { assertsResource ->
             if (assertsResource?.status == Status.SUCCESS) {
                 println(assertsResource.data?.data)
@@ -245,6 +247,10 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
                 }
                 else
                 {
+                    fundoscopyRequest.syncPending = true
+                    fundoscopyRequest.screeningId = selectedParticipant?.participant_id!!
+                    fundoscopyReadingViewModel.setFundoLocal(fundoscopyRequest)
+
                     jobManager.addJobInBackground(
                         SyncFundoscopyJob(
                             selectedParticipant?.participant_id,
@@ -255,11 +261,23 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
                     completedDialogFragment.arguments = bundleOf("is_cancel" to false)
                     completedDialogFragment.show(fragmentManager!!)
                 }
-
-            } else {
-
             }
         }
+
+        fundoscopyReadingViewModel.insertFundoLocal?.observe(this, Observer { participant ->
+
+            if (participant?.status == Status.SUCCESS)
+            {
+                Toast.makeText(context, "Fundoscopy locally saved", Toast.LENGTH_LONG).show()
+            }
+            else if (participant?.status == Status.ERROR) {
+                Crashlytics.setString("comment", binding.comment.text.toString())
+                Crashlytics.setString("participant", participant.toString())
+                Crashlytics.logException(Exception("fundoscopyComplete " + participant.message.toString()))
+                binding.executePendingBindings()
+            }
+        })
+
         binding.buttonCancel.singleClick {
 
             val reasonDialogFragment = ReasonDialogFragment()

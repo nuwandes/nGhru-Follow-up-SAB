@@ -75,4 +75,19 @@ class AxivityRepository @Inject constructor(
             }
         }.asLiveData()
     }
+
+    fun insertAxivity(
+        axivity: Axivity?
+    ): LiveData<Resource<Axivity>> {
+        return object : LocalBoundInsertResource<Axivity>(appExecutors) {
+            override fun loadFromDb(rowId: Long): LiveData<Axivity> {
+                return axivityDao.getAxivityByScreeningId(axivity?.screeningId!!)
+            }
+
+            override fun insertDb(): Long {
+
+                return axivityDao.insert(axivity!!)
+            }
+        }.asLiveData()
+    }
 }
