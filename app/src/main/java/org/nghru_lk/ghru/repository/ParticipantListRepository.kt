@@ -11,6 +11,7 @@ import org.nghru_lk.ghru.R
 import org.nghru_lk.ghru.api.ApiResponse
 import org.nghru_lk.ghru.api.NghruService
 import org.nghru_lk.ghru.db.ParticipantListItemDao
+import org.nghru_lk.ghru.db.SiteDao
 import org.nghru_lk.ghru.jobs.SyncAxivityJob
 import org.nghru_lk.ghru.jobs.SyncParticipantListItemJob
 import org.nghru_lk.ghru.util.LocaleManager
@@ -28,7 +29,8 @@ class ParticipantListRepository @Inject constructor(
     private val context: Context,
     private val localeManager: LocaleManager,
     private val participantListItemDao: ParticipantListItemDao,
-    private val jobManager: JobManager
+    private val jobManager: JobManager,
+    private val siteDao: SiteDao
 //    private var stationItems: MutableLiveData<Resource<List<ParticipantStation>>>
 ) : Serializable {
 
@@ -78,6 +80,15 @@ class ParticipantListRepository @Inject constructor(
 
         return stationItems
 
+    }
+
+    fun getSiteItems(): LiveData<Resource<Array<String>>> {
+
+        return object : NetworkOnlyBoundResource<Array<String>>(appExecutors) {
+            override fun createCall(): LiveData<ApiResponse<Array<String>>> {
+                return nghruService.getSiteNamesBySite()
+            }
+        }.asLiveData()
     }
 
     fun getMeasurementListItems(stations: List<ParticipantStation>): LiveData<Resource<List<MeasurementListItem>>>
@@ -472,6 +483,41 @@ class ParticipantListRepository @Inject constructor(
         return object : LocalBoundResource<ParticipantListItem>(appExecutors) {
             override fun loadFromDb(): LiveData<ParticipantListItem> {
                 return participantListItemDao.getAllUnSyncParticipantListItem(true)
+            }
+        }.asLiveData()
+    }
+
+    fun insertSites(
+        site: Site
+    ): LiveData<Resource<Site>> {
+        return object : LocalBoundInsertResource<Site>(appExecutors) {
+            override fun loadFromDb(rowId: Long): LiveData<Site> {
+                return siteDao.getSiteById("")
+            }
+
+            override fun insertDb(): Long {
+
+                return siteDao.insert(site)
+            }
+        }.asLiveData()
+    }
+
+    fun getSearchParticipantItemList(
+        searchParam : String
+    ): LiveData<Resource<List<ParticipantListItem>>> {
+        return object : LocalBoundResource<List<ParticipantListItem>>(appExecutors) {
+            override fun loadFromDb(): LiveData<List<ParticipantListItem>> {
+                return participantListItemDao.getSearchParticipant(searchParam)
+            }
+        }.asLiveData()
+    }
+
+    fun getStatusParticipantItemList(
+        status : String
+    ): LiveData<Resource<List<ParticipantListItem>>> {
+        return object : LocalBoundResource<List<ParticipantListItem>>(appExecutors) {
+            override fun loadFromDb(): LiveData<List<ParticipantListItem>> {
+                return participantListItemDao.getStatusParticipant(status)
             }
         }.asLiveData()
     }

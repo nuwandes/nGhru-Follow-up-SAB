@@ -331,4 +331,7 @@ interface NghruService {
     @PUT("api/v2/participants/{screening_id}")
     fun updateParticipant(@Path("screening_id") screeningId: String, @Body participant: ParticipantListItem): Call<ResourceData<ECG>>
 
+    @GET("/api/v2/sites")
+    fun getSiteNamesBySite() : LiveData<ApiResponse<Array<String>>>
+
 }

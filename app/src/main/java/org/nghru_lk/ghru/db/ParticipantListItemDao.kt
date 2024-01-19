@@ -45,4 +45,10 @@ interface ParticipantListItemDao {
 
     @Query("UPDATE participant_list_item SET is_sync= 0 WHERE is_sync = 1 AND participant_id = :screeningId")
     fun update(screeningId: String): Int
+
+    @Query("SELECT * FROM participant_list_item WHERE participant_id = :key OR firstname = :key OR last_name = :key")
+    fun getSearchParticipant(key: String): LiveData<List<ParticipantListItem>>
+
+    @Query("SELECT * FROM participant_list_item WHERE status = :status")
+    fun getStatusParticipant(status: String): LiveData<List<ParticipantListItem>>
 }

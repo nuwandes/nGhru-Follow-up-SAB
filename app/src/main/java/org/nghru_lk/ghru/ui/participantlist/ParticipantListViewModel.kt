@@ -251,4 +251,37 @@ class ParticipantListViewModel
             repository.getAllParticipantItemList()
         }
 
+    // -------------------------------------------------------------------------------------------------
+
+    private val _searchParam = MutableLiveData<String>()
+
+    fun setSearchParticipantListItemsFromDb(searchParam: String) {
+        val update = searchParam
+        if (_searchParam.value == update) {
+            return
+        }
+        _searchParam.value = update
+    }
+
+    var getSearchParticipantListItemsFromDb: LiveData<Resource<List<ParticipantListItem>>>? = Transformations
+        .switchMap(_searchParam) { input ->
+            repository.getSearchParticipantItemList(input)
+        }
+
+    // ------------------------------------------------------------------------------------------------
+
+    private val _overallStatus = MutableLiveData<String>()
+
+    fun setStatusParticipantListItemsFromDb(status: String) {
+        val update = status
+        if (_overallStatus.value == update) {
+            return
+        }
+        _overallStatus.value = update
+    }
+
+    var getStatusParticipantListItemsFromDb: LiveData<Resource<List<ParticipantListItem>>>? = Transformations
+        .switchMap(_overallStatus) { input ->
+            repository.getStatusParticipantItemList(input)
+        }
 }

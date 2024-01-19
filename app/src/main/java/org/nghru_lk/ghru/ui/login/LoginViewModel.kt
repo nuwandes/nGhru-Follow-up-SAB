@@ -187,4 +187,68 @@ class LoginViewModel
         .switchMap(_stationDeviceList) { input ->
             stationDevicesRepository.insertStationDeviceList(_stationDeviceList.value!!)
         }
+
+    // -------------------------------------------------------------------------------------------------
+
+    private val _siteId: MutableLiveData<SiteId> = MutableLiveData()
+
+    var insertSites: LiveData<Resource<Site>>? = Transformations
+        .switchMap(_siteId) { input ->
+            input.ifExists { id ->
+                repository.insertSites(id!!)
+
+            }
+        }
+
+    fun setSiteIdToInsert(id: Site) {
+        val update =
+            SiteId(id = id)
+        if (_siteId.value == update) {
+            return
+        }
+        _siteId.value = update
+    }
+
+    data class SiteId(val id: Site?) {
+
+        fun <T> ifExists(f: (Site?) -> LiveData<T>): LiveData<T> {
+            return if (id == null) {
+                AbsentLiveData.create()
+            } else {
+                f(id)
+            }
+        }
+    }
+
+    // -------------------------------------------------------------------------------------
+
+    private val _siteIdApi: MutableLiveData<SiteIdAPI> = MutableLiveData()
+
+    var getApiSites: LiveData<Resource<Site>>? = Transformations
+        .switchMap(_siteIdApi) { input ->
+            input.ifExists { id ->
+                repository.insertSites(id!!)
+
+            }
+        }
+
+    fun setSiteIdApi(id: Site) {
+        val update =
+            SiteIdAPI(id = id)
+        if (_siteIdApi.value == update) {
+            return
+        }
+        _siteIdApi.value = update
+    }
+
+    data class SiteIdAPI(val id: Site?) {
+
+        fun <T> ifExists(f: (Site?) -> LiveData<T>): LiveData<T> {
+            return if (id == null) {
+                AbsentLiveData.create()
+            } else {
+                f(id)
+            }
+        }
+    }
 }

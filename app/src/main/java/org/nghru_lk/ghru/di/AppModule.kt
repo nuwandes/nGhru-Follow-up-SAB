@@ -457,6 +457,12 @@ class AppModule {
         return db.bloodTestDao()
     }
 
+    @Singleton
+    @Provides
+    fun provideSiteDao(db: NGRHUDb): SiteDao {
+        return db.siteDao()
+    }
+
     @Provides
     internal fun provideBloodPressureMetaRequestLifecycleObserver(bloodPressureMetaRequestDao: BloodPresureRequestDao): BloodPressureMetaRequestLifecycleObserver {
         return BloodPressureMetaRequestLifecycleObserver(bloodPressureMetaRequestDao)

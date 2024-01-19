@@ -37,6 +37,7 @@ import org.nghru_lk.ghru.util.autoCleared
 import org.nghru_lk.ghru.util.hideKeyboard
 import org.nghru_lk.ghru.util.singleClick
 import org.nghru_lk.ghru.vo.ParticipantListItem
+import org.nghru_lk.ghru.vo.Site
 import org.nghru_lk.ghru.vo.Status
 import pub.devrel.easypermissions.EasyPermissions
 import timber.log.Timber
@@ -375,6 +376,24 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
             if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
 
                 //loginViewModel.setFilterId(page=1, status = "all", site = "all", keyWord = "")
+                val site = Site("All")
+                //loginViewModel.setSiteIdApi(site)
+
+                loadMainActivity()
+            }
+        })
+
+        loginViewModel.getApiSites?.observe(this, Observer {
+            binding.progressBar.visibility = View.GONE
+            if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
+
+                loginViewModel.setSiteIdToInsert(it.data!!)
+            }
+        })
+
+        loginViewModel.insertSites?.observe(this, Observer {
+            binding.progressBar.visibility = View.GONE
+            if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
 
                 loadMainActivity()
             }
