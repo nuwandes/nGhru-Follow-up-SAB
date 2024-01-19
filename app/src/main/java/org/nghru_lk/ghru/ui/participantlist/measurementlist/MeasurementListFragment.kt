@@ -198,10 +198,10 @@ class MeasurementListFragment : Fragment(), Injectable {
                 startActivity(intent)
             }
 
-//            if (measurementListItem.id == 7) {
-//                val intent = Intent(activity, IntakeActivity::class.java)
-//                startActivity(intent)
-//            }
+            if (measurementListItem.id == 7) {
+                val intent = Intent(activity, IntakeActivity::class.java)
+                startActivity(intent)
+            }
 
 //            if (measurementListItem.id == 8) {
 //                if (isInProgress!!)
@@ -258,53 +258,101 @@ class MeasurementListFragment : Fragment(), Injectable {
 //            }
 //        })
 
-        measurementListViewModel.setParticipantId(participant = participant!!.participant_id!!)
+        if (isNetworkAvailable())
+        {
+            measurementListViewModel.setParticipantId(participant = participant!!.participant_id!!)
 
-        measurementListViewModel.getSingleParticipantStations?.observe(activity!!, Observer {
+            measurementListViewModel.getSingleParticipantStations?.observe(activity!!, Observer {
 
-            if (isNetworkAvailable())
-            {
-                if (it.status.equals(Status.SUCCESS))
+                if (isNetworkAvailable())
                 {
-                    val stationList: ArrayList<ParticipantStation> = ArrayList<ParticipantStation>()
+                    if (it.status.equals(Status.SUCCESS))
+                    {
+                        val stationList: ArrayList<ParticipantStation> = ArrayList<ParticipantStation>()
 
-                    it.data!!.stations?.forEach { stations ->
+                        it.data!!.stations?.forEach { stations ->
 
-                        stationList.add(stations)
+                            stationList.add(stations)
+                        }
+
+                        Folloup_Status = findFollowUpStatus(stationList)
+
+                        Log.d("MEASUREMENT_FRAGMENT", "FOLLOW_UP_STATUS: " + Folloup_Status)
+
+                        measurementListViewModel.setStationList(stationList)
+
+                        measurementListViewModel.measurementListItem.observe(this, Observer {
+
+                            if (it?.data != null)
+                            {
+                                adapter.submitList(it.data)
+                                binding.measurementProgressBar.visibility = View.GONE
+                            }
+                            else
+                            {
+                                adapter.submitList(emptyList())
+                                binding.measurementProgressBar.visibility = View.GONE
+                            }
+                        })
+
+                        Log.d("MEASUREMENT_FRAGMENT", "SUCCESS: " + it.status + " DATA: " + stationList.size)
                     }
-
-                    Folloup_Status = findFollowUpStatus(stationList)
-
-                    Log.d("MEASUREMENT_FRAGMENT", "FOLLOW_UP_STATUS: " + Folloup_Status)
-
-                    measurementListViewModel.setStationList(stationList)
-
-                    measurementListViewModel.measurementListItem.observe(this, Observer {
-
-                        if (it?.data != null)
-                        {
-                            adapter.submitList(it.data)
-                            binding.measurementProgressBar.visibility = View.GONE
-                        }
-                        else
-                        {
-                            adapter.submitList(emptyList())
-                            binding.measurementProgressBar.visibility = View.GONE
-                        }
-                    })
-
-                    Log.d("MEASUREMENT_FRAGMENT", "SUCCESS: " + it.status + " DATA: " + stationList.size)
+                    else if (it.status == Status.ERROR)
+                    {
+                        Log.d("MEASUREMENT_FRAGMENT", "ERROR: " + it.status)
+                    }
                 }
-                else if (it.status == Status.ERROR)
+                else
                 {
-                    Log.d("MEASUREMENT_FRAGMENT", "ERROR: " + it.status)
+                    Toast.makeText(activity, "Check internet connection", Toast.LENGTH_LONG).show()
                 }
-            }
-            else
-            {
-                Toast.makeText(activity, "Check internet connection", Toast.LENGTH_LONG).show()
-            }
-        })
+            })
+        }
+        else
+        {
+            // load offine
+            val stationList: ArrayList<ParticipantStation> = ArrayList<ParticipantStation>()
+//            if (getBPStatus(participant?.participant_id!!))
+//            {
+//                val ps1 = ParticipantStation(
+//                    participant?.participant_id, "","Body Measurements","Completed",""
+//                )
+//                stationList.add(ps1)
+//
+//                measurementListViewModel.setStationList(stationList)
+//            }
+//            else
+//            {
+//                val ps1 = ParticipantStation(
+//                    participant?.participant_id, "","","",""
+//                )
+//                stationList.add(ps1)
+//
+//                measurementListViewModel.setStationList(stationList)
+//            }
+
+            val ps1 = ParticipantStation(
+                participant?.participant_id, "","","",""
+            )
+            stationList.add(ps1)
+
+            measurementListViewModel.setStationList(stationList)
+
+            measurementListViewModel.measurementListItem.observe(this, Observer {
+
+                if (it?.data != null)
+                {
+                    adapter.submitList(it.data)
+                    binding.measurementProgressBar.visibility = View.GONE
+                }
+                else
+                {
+                    adapter.submitList(emptyList())
+                    binding.measurementProgressBar.visibility = View.GONE
+                }
+            })
+
+        }
 
         measurementListViewModel.StationList?.observe(this, Observer { resource ->
 
@@ -316,60 +364,67 @@ class MeasurementListFragment : Fragment(), Injectable {
 
         binding.buttonRefresh.singleClick {
 
-            Log.d("MEASUREMENT_FRAGMENT", "button clicked: ")
+            if (isNetworkAvailable())
+            {
+                Log.d("MEASUREMENT_FRAGMENT", "button clicked: ")
 
-            // to recall the single participant api call using live data
+                // to recall the single participant api call using live data
 
-            binding.measurementProgressBar.visibility = View.VISIBLE
+                binding.measurementProgressBar.visibility = View.VISIBLE
 
-            measurementListViewModel.setParticipantId("new party")
-            adapter.submitList(emptyList())
+                measurementListViewModel.setParticipantId("new party")
+                adapter.submitList(emptyList())
 
-            measurementListViewModel.setParticipantId(participant = participant!!.participant_id!!)
+                measurementListViewModel.setParticipantId(participant = participant!!.participant_id!!)
 
-            measurementListViewModel.getSingleParticipantStations?.observe(activity!!, Observer {
+                measurementListViewModel.getSingleParticipantStations?.observe(activity!!, Observer {
 
-                if (it.status.equals(Status.SUCCESS))
-                {
-                    val stationList: ArrayList<ParticipantStation> = ArrayList<ParticipantStation>()
+                    if (it.status.equals(Status.SUCCESS))
+                    {
+                        val stationList: ArrayList<ParticipantStation> = ArrayList<ParticipantStation>()
 
-                    it.data!!.stations?.forEach { stations ->
+                        it.data!!.stations?.forEach { stations ->
 
-                        stationList.add(stations)
-                    }
-
-                    Folloup_Status = findFollowUpStatus(stationList)
-
-                    Log.d("MEASUREMENT_FRAGMENT", "FOLLOW_UP_STATUS: " + Folloup_Status)
-
-                    //Log.d("MEASUREMENT_FRAGMENT", "SINGLE_PARTICIPANT_CALL_OK")
-
-                    measurementListViewModel.setStationList(sList = null)
-
-                    measurementListViewModel.setStationList(stationList)
-
-                    measurementListViewModel.measurementListItem.observe(this, Observer {
-
-                        if (it?.data != null)
-                        {
-                            Log.d("MEASUREMENT_FRAGMENT", "STATION_LIST_SUCCESS: " + it.status + " DATA: " + stationList.size)
-
-                            //adapter.notifyDataSetChanged()
-                            adapter.submitList(it.data)
-                            binding.measurementProgressBar.visibility = View.GONE
-                        } else
-                        {
-                            Log.d("MEASUREMENT_FRAGMENT", "STATION_LIST_FAILED: " + it.status)
-                            adapter.submitList(emptyList())
-                            binding.measurementProgressBar.visibility = View.GONE
+                            stationList.add(stations)
                         }
-                    })
-                }
-                else if (it.status == Status.ERROR)
-                {
-                    Log.d("MEASUREMENT_FRAGMENT", "SINGLE_PARTICIPANT_CALL_NOT_OK")
-                }
-            })
+
+                        Folloup_Status = findFollowUpStatus(stationList)
+
+                        Log.d("MEASUREMENT_FRAGMENT", "FOLLOW_UP_STATUS: " + Folloup_Status)
+
+                        //Log.d("MEASUREMENT_FRAGMENT", "SINGLE_PARTICIPANT_CALL_OK")
+
+                        measurementListViewModel.setStationList(sList = null)
+
+                        measurementListViewModel.setStationList(stationList)
+
+                        measurementListViewModel.measurementListItem.observe(this, Observer {
+
+                            if (it?.data != null)
+                            {
+                                Log.d("MEASUREMENT_FRAGMENT", "STATION_LIST_SUCCESS: " + it.status + " DATA: " + stationList.size)
+
+                                //adapter.notifyDataSetChanged()
+                                adapter.submitList(it.data)
+                                binding.measurementProgressBar.visibility = View.GONE
+                            } else
+                            {
+                                Log.d("MEASUREMENT_FRAGMENT", "STATION_LIST_FAILED: " + it.status)
+                                adapter.submitList(emptyList())
+                                binding.measurementProgressBar.visibility = View.GONE
+                            }
+                        })
+                    }
+                    else if (it.status == Status.ERROR)
+                    {
+                        Log.d("MEASUREMENT_FRAGMENT", "SINGLE_PARTICIPANT_CALL_NOT_OK")
+                    }
+                })
+            }
+            else
+            {
+                // load offline measurement list
+            }
 
         }
 
@@ -654,6 +709,20 @@ class MeasurementListFragment : Fragment(), Injectable {
         super.onPause()
         val ft: FragmentTransaction = fragmentManager!!.beginTransaction()
         ft.detach(MeasurementListFragment()).attach(MeasurementListFragment()).commit()
+    }
+
+    fun getBPStatus(participantId: String): Boolean
+    {
+        var isCompleted : Boolean? = false
+        measurementListViewModel.setToGetBPStatus(participantId)
+
+        measurementListViewModel.isBPStationCompleted?.observe(this, Observer { resources->
+
+            isCompleted = resources?.status == Status.SUCCESS
+
+        })
+
+        return isCompleted!!
     }
 
     /**

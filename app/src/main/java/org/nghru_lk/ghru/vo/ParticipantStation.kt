@@ -27,6 +27,16 @@ data class ParticipantStation (
         isCancelled = parcel.readValue(Int::class.java.classLoader) as? Int
     }
 
+    constructor(participant_id: String?, station_id: String?, station_name: String?, status_text: String?) : this(
+
+        participant_id = participant_id,
+        station_id = station_id,
+        station_name = station_name,
+        status_text = null,
+        status_code = null,
+        isCancelled = null
+    )
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(participant_id)
         parcel.writeString(station_id)

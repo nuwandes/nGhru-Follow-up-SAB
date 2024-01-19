@@ -4,13 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import org.nghru_lk.ghru.repository.BodyMeasurementMetaRepository
 import org.nghru_lk.ghru.repository.ParticipantListRepository
 import org.nghru_lk.ghru.util.AbsentLiveData
 import org.nghru_lk.ghru.vo.*
+import org.nghru_lk.ghru.vo.request.BodyMeasurementMeta
 import javax.inject.Inject
 
 class MeasurementListViewModel
-@Inject constructor(repository: ParticipantListRepository) : ViewModel() {
+@Inject constructor(repository: ParticipantListRepository,
+                    bodyMeasurementMetaRepository: BodyMeasurementMetaRepository
+) : ViewModel() {
 
 //    Get single participant stations ------------------------------------------------------------------------
 
@@ -138,6 +142,23 @@ class MeasurementListViewModel
             } else {
                 repository.updateAndSyncParticipant(participantRequest)
             }
+        }
+
+    // -----------------------------------------------------------------
+
+    private val _pId = MutableLiveData<String>()
+
+    fun setToGetBPStatus(pId: String) {
+        val update = pId
+        if (_pId.value == update) {
+            return
+        }
+        _pId.value = update
+    }
+
+    var isBPStationCompleted: LiveData<Resource<BodyMeasurementMeta>>? = Transformations
+        .switchMap(_pId) { input ->
+            bodyMeasurementMetaRepository.getBpStatus(input)
         }
 
 }

@@ -72,8 +72,9 @@ class ParticipantListRepository @Inject constructor(
         }.asLiveData()
     }
 
-    fun getStationList(stations: List<ParticipantStation>): LiveData<Resource<List<ParticipantStation>>> {
-
+    fun getStationList(
+        stations: List<ParticipantStation>
+    ): LiveData<Resource<List<ParticipantStation>>> {
         val stationItems = MutableLiveData<Resource<List<ParticipantStation>>>()
         val resource = Resource(Status.SUCCESS, stations, Message(null, null))
         stationItems.setValue(resource)
@@ -353,7 +354,7 @@ class ParticipantListRepository @Inject constructor(
         test.add(measurementItem4)
         test.add(measurementItem5)
         test.add(measurementItem6)
-        //test.add(measurementItem7)
+        test.add(measurementItem7)
         //test.add(measurementItem8)
         test.add(measurementItem9)
         test.add(measurementItem10)

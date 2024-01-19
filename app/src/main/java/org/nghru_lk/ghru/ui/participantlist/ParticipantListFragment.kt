@@ -117,6 +117,15 @@ class ParticipantListFragment : Fragment(), Injectable {
 
         binding.participantProgressBar.visibility = View.VISIBLE
 
+        if (isNetworkAvailable())
+        {
+            binding.bottomLayout.visibility = View.VISIBLE
+        }
+        else
+        {
+            binding.bottomLayout.visibility = View.GONE
+        }
+
         prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
         siteNames.clear()

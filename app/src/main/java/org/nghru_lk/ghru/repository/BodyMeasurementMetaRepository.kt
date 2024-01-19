@@ -97,4 +97,14 @@ class BodyMeasurementMetaRepository @Inject constructor(
             }
         }.asLiveData()
     }
+
+    fun getBpStatus(
+    pId : String
+    ): LiveData<Resource<BodyMeasurementMeta>> {
+        return object : LocalBoundResource<BodyMeasurementMeta>(appExecutors) {
+            override fun loadFromDb(): LiveData<BodyMeasurementMeta> {
+                return bodyMeasurementMetaDao.getBMByScreeningId(pId)
+            }
+        }.asLiveData()
+    }
 }
