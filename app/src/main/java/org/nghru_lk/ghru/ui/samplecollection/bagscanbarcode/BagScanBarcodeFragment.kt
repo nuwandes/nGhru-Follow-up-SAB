@@ -30,6 +30,7 @@ import org.nghru_lk.ghru.util.Constants
 import org.nghru_lk.ghru.util.autoCleared
 import org.nghru_lk.ghru.util.singleClick
 import org.nghru_lk.ghru.util.validateChecksum
+import org.nghru_lk.ghru.vo.ParticipantListItem
 import org.nghru_lk.ghru.vo.Status
 import org.nghru_lk.ghru.vo.request.ParticipantRequest
 import javax.inject.Inject
@@ -52,10 +53,13 @@ class BagScanBarcodeFragment : Fragment(), Injectable {
     private lateinit var codeScanner: CodeScanner
 
     var sampleId: String? = null
+    private var selectedParticipant: ParticipantListItem? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
             participant = arguments?.getParcelable<ParticipantRequest>("participant")!!
+            selectedParticipant = arguments?.getParcelable<ParticipantListItem>("selectedParticipant")!!
         } catch (e: KotlinNullPointerException) {
             //Crashlytics.logException(e)
         }
@@ -141,7 +145,7 @@ class BagScanBarcodeFragment : Fragment(), Injectable {
                 val codeCheckDialogFragment = CodeCheckDialogFragment()
                 codeCheckDialogFragment.show(fragmentManager!!)
             } else if (householdId?.status == Status.ERROR) {
-                val bundle = bundleOf("participant" to participant, "sample_id" to sampleId)
+                val bundle = bundleOf("participant" to participant, "sample_id" to sampleId, "selectedParticipant" to selectedParticipant)
                 Navigation.findNavController(activity!!, R.id.container)
                     .navigate(R.id.action_bagScanBarcodeFragment_to_bagScannedFragment, bundle)
             }
@@ -164,7 +168,7 @@ class BagScanBarcodeFragment : Fragment(), Injectable {
 //        }
 
         binding.buttonManualEntry.singleClick {
-            val bundle = bundleOf("participant" to participant)
+            val bundle = bundleOf("participant" to participant, "selectedParticipant" to selectedParticipant)
             findNavController().navigate(R.id.action_bagScanBarcodeFragment_to_maualBagScannedFragment, bundle)
         }
 

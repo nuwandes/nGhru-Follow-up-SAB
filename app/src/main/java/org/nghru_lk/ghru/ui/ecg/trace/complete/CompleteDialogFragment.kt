@@ -141,6 +141,8 @@ class CompleteDialogFragment : DialogFragment(), Injectable {
             meta?.endTime = endDateTime
             val mECGStatus = ECGStatus(status, comment, device_id, meta= meta)
 
+            confirmationdialogViewModel.setLocalUpdateParticipantEcgStatus(participant!!)
+
             if (isNetworkAvailable())
             {
                 confirmationdialogViewModel.setECGRemote(participant?.participant_id,mECGStatus, isNetworkAvailable())
@@ -159,6 +161,18 @@ class CompleteDialogFragment : DialogFragment(), Injectable {
 
             }
         }
+
+        confirmationdialogViewModel.getLocalUpdateParticipantEcgStatus?.observe(this, Observer { bmStatus ->
+
+            if (bmStatus?.status == Status.SUCCESS)
+            {
+                Toast.makeText(context, "Ecg status locally updated", Toast.LENGTH_LONG).show()
+            }
+            else if(bmStatus?.status == Status.ERROR)
+            {
+                Toast.makeText(context, "Update Ecg status failed", Toast.LENGTH_LONG).show()
+            }
+        })
 
         confirmationdialogViewModel.insertEcgLocal?.observe(this, Observer { ecgRes ->
 

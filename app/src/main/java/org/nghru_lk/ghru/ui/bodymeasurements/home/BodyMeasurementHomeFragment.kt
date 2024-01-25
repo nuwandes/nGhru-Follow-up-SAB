@@ -360,6 +360,11 @@ class BodyMeasurementHomeFragment : Fragment(), Injectable {
 
                 binding.progressBar.visibility = View.VISIBLE
                 binding.buttonSubmit.visibility = View.GONE
+
+                // locally Update ParticipantList item for station status
+
+                viewModel.setLocalUpdateParticipantBMStatus(selectedParticipant!!)
+
                 if (isNetworkAvailable())
                 {
                     viewModel.setBodyMeasurementMeta(
@@ -419,7 +424,7 @@ class BodyMeasurementHomeFragment : Fragment(), Injectable {
 
             if (sampleMangementPocess?.status == Status.SUCCESS)
             {
-                Toast.makeText(context, "Body measurement locally saved", Toast.LENGTH_LONG).show()
+                //Toast.makeText(context, "Body measurement locally saved", Toast.LENGTH_LONG).show()
             }
             else if(sampleMangementPocess?.status == Status.ERROR){
                 Crashlytics.setString(
@@ -428,6 +433,18 @@ class BodyMeasurementHomeFragment : Fragment(), Injectable {
                 )
                 Crashlytics.setString("participant", selectedParticipant!!.participant_id.toString())
                 Crashlytics.logException(Exception("BodyMeasurementMeta " + sampleMangementPocess.message.toString()))
+            }
+        })
+
+        viewModel.getLocalUpdateParticipantBMStatus?.observe(this, Observer { bmStatus ->
+
+            if (bmStatus?.status == Status.SUCCESS)
+            {
+                Toast.makeText(context, "Body measurement status locally updated", Toast.LENGTH_LONG).show()
+            }
+            else if(bmStatus?.status == Status.ERROR)
+            {
+                Toast.makeText(context, "Update Body measurement status failed", Toast.LENGTH_LONG).show()
             }
         })
 

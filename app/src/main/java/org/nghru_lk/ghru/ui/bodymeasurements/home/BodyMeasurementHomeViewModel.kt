@@ -19,7 +19,8 @@ class BodyMeasurementHomeViewModel
     userRepository: UserRepository,
     bodyMeasurementRequestRepository: BodyMeasurementRequestRepository,
     bodyMeasurementMetaRepository: BodyMeasurementMetaRepository,
-    participantRepository: ParticipantRepository
+    participantRepository: ParticipantRepository,
+    participantListRepository: ParticipantListRepository
 
 ) : ViewModel() {
 
@@ -198,6 +199,26 @@ class BodyMeasurementHomeViewModel
                 AbsentLiveData.create()
             } else {
                 bodyMeasurementMetaRepository.insertBMMeta(bMMetaLocal)
+            }
+        }
+
+    // --------------------------------------------------------------------------------------
+
+    private val _localParticipantUpdateRequest: MutableLiveData<ParticipantListItem> = MutableLiveData()
+
+    fun setLocalUpdateParticipantBMStatus(participantItem: ParticipantListItem) {
+        if (_localParticipantUpdateRequest.value == participantItem) {
+            return
+        }
+        _localParticipantUpdateRequest.value = participantItem
+    }
+
+    var getLocalUpdateParticipantBMStatus:LiveData<Resource<ParticipantListItem>>? = Transformations
+        .switchMap(_localParticipantUpdateRequest) { participantRequest ->
+            if (participantRequest == null) {
+                AbsentLiveData.create()
+            } else {
+                participantListRepository.updateParticipantBMStatus(participantRequest)
             }
         }
 }

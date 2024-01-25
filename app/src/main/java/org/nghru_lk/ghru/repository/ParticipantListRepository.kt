@@ -522,4 +522,145 @@ class ParticipantListRepository @Inject constructor(
             }
         }.asLiveData()
     }
+
+    fun getAllParticipantListItemsOffline(page:Int, status: String, site:String, keyWord: String, offline: Boolean): LiveData<Resource<ResourceData<ParticipantListWithMeta>>> {
+
+        return object : NetworkOnlyBoundResource<ResourceData<ParticipantListWithMeta>>(appExecutors) {
+            override fun createCall(): LiveData<ApiResponse<ResourceData<ParticipantListWithMeta>>> {
+                return nghruService.getAllParticipantsOffline(page, status, site, keyWord, offline)
+            }
+        }.asLiveData()
+    }
+
+    fun updateParticipantBMStatusNew(
+        participant: ParticipantListItem
+    ): LiveData<Resource<ParticipantListItem>> {
+        return object : LocalBoundUpateResourceNew<ParticipantListItem, Int>(appExecutors) {
+            override fun updateDb(): Int {
+                return participantListItemDao.updateBMStatus(participant.participant_id!!)
+            }
+        }.asLiveData()
+    }
+
+    fun updateParticipantBMStatus(participant: ParticipantListItem
+    ): LiveData<Resource<ParticipantListItem>> {
+        return object : LocalBoundUpateResource<ParticipantListItem, Int>(appExecutors) {
+            override fun loadFromDb(rowId: Int): LiveData<ParticipantListItem> {
+                return participantListItemDao.getSingleParticipantByParticipantId(participant.participant_id!!)
+            }
+
+            override fun updateDb(): Int {
+                return participantListItemDao.updateBMStatus(
+                    participant.participant_id!!
+                )
+            }
+
+        }.asLiveData()
+    }
+
+    fun updateParticipantBPStatus(participant: ParticipantListItem
+    ): LiveData<Resource<ParticipantListItem>> {
+        return object : LocalBoundUpateResource<ParticipantListItem, Int>(appExecutors) {
+            override fun loadFromDb(rowId: Int): LiveData<ParticipantListItem> {
+                return participantListItemDao.getSingleParticipantByParticipantId(participant.participant_id!!)
+            }
+
+            override fun updateDb(): Int {
+                return participantListItemDao.updateBPStatus(
+                    participant.participant_id!!
+                )
+            }
+
+        }.asLiveData()
+    }
+
+    fun updateParticipantBTStatus(participant: ParticipantListItem
+    ): LiveData<Resource<ParticipantListItem>> {
+        return object : LocalBoundUpateResource<ParticipantListItem, Int>(appExecutors) {
+            override fun loadFromDb(rowId: Int): LiveData<ParticipantListItem> {
+                return participantListItemDao.getSingleParticipantByParticipantId(participant.participant_id!!)
+            }
+
+            override fun updateDb(): Int {
+                return participantListItemDao.updateBTStatus(
+                    participant.participant_id!!
+                )
+            }
+
+        }.asLiveData()
+    }
+
+    fun updateParticipantSampleStatus(participant: ParticipantListItem
+    ): LiveData<Resource<ParticipantListItem>> {
+        return object : LocalBoundUpateResource<ParticipantListItem, Int>(appExecutors) {
+            override fun loadFromDb(rowId: Int): LiveData<ParticipantListItem> {
+                return participantListItemDao.getSingleParticipantByParticipantId(participant.participant_id!!)
+            }
+
+            override fun updateDb(): Int {
+                return participantListItemDao.updateSampleStatus(
+                    participant.participant_id!!
+                )
+            }
+
+        }.asLiveData()
+    }
+
+    fun updateParticipantEcgStatus(participant: ParticipantListItem
+    ): LiveData<Resource<ParticipantListItem>> {
+        return object : LocalBoundUpateResource<ParticipantListItem, Int>(appExecutors) {
+            override fun loadFromDb(rowId: Int): LiveData<ParticipantListItem> {
+                return participantListItemDao.getSingleParticipantByParticipantId(participant.participant_id!!)
+            }
+
+            override fun updateDb(): Int {
+                return participantListItemDao.updateEcgStatus(
+                    participant.participant_id!!
+                )
+            }
+
+        }.asLiveData()
+    }
+
+    fun updateParticipantFundoStatus(participant: ParticipantListItem
+    ): LiveData<Resource<ParticipantListItem>> {
+        return object : LocalBoundUpateResource<ParticipantListItem, Int>(appExecutors) {
+            override fun loadFromDb(rowId: Int): LiveData<ParticipantListItem> {
+                return participantListItemDao.getSingleParticipantByParticipantId(participant.participant_id!!)
+            }
+
+            override fun updateDb(): Int {
+                return participantListItemDao.updateFundoStatus(
+                    participant.participant_id!!
+                )
+            }
+
+        }.asLiveData()
+    }
+
+    fun updateParticipantActivityStatus(participant: ParticipantListItem
+    ): LiveData<Resource<ParticipantListItem>> {
+        return object : LocalBoundUpateResource<ParticipantListItem, Int>(appExecutors) {
+            override fun loadFromDb(rowId: Int): LiveData<ParticipantListItem> {
+                return participantListItemDao.getSingleParticipantByParticipantId(participant.participant_id!!)
+            }
+
+            override fun updateDb(): Int {
+                return participantListItemDao.updateActivityStatus(
+                    participant.participant_id!!
+                )
+            }
+
+        }.asLiveData()
+    }
+
+    fun getSingleParticipantItem(
+        screening_id: String
+    ): LiveData<Resource<ParticipantListItem>> {
+        return object : LocalBoundResource<ParticipantListItem>(appExecutors) {
+            override fun loadFromDb(): LiveData<ParticipantListItem> {
+                return participantListItemDao.getSingleParticipant(screening_id)
+            }
+        }.asLiveData()
+    }
 }

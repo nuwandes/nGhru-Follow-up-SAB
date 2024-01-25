@@ -110,15 +110,15 @@ class LoginViewModel
 
     private val _filterId: MutableLiveData<FilterId> = MutableLiveData()
 
-    var filterparticipantListItems: LiveData<Resource<ResourceData<ParticipantListWithMeta>>>? = Transformations
+    var getAllParticipantsOffline: LiveData<Resource<ResourceData<ParticipantListWithMeta>>>? = Transformations
         .switchMap(_filterId) { input ->
             input.ifExists { page, status, site, keyWord ->
-                repository.filterParticipantListItems(page!!, status!!.toString(), site!!.toString(), keyWord!!.toString())
+                repository.getAllParticipantListItemsOffline(page!!, status!!.toString(), site!!.toString(), keyWord!!.toString(), true)
 
             }
         }
 
-    fun setFilterId(page: Int, status: String, site: String, keyWord: String) {
+    fun setOfflineAllParticipants(page: Int, status: String, site: String, keyWord: String) {
         val update =
             FilterId(page = page, status = status, site = site, keyWord = keyWord)
         if (_filterId.value == update) {

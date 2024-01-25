@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import org.nghru_lk.ghru.repository.BloodPressureRequestRepository
-import org.nghru_lk.ghru.repository.ParticipantRepository
-import org.nghru_lk.ghru.repository.StationDevicesRepository
-import org.nghru_lk.ghru.repository.UserRepository
+import org.nghru_lk.ghru.repository.*
 import org.nghru_lk.ghru.util.AbsentLiveData
 import org.nghru_lk.ghru.vo.*
 import org.nghru_lk.ghru.vo.request.BloodPressureMetaRequest
@@ -19,7 +16,8 @@ class BPManualOneViewModel
 @Inject constructor(stationDevicesRepository: StationDevicesRepository,
                     userRepository: UserRepository,
                     bloodPressureRequestRepository: BloodPressureRequestRepository,
-                    participantRepository: ParticipantRepository
+                    participantRepository: ParticipantRepository,
+                    participantListRepository: ParticipantListRepository
 ) : ViewModel() {
 
 
@@ -153,6 +151,26 @@ class BPManualOneViewModel
                 AbsentLiveData.create()
             } else {
                 bloodPressureRequestRepository.insertBPMeta(bPMetaLocal)
+            }
+        }
+
+    // ---------------------------------------------------------------------------------------------------------
+
+    private val _localParticipantUpdateRequest: MutableLiveData<ParticipantListItem> = MutableLiveData()
+
+    fun setLocalUpdateParticipantBPStatus(participantItem: ParticipantListItem) {
+        if (_localParticipantUpdateRequest.value == participantItem) {
+            return
+        }
+        _localParticipantUpdateRequest.value = participantItem
+    }
+
+    var getLocalUpdateParticipantBPStatus:LiveData<Resource<ParticipantListItem>>? = Transformations
+        .switchMap(_localParticipantUpdateRequest) { participantRequest ->
+            if (participantRequest == null) {
+                AbsentLiveData.create()
+            } else {
+                participantListRepository.updateParticipantBPStatus(participantRequest)
             }
         }
 }

@@ -5,7 +5,10 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import org.nghru_lk.ghru.api.ApiResponse
 import org.nghru_lk.ghru.vo.ParticipantListItem
+import org.nghru_lk.ghru.vo.Resource
+import org.nghru_lk.ghru.vo.ResourceData
 
 @Dao
 interface ParticipantListItemDao {
@@ -51,4 +54,29 @@ interface ParticipantListItemDao {
 
     @Query("SELECT * FROM participant_list_item WHERE status = :status")
     fun getStatusParticipant(status: String): LiveData<List<ParticipantListItem>>
+
+    @Query("UPDATE participant_list_item SET bm_status = 100 WHERE participant_id = :screeningId")
+    fun updateBMStatus(screeningId: String): Int
+
+    @Query("UPDATE participant_list_item SET bp_status = 100 WHERE participant_id = :screeningId")
+    fun updateBPStatus(screeningId: String): Int
+
+    @Query("UPDATE participant_list_item SET bt_status = 100 WHERE participant_id = :screeningId")
+    fun updateBTStatus(screeningId: String): Int
+
+    @Query("UPDATE participant_list_item SET sam_status = 1 WHERE participant_id = :screeningId")
+    fun updateSampleStatus(screeningId: String): Int
+
+    @Query("UPDATE participant_list_item SET ecg_status = 1 WHERE participant_id = :screeningId")
+    fun updateEcgStatus(screeningId: String): Int
+
+    @Query("UPDATE participant_list_item SET fun_status = 1 WHERE participant_id = :screeningId")
+    fun updateFundoStatus(screeningId: String): Int
+
+    @Query("UPDATE participant_list_item SET act_status = 1 WHERE participant_id = :screeningId")
+    fun updateActivityStatus(screeningId: String): Int
+
+    @Query("SELECT * FROM participant_list_item WHERE participant_id = :screeningId")
+    fun getSingleParticipant(screeningId: String): LiveData<ParticipantListItem>
+
 }

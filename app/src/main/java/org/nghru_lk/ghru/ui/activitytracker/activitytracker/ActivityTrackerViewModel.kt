@@ -5,10 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import org.nghru_lk.ghru.repository.AssertRepository
-import org.nghru_lk.ghru.repository.AxivityRepository
-import org.nghru_lk.ghru.repository.ParticipantRepository
-import org.nghru_lk.ghru.repository.UserRepository
+import org.nghru_lk.ghru.repository.*
 import org.nghru_lk.ghru.util.AbsentLiveData
 import org.nghru_lk.ghru.vo.*
 import org.nghru_lk.ghru.vo.request.ParticipantRequest
@@ -20,7 +17,8 @@ class ActivityTackeViewModel @Inject constructor(
     val assertRepository: AssertRepository,
     axivityRepository: AxivityRepository,
     userRepository: UserRepository,
-    participantRepository: ParticipantRepository
+    participantRepository: ParticipantRepository,
+    participantListRepository: ParticipantListRepository
 ) : ViewModel() {
     var activitytackerSyncError: MutableLiveData<Boolean>? = MutableLiveData<Boolean>().apply { }
 
@@ -155,6 +153,26 @@ class ActivityTackeViewModel @Inject constructor(
                 AbsentLiveData.create()
             } else {
                 axivityRepository.insertAxivity(axivityLocal)
+            }
+        }
+
+    // ----------------------------------------------------------------------------------------------------------
+
+    private val _localParticipantUpdateRequest: MutableLiveData<ParticipantListItem> = MutableLiveData()
+
+    fun setLocalUpdateParticipantActStatus(participantItem: ParticipantListItem) {
+        if (_localParticipantUpdateRequest.value == participantItem) {
+            return
+        }
+        _localParticipantUpdateRequest.value = participantItem
+    }
+
+    var getLocalUpdateParticipantActStatus:LiveData<Resource<ParticipantListItem>>? = Transformations
+        .switchMap(_localParticipantUpdateRequest) { participantRequest ->
+            if (participantRequest == null) {
+                AbsentLiveData.create()
+            } else {
+                participantListRepository.updateParticipantActivityStatus(participantRequest)
             }
         }
 }

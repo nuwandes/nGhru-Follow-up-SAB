@@ -238,6 +238,8 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
                     meta = meta,
                     cataract_observation = cataractObservation)
 
+                fundoscopyReadingViewModel.setLocalUpdateParticipantFundoStatus(selectedParticipant!!)
+
                 if (isNetworkAvailable())
                 {
                     fundoscopyReadingViewModel.setFundoRequest(
@@ -263,6 +265,18 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
                 }
             }
         }
+
+        fundoscopyReadingViewModel.getLocalUpdateParticipantFundoStatus?.observe(this, Observer { bmStatus ->
+
+            if (bmStatus?.status == Status.SUCCESS)
+            {
+                Toast.makeText(context, "Funduscopy status locally updated", Toast.LENGTH_LONG).show()
+            }
+            else if(bmStatus?.status == Status.ERROR)
+            {
+                Toast.makeText(context, "Update Fundoscopy status failed", Toast.LENGTH_LONG).show()
+            }
+        })
 
         fundoscopyReadingViewModel.insertFundoLocal?.observe(this, Observer { participant ->
 

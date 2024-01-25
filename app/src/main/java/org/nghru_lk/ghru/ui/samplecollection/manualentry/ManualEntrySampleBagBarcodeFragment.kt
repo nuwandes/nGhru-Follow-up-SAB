@@ -23,6 +23,7 @@ import org.nghru_lk.ghru.databinding.SamplecollectionManualBagBarcodeFragmentBin
 import org.nghru_lk.ghru.di.Injectable
 import org.nghru_lk.ghru.ui.codeheck.CodeCheckDialogFragment
 import org.nghru_lk.ghru.util.*
+import org.nghru_lk.ghru.vo.ParticipantListItem
 import org.nghru_lk.ghru.vo.Status
 import org.nghru_lk.ghru.vo.request.ParticipantRequest
 import javax.inject.Inject
@@ -39,12 +40,14 @@ class ManualEntrySampleBagBarcodeFragment : Fragment(), Injectable {
     private var participant: ParticipantRequest? = null
 
     var sampleId: String? = null
+    private var selectedParticipant: ParticipantListItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         try {
             participant = arguments?.getParcelable<ParticipantRequest>("participant")!!
+            selectedParticipant = arguments?.getParcelable<ParticipantListItem>("selectedParticipant")!!
         } catch (e: KotlinNullPointerException) {
             //Crashlytics.logException(e)
         }
@@ -93,7 +96,7 @@ class ManualEntrySampleBagBarcodeFragment : Fragment(), Injectable {
                 val codeCheckDialogFragment = CodeCheckDialogFragment()
                 codeCheckDialogFragment.show(fragmentManager!!)
             } else if (householdId?.status == Status.ERROR) {
-                val bundle = bundleOf("participant" to participant, "sample_id" to binding.editTextCode.text.toString())
+                val bundle = bundleOf("participant" to participant, "sample_id" to binding.editTextCode.text.toString(), "selectedParticipant" to selectedParticipant)
                 findNavController().navigate(R.id.action_manualBagScanBarcodeFragment_to_bagScannedFragment, bundle)
             }
 

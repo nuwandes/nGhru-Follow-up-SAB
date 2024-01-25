@@ -244,7 +244,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
             binding.progressBar.visibility = View.GONE
             if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
 
-                loginViewModel.setFilterId(page=1, status = "all", site = "all", keyWord = "")
+                loginViewModel.setOfflineAllParticipants(page=1, status = "all", site = "all", keyWord = "")
 
                //loadMainActivity()
             }
@@ -344,7 +344,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
 
 
 
-        loginViewModel.filterparticipantListItems?.observe(activity!!, Observer {
+        loginViewModel.getAllParticipantsOffline?.observe(activity!!, Observer {
 
             if (isNetworkAvailable())
             {

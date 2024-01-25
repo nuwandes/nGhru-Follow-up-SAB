@@ -298,9 +298,9 @@ class ActivityTackeFragment : Fragment(), Injectable {
 
         binding.submitButton.singleClick {
 
-            val axivity = Axivity(
-                sessionId= "123456789", startTime = "20.25", endTime = "20.25", serialNumber =  "5678"
-            )
+//            val axivity = Axivity(
+//                sessionId= "123456789", startTime = "20.25", endTime = "20.25", serialNumber =  "5678"
+//            )
 
             if (axivity != null) {
 
@@ -315,15 +315,17 @@ class ActivityTackeFragment : Fragment(), Injectable {
                 axivity?.screeningId = selectedParticipant?.participant_id!!
                 axivity?.endTime =  endDateTime
 
+                viewModel.setLocalUpdateParticipantActStatus(selectedParticipant!!)
+
                 if (isNetworkAvailable()) {
                     if (axivity?.meta != null)
                     {
-                        viewModel.setAxivity(screeningId = selectedParticipant?.participant_id, axivity = axivity)
+                        viewModel.setAxivity(screeningId = selectedParticipant?.participant_id, axivity = axivity!!)
                     }
                 } else {
 
                     axivity?.syncPending = true
-                    viewModel.setAxivityLocal(axivity)
+                    viewModel.setAxivityLocal(axivity!!)
 
                     jobManager.addJobInBackground(SyncAxivityJob(selectedParticipant?.participant_id!!, axivity!!))
                     val completedDialogFragment = CompletedDialogFragment()
@@ -335,6 +337,18 @@ class ActivityTackeFragment : Fragment(), Injectable {
 
             }
         }
+
+        viewModel.getLocalUpdateParticipantActStatus?.observe(this, Observer { bmStatus ->
+
+            if (bmStatus?.status == Status.SUCCESS)
+            {
+                Toast.makeText(context, "Axivity status locally updated", Toast.LENGTH_LONG).show()
+            }
+            else if(bmStatus?.status == Status.ERROR)
+            {
+                Toast.makeText(context, "Update Axivity status failed", Toast.LENGTH_LONG).show()
+            }
+        })
 
         viewModel.insertAxivityLocal?.observe(this, Observer { axivityResource ->
             if (axivityResource?.status == Status.SUCCESS)

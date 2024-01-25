@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import org.nghru_lk.ghru.repository.ParticipantListRepository
 import org.nghru_lk.ghru.repository.SampleRepository
 import org.nghru_lk.ghru.repository.SampleRequestRepository
 import org.nghru_lk.ghru.repository.UserRepository
@@ -19,7 +20,8 @@ class BagScannedViewModel
 @Inject constructor(
     sampleRepository: SampleRepository,
     sampleRequestRepository: SampleRequestRepository,
-    userRepository: UserRepository
+    userRepository: UserRepository,
+    participantListRepository: ParticipantListRepository
 ) : ViewModel() {
 
     private val _participantRequestRemote: MutableLiveData<SampleId> = MutableLiveData()
@@ -100,4 +102,24 @@ class BagScannedViewModel
             }
         }
     }
+
+    // -----------------------------------------------------------------------
+
+    private val _localParticipantUpdateRequest: MutableLiveData<ParticipantListItem> = MutableLiveData()
+
+    fun setLocalUpdateParticipantSampleStatus(participantItem: ParticipantListItem) {
+        if (_localParticipantUpdateRequest.value == participantItem) {
+            return
+        }
+        _localParticipantUpdateRequest.value = participantItem
+    }
+
+    var getLocalUpdateParticipantSampleStatus:LiveData<Resource<ParticipantListItem>>? = Transformations
+        .switchMap(_localParticipantUpdateRequest) { participantRequest ->
+            if (participantRequest == null) {
+                AbsentLiveData.create()
+            } else {
+                participantListRepository.updateParticipantSampleStatus(participantRequest)
+            }
+        }
 }

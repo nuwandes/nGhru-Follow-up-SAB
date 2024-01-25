@@ -310,9 +310,6 @@ interface NghruService {
 
     // when login all the API data need to be saved locally
 
-    @GET("/api/v2/participants")
-    fun filterParticipants(@Query("page") page: Int, @Query("status") status: String, @Query("site") site: String, @Query("keyword") keyWord: String): LiveData<ApiResponse<ResourceData<ParticipantListWithMeta>>>
-
     @POST("api/screening/{screening_id}/ecg")
     fun addECGSync(@Path("screening_id") screeningId: String, @Body mECGStatus: ECGStatus): LiveData<ApiResponse<ResourceData<ECG>>>
 
@@ -333,5 +330,11 @@ interface NghruService {
 
     @GET("/api/v2/sites")
     fun getSiteNamesBySite() : LiveData<ApiResponse<Array<String>>>
+
+    @GET("/api/v2/participants")
+    fun getAllParticipantsOffline(@Query("page") page: Int, @Query("status") status: String, @Query("site") site: String, @Query("keyword") keyWord: String, @Query("offline") offline: Boolean): LiveData<ApiResponse<ResourceData<ParticipantListWithMeta>>>
+
+    @GET("/api/v2/participants")
+    fun filterParticipants(@Query("page") page: Int, @Query("status") status: String, @Query("site") site: String, @Query("keyword") keyWord: String): LiveData<ApiResponse<ResourceData<ParticipantListWithMeta>>>
 
 }

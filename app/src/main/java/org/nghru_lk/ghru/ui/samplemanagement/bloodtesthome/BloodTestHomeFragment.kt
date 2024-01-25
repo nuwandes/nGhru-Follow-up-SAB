@@ -243,6 +243,8 @@ class BloodTestHomeFragment : Fragment(), Injectable {
 
                 meta?.endTime = endDateTime
 
+                viewModel.setLocalUpdateParticipantBTStatus(selectedParticipant!!)
+
                 if (isNetworkAvailable())
                 {
                     bloodTestRequest.syncPending =false
@@ -277,6 +279,18 @@ class BloodTestHomeFragment : Fragment(), Injectable {
             }
 
         }
+
+        viewModel.getLocalUpdateParticipantBTStatus?.observe(this, Observer { bmStatus ->
+
+            if (bmStatus?.status == Status.SUCCESS)
+            {
+                Toast.makeText(context, "Blood Test status locally updated", Toast.LENGTH_LONG).show()
+            }
+            else if(bmStatus?.status == Status.ERROR)
+            {
+                Toast.makeText(context, "Update Blood test status failed", Toast.LENGTH_LONG).show()
+            }
+        })
 
         viewModel.insertBTLocal?.observe(this, Observer { bTLocalRes ->
 

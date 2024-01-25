@@ -31,9 +31,8 @@ import org.nghru_lk.ghru.ui.samplecollection.bagscanned.completed.CompletedDialo
 import org.nghru_lk.ghru.ui.samplecollection.bagscanned.reason.ReasonDialogFragment
 import org.nghru_lk.ghru.ui.samplecollection.cancel.CancelDialogFragment
 import org.nghru_lk.ghru.util.*
-import org.nghru_lk.ghru.vo.Comment
-import org.nghru_lk.ghru.vo.Status
-import org.nghru_lk.ghru.vo.User
+import org.nghru_lk.ghru.vo.*
+import org.nghru_lk.ghru.vo.Date
 import org.nghru_lk.ghru.vo.request.ParticipantRequest
 import org.nghru_lk.ghru.vo.request.SampleCreateRequest
 import org.nghru_lk.ghru.vo.request.SampleRequest
@@ -43,7 +42,6 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
-import org.nghru_lk.ghru.vo.Date
 
 class BagScannedFragment : Fragment(), Injectable {
     @Inject
@@ -68,12 +66,14 @@ class BagScannedFragment : Fragment(), Injectable {
     val sdf:DateFormat = SimpleDateFormat("yyyy-MM-dd")
     var selectedTime : String? = null
     var selectedDate : String? = null
+    private var selectedParticipant: ParticipantListItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
             participant = arguments?.getParcelable<ParticipantRequest>("participant")!!
             sampleId = arguments?.getString("sample_id")!!
+            selectedParticipant = arguments?.getParcelable<ParticipantListItem>("selectedParticipant")!!
 
         } catch (e: KotlinNullPointerException) {
             //Crashlytics.logException(e)
@@ -152,6 +152,10 @@ class BagScannedFragment : Fragment(), Injectable {
                     //insert data locally
                     viewModel.setSampleLocal(sampleRequest)
 
+                    // update participant item status
+
+                    viewModel.setLocalUpdateParticipantSampleStatus(selectedParticipant!!)
+
                     binding.checkLayout.background = resources.getDrawable(R.drawable.ic_base_check, null)
                 }
 
@@ -160,6 +164,18 @@ class BagScannedFragment : Fragment(), Injectable {
             }
 
         }
+
+        viewModel.getLocalUpdateParticipantSampleStatus?.observe(this, Observer { bmStatus ->
+
+            if (bmStatus?.status == Status.SUCCESS)
+            {
+                Toast.makeText(context, "Biological Sample status locally updated", Toast.LENGTH_LONG).show()
+            }
+            else if(bmStatus?.status == Status.ERROR)
+            {
+                Toast.makeText(context, "Update Biological Sample status failed", Toast.LENGTH_LONG).show()
+            }
+        })
 
 
         viewModel.sampleRequestLocal?.observe(this, Observer { sampleResource ->

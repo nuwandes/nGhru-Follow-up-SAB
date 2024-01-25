@@ -17,7 +17,8 @@ class FundoscopyReadingViewModel
     fundoscopyRepository: FundoscopyRepository,
     stationDevicesRepository: StationDevicesRepository,
     participantRepository: ParticipantRepository,
-    userRepository: UserRepository
+    userRepository: UserRepository,
+    participantListRepository: ParticipantListRepository
 ) : ViewModel() {
     var fundoscopySyncError: MutableLiveData<Boolean>? = MutableLiveData<Boolean>().apply { }
 
@@ -165,6 +166,26 @@ class FundoscopyReadingViewModel
                 AbsentLiveData.create()
             } else {
                 fundoscopyRepository.insertFundo(fundoLocal)
+            }
+        }
+
+    // --------------------------------------------------------------------------------
+
+    private val _localParticipantUpdateRequest: MutableLiveData<ParticipantListItem> = MutableLiveData()
+
+    fun setLocalUpdateParticipantFundoStatus(participantItem: ParticipantListItem) {
+        if (_localParticipantUpdateRequest.value == participantItem) {
+            return
+        }
+        _localParticipantUpdateRequest.value = participantItem
+    }
+
+    var getLocalUpdateParticipantFundoStatus:LiveData<Resource<ParticipantListItem>>? = Transformations
+        .switchMap(_localParticipantUpdateRequest) { participantRequest ->
+            if (participantRequest == null) {
+                AbsentLiveData.create()
+            } else {
+                participantListRepository.updateParticipantFundoStatus(participantRequest)
             }
         }
 }

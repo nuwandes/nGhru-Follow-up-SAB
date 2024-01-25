@@ -161,4 +161,21 @@ class MeasurementListViewModel
             bodyMeasurementMetaRepository.getBpStatus(input)
         }
 
+    // ------------------------------------------------------------------------------------------------
+
+    private val _screeningId = MutableLiveData<String>()
+
+    fun setScreeningIdParticipantListItemsFromDb(status: String) {
+        val update = status
+        if (_screeningId.value == update) {
+            return
+        }
+        _screeningId.value = update
+    }
+
+    var getScreeningIdParticipantListItemsFromDb: LiveData<Resource<ParticipantListItem>>? = Transformations
+        .switchMap(_screeningId) { input ->
+            repository.getSingleParticipantItem(input)
+        }
+
 }

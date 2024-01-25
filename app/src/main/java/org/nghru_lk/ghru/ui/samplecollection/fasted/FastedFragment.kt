@@ -94,7 +94,7 @@ class FastedFragment : Fragment(), Injectable {
         binding.setLifecycleOwner(this)
 
         binding.buttonSubmit.singleClick {
-            val bundle = bundleOf("participant" to participant)
+            val bundle = bundleOf("participant" to participant, "selectedParticipant" to selectedParticipant)
             navController().navigate(R.id.action_fastedFragment_to_bagScanBarcodeFragment, bundle)
         }
 

@@ -14,7 +14,8 @@ import javax.inject.Inject
 class BloodTestHomeViewModel
 @Inject constructor(participantRepository: ParticipantRepository,
                     userRepository: UserRepository,
-                    bloodTestRepository: BloodTestRepository) :
+                    bloodTestRepository: BloodTestRepository,
+                    participantListRepository: ParticipantListRepository) :
     ViewModel() {
 
     //    get participant request ------------------------------------------------------------------------------------
@@ -94,6 +95,26 @@ class BloodTestHomeViewModel
                 AbsentLiveData.create()
             } else {
                 bloodTestRepository.insertBloodTest(bTLocal)
+            }
+        }
+
+    // ------------------------------------------------------------------------------
+
+    private val _localParticipantUpdateRequest: MutableLiveData<ParticipantListItem> = MutableLiveData()
+
+    fun setLocalUpdateParticipantBTStatus(participantItem: ParticipantListItem) {
+        if (_localParticipantUpdateRequest.value == participantItem) {
+            return
+        }
+        _localParticipantUpdateRequest.value = participantItem
+    }
+
+    var getLocalUpdateParticipantBTStatus:LiveData<Resource<ParticipantListItem>>? = Transformations
+        .switchMap(_localParticipantUpdateRequest) { participantRequest ->
+            if (participantRequest == null) {
+                AbsentLiveData.create()
+            } else {
+                participantListRepository.updateParticipantBTStatus(participantRequest)
             }
         }
 

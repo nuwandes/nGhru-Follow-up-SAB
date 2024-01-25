@@ -311,32 +311,8 @@ class MeasurementListFragment : Fragment(), Injectable {
         else
         {
             // load offine
-            val stationList: ArrayList<ParticipantStation> = ArrayList<ParticipantStation>()
-//            if (getBPStatus(participant?.participant_id!!))
-//            {
-//                val ps1 = ParticipantStation(
-//                    participant?.participant_id, "","Body Measurements","Completed",""
-//                )
-//                stationList.add(ps1)
-//
-//                measurementListViewModel.setStationList(stationList)
-//            }
-//            else
-//            {
-//                val ps1 = ParticipantStation(
-//                    participant?.participant_id, "","","",""
-//                )
-//                stationList.add(ps1)
-//
-//                measurementListViewModel.setStationList(stationList)
-//            }
 
-            val ps1 = ParticipantStation(
-                participant?.participant_id, "","","",""
-            )
-            stationList.add(ps1)
-
-            measurementListViewModel.setStationList(stationList)
+            measurementListViewModel.setStationList(setParticipantStationOffline(participant!!))
 
             measurementListViewModel.measurementListItem.observe(this, Observer {
 
@@ -424,6 +400,36 @@ class MeasurementListFragment : Fragment(), Injectable {
             else
             {
                 // load offline measurement list
+                measurementListViewModel.setStationList(sList = null)
+
+                measurementListViewModel.setScreeningIdParticipantListItemsFromDb(participant!!.participant_id!!)
+
+                measurementListViewModel.getScreeningIdParticipantListItemsFromDb?.observe(this, Observer { participant ->
+                    if (participant?.status == Status.SUCCESS)
+                    {
+                        if (participant.data != null) {
+
+                            measurementListViewModel.setStationList(setParticipantStationOffline(participant.data))
+
+                            measurementListViewModel.measurementListItem.observe(this, Observer {
+
+                                if (it?.data != null)
+                                {
+                                    adapter.submitList(it.data)
+                                    binding.measurementProgressBar.visibility = View.GONE
+                                }
+                                else
+                                {
+                                    adapter.submitList(emptyList())
+                                    binding.measurementProgressBar.visibility = View.GONE
+                                }
+                            })
+
+                        } else {
+
+                        }
+                    }
+                })
             }
 
         }
@@ -486,6 +492,208 @@ class MeasurementListFragment : Fragment(), Injectable {
             val networkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
             networkInfo?.isConnected ?: false
         } else false
+    }
+
+    private fun setParticipantStationOffline(participantListItem: ParticipantListItem) : ArrayList<ParticipantStation>
+    {
+        val stationList: ArrayList<ParticipantStation> = ArrayList<ParticipantStation>()
+
+        var bpStatus : String = ""
+        var bmStatus : String = ""
+        var btStatus : String = ""
+        var queStatus : String = ""
+        var samStatus : String = ""
+        var intStatus : String = ""
+        var ecgStatus : String = ""
+        var funStatus : String = ""
+        var actStatus : String = ""
+
+        if (participantListItem.bp_status == 100)
+        {
+            bpStatus = "Completed"
+        }
+        else if(participantListItem.bp_status == 1)
+        {
+            bpStatus = "In progress"
+        }
+        else if (participantListItem.bp_status == 0)
+        {
+            bpStatus = "Not Started"
+        }
+
+        // -------------------------------------------------------
+
+        if (participantListItem.bm_status == 100)
+        {
+            bmStatus = "Completed"
+        }
+        else if(participantListItem.bm_status == 1)
+        {
+            bmStatus = "In progress"
+        }
+        else if (participantListItem.bm_status == 0)
+        {
+            bmStatus = "Not Started"
+        }
+
+        // -----------------------------------------------------------------
+
+        if (participantListItem.ecg_status == 100)
+        {
+            ecgStatus = "Completed"
+        }
+        else if(participantListItem.ecg_status == 1)
+        {
+            ecgStatus = "In progress"
+        }
+        else if (participantListItem.ecg_status == 0)
+        {
+            ecgStatus = "Not Started"
+        }
+
+        if (participantListItem.bt_status == 100)
+        {
+            btStatus = "Completed"
+        }
+        else if(participantListItem.bt_status == 1)
+        {
+            btStatus = "In progress"
+        }
+        else if (participantListItem.bt_status == 0)
+        {
+            btStatus = "Not Started"
+        }
+
+        if (participantListItem.que_status == 100)
+        {
+            queStatus = "Completed"
+        }
+        else if(participantListItem.que_status == 1)
+        {
+            queStatus = "In progress"
+        }
+        else if (participantListItem.que_status == 0)
+        {
+            queStatus = "Not Started"
+        }
+
+        if (participantListItem.sam_status == 100)
+        {
+            samStatus = "Completed"
+        }
+        else if(participantListItem.sam_status == 1)
+        {
+            samStatus = "In progress"
+        }
+        else if (participantListItem.sam_status == 0)
+        {
+            samStatus = "Not Started"
+        }
+
+        if (participantListItem.int_status == 100)
+        {
+            intStatus = "Completed"
+        }
+        else if(participantListItem.int_status == 1)
+        {
+            intStatus = "In progress"
+        }
+        else if (participantListItem.int_status == 0)
+        {
+            intStatus = "Not Started"
+        }
+
+        if (participantListItem.fun_status == 100)
+        {
+            funStatus = "Completed"
+        }
+        else if(participantListItem.fun_status == 1)
+        {
+            funStatus = "In progress"
+        }
+        else if (participantListItem.fun_status == 0)
+        {
+            funStatus = "Not Started"
+        }
+
+        if (participantListItem.act_status == 100)
+        {
+            actStatus = "Completed"
+        }
+        else if(participantListItem.act_status == 1)
+        {
+            actStatus = "In progress"
+        }
+        else if (participantListItem.act_status == 0)
+        {
+            actStatus = "Not Started"
+        }
+
+        val ps1 = ParticipantStation(
+            participantListItem.participant_id,
+            "9817448a-66e5-496e-8914-7b1a48bf4a51",
+            "Body Measurements",bmStatus ,participantListItem.bm_status.toString()
+        )
+
+        val ps2 = ParticipantStation(
+            participantListItem.participant_id,
+            "0243affe-6110-11ee-8c99-0242ac120002",
+            "Blood Pressure",bpStatus, participantListItem.bp_status.toString()
+        )
+
+        val ps3 = ParticipantStation(
+            participantListItem.participant_id,
+            "0243affe-6110-11ee-8c99-0242ac120002",
+            "ECG", ecgStatus, participantListItem.ecg_status.toString()
+        )
+
+        val ps4 = ParticipantStation(
+            participantListItem.participant_id,
+            "7268c9de-1c27-4221-b804-40076d976c99",
+            "Blood Test", btStatus ,participantListItem.bt_status.toString()
+        )
+
+        val ps5 = ParticipantStation(
+            participantListItem.participant_id,
+            "b277deb1-2c8f-4b39-8897-0a6c4d7edab7",
+            "Health Questionnaire", queStatus, participantListItem.que_status.toString()
+        )
+
+        val ps6 = ParticipantStation(
+            participantListItem.participant_id,
+            "0243affe-6110-11ee-8c99-0242ac120002",
+            "Biological Samples", samStatus, participantListItem.sam_status.toString()
+        )
+
+        val ps7 = ParticipantStation(
+            participantListItem.participant_id,
+            "29b452bf-9583-4a87-a785-1aab54cd0ce5",
+            "Intake 24", intStatus ,participantListItem.int_status.toString()
+        )
+
+        val ps8 = ParticipantStation(
+            participantListItem.participant_id,
+            "158a357e-6110-11ee-8c99-0242ac120002",
+            "Fundoscopy", funStatus, participantListItem.fun_status.toString()
+        )
+
+        val ps9 = ParticipantStation(
+            participantListItem.participant_id,
+            "0243affe-6110-11ee-8c99-0242ac120002",
+            "Activity Tracker", actStatus, participantListItem.act_status.toString()
+        )
+
+        stationList.add(ps1)
+        stationList.add(ps2)
+        stationList.add(ps3)
+        stationList.add(ps4)
+        stationList.add(ps5)
+        stationList.add(ps6)
+        stationList.add(ps7)
+        stationList.add(ps8)
+        stationList.add(ps9)
+
+        return stationList
     }
 
     private fun findFollowUpStatus(stationList: ArrayList<ParticipantStation>): String

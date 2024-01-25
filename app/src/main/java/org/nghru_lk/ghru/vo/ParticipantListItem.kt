@@ -39,7 +39,8 @@ data class ParticipantListItem (
     @Expose @SerializedName("sam_status") @ColumnInfo(name = "sam_status") var sam_status: Int =0,
     @Expose @SerializedName("ecg_status") @ColumnInfo(name = "ecg_status") var ecg_status: Int =0,
     @Expose @SerializedName("fun_status") @ColumnInfo(name = "fun_status") var fun_status: Int =0,
-    @Expose @SerializedName("act_status") @ColumnInfo(name = "act_status") var act_status: Int =0
+    @Expose @SerializedName("act_status") @ColumnInfo(name = "act_status") var act_status: Int =0,
+    @Expose @SerializedName("int_status") @ColumnInfo(name = "int_status") var int_status: Int =0
 
 ) : Serializable, Parcelable {
     @PrimaryKey(autoGenerate = true)
@@ -71,6 +72,7 @@ data class ParticipantListItem (
         parcel.readString()!!,
         parcel.readByte() != 0.toByte(),
         parcel.readString()!!,
+        parcel.readInt(),
         parcel.readInt(),
         parcel.readInt(),
         parcel.readInt(),
@@ -116,6 +118,7 @@ data class ParticipantListItem (
         parcel.writeInt(ecg_status)
         parcel.writeInt(fun_status)
         parcel.writeInt(act_status)
+        parcel.writeInt(int_status)
     }
 
     override fun describeContents(): Int {

@@ -5,19 +5,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import org.nghru_lk.ghru.repository.ECGRepository
+import org.nghru_lk.ghru.repository.ParticipantListRepository
 import org.nghru_lk.ghru.repository.UserRepository
 import org.nghru_lk.ghru.util.AbsentLiveData
-import org.nghru_lk.ghru.vo.ECG
-import org.nghru_lk.ghru.vo.ECGStatus
-import org.nghru_lk.ghru.vo.Resource
-import org.nghru_lk.ghru.vo.User
+import org.nghru_lk.ghru.vo.*
 import org.nghru_lk.ghru.vo.request.ParticipantRequest
 import javax.inject.Inject
 
 
 class CompleteDialogViewModel
 @Inject constructor(eCGRepository: ECGRepository,
-                    userRepository: UserRepository
+                    userRepository: UserRepository,
+                    participantListRepository: ParticipantListRepository
 ) : ViewModel() {
 
     private val _participantRequestRemote: MutableLiveData<ECGId> = MutableLiveData()
@@ -99,6 +98,26 @@ class CompleteDialogViewModel
                 AbsentLiveData.create()
             } else {
                 eCGRepository.insertEcg(ecgLocal)
+            }
+        }
+
+    // ------------------------------------------------------------------------------------------------------
+
+    private val _localParticipantUpdateRequest: MutableLiveData<ParticipantListItem> = MutableLiveData()
+
+    fun setLocalUpdateParticipantEcgStatus(participantItem: ParticipantListItem) {
+        if (_localParticipantUpdateRequest.value == participantItem) {
+            return
+        }
+        _localParticipantUpdateRequest.value = participantItem
+    }
+
+    var getLocalUpdateParticipantEcgStatus:LiveData<Resource<ParticipantListItem>>? = Transformations
+        .switchMap(_localParticipantUpdateRequest) { participantRequest ->
+            if (participantRequest == null) {
+                AbsentLiveData.create()
+            } else {
+                participantListRepository.updateParticipantEcgStatus(participantRequest)
             }
         }
 }

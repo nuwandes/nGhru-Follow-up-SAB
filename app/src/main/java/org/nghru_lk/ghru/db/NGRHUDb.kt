@@ -43,7 +43,7 @@ import org.nghru_lk.ghru.vo.request.Member
         BloodTestRequest :: class,
         Site :: class
     ],
-    version = 17,
+    version = 19,
     exportSchema = true
 )
 abstract class NGRHUDb : RoomDatabase() {
