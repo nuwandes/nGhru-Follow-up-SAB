@@ -9,13 +9,13 @@
 
         <variable
             name="sample"
-            type="org.nghru_lk.ghru.vo.request.SampleRequest" />
+            type="org.nghru_pk.ghru.vo.request.SampleRequest" />
 
-        <import type="org.nghru_lk.ghru.ui.samplemanagement.home.SampleMangementHomeViewModel" />
+        <import type="org.nghru_pk.ghru.ui.samplemanagement.home.SampleMangementHomeViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_lk.ghru.ui.samplemanagement.home.SampleMangementHomeViewModel" />
+            type="org.nghru_pk.ghru.ui.samplemanagement.home.SampleMangementHomeViewModel" />
 
         <variable name="sampleValidationError" type="Boolean"/>
     </data>

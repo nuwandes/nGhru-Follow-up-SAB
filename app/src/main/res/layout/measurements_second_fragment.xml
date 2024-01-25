@@ -5,25 +5,25 @@
 
     <data>
 
-        <import type="org.nghru_lk.ghru.ui.bodymeasurements.measurements.second.MeasurementsSecondViewModel" />
+        <import type="org.nghru_pk.ghru.ui.bodymeasurements.measurements.second.MeasurementsSecondViewModel" />
 
-        <import type="org.nghru_lk.ghru.vo.BodyMeasurement" />
+        <import type="org.nghru_pk.ghru.vo.BodyMeasurement" />
 
         <variable
             name="viewModel"
-            type="org.nghru_lk.ghru.ui.bodymeasurements.measurements.second.MeasurementsSecondViewModel" />
+            type="org.nghru_pk.ghru.ui.bodymeasurements.measurements.second.MeasurementsSecondViewModel" />
 
         <variable
             name="mesurement"
-            type="org.nghru_lk.ghru.vo.BodyMeasurement" />
+            type="org.nghru_pk.ghru.vo.BodyMeasurement" />
 
         <variable
             name="resource"
-            type="org.nghru_lk.ghru.vo.Resource" />
+            type="org.nghru_pk.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.nghru_lk.ghru.ui.common.RetryCallback" />
+            type="org.nghru_pk.ghru.ui.common.RetryCallback" />
     </data>
 
 
@@ -35,7 +35,7 @@
         android:fitsSystemWindows="true"
         android:focusable="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.nghru_lk.ghru.BodyMeasurementsActivity"
+        tools:context="org.nghru_pk.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

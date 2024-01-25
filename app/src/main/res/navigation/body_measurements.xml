@@ -36,7 +36,7 @@
 
     <fragment
         android:id="@+id/BodyMeasurementHomeFragment"
-        android:name="org.nghru_lk.ghru.ui.bodymeasurements.home.BodyMeasurementHomeFragment"
+        android:name="org.nghru_pk.ghru.ui.bodymeasurements.home.BodyMeasurementHomeFragment"
         android:label="BodyMeasurementHomeFragment"
         tools:layout="@layout/body_measurements_home_fragment">
 
@@ -60,7 +60,7 @@
 
     <fragment
         android:id="@+id/BodyCompositionFragment"
-        android:name="org.nghru_lk.ghru.ui.bodymeasurements.bodycomposition.BodyCompositionFragment"
+        android:name="org.nghru_pk.ghru.ui.bodymeasurements.bodycomposition.BodyCompositionFragment"
         android:label="BodyCompositionFragment"
         tools:layout="@layout/body_composition_fragment">
     </fragment>
@@ -68,7 +68,7 @@
 
     <fragment
         android:id="@+id/HipWaistFragment"
-        android:name="org.nghru_lk.ghru.ui.bodymeasurements.hipwaist.HipWaistFragment"
+        android:name="org.nghru_pk.ghru.ui.bodymeasurements.hipwaist.HipWaistFragment"
         android:label="HipWaistFragment"
         tools:layout="@layout/hip_waist_fragment">
 

@@ -7,13 +7,13 @@
 
         <variable
             name="hb1Ac"
-            type="org.nghru_lk.ghru.vo.Hb1Ac" />
+            type="org.nghru_pk.ghru.vo.Hb1Ac" />
 
-        <import type="org.nghru_lk.ghru.ui.samplemanagement.hb1ac.Hb1AcViewModel" />
+        <import type="org.nghru_pk.ghru.ui.samplemanagement.hb1ac.Hb1AcViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_lk.ghru.ui.samplemanagement.hb1ac.Hb1AcViewModel" />
+            type="org.nghru_pk.ghru.ui.samplemanagement.hb1ac.Hb1AcViewModel" />
 
 
     </data>
@@ -24,7 +24,7 @@
         android:background="@color/white"
         android:fitsSystemWindows="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.nghru_lk.ghru.BodyMeasurementsActivity"
+        tools:context="org.nghru_pk.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout
