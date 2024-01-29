@@ -232,10 +232,10 @@ class ParticipantListFragment : Fragment(), Injectable {
                 participantAdapter.notifyDataSetChanged()
                 binding.participantProgressBar.visibility = View.GONE
             }
-            else
-            {
-                Toast.makeText(activity, "Locally loading failed", Toast.LENGTH_LONG).show()
-            }
+//            else
+//            {
+//                Toast.makeText(activity, "Locally loading failed", Toast.LENGTH_LONG).show()
+//            }
 
         })
 

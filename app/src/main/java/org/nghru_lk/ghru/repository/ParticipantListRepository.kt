@@ -250,7 +250,7 @@ class ParticipantListRepository @Inject constructor(
                 }
             }
 
-            if (station.station_name.equals("Activity Tracker"))
+            if (station.station_name.equals("Axivity"))
             {
                 if (station.isCancelled == 1)
                 {

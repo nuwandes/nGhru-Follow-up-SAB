@@ -141,7 +141,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
 
 
             if (accessToken?.status == Status.SUCCESS) {
-                binding.progressBar.visibility = View.GONE
+                //binding.progressBar.visibility = View.GONE
                 if (accessToken.data != null) {
                     if (accessToken.data.status) {
                         if (!isLoginClick) {
@@ -185,7 +185,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
 
         loginViewModel.accessToken?.observe(this, Observer { accessToken ->
 
-            binding.progressBar.visibility = View.GONE
+            //binding.progressBar.visibility = View.GONE
             binding.userResource = accessToken
             if (accessToken?.status == Status.SUCCESS ) {
                 //println(user)
@@ -227,7 +227,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
         })
 
         loginViewModel.stationDevices?.observe(this, Observer {
-            binding.progressBar.visibility = View.GONE
+            //binding.progressBar.visibility = View.GONE
 
             if (it?.status == Status.SUCCESS) {
                 loginViewModel.setStationDeviceList(it.data?.data!!)
@@ -241,7 +241,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
         })
 
         loginViewModel.stationDeviceList?.observe(this, Observer {
-            binding.progressBar.visibility = View.GONE
+            //binding.progressBar.visibility = View.GONE
             if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
 
                 loginViewModel.setOfflineAllParticipants(page=1, status = "all", site = "all", keyWord = "")
@@ -359,10 +359,10 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
 
                     Toast.makeText(activity, "All participant API call Success", Toast.LENGTH_LONG).show()
                 }
-                else
-                {
-                    Toast.makeText(activity, "All participant API call failed", Toast.LENGTH_LONG).show()
-                }
+//                else
+//                {
+//                    Toast.makeText(activity, "All participant API call failed", Toast.LENGTH_LONG).show()
+//                }
             }
             else
             {
@@ -372,7 +372,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
         })
 
         loginViewModel.getParticipantListItemList.observe(this, Observer {
-            binding.progressBar.visibility = View.GONE
+            //binding.progressBar.visibility = View.GONE
             if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
 
                 //loginViewModel.setFilterId(page=1, status = "all", site = "all", keyWord = "")
@@ -384,7 +384,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
         })
 
         loginViewModel.getApiSites?.observe(this, Observer {
-            binding.progressBar.visibility = View.GONE
+            //binding.progressBar.visibility = View.GONE
             if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
 
                 loginViewModel.setSiteIdToInsert(it.data!!)
@@ -392,7 +392,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
         })
 
         loginViewModel.insertSites?.observe(this, Observer {
-            binding.progressBar.visibility = View.GONE
+            //binding.progressBar.visibility = View.GONE
             if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
 
                 loadMainActivity()
@@ -413,6 +413,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
     }
     fun  loadMainActivity()
     {
+        binding.progressBar.visibility = View.GONE
         prefs?.edit()?.putBoolean("isTimeOut", false)?.apply()
         prefs?.edit()?.putString("loginDateTime", getLocalTimeString())?.apply()
         prefs?.edit()?.putString("dateTime", getLocalTimeString())?.apply()

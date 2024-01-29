@@ -75,6 +75,7 @@ class MeasurementListFragment : Fragment(), Injectable {
     private var COV_STATUS: String? = "Not started"
     private var ECG_Status: String? = "Not started"
     private var FUN_Status: String? = "Not started"
+    private var ACT_Status: String? = "Not started"
     private var Folloup_Status: String? = ""
 
     private var participant: ParticipantListItem? = null
@@ -808,6 +809,18 @@ class MeasurementListFragment : Fragment(), Injectable {
                 }
             }
 
+            if (station.station_name == "Axivity")
+            {
+                if (station.isCancelled == 1)
+                {
+                    ACT_Status = "Canceled"
+                }
+                else
+                {
+                    ACT_Status = station.status_text
+                }
+            }
+
             if (station.station_name == "Covid Questionnaire")
             {
                 if (station.isCancelled == 1)
@@ -845,7 +858,8 @@ class MeasurementListFragment : Fragment(), Injectable {
                 + "INT - "+ INT_Status
                 + "COV - "+ COV_STATUS
                 + "ECG - "+ ECG_Status
-                + "FUN - "+ FUN_Status)
+                + "FUN - "+ FUN_Status
+                + "ACT - " + ACT_Status)
 
         var followUpStatus : String = ""
 
@@ -859,7 +873,8 @@ class MeasurementListFragment : Fragment(), Injectable {
             && (QU_Status == "Completed" || QU_Status == "Canceled")
             && (COV_STATUS == "Completed" || COV_STATUS == "Canceled")
             && (ECG_Status == "Completed" || ECG_Status == "Canceled")
-            && (FUN_Status == "Completed" || FUN_Status == "Canceled"))
+            && (FUN_Status == "Completed" || FUN_Status == "Canceled")
+            && (ACT_Status == "Completed" || ACT_Status == "Canceled"))
         {
 //            if ((BM_Status == "Completed" || BM_Status == "Canceled") && (QU_Status == "Completed" || QU_Status == "Canceled"))
 //            {
