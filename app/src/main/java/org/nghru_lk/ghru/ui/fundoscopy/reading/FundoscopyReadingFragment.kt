@@ -238,10 +238,13 @@ class FundoscopyReadingFragment : Fragment(), Injectable {
                     meta = meta,
                     cataract_observation = cataractObservation)
 
+
+
                 fundoscopyReadingViewModel.setLocalUpdateParticipantFundoStatus(selectedParticipant!!)
 
                 if (isNetworkAvailable())
                 {
+                    fundoscopyRequest.screeningId = selectedParticipant?.participant_id!!
                     fundoscopyReadingViewModel.setFundoRequest(
                         selectedParticipant?.participant_id,
                         fundoscopyRequest
