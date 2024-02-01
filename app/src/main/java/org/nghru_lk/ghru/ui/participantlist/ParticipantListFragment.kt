@@ -131,31 +131,43 @@ class ParticipantListFragment : Fragment(), Injectable {
         siteNames.clear()
         siteNames.add(getString(R.string.filter1_default))
 
-        participantListViewModel.setSite("All")
-        participantListViewModel.setSiteId("en")
+        if (!isNetworkAvailable())
+        {
+            val sites : String? = prefs?.getString("SiteList","")
+
+            val siteNames = sites!!.split(",")
+            Log.wtf("PARTICIPANT_LIST_FRAGMENT", "SITE_DATA: - " + siteNames)
+
+            val adapter1 = ArrayAdapter(context!!, R.layout.participant_spinner_dropdown_item, siteNames)
+            binding.filterOne.setAdapter(adapter1)
+        }
+        else
+        {
+            participantListViewModel.setSite("All")
+            participantListViewModel.setSiteId("en")
 
 
-        participantListViewModel.siteSpinnerItem!!.observe(this, Observer {
+            participantListViewModel.siteSpinnerItem!!.observe(this, Observer {
 
-            if (it.status.equals(Status.SUCCESS)) {
+                if (it.status.equals(Status.SUCCESS)) {
 
-                if (!it.data!!.data!!.contains("")|| !it.data.data!!.contains("null"))
-                {
-                    for( siteName in it.data.data!!)
+                    if (!it.data!!.data!!.contains("")|| !it.data.data!!.contains("null"))
                     {
-                        siteNames.add(siteName)
+                        for( siteName in it.data.data!!)
+                        {
+                            siteNames.add(siteName)
+                        }
+
+                        val adapter1 = ArrayAdapter(context!!, R.layout.participant_spinner_dropdown_item, siteNames)
+                        binding.filterOne.setAdapter(adapter1)
                     }
                 }
-            }
-            else
-            {
-                Log.d("PARTICIPANT_FRAGMENT", "Site_spinner_Error_is: " + it.status.toString())
-            }
-        })
-
-
-        val adapter1 = ArrayAdapter(context!!, R.layout.participant_spinner_dropdown_item, siteNames)
-        binding.filterOne.setAdapter(adapter1)
+                else
+                {
+                    Log.d("PARTICIPANT_FRAGMENT", "Site_spinner_Error_is: " + it.status.toString())
+                }
+            })
+        }
 
         statuses.clear()
         statuses.add(getString(R.string.filter2_default))
@@ -622,7 +634,46 @@ class ParticipantListFragment : Fragment(), Injectable {
                 }
                 else
                 {
-                    // offline filteration
+                    // offline filter by Site
+//                    if (position == 0)
+//                    {
+//                        selectedSite  = filter_one.selectedItem.toString().toLowerCase()
+//                    }
+//                    else
+//                    {
+//                        selectedSite = siteNames[position]
+//                    }
+
+                    selectedSite = filter_one.selectedItem.toString().trimStart()
+
+                    if (selectedSite.equals("[All"))
+                    {
+                        participantListViewModel.setAllParticipantListItemsFromDb("Go")
+                        participantListViewModel.setAllParticipantListItemsFromDb("Got")
+                    }
+                    else
+                    {
+                        //participantListObject = emptyList()
+
+                        participantListViewModel.setSiteParticipantListItemsFromDb(selectedSite!!)
+
+                        participantListViewModel.getSiteParticipantListItemsFromDb?.observe(activity!!, Observer {
+
+                            if (it.status.equals(Status.SUCCESS))
+                            {
+                                participantListObject = it.data!!
+                                participantAdapter.submitList(participantListObject)
+                                participantAdapter.notifyDataSetChanged()
+//                        participantListMeta = it.data.data!!.meta
+//                        binding.paginationText.setText(participantListMeta?.current_page + " of " + participantListMeta?.last_page)
+                                listItemOnClick()
+                            }
+                            else
+                            {
+                                participantAdapter.submitList(emptyList())
+                            }
+                        })
+                    }
                 }
             }
 

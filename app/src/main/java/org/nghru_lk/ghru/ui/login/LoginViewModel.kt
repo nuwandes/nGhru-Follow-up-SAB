@@ -251,4 +251,38 @@ class LoginViewModel
             }
         }
     }
+
+    // ------------------------------- Site data for Spinner --------------------------------
+
+    private val _siteSpinnerId: MutableLiveData<SiteSpinnerId> = MutableLiveData()
+
+    var getSiteSpinnerItems: LiveData<Resource<ResourceData<Array<String>>>>? = Transformations
+        .switchMap(_siteSpinnerId) { input ->
+            input.ifExists { id ->
+                repository.getSiteSpinnerItems(id!!)
+
+            }
+        }
+
+    fun setSiteSpinnerId(id: String) {
+        val update =
+            SiteSpinnerId(id = id)
+        if (_siteSpinnerId.value == update) {
+            return
+        }
+        _siteSpinnerId.value = update
+    }
+
+    data class SiteSpinnerId(val id: String?) {
+
+        fun <T> ifExists(f: (String?) -> LiveData<T>): LiveData<T> {
+            return if (id == null) {
+                AbsentLiveData.create()
+            } else {
+                f(id)
+            }
+        }
+    }
+
+    // --------------------------------------------------------------------------------------
 }

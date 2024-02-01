@@ -79,4 +79,7 @@ interface ParticipantListItemDao {
     @Query("SELECT * FROM participant_list_item WHERE participant_id = :screeningId")
     fun getSingleParticipant(screeningId: String): LiveData<ParticipantListItem>
 
+    @Query("SELECT * FROM participant_list_item WHERE site = :site")
+    fun getSiteParticipant(site: String): LiveData<List<ParticipantListItem>>
+
 }

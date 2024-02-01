@@ -284,4 +284,21 @@ class ParticipantListViewModel
         .switchMap(_overallStatus) { input ->
             repository.getStatusParticipantItemList(input)
         }
+
+    // ------------------------------------------------------------------------------------------------
+
+    private val _selectedSite = MutableLiveData<String>()
+
+    fun setSiteParticipantListItemsFromDb(status: String) {
+        val update = status
+        if (_selectedSite.value == update) {
+            return
+        }
+        _selectedSite.value = update
+    }
+
+    var getSiteParticipantListItemsFromDb: LiveData<Resource<List<ParticipantListItem>>>? = Transformations
+        .switchMap(_selectedSite) { input ->
+            repository.getSiteParticipantItemList(input)
+        }
 }

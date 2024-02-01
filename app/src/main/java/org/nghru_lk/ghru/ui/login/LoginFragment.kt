@@ -9,6 +9,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -84,6 +85,8 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
     var prefs : SharedPreferences? = null
 
     var dateFormat : String = "yyyy-MM-dd hh:mm"
+
+    private var siteNames: MutableList<String> = arrayListOf()
 
     private var participantListObject: List<ParticipantListItem> = arrayListOf()
 
@@ -375,11 +378,81 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
             //binding.progressBar.visibility = View.GONE
             if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
 
-                //loginViewModel.setFilterId(page=1, status = "all", site = "all", keyWord = "")
-                val site = Site("All")
-                //loginViewModel.setSiteIdApi(site)
+                loginViewModel.setSiteSpinnerId("Get")
+                loginViewModel.setSiteSpinnerId("All")
+
+                siteNames.clear()
+                siteNames.add(getString(R.string.filter1_default))
+                siteNames.add("UCOL14")
+                siteNames.add("UCOL4")
+                siteNames.add("UCOL5")
+                siteNames.add("UKEL13")
+                siteNames.add("UCOL2")
+                siteNames.add("UKEL4")
+                siteNames.add("UKEL10")
+                siteNames.add("UCOL15")
+                siteNames.add("col-sl-0010")
+                siteNames.add("UKEL6")
+                siteNames.add("UCOL3")
+                siteNames.add("Test3")
+                siteNames.add("UCOL6")
+                siteNames.add("UKEL14")
+                siteNames.add("UKEL15")
+                siteNames.add("UCOL9")
+                siteNames.add("UCOL7")
+                siteNames.add("Test1")
+                siteNames.add("UKEL7")
+
+
+//                "LK-0001-test",
+//                "Test2",
+//                "UCOL11",
+//                "UCOL8",
+//                "UCOL1",
+//                "UKEL3",
+//                "UKEL9",
+//                "UKEL5",
+//                "UKEL8",
+//                "UCOL12",
+//                "UKEL11",
+//                "UKEL12",
+//                "UCOL team",
+//                "slk-0014",
+//                "UCOL13",
+//                "UKEL2",
+//                "UKEL1"
+
+                prefs?.edit()?.putString("SiteList", siteNames.toString())?.apply()
+
+                val sites : String? = prefs?.getString("SiteList","")
+
+                Log.wtf("LOGIN_FRAGMENT", "SITE_DATA: - " + sites)
+
 
                 loadMainActivity()
+            }
+        })
+
+        loginViewModel.getSiteSpinnerItems!!.observe(this, Observer {
+
+            if (it.status.equals(Status.SUCCESS)) {
+
+                if (!it.data!!.data!!.contains("")|| !it.data.data!!.contains("null"))
+                {
+                    for( siteName in it.data.data!!)
+                    {
+                        siteNames.add(siteName)
+//                        prefs?.edit()?.putString("SiteList", siteNames.toString())?.apply()
+//
+//                        val sites : String? = prefs?.getString("SiteList","")
+//
+//                        Log.wtf("LOGIN_FRAGMENT", "SITE_DATA: - " + sites)
+                    }
+                }
+            }
+            else
+            {
+                Log.d("LOGIN_FRAGMENT", "Site_spinner_Error_is: " + it.status.toString())
             }
         })
 
