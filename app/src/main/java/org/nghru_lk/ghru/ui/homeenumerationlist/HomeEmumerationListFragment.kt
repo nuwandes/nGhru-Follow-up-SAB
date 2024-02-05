@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -45,6 +46,8 @@ class HomeEmumerationListFragment : Fragment(), Injectable {
     @Inject
     lateinit var  jobManager: JobManager
 
+    var siteList : ArrayList<String>? = arrayListOf()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -79,6 +82,9 @@ class HomeEmumerationListFragment : Fragment(), Injectable {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        siteList = activity!!.intent.getStringArrayListExtra("SITE_ARRAY")
+
+        Log.wtf("HOME_ENUM_FRAG","SITE_LIST: " + siteList)
 
         binding.homeViewModel = homeemumerationlistViewModel
 
@@ -111,7 +117,8 @@ class HomeEmumerationListFragment : Fragment(), Injectable {
 //            }
 
             if (homeemumerationlistItem.id == 2) {
-                navController().navigate(R.id.action_homeEmumerationListFragment_to_participantListFragment)
+                val bundle = bundleOf("SITE_ARRAY" to siteList)
+                navController().navigate(R.id.action_homeEmumerationListFragment_to_participantListFragment, bundle)
 //                val intent = Intent(activity, ScreeningHomeActivity::class.java)
 //                startActivity(intent)
             }

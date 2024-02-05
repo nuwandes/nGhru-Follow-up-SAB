@@ -79,7 +79,20 @@ class ParticipantListFragment : Fragment(), Injectable {
 
     var prefs : SharedPreferences? = null
 
+    var siteArray : ArrayList<String>? = arrayListOf()
+
     var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        try {
+            siteArray = arguments?.getStringArrayList("SITE_ARRAY")
+
+        } catch (e: KotlinNullPointerException) {
+            print(e)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -133,13 +146,32 @@ class ParticipantListFragment : Fragment(), Injectable {
 
         if (!isNetworkAvailable())
         {
-            val sites : String? = prefs?.getString("SiteList","")
+//            val sites : String? = prefs?.getString("SiteList","")
+//            val mutableList: MutableList<String> = sites?.split(",")?.toMutableList() ?: mutableListOf()
+//
+//            val siteNames = sites!!.split(",")
+//            Log.wtf("PARTICIPANT_LIST_FRAGMENT", "SITE_DATA: - " + mutableList)
 
-            val siteNames = sites!!.split(",")
-            Log.wtf("PARTICIPANT_LIST_FRAGMENT", "SITE_DATA: - " + siteNames)
+            if (siteArray != null)
+            {
+                var siteList = siteArray!!.toMutableList()
 
-            val adapter1 = ArrayAdapter(context!!, R.layout.participant_spinner_dropdown_item, siteNames)
-            binding.filterOne.setAdapter(adapter1)
+                val adapter1 = ArrayAdapter(context!!, R.layout.participant_spinner_dropdown_item, siteList)
+                binding.filterOne.setAdapter(adapter1)
+            }
+            else
+            {
+                val sites : String? = prefs?.getString("SiteList","")
+                val mutableList: MutableList<String> = sites?.split(",")?.toMutableList() ?: mutableListOf()
+
+                val siteNames = sites!!.split(",")
+                Log.wtf("PARTICIPANT_LIST_FRAGMENT", "SITE_DATA: - " + mutableList)
+
+                val adapter1 = ArrayAdapter(context!!, R.layout.participant_spinner_dropdown_item, siteNames)
+                binding.filterOne.setAdapter(adapter1)
+            }
+
+
         }
         else
         {
@@ -158,6 +190,7 @@ class ParticipantListFragment : Fragment(), Injectable {
                             siteNames.add(siteName)
                         }
 
+                        Log.wtf("PARTICIPANT_LIST_FRAGMENT", "SITE_DATA: - " + siteNames)
                         val adapter1 = ArrayAdapter(context!!, R.layout.participant_spinner_dropdown_item, siteNames)
                         binding.filterOne.setAdapter(adapter1)
                     }
@@ -261,13 +294,13 @@ class ParticipantListFragment : Fragment(), Injectable {
 
                 val firstPage = lastPage - (lastPage-1)
 
-                if (filter_one.selectedItem.toString().equals("All"))
+                if (binding.filterOne.selectedItem.toString().equals("All"))
                 {
-                    selectedSite  = filter_one.selectedItem.toString().toLowerCase()
+                    selectedSite  = binding.filterOne.selectedItem.toString().toLowerCase()
                 }
                 else
                 {
-                    selectedSite  = filter_one.selectedItem.toString()
+                    selectedSite  = binding.filterOne.selectedItem.toString()
                 }
 
                 participantListViewModel.setFilterId(page=firstPage, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
@@ -300,13 +333,13 @@ class ParticipantListFragment : Fragment(), Injectable {
             {
                 val newPageNumber = participantListMeta!!.current_page!!.toInt() - 1
 
-                if (filter_one.selectedItem.toString().equals("All"))
+                if (binding.filterOne.selectedItem.toString().equals("All"))
                 {
-                    selectedSite  = filter_one.selectedItem.toString().toLowerCase()
+                    selectedSite  = binding.filterOne.selectedItem.toString().toLowerCase()
                 }
                 else
                 {
-                    selectedSite  = filter_one.selectedItem.toString()
+                    selectedSite  = binding.filterOne.selectedItem.toString()
                 }
 
                 participantListViewModel.setFilterId(page=newPageNumber, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
@@ -343,13 +376,13 @@ class ParticipantListFragment : Fragment(), Injectable {
 
                     Log.d("PAGINATION", "Next Page numer" + newPageNumber)
 
-                    if (filter_one.selectedItem.toString().equals("All"))
+                    if (binding.filterOne.selectedItem.toString().equals("All"))
                     {
-                        selectedSite  = filter_one.selectedItem.toString().toLowerCase()
+                        selectedSite  = binding.filterOne.selectedItem.toString().toLowerCase()
                     }
                     else
                     {
-                        selectedSite  = filter_one.selectedItem.toString()
+                        selectedSite  = binding.filterOne.selectedItem.toString()
                     }
 
                     participantListViewModel.setFilterId(page=newPageNumber, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
@@ -390,13 +423,13 @@ class ParticipantListFragment : Fragment(), Injectable {
                 //binding.participantProgressBar.visibility = View.GONE
                 val lastPage = participantListMeta!!.last_page!!.toInt()
 
-                if (filter_one.selectedItem.toString().equals("All"))
+                if (binding.filterOne.selectedItem.toString().equals("All"))
                 {
-                    selectedSite  = filter_one.selectedItem.toString().toLowerCase()
+                    selectedSite  = binding.filterOne.selectedItem.toString().toLowerCase()
                 }
                 else
                 {
-                    selectedSite  = filter_one.selectedItem.toString()
+                    selectedSite  = binding.filterOne.selectedItem.toString()
                 }
 
                 participantListViewModel.setFilterId(page=lastPage, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
@@ -434,9 +467,9 @@ class ParticipantListFragment : Fragment(), Injectable {
                     {
                         if (participantListMeta != null)
                         {
-                            if (filter_one.selectedItem.toString().equals("All"))
+                            if (binding.filterOne.selectedItem.toString().equals("All"))
                             {
-                                selectedSite  = filter_one.selectedItem.toString().toLowerCase()
+                                selectedSite  = binding.filterOne.selectedItem.toString().toLowerCase()
                             }
                             else
                             {
@@ -462,14 +495,14 @@ class ParticipantListFragment : Fragment(), Injectable {
                         }
                         else
                         {
-                            if (filter_one.selectedItem.toString().equals("All"))
-                            {
-                                selectedSite  = filter_one.selectedItem.toString().toLowerCase()
-                            }
-                            else
-                            {
-                                selectedSite = binding.filterOne.selectedItem.toString()
-                            }
+//                            if (binding.filterOne.selectedItem.toString().equals("All"))
+//                            {
+//                                selectedSite  = binding.filterOne.selectedItem.toString().toLowerCase()
+//                            }
+//                            else
+//                            {
+//                                selectedSite = binding.filterOne.selectedItem.toString()
+//                            }
                             participantListViewModel.setFilterId(page=1, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
 //
                             participantListViewModel.filterparticipantListItems?.observe(activity!!, Observer {
@@ -491,9 +524,9 @@ class ParticipantListFragment : Fragment(), Injectable {
                     }
                     else
                     {
-                        if (filter_one.selectedItem.toString().equals("All"))
+                        if (binding.filterOne.selectedItem.toString().equals("All"))
                         {
-                            selectedSite  = filter_one.selectedItem.toString().toLowerCase()
+                            selectedSite  = binding.filterOne.selectedItem.toString().toLowerCase()
                         }
                         else
                         {
@@ -566,7 +599,7 @@ class ParticipantListFragment : Fragment(), Injectable {
                     {
                         if (participantListMeta != null)
                         {
-                            selectedSite  = filter_one.selectedItem.toString().toLowerCase()
+                            selectedSite  = binding.filterOne.selectedItem.toString().toLowerCase()
 
                             participantListViewModel.setFilterId(page=1, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
 
@@ -588,7 +621,7 @@ class ParticipantListFragment : Fragment(), Injectable {
                         }
                         else
                         {
-                            selectedSite  = filter_one.selectedItem.toString().toLowerCase()
+                            selectedSite  = binding.filterOne.selectedItem.toString().toLowerCase()
 
                             participantListViewModel.setFilterId(page=1, status = getStatusString(), site = selectedSite!!, keyWord = searchKey!!)
 
@@ -644,7 +677,7 @@ class ParticipantListFragment : Fragment(), Injectable {
 //                        selectedSite = siteNames[position]
 //                    }
 
-                    selectedSite = filter_one.selectedItem.toString().trimStart()
+                    selectedSite = binding.filterOne.selectedItem.toString().trimStart()
 
                     if (selectedSite.equals("[All"))
                     {
@@ -716,9 +749,9 @@ class ParticipantListFragment : Fragment(), Injectable {
 
             if (isNetworkAvailable())
             {
-                if (filter_one.selectedItem.toString().equals("All"))
+                if (binding.filterOne.selectedItem.toString().equals("All"))
                 {
-                    selectedSite  = filter_one.selectedItem.toString().toLowerCase()
+                    selectedSite  = binding.filterOne.selectedItem.toString().toLowerCase()
                 }
                 else
                 {

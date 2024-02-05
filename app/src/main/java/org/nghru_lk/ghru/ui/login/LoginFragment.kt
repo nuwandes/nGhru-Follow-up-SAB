@@ -47,6 +47,7 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallbacks {
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
@@ -148,7 +149,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
                 if (accessToken.data != null) {
                     if (accessToken.data.status) {
                         if (!isLoginClick) {
-                            loadMainActivity()
+                            loadMainActivity(null!!)
                         }
 
                     } else {
@@ -383,56 +384,40 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
 
                 siteNames.clear()
                 siteNames.add(getString(R.string.filter1_default))
-                siteNames.add("UCOL14")
-                siteNames.add("UCOL4")
-                siteNames.add("UCOL5")
-                siteNames.add("UKEL13")
-                siteNames.add("UCOL2")
-                siteNames.add("UKEL4")
-                siteNames.add("UKEL10")
-                siteNames.add("UCOL15")
-                siteNames.add("col-sl-0010")
-                siteNames.add("UKEL6")
-                siteNames.add("UCOL3")
-                siteNames.add("Test3")
-                siteNames.add("UCOL6")
-                siteNames.add("UKEL14")
-                siteNames.add("UKEL15")
-                siteNames.add("UCOL9")
-                siteNames.add("UCOL7")
-                siteNames.add("Test1")
-                siteNames.add("UKEL7")
+//                siteNames.add("UCOL14")
+//                siteNames.add("UCOL4")
+//                siteNames.add("UCOL5")
+//                siteNames.add("UKEL13")
+//                siteNames.add("UCOL2")
+//                siteNames.add("UKEL4")
+//                siteNames.add("UKEL10")
+//                siteNames.add("UCOL15")
+//                siteNames.add("col-sl-0010")
+//                siteNames.add("UKEL6")
+//                siteNames.add("UCOL3")
+//                siteNames.add("Test3")
+//                siteNames.add("UCOL6")
+//                siteNames.add("UKEL14")
+//                siteNames.add("UKEL15")
+//                siteNames.add("UCOL9")
+//                siteNames.add("UCOL7")
+//                siteNames.add("Test1")
+//                siteNames.add("UKEL7")
+
+//                prefs?.edit()?.putString("SiteList", siteNames.toString())?.apply()
+//
+//                val sites : String? = prefs?.getString("SiteList","")
+//
+//                Log.wtf("LOGIN_FRAGMENT", "SITE_DATA: - " + sites)
 
 
-//                "LK-0001-test",
-//                "Test2",
-//                "UCOL11",
-//                "UCOL8",
-//                "UCOL1",
-//                "UKEL3",
-//                "UKEL9",
-//                "UKEL5",
-//                "UKEL8",
-//                "UCOL12",
-//                "UKEL11",
-//                "UKEL12",
-//                "UCOL team",
-//                "slk-0014",
-//                "UCOL13",
-//                "UKEL2",
-//                "UKEL1"
-
-                prefs?.edit()?.putString("SiteList", siteNames.toString())?.apply()
-
-                val sites : String? = prefs?.getString("SiteList","")
-
-                Log.wtf("LOGIN_FRAGMENT", "SITE_DATA: - " + sites)
-
-
-                loadMainActivity()
+                //loadMainActivity()
             }
         })
 
+        var localSites : ArrayList<String> = arrayListOf()
+        var siteList : ArrayList<String>? = arrayListOf()
+        localSites!!.add(getString(R.string.filter1_default))
         loginViewModel.getSiteSpinnerItems!!.observe(this, Observer {
 
             if (it.status.equals(Status.SUCCESS)) {
@@ -441,19 +426,27 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
                 {
                     for( siteName in it.data.data!!)
                     {
+                        //sites = list.toCollection(ArrayList())
                         siteNames.add(siteName)
-//                        prefs?.edit()?.putString("SiteList", siteNames.toString())?.apply()
-//
-//                        val sites : String? = prefs?.getString("SiteList","")
-//
-//                        Log.wtf("LOGIN_FRAGMENT", "SITE_DATA: - " + sites)
                     }
+//                    siteList!!.add(getString(R.string.filter1_default))
+//                    siteList = it.data.data!!.toCollection(ArrayList())
+
+                    prefs?.edit()?.putString("SiteList", siteNames.toString())?.apply()
+
+                    val sites : String? = prefs?.getString("SiteList","")
+
+                    Log.wtf("LOGIN_FRAGMENT", "SITE_DATA: - " + sites)
+
+                    loadMainActivity(siteNames)
                 }
             }
             else
             {
                 Log.d("LOGIN_FRAGMENT", "Site_spinner_Error_is: " + it.status.toString())
             }
+
+
         })
 
         loginViewModel.getApiSites?.observe(this, Observer {
@@ -468,7 +461,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
             //binding.progressBar.visibility = View.GONE
             if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
 
-                loadMainActivity()
+                //loadMainActivity()
             }
         })
     }
@@ -484,7 +477,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
         val s = SimpleDateFormat(dateFormat, Locale.US)
         return s.format(Date())
     }
-    fun  loadMainActivity()
+    fun  loadMainActivity(list : MutableList<String>)
     {
         binding.progressBar.visibility = View.GONE
         prefs?.edit()?.putBoolean("isTimeOut", false)?.apply()
@@ -492,6 +485,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
         prefs?.edit()?.putString("dateTime", getLocalTimeString())?.apply()
 
         val intent = Intent(activity, MainActivity::class.java)
+        intent.putStringArrayListExtra("SITE_ARRAY", ArrayList(list))
         startActivity(intent)
         activity!!.finish()
     }

@@ -235,9 +235,6 @@ interface NghruService {
     @PUT("api/storage/{storage_id}/station/cancel")
     fun addCancelStorageRequestSync(@Path("storage_id") screeningId: String, @Body cancelRequest: CancelRequest): Call<ResourceData<Message>>
 
-    @GET("/api/devices?status=active")
-    fun getStationDevices(): LiveData<ApiResponse<ResourceData<List<StationDeviceData>>>>
-
 //    @POST("api/assets")
 //    fun upload( @Part image: MultipartBody.Part, @Field(value = "screening_id", encoded = false) screeningId: String, @Field(value = "subject_id", encoded = false) subjectId: String, @Field(value = "subject_type", encoded = false) subjectType: String, @Field(value = "purpose", encoded = false) purpose: RequestBody): LiveData<ApiResponse<String>>
 //
@@ -336,5 +333,11 @@ interface NghruService {
 
     @GET("/api/v2/participants")
     fun filterParticipants(@Query("page") page: Int, @Query("status") status: String, @Query("site") site: String, @Query("keyword") keyWord: String): LiveData<ApiResponse<ResourceData<ParticipantListWithMeta>>>
+
+    @GET("/api/devices?status=active")
+    fun getStationDevices(): LiveData<ApiResponse<ResourceData<List<StationDeviceData>>>>
+
+    @GET("/api/samples?type=storage")
+    fun getStorageIds(): LiveData<ApiResponse<ResourceData<List<StationDeviceData>>>>
 
 }
