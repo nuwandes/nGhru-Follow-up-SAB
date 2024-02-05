@@ -285,4 +285,112 @@ class LoginViewModel
     }
 
     // --------------------------------------------------------------------------------------
+
+    // -------------------------------------------------------------------------------------------------------
+
+    private val _storageId = MutableLiveData<String>()
+
+    fun setStorageIds(storageId: String) {
+        val update = storageId
+        if (_storageId.value == update) {
+            return
+        }
+        _storageId.value = update
+    }
+
+    var getStorageIds: LiveData<Resource<ResourceData<List<StorageIdData>>>>? = Transformations
+        .switchMap(_storageId) { input ->
+            stationDevicesRepository.getStorageIds()
+        }
+
+    //---------------------------------------------------------------------------------------------------------
+
+    private val _storageIdList = MutableLiveData<List<StorageIdData>>()
+
+    fun setStorageIdList(storageList: List<StorageIdData>) {
+        val update = storageList
+        if (_storageIdList.value == update) {
+            return
+        }
+        _storageIdList.value = update
+    }
+
+    var getStorageIdList: LiveData<Resource<List<StorageIdData>>>? = Transformations
+        .switchMap(_storageIdList) { input ->
+            stationDevicesRepository.insertStorageIdList(_storageIdList.value!!)
+        }
+
+    // -------------------------------------------------------------------------------------------------
+
+    // -------------------------------------------------------------------------------------------------------
+
+    private val _sampleId = MutableLiveData<String>()
+
+    fun setSampleIds(sampleId: String) {
+        val update = sampleId
+        if (_sampleId.value == update) {
+            return
+        }
+        _sampleId.value = update
+    }
+
+    var getSampleIds: LiveData<Resource<ResourceData<List<SampleIdData>>>>? = Transformations
+        .switchMap(_sampleId) { input ->
+            stationDevicesRepository.getSampleIds()
+        }
+
+    //---------------------------------------------------------------------------------------------------------
+
+    private val _sampleIdList = MutableLiveData<List<SampleIdData>>()
+
+    fun setSampleIdList(sampleList: List<SampleIdData>) {
+        val update = sampleList
+        if (_sampleIdList.value == update) {
+            return
+        }
+        _sampleIdList.value = update
+    }
+
+    var getSampleIdList: LiveData<Resource<List<SampleIdData>>>? = Transformations
+        .switchMap(_sampleIdList) { input ->
+            stationDevicesRepository.insertSampleIdList(_sampleIdList.value!!)
+        }
+
+    // -------------------------------------------------------------------------------------------------
+
+    // -------------------------------------------------------------------------------------------------------
+
+    private val _freezerId = MutableLiveData<String>()
+
+    fun setFreezerIds(freezerId: String) {
+        val update = freezerId
+        if (_freezerId.value == update) {
+            return
+        }
+        _freezerId.value = update
+    }
+
+    var getFreezerIds: LiveData<Resource<ResourceData<List<FreezerIdData>>>>? = Transformations
+        .switchMap(_freezerId) { input ->
+            stationDevicesRepository.getFreezerIds()
+        }
+
+    //---------------------------------------------------------------------------------------------------------
+
+    private val _freezerIdList = MutableLiveData<List<FreezerIdData>>()
+
+    fun setFreezerIdList(freezerIdList: List<FreezerIdData>) {
+        val update = freezerIdList
+        if (_freezerIdList.value == update) {
+            return
+        }
+        _freezerIdList.value = update
+    }
+
+    var getFreezerIdList: LiveData<Resource<List<FreezerIdData>>>? = Transformations
+        .switchMap(_freezerIdList) { input ->
+            stationDevicesRepository.insertFreezerIdList(_freezerIdList.value!!)
+        }
+
+    // -------------------------------------------------------------------------------------------------
 }

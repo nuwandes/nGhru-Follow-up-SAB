@@ -4,10 +4,11 @@ import androidx.lifecycle.LiveData
 import org.nghru_lk.ghru.AppExecutors
 import org.nghru_lk.ghru.api.ApiResponse
 import org.nghru_lk.ghru.api.NghruService
+import org.nghru_lk.ghru.db.FreezerIdDao
+import org.nghru_lk.ghru.db.SampleIdDao
 import org.nghru_lk.ghru.db.StationDevicesDao
-import org.nghru_lk.ghru.vo.Resource
-import org.nghru_lk.ghru.vo.ResourceData
-import org.nghru_lk.ghru.vo.StationDeviceData
+import org.nghru_lk.ghru.db.StorageIdDao
+import org.nghru_lk.ghru.vo.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,7 +16,10 @@ import javax.inject.Singleton
 class StationDevicesRepository @Inject constructor(
     private val appExecutors: AppExecutors,
     private val nghruService: NghruService,
-    private val stationDevicesDao: StationDevicesDao
+    private val stationDevicesDao: StationDevicesDao,
+    private val storageIdDao: StorageIdDao,
+    private val sampleIdDao: SampleIdDao,
+    private val freezerIdDao: FreezerIdDao
 
 ) {
 
@@ -53,5 +57,92 @@ class StationDevicesRepository @Inject constructor(
             }
         }.asLiveData()
     }
+
+    // ------------------------------------ Storage data ---------------------------------------------------
+
+    fun getStorageIds(): LiveData<Resource<ResourceData<List<StorageIdData>>>> {
+
+        return object : NetworkOnlyBoundResource<ResourceData<List<StorageIdData>>>(appExecutors) {
+            override fun createCall(): LiveData<ApiResponse<ResourceData<List<StorageIdData>>>> {
+                return nghruService.getStorageIds()
+            }
+        }.asLiveData()
+    }
+
+    fun insertStorageIdList(storageIdList: List<StorageIdData>):
+            LiveData<Resource<List<StorageIdData>>> {
+        storageIdDao.deleteAll()
+        return object : LocalBoundInsertAllResource<List<StorageIdData>>(appExecutors) {
+
+            override fun loadFromDb(): LiveData<List<StorageIdData>> {
+                return storageIdDao.getAllStorageIds()
+            }
+
+            override fun insertDb(): Unit {
+
+                return storageIdDao.insertAll(storageIdList)
+            }
+        }.asLiveData()
+    }
+
+     // ---------------------------------------------------------------------------------------------------
+
+    // ----------------------------------- Sample data -----------------------------------------------------
+
+    fun getSampleIds(): LiveData<Resource<ResourceData<List<SampleIdData>>>> {
+
+        return object : NetworkOnlyBoundResource<ResourceData<List<SampleIdData>>>(appExecutors) {
+            override fun createCall(): LiveData<ApiResponse<ResourceData<List<SampleIdData>>>> {
+                return nghruService.getSampleIds()
+            }
+        }.asLiveData()
+    }
+
+    fun insertSampleIdList(sampleIdList: List<SampleIdData>):
+            LiveData<Resource<List<SampleIdData>>> {
+        storageIdDao.deleteAll()
+        return object : LocalBoundInsertAllResource<List<SampleIdData>>(appExecutors) {
+
+            override fun loadFromDb(): LiveData<List<SampleIdData>> {
+                return sampleIdDao.getAllSampleIds()
+            }
+
+            override fun insertDb(): Unit {
+
+                return sampleIdDao.insertAll(sampleIdList)
+            }
+        }.asLiveData()
+    }
+
+    //------------------------------------------------------------------------------------------------------
+
+    // ----------------------------------- Freezer data -----------------------------------------------------
+
+    fun getFreezerIds(): LiveData<Resource<ResourceData<List<FreezerIdData>>>> {
+
+        return object : NetworkOnlyBoundResource<ResourceData<List<FreezerIdData>>>(appExecutors) {
+            override fun createCall(): LiveData<ApiResponse<ResourceData<List<FreezerIdData>>>> {
+                return nghruService.getFreezerIds()
+            }
+        }.asLiveData()
+    }
+
+    fun insertFreezerIdList(freezerIdList: List<FreezerIdData>):
+            LiveData<Resource<List<FreezerIdData>>> {
+        freezerIdDao.deleteAll()
+        return object : LocalBoundInsertAllResource<List<FreezerIdData>>(appExecutors) {
+
+            override fun loadFromDb(): LiveData<List<FreezerIdData>> {
+                return freezerIdDao.getAllFreezerIds()
+            }
+
+            override fun insertDb(): Unit {
+
+                return freezerIdDao.insertAll(freezerIdList)
+            }
+        }.asLiveData()
+    }
+
+    //------------------------------------------------------------------------------------------------------
 
 }

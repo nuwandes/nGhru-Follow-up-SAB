@@ -463,6 +463,24 @@ class AppModule {
         return db.siteDao()
     }
 
+    @Singleton
+    @Provides
+    fun provideStorageIdDao(db: NGRHUDb): StorageIdDao {
+        return db.storageIdDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideSampleIdDao(db: NGRHUDb): SampleIdDao {
+        return db.sampleIdDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideFreezerIdDao(db: NGRHUDb): FreezerIdDao {
+        return db.freezerIdDao()
+    }
+
     @Provides
     internal fun provideBloodPressureMetaRequestLifecycleObserver(bloodPressureMetaRequestDao: BloodPresureRequestDao): BloodPressureMetaRequestLifecycleObserver {
         return BloodPressureMetaRequestLifecycleObserver(bloodPressureMetaRequestDao)

@@ -41,9 +41,12 @@ import org.nghru_lk.ghru.vo.request.Member
         Axivity :: class,
         ParticipantListItem :: class,
         BloodTestRequest :: class,
-        Site :: class
+        Site :: class,
+        StorageIdData :: class,
+        SampleIdData :: class,
+        FreezerIdData :: class
     ],
-    version = 19,
+    version = 21,
     exportSchema = true
 )
 abstract class NGRHUDb : RoomDatabase() {
@@ -107,6 +110,12 @@ abstract class NGRHUDb : RoomDatabase() {
     abstract fun bloodTestDao() : BloodTestDao
 
     abstract fun siteDao() : SiteDao
+
+    abstract fun storageIdDao(): StorageIdDao
+
+    abstract fun sampleIdDao(): SampleIdDao
+
+    abstract fun freezerIdDao(): FreezerIdDao
 
 }
 

@@ -338,6 +338,12 @@ interface NghruService {
     fun getStationDevices(): LiveData<ApiResponse<ResourceData<List<StationDeviceData>>>>
 
     @GET("/api/samples?type=storage")
-    fun getStorageIds(): LiveData<ApiResponse<ResourceData<List<StationDeviceData>>>>
+    fun getStorageIds(): LiveData<ApiResponse<ResourceData<List<StorageIdData>>>>
+
+    @GET("/api/samples?type=sample")
+    fun getSampleIds(): LiveData<ApiResponse<ResourceData<List<SampleIdData>>>>
+
+    @GET("/api/samples?type=freezer")
+    fun getFreezerIds(): LiveData<ApiResponse<ResourceData<List<FreezerIdData>>>>
 
 }

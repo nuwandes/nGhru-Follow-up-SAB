@@ -149,7 +149,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
                 if (accessToken.data != null) {
                     if (accessToken.data.status) {
                         if (!isLoginClick) {
-                            loadMainActivity(null!!)
+                            loadMainActivityNew()
                         }
 
                     } else {
@@ -438,7 +438,9 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
 
                     Log.wtf("LOGIN_FRAGMENT", "SITE_DATA: - " + sites)
 
-                    loadMainActivity(siteNames)
+                    loginViewModel.setStorageIds("GET")
+
+                    //loadMainActivity(siteNames)
                 }
             }
             else
@@ -449,21 +451,89 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
 
         })
 
-        loginViewModel.getApiSites?.observe(this, Observer {
+        loginViewModel.getStorageIds?.observe(this, Observer {
             //binding.progressBar.visibility = View.GONE
-            if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
 
-                loginViewModel.setSiteIdToInsert(it.data!!)
+            if (it?.status == Status.SUCCESS) {
+                loginViewModel.setStorageIdList(it.data?.data!!)
             }
         })
 
-        loginViewModel.insertSites?.observe(this, Observer {
+        loginViewModel.getStorageIdList?.observe(this, Observer {
             //binding.progressBar.visibility = View.GONE
-            if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
+            if (it?.status == Status.SUCCESS ){
 
-                //loadMainActivity()
+                Toast.makeText(activity, "Storage Id API call Success", Toast.LENGTH_LONG).show()
+
+                loginViewModel.setSampleIds("GET")
+            }
+            else
+            {
+                Toast.makeText(activity, "Storage Id API call Failed", Toast.LENGTH_LONG).show()
             }
         })
+
+        loginViewModel.getSampleIds?.observe(this, Observer {
+            //binding.progressBar.visibility = View.GONE
+
+            if (it?.status == Status.SUCCESS) {
+                loginViewModel.setSampleIdList(it.data?.data!!)
+            }
+        })
+
+        loginViewModel.getSampleIdList?.observe(this, Observer {
+            //binding.progressBar.visibility = View.GONE
+            if (it?.status == Status.SUCCESS ){
+
+                Toast.makeText(activity, "SampleId API call Success", Toast.LENGTH_LONG).show()
+
+                loginViewModel.setFreezerIds("GET")
+
+                //loadMainActivity(siteNames)
+            }
+            else
+            {
+                Toast.makeText(activity, "Storage Id API call Failed", Toast.LENGTH_LONG).show()
+            }
+        })
+
+        loginViewModel.getFreezerIds?.observe(this, Observer {
+            //binding.progressBar.visibility = View.GONE
+
+            if (it?.status == Status.SUCCESS) {
+                loginViewModel.setFreezerIdList(it.data?.data!!)
+            }
+        })
+
+        loginViewModel.getFreezerIdList?.observe(this, Observer {
+            //binding.progressBar.visibility = View.GONE
+            if (it?.status == Status.SUCCESS ){
+
+                Toast.makeText(activity, "FreezerId API call Success", Toast.LENGTH_LONG).show()
+
+                loadMainActivity(siteNames)
+            }
+            else
+            {
+                Toast.makeText(activity, "Storage Id API call Failed", Toast.LENGTH_LONG).show()
+            }
+        })
+
+//        loginViewModel.getApiSites?.observe(this, Observer {
+//            //binding.progressBar.visibility = View.GONE
+//            if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
+//
+//                loginViewModel.setSiteIdToInsert(it.data!!)
+//            }
+//        })
+//
+//        loginViewModel.insertSites?.observe(this, Observer {
+//            //binding.progressBar.visibility = View.GONE
+//            if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
+//
+//                //loadMainActivity()
+//            }
+//        })
     }
 
     var isLoginClick: Boolean = false
@@ -486,6 +556,18 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
 
         val intent = Intent(activity, MainActivity::class.java)
         intent.putStringArrayListExtra("SITE_ARRAY", ArrayList(list))
+        startActivity(intent)
+        activity!!.finish()
+    }
+
+    fun  loadMainActivityNew()
+    {
+        binding.progressBar.visibility = View.GONE
+        prefs?.edit()?.putBoolean("isTimeOut", false)?.apply()
+        prefs?.edit()?.putString("loginDateTime", getLocalTimeString())?.apply()
+        prefs?.edit()?.putString("dateTime", getLocalTimeString())?.apply()
+
+        val intent = Intent(activity, MainActivity::class.java)
         startActivity(intent)
         activity!!.finish()
     }
