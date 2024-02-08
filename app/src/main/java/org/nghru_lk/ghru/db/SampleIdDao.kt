@@ -11,7 +11,7 @@ import org.nghru_lk.ghru.vo.SampleIdData
 interface SampleIdDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(sampleIdData: SampleIdData): Long
+    fun insert(sampleIdData: SampleIdData)
 
     @Insert
     fun insertAll(sampleIdList: List<SampleIdData>)
@@ -27,5 +27,8 @@ interface SampleIdDao {
 
     @Query("SELECT * FROM sample_ids WHERE sample_id = :sampleId")
     fun sampleIdList(sampleId: String): LiveData<List<SampleIdData>>
+
+    @Query("SELECT * FROM sample_ids WHERE sample_id = :sampleId")
+    fun getSampleId(sampleId: String): LiveData<SampleIdData>
 
 }

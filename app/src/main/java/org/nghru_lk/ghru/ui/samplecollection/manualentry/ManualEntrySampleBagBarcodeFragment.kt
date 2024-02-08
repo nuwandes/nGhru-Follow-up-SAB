@@ -1,6 +1,8 @@
 package org.nghru_lk.ghru.ui.samplecollection.manualentry
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -46,8 +48,8 @@ class ManualEntrySampleBagBarcodeFragment : Fragment(), Injectable {
         super.onCreate(savedInstanceState)
 
         try {
-            participant = arguments?.getParcelable<ParticipantRequest>("participant")!!
             selectedParticipant = arguments?.getParcelable<ParticipantListItem>("selectedParticipant")!!
+            participant = arguments?.getParcelable<ParticipantRequest>("participant")!!
         } catch (e: KotlinNullPointerException) {
             //Crashlytics.logException(e)
         }
@@ -102,6 +104,22 @@ class ManualEntrySampleBagBarcodeFragment : Fragment(), Injectable {
 
         })
 
+        viewModel.getSampleIdFromDb?.observe(this, Observer { participant ->
+            if (participant?.status == Status.SUCCESS)
+            {
+                if (participant.data != null)
+                {
+                    val codeCheckDialogFragment = CodeCheckDialogFragment()
+                    codeCheckDialogFragment.show(fragmentManager!!)
+                }
+            }
+            else if (participant?.status == Status.ERROR)
+            {
+                val bundle = bundleOf("sample_id" to binding.editTextCode.text.toString(), "selectedParticipant" to selectedParticipant)
+                findNavController().navigate(R.id.action_manualBagScanBarcodeFragment_to_bagScannedFragment, bundle)
+            }
+        })
+
         viewModel.screeningIdCheckAll?.observe(this, Observer { householdId ->
             //L.d(householdId.toString())
             if (householdId.status == Status.SUCCESS) {
@@ -130,11 +148,27 @@ class ManualEntrySampleBagBarcodeFragment : Fragment(), Injectable {
         val checkSum = validateChecksum(binding.editTextCode.text.toString(), Constants.TYPE_SAMPLE)
         if (!checkSum.error) {
             sampleId = binding.editTextCode.text.toString()
-            viewModel.setSampleId(sampleId)
+            if (isNetworkAvailable())
+            {
+                viewModel.setSampleId(sampleId)
+            }
+            else
+            {
+                viewModel.setSampleIdFromDb(sampleId!!)
+            }
+
         } else {
 
             binding.textLayoutCode.error = getString(R.string.laboratory_ID_not_found) //checkSum.message
         }
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = activity?.getSystemService(Context.CONNECTIVITY_SERVICE)
+        return if (connectivityManager is ConnectivityManager) {
+            val networkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
+            networkInfo?.isConnected ?: false
+        } else false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

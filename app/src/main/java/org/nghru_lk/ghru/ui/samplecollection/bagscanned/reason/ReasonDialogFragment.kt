@@ -30,6 +30,7 @@ import org.nghru_lk.ghru.util.autoCleared
 import org.nghru_lk.ghru.util.hideKeyboard
 import org.nghru_lk.ghru.util.shoKeyboard
 import org.nghru_lk.ghru.util.singleClick
+import org.nghru_lk.ghru.vo.ParticipantListItem
 import org.nghru_lk.ghru.vo.Status
 import org.nghru_lk.ghru.vo.request.CancelRequest
 import org.nghru_lk.ghru.vo.request.ParticipantRequest
@@ -52,7 +53,7 @@ class ReasonDialogFragment : DialogFragment(), Injectable {
 
     lateinit var cancelRequest: CancelRequest
 
-    private var participant: ParticipantRequest? = null
+    private var participant: ParticipantListItem? = null
 
     @Inject
     lateinit var jobManager: JobManager
@@ -60,7 +61,7 @@ class ReasonDialogFragment : DialogFragment(), Injectable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
-            participant = arguments?.getParcelable<ParticipantRequest>("participant")!!
+            participant = arguments?.getParcelable<ParticipantListItem>("participant")!!
         } catch (e: KotlinNullPointerException) {
 
         }
@@ -126,8 +127,8 @@ class ReasonDialogFragment : DialogFragment(), Injectable {
                 cancelRequest.comment = binding.comment.text.toString()
 
                 cancelRequest.syncPending = !isNetworkAvailable()
-                cancelRequest.screeningId  = participant?.screeningId!!
-                viewModel.setLogin(participant, cancelRequest)
+                cancelRequest.screeningId  = participant?.participant_id!!
+                viewModel.setLogin(participant?.participant_id, cancelRequest)
             }
 
             //println(cancelRequest.toString())

@@ -145,4 +145,58 @@ class StationDevicesRepository @Inject constructor(
 
     //------------------------------------------------------------------------------------------------------
 
+    fun getFreezerId(
+        freezerId: String
+    ): LiveData<Resource<FreezerIdData>> {
+        return object : LocalBoundResource<FreezerIdData>(appExecutors) {
+            override fun loadFromDb(): LiveData<FreezerIdData> {
+                return freezerIdDao.getFreezerId(freezerId)
+            }
+        }.asLiveData()
+    }
+
+    // ------------------------------------------------------------------------------------------------------
+
+    fun getStorageId(
+        storageId: String
+    ): LiveData<Resource<StorageIdData>> {
+        return object : LocalBoundResource<StorageIdData>(appExecutors) {
+            override fun loadFromDb(): LiveData<StorageIdData> {
+                return storageIdDao.getStorageId(storageId)
+            }
+        }.asLiveData()
+    }
+
+    // ----------------------------------------------------------------------------------------------------
+
+    fun getSampleId(
+        sampleId: String
+    ): LiveData<Resource<SampleIdData>> {
+        return object : LocalBoundResource<SampleIdData>(appExecutors) {
+            override fun loadFromDb(): LiveData<SampleIdData> {
+                return sampleIdDao.getSampleId(sampleId)
+            }
+        }.asLiveData()
+    }
+
+    // ------------------------------------------------------------------------------------
+
+    fun insertSampleIdLocally(
+        sampleId: SampleIdData
+    ): LiveData<Resource<SampleIdData>> {
+        return object : LocalBoundInsertAllResource<SampleIdData>(appExecutors) {
+
+            override fun loadFromDb(): LiveData<SampleIdData> {
+                return sampleIdDao.getSampleId("GET")
+            }
+
+            override fun insertDb(): Unit {
+
+                return sampleIdDao.insert(sampleId)
+            }
+        }.asLiveData()
+    }
+
+    //-------------------------------------------------------------------------------------------
+
 }

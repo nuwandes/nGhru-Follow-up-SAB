@@ -31,6 +31,7 @@ import org.nghru_lk.ghru.ui.samplecollection.bagscanned.completed.CompletedDialo
 import org.nghru_lk.ghru.util.autoCleared
 import org.nghru_lk.ghru.util.hideKeyboard
 import org.nghru_lk.ghru.util.shoKeyboard
+import org.nghru_lk.ghru.vo.ParticipantListItem
 import org.nghru_lk.ghru.vo.Status
 import org.nghru_lk.ghru.vo.request.CancelRequest
 import org.nghru_lk.ghru.vo.request.ParticipantRequest
@@ -50,14 +51,14 @@ class CancelDialogFragment : DialogFragment(), Injectable {
 
     lateinit var cancelRequest: CancelRequest
 
-    private var participant: ParticipantRequest? = null
+    private var participant: ParticipantListItem? = null
     @Inject
     lateinit var jobManager: JobManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
-            participant = arguments?.getParcelable<ParticipantRequest>("participant")!!
+            participant = arguments?.getParcelable<ParticipantListItem>("participant")!!
         } catch (e: KotlinNullPointerException) {
 
         }
@@ -116,9 +117,9 @@ class CancelDialogFragment : DialogFragment(), Injectable {
             //println(cancelRequest.toString())
             if (binding.radioGroup.checkedRadioButtonId != -1) {
 //                if (isNetworkAvailable()) {
-                cancelRequest.screeningId = participant?.screeningId!!
+                cancelRequest.screeningId = participant?.participant_id!!
                 cancelRequest.syncPending = !isNetworkAvailable()
-                viewModel.setLogin(participant, cancelRequest)
+                viewModel.setLoginNew(participant?.participant_id, cancelRequest)
 //                } else {
 //                    jobManager.addJobInBackground(SyncCancelrequestJob(participant!!, cancelRequest))
 //                    dismiss()

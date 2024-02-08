@@ -29,4 +29,7 @@ interface FreezerIdDao {
     @Query("SELECT * FROM freezer_ids WHERE freezer_id = :freezerId")
     fun freezerIdList(freezerId: String): LiveData<List<FreezerIdData>>
 
+    @Query("SELECT * FROM freezer_ids WHERE freezer_id = :freezerId")
+    fun getFreezerId(freezerId: String): LiveData<FreezerIdData>
+
 }

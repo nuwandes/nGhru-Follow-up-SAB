@@ -19,27 +19,52 @@ class ReasonDialogViewModel
     private val _cancelId: MutableLiveData<CancelId> = MutableLiveData()
 
 
-    var cancelId: LiveData<Resource<MessageCancel>>? = Transformations
-            .switchMap(_cancelId) { input ->
-                input.ifExists { participantRequest, cancelRequest ->
-                    cancelRequestRepository.syncCancelRequest(participantRequest, cancelRequest)
-                }
-            }
+//    var cancelId: LiveData<Resource<MessageCancel>>? = Transformations
+//            .switchMap(_cancelId) { input ->
+//                input.ifExists { participantRequest, cancelRequest ->
+//                    cancelRequestRepository.syncCancelRequestUpdated(participantRequest, cancelRequest)
+//                }
+//            }
+//
+//    fun setLogin(participantRequest: ParticipantRequest?, cancelRequest: CancelRequest?) {
+//        val update = CancelId(participantRequest, cancelRequest)
+//        if (_cancelId.value == update) {
+//            return
+//        }
+//        _cancelId.value = update
+//    }
+//
+//    data class CancelId(val participantRequest: ParticipantRequest?, val cancelRequest: CancelRequest?) {
+//        fun <T> ifExists(f: (ParticipantRequest, CancelRequest) -> LiveData<T>): LiveData<T> {
+//            return if (participantRequest == null || cancelRequest == null) {
+//                AbsentLiveData.create()
+//            } else {
+//                f(participantRequest, cancelRequest)
+//            }
+//        }
+//    }
 
-    fun setLogin(participantRequest: ParticipantRequest?, cancelRequest: CancelRequest?) {
-        val update = CancelId(participantRequest, cancelRequest)
+    var cancelId: LiveData<Resource<MessageCancel>>? = Transformations
+        .switchMap(_cancelId) { input ->
+            input.ifExists { screeningId, cancelRequest ->
+                cancelRequestRepository.syncCancelRequestUpdated(screeningId, cancelRequest)
+            }
+        }
+
+    fun setLogin(screeningId: String??, cancelRequest: CancelRequest?) {
+        val update = CancelId(screeningId, cancelRequest)
         if (_cancelId.value == update) {
             return
         }
         _cancelId.value = update
     }
 
-    data class CancelId(val participantRequest: ParticipantRequest?, val cancelRequest: CancelRequest?) {
-        fun <T> ifExists(f: (ParticipantRequest, CancelRequest) -> LiveData<T>): LiveData<T> {
-            return if (participantRequest == null || cancelRequest == null) {
+    data class CancelId(val screeningId : String?, val cancelRequest: CancelRequest?) {
+        fun <T> ifExists(f: (String, CancelRequest) -> LiveData<T>): LiveData<T> {
+            return if (screeningId == null || cancelRequest == null) {
                 AbsentLiveData.create()
             } else {
-                f(participantRequest, cancelRequest)
+                f(screeningId, cancelRequest)
             }
         }
     }

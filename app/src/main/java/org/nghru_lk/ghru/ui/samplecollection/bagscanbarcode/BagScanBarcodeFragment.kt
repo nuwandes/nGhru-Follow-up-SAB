@@ -58,8 +58,9 @@ class BagScanBarcodeFragment : Fragment(), Injectable {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
-            participant = arguments?.getParcelable<ParticipantRequest>("participant")!!
+
             selectedParticipant = arguments?.getParcelable<ParticipantListItem>("selectedParticipant")!!
+            participant = arguments?.getParcelable<ParticipantRequest>("participant")!!
         } catch (e: KotlinNullPointerException) {
             //Crashlytics.logException(e)
         }
@@ -112,7 +113,8 @@ class BagScanBarcodeFragment : Fragment(), Injectable {
                     if (isNetworkAvailable()) {
                         viewModel.setSampleIdAll(sampleId)
                     } else {
-                        viewModel.setSampleId(sampleId)
+                        //viewModel.setSampleId(sampleId)
+                        viewModel.setSampleIdFromDb(sampleId!!)
                     }
                 } else {
                     codeScanner.startPreview()
@@ -127,6 +129,24 @@ class BagScanBarcodeFragment : Fragment(), Injectable {
 
             }
         }
+
+        viewModel.getSampleIdFromDb?.observe(this, Observer { participant ->
+            if (participant?.status == Status.SUCCESS)
+            {
+                if (participant.data != null)
+                {
+                    val codeCheckDialogFragment = CodeCheckDialogFragment()
+                    codeCheckDialogFragment.show(fragmentManager!!)
+                }
+            }
+            else if (participant?.status == Status.ERROR)
+            {
+                val bundle = bundleOf("sample_id" to sampleId, "selectedParticipant" to selectedParticipant)
+                findNavController().navigate(R.id.action_bagScanBarcodeFragment_to_bagScannedFragment, bundle)
+            }
+        })
+
+
         codeScanner.errorCallback = ErrorCallback {
             // or ErrorCallback.SUPPRESS
             activity?.runOnUiThread {

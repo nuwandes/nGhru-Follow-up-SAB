@@ -28,4 +28,7 @@ interface StorageIdDao {
     @Query("SELECT * FROM storage_ids WHERE storage_id = :storageId")
     fun storageIdList(storageId: String): LiveData<List<StorageIdData>>
 
+    @Query("SELECT * FROM storage_ids WHERE storage_id = :storageId")
+    fun getStorageId(storageId: String): LiveData<StorageIdData>
+
 }

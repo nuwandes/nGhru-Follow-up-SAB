@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import org.nghru_lk.ghru.repository.ParticipantListRepository
-import org.nghru_lk.ghru.repository.SampleRepository
-import org.nghru_lk.ghru.repository.SampleRequestRepository
-import org.nghru_lk.ghru.repository.UserRepository
+import org.nghru_lk.ghru.repository.*
 import org.nghru_lk.ghru.util.AbsentLiveData
 import org.nghru_lk.ghru.vo.*
 import org.nghru_lk.ghru.vo.request.ParticipantRequest
@@ -21,7 +18,8 @@ class BagScannedViewModel
     sampleRepository: SampleRepository,
     sampleRequestRepository: SampleRequestRepository,
     userRepository: UserRepository,
-    participantListRepository: ParticipantListRepository
+    participantListRepository: ParticipantListRepository,
+    stationDevicesRepository: StationDevicesRepository
 ) : ViewModel() {
 
     private val _participantRequestRemote: MutableLiveData<SampleId> = MutableLiveData()
@@ -122,4 +120,25 @@ class BagScannedViewModel
                 participantListRepository.updateParticipantSampleStatus(participantRequest)
             }
         }
+
+    //-------------------------------------------------------------------------------
+
+    //---------------------------------------------------------------------------------------------------------
+
+    private val _sampleIdLLocal = MutableLiveData<SampleIdData>()
+
+    fun setSampleIdLocalinsert(sampleList: SampleIdData) {
+        val update = sampleList
+        if (_sampleIdLLocal.value == update) {
+            return
+        }
+        _sampleIdLLocal.value = update
+    }
+
+    var getSampleIdLocalInserty: LiveData<Resource<SampleIdData>>? = Transformations
+        .switchMap(_sampleIdLLocal) { input ->
+            stationDevicesRepository.insertSampleIdLocally(_sampleIdLLocal.value!!)
+        }
+
+    // -------------------------------------------------------------------------------------------------
 }

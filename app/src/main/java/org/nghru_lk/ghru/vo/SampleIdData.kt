@@ -24,6 +24,12 @@ data class SampleIdData(
     ) {
     }
 
+    constructor(sampleId: String?) : this(
+        id = 0,
+        key = null,
+        storage_id = sampleId
+    )
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(id)
         parcel.writeString(key)

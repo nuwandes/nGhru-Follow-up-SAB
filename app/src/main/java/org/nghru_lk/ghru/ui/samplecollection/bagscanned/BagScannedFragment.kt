@@ -67,13 +67,14 @@ class BagScannedFragment : Fragment(), Injectable {
     var selectedTime : String? = null
     var selectedDate : String? = null
     private var selectedParticipant: ParticipantListItem? = null
+    var meta: Meta? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
-            participant = arguments?.getParcelable<ParticipantRequest>("participant")!!
             sampleId = arguments?.getString("sample_id")!!
             selectedParticipant = arguments?.getParcelable<ParticipantListItem>("selectedParticipant")!!
+            participant = arguments?.getParcelable<ParticipantRequest>("participant")!!
 
         } catch (e: KotlinNullPointerException) {
             //Crashlytics.logException(e)
@@ -110,14 +111,19 @@ class BagScannedFragment : Fragment(), Injectable {
         binding.buttonCancel.singleClick {
 
             val reasonDialogFragment = ReasonDialogFragment()
-            reasonDialogFragment.arguments = bundleOf("participant" to participant)
+            reasonDialogFragment.arguments = bundleOf("participant" to selectedParticipant)
             reasonDialogFragment.show(fragmentManager!!)
         }
 
         viewModel.setUser("user")
         viewModel.user?.observe(this, Observer { userData ->
             if (userData?.data != null) {
+                val sTime: String = convertTimeTo24Hours()
+                val sDate: String = getDate()
+                val sDateTime:String = sDate + " " + sTime
+
                 user = userData.data
+                meta = Meta(collectedBy = user?.id, startTime = sDateTime)
             }
         })
 
@@ -127,36 +133,73 @@ class BagScannedFragment : Fragment(), Injectable {
             {
                 if (validateDateTime())
                 {
-                    Timber.d("participant $participant sample_id $sampleId")
-                    val sampleRequest = SampleRequest(
-                        screeningId = participant?.screeningId!!,
-                        sampleId = sampleId!!,
-                        comment = Comment(comment = binding.comment.text.toString())
-                    )
+                    if (isNetworkAvailable())
+                    {
+                        Timber.d("participant $participant sample_id $sampleId")
+                        val sampleRequest = SampleRequest(
+                            screeningId = participant?.screeningId!!,
+                            sampleId = sampleId!!,
+                            comment = Comment(comment = binding.comment.text.toString())
+                        )
 
-                    val endTime: String = convertTimeTo24Hours()
-                    val endDate: String = getDate()
-                    val endDateTime:String = endDate + " " + endTime
+                        val endTime: String = convertTimeTo24Hours()
+                        val endDate: String = getDate()
+                        val endDateTime:String = endDate + " " + endTime
 
-                    participant?.meta?.endTime = endDateTime
-                    sampleRequest.meta = participant?.meta
-                    sampleRequest.syncPending = !isNetworkAvailable()
-                    sampleRequest.collectedBy = user?.name
-                    sampleRequest.createdAt = binding.root.getLocalDateString()
-                    sampleRequest.statusCode = 1
-                    sampleRequest.syncPending = !isNetworkAvailable()
-                    binding.progressBar.visibility = View.VISIBLE
-                    binding.buttonSubmit.visibility = View.GONE
-                    binding.textViewError.visibility = View.GONE
+                        participant?.meta?.endTime = endDateTime
+                        sampleRequest.meta = participant?.meta
+                        sampleRequest.syncPending = !isNetworkAvailable()
+                        sampleRequest.collectedBy = user?.name
+                        sampleRequest.createdAt = binding.root.getLocalDateString()
+                        sampleRequest.statusCode = 1
+                        sampleRequest.syncPending = !isNetworkAvailable()
+                        binding.progressBar.visibility = View.VISIBLE
+                        binding.buttonSubmit.visibility = View.GONE
+                        binding.textViewError.visibility = View.GONE
 
-                    //insert data locally
-                    viewModel.setSampleLocal(sampleRequest)
+                        //insert data locally
+                        viewModel.setSampleLocal(sampleRequest)
 
-                    // update participant item status
+                        // update participant item status
 
-                    viewModel.setLocalUpdateParticipantSampleStatus(selectedParticipant!!)
+                        viewModel.setLocalUpdateParticipantSampleStatus(selectedParticipant!!)
 
-                    binding.checkLayout.background = resources.getDrawable(R.drawable.ic_base_check, null)
+                        binding.checkLayout.background = resources.getDrawable(R.drawable.ic_base_check, null)
+                    }
+                    else
+                    {
+                        Timber.d("participant $selectedParticipant sample_id $sampleId")
+                        val sampleRequest = SampleRequest(
+                            screeningId = selectedParticipant?.participant_id!!,
+                            sampleId = sampleId!!,
+                            comment = Comment(comment = binding.comment.text.toString())
+                        )
+
+                        val endTime: String = convertTimeTo24Hours()
+                        val endDate: String = getDate()
+                        val endDateTime:String = endDate + " " + endTime
+
+                        meta?.endTime= endDateTime
+                        sampleRequest.meta = meta
+                        sampleRequest.syncPending = !isNetworkAvailable()
+                        sampleRequest.collectedBy = user?.name
+                        sampleRequest.createdAt = binding.root.getLocalDateString()
+                        sampleRequest.statusCode = 1
+                        sampleRequest.syncPending = !isNetworkAvailable()
+                        binding.progressBar.visibility = View.VISIBLE
+                        binding.buttonSubmit.visibility = View.GONE
+                        binding.textViewError.visibility = View.GONE
+
+                        //insert data locally
+                        viewModel.setSampleLocal(sampleRequest)
+
+                        // update participant item status
+
+                        viewModel.setLocalUpdateParticipantSampleStatus(selectedParticipant!!)
+
+                        binding.checkLayout.background = resources.getDrawable(R.drawable.ic_base_check, null)
+                    }
+
                 }
 
             } else {
@@ -186,8 +229,16 @@ class BagScannedFragment : Fragment(), Injectable {
                 val eDateTime:String = eDate + " " + eTime
 
                 //println(user)
-                sampleResource.data?.meta = participant?.meta
-                sampleResource.data?.meta?.endTime = eDateTime
+                if (isNetworkAvailable())
+                {
+                    sampleResource.data?.meta = participant?.meta
+                    sampleResource.data?.meta?.endTime = eDateTime
+                }
+                else
+                {
+                    sampleResource.data?.meta = meta
+                    sampleResource.data?.meta?.endTime = eDateTime
+                }
 
                 var mSampleCreateRequest = SampleCreateRequest(
                     meta =  sampleResource.data?.meta,
@@ -196,6 +247,14 @@ class BagScannedFragment : Fragment(), Injectable {
                 mSampleCreateRequest.question = getQuestions()
 
                 if (!isNetworkAvailable()) {
+                    // locally add sample id to sample_ids table
+
+                    val sampleIdData = SampleIdData(
+                        id = 0, key = "Offline", storage_id = sampleId
+                    )
+
+                    viewModel.setSampleIdLocalinsert(sampleIdData)
+
                     jobManager.addJobInBackground(SyncSampledRequestJob(sampleRequest = sampleResource.data!!,sampleCreateRequest = mSampleCreateRequest))
                     val completedDialogFragment = CompletedDialogFragment()
                     completedDialogFragment.arguments = bundleOf("is_cancel" to false)
@@ -209,6 +268,19 @@ class BagScannedFragment : Fragment(), Injectable {
             }
         })
 
+        viewModel.getSampleIdLocalInserty?.observe(this, Observer { sampleResource ->
+
+
+            if (sampleResource?.status == Status.SUCCESS)
+            {
+                Toast.makeText(activity, "SampleId Locally saved success", Toast.LENGTH_LONG).show()
+            }
+            else
+            {
+                Toast.makeText(activity, "SampleId Locally saved failed", Toast.LENGTH_LONG).show()
+            }
+        })
+
         viewModel.sample?.observe(this, Observer { sampleResource ->
 
 
@@ -219,7 +291,7 @@ class BagScannedFragment : Fragment(), Injectable {
                 completedDialogFragment.show(fragmentManager!!)
             } else if (sampleResource?.status == Status.ERROR) {
                 Crashlytics.setString("sampleId", sampleId.toString())
-                Crashlytics.setString("participant", participant.toString())
+                Crashlytics.setString("participant", selectedParticipant.toString())
                 Crashlytics.logException(Exception("sample collection " + sampleResource.message.toString()))
                 binding.buttonSubmit.visibility = View.GONE
                 binding.textViewError.visibility = View.VISIBLE
@@ -249,7 +321,7 @@ class BagScannedFragment : Fragment(), Injectable {
             allSampleCollected = isChecked
         }
 
-        binding.participant = participant
+        //binding.participant = participant
 
         binding.lastMealDate.singleClick {
 
@@ -272,7 +344,7 @@ class BagScannedFragment : Fragment(), Injectable {
 
         binding.buttonCancel.singleClick {
             val cancelDialogFragment = CancelDialogFragment()
-            cancelDialogFragment.arguments = bundleOf("participant" to participant)
+            cancelDialogFragment.arguments = bundleOf("participant" to selectedParticipant)
             cancelDialogFragment.show(fragmentManager!!)
         }
 
