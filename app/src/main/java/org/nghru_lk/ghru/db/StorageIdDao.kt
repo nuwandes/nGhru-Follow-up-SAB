@@ -11,7 +11,7 @@ import org.nghru_lk.ghru.vo.StorageIdData
 interface StorageIdDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(storageIdData: StorageIdData): Long
+    fun insert(storageIdData: StorageIdData)
 
     @Insert
     fun insertAll(storageIdList: List<StorageIdData>)

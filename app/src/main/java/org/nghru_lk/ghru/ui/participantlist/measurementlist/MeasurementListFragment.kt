@@ -521,6 +521,10 @@ class MeasurementListFragment : Fragment(), Injectable {
         {
             bpStatus = "Not Started"
         }
+        else if (participantListItem.bp_status == -1)
+        {
+            bpStatus = "Cancelled"
+        }
 
         // -------------------------------------------------------
 
@@ -535,6 +539,10 @@ class MeasurementListFragment : Fragment(), Injectable {
         else if (participantListItem.bm_status == 0)
         {
             bmStatus = "Not Started"
+        }
+        else if (participantListItem.bm_status == -1)
+        {
+            bmStatus = "Cancelled"
         }
 
         // -----------------------------------------------------------------
@@ -551,6 +559,12 @@ class MeasurementListFragment : Fragment(), Injectable {
         {
             ecgStatus = "Not Started"
         }
+        else if (participantListItem.ecg_status == -1)
+        {
+            ecgStatus = "Cancelled"
+        }
+
+        //--------------------------------------------------
 
         if (participantListItem.bt_status == 100)
         {
@@ -564,6 +578,12 @@ class MeasurementListFragment : Fragment(), Injectable {
         {
             btStatus = "Not Started"
         }
+        else if (participantListItem.bt_status == -1)
+        {
+            btStatus = "Cancelled"
+        }
+
+        //--------------------------------------------------------
 
         if (participantListItem.que_status == 100)
         {
@@ -577,6 +597,12 @@ class MeasurementListFragment : Fragment(), Injectable {
         {
             queStatus = "Not Started"
         }
+        else if (participantListItem.que_status == -1)
+        {
+            queStatus = "Cancelled"
+        }
+
+        // -------------------------------------------------------------
 
         if (participantListItem.sam_status == 100)
         {
@@ -590,6 +616,12 @@ class MeasurementListFragment : Fragment(), Injectable {
         {
             samStatus = "Not Started"
         }
+        else if (participantListItem.sam_status == -1)
+        {
+            samStatus = "Cancelled"
+        }
+
+        // ------------------------------------------------------------------
 
         if (participantListItem.int_status == 100)
         {
@@ -603,6 +635,12 @@ class MeasurementListFragment : Fragment(), Injectable {
         {
             intStatus = "Not Started"
         }
+        else if (participantListItem.int_status == -1)
+        {
+            intStatus = "Cancelled"
+        }
+
+        // --------------------------------------------------------------------
 
         if (participantListItem.fun_status == 100)
         {
@@ -616,6 +654,12 @@ class MeasurementListFragment : Fragment(), Injectable {
         {
             funStatus = "Not Started"
         }
+        else if (participantListItem.fun_status == -1)
+        {
+            funStatus = "Cancelled"
+        }
+
+        // -------------------------------------------------------------------------
 
         if (participantListItem.act_status == 100)
         {
@@ -629,6 +673,12 @@ class MeasurementListFragment : Fragment(), Injectable {
         {
             actStatus = "Not Started"
         }
+        else if (participantListItem.act_status == -1)
+        {
+            actStatus = "Cancelled"
+        }
+
+        // ------------------------------------------------------------------
 
         val ps1 = ParticipantStation(
             participantListItem.participant_id,

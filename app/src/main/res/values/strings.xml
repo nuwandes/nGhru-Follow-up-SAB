@@ -901,5 +901,6 @@
     <string name="app_yes_button">Yes</string>
     <string name="app_no_button">No</string>
     <string name="follow_up_9">Not scheduled</string>
+    <string name="already_used">Already Used</string>
 
 </resources>

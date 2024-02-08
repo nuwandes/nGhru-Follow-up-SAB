@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingComponent
@@ -342,6 +343,18 @@ class SampleMangementHomeFragment : Fragment(), Injectable {
             }
         })
 
+        viewModel.getStorageIdLocalInsert?.observe(this, Observer { sampleMangementPocess ->
+
+            if (sampleMangementPocess?.status == Status.SUCCESS)
+            {
+                Toast.makeText(activity, "StorageId Locally saved success", Toast.LENGTH_LONG).show()
+            }
+            else
+            {
+                Toast.makeText(activity, "StorageId Locally saved failed", android.widget.Toast.LENGTH_LONG).show()
+            }
+        })
+
         viewModel.sampleMangementPocessLocal?.observe(this, Observer { sampleMangementPocess ->
 
             if (sampleMangementPocess?.status == Status.SUCCESS) {
@@ -383,6 +396,16 @@ class SampleMangementHomeFragment : Fragment(), Injectable {
             val endTime: String = convertTimeTo24Hours()
             val endDate: String = getDate()
             val endDateTime:String = endDate + " " + endTime
+
+            val storageId = sampleRequest?.storageId
+
+            // insert storage id locally
+
+            val storageIdData = StorageIdData(
+                id = 0, key = "Offline", storage_id = storageId!!
+            )
+
+            viewModel.setStorageIdLocalinsert(storageIdData)
 
             if(binding.checkboxNoBloodCollected.isChecked)
             {

@@ -199,4 +199,38 @@ class StationDevicesRepository @Inject constructor(
 
     //-------------------------------------------------------------------------------------------
 
+    fun insertFreezerIdLocally(
+        freezerIdData: FreezerIdData
+    ): LiveData<Resource<FreezerIdData>> {
+        return object : LocalBoundInsertAllResource<FreezerIdData>(appExecutors) {
+
+            override fun loadFromDb(): LiveData<FreezerIdData> {
+                return freezerIdDao.getFreezerId("GET")
+            }
+
+            override fun insertDb(): Unit {
+
+                return freezerIdDao.insert(freezerIdData)
+            }
+        }.asLiveData()
+    }
+
+    // --------------------------------------------------------------------------------------
+
+    fun insertStorageIdLocally(
+        storageIdData: StorageIdData
+    ): LiveData<Resource<StorageIdData>> {
+        return object : LocalBoundInsertAllResource<StorageIdData>(appExecutors) {
+
+            override fun loadFromDb(): LiveData<StorageIdData> {
+                return storageIdDao.getStorageId("GET")
+            }
+
+            override fun insertDb(): Unit {
+
+                return storageIdDao.insert(storageIdData)
+            }
+        }.asLiveData()
+    }
+
 }

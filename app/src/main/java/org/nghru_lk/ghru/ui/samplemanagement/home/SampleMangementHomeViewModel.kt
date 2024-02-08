@@ -6,6 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import org.nghru_lk.ghru.repository.SampleRepository
 import org.nghru_lk.ghru.repository.SampleRequestRepository
+import org.nghru_lk.ghru.repository.StationDevicesRepository
 import org.nghru_lk.ghru.util.AbsentLiveData
 import org.nghru_lk.ghru.vo.*
 import org.nghru_lk.ghru.vo.request.SampleRequest
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 
 class SampleMangementHomeViewModel
-@Inject constructor(sampleRepository: SampleRepository, sampleRequestRepository: SampleRequestRepository) :
+@Inject constructor(sampleRepository: SampleRepository, sampleRequestRepository: SampleRequestRepository, stationDevicesRepository: StationDevicesRepository) :
     ViewModel() {
 
 
@@ -121,5 +122,24 @@ class SampleMangementHomeViewModel
             }
         }
     }
+
+    //---------------------------------------------------------------------------------------------------------
+
+    private val _storageIdLLocalInsert = MutableLiveData<StorageIdData>()
+
+    fun setStorageIdLocalinsert(sampleList: StorageIdData) {
+        val update = sampleList
+        if (_storageIdLLocalInsert.value == update) {
+            return
+        }
+        _storageIdLLocalInsert.value = update
+    }
+
+    var getStorageIdLocalInsert: LiveData<Resource<StorageIdData>>? = Transformations
+        .switchMap(_storageIdLLocalInsert) { input ->
+            stationDevicesRepository.insertStorageIdLocally(_storageIdLLocalInsert.value!!)
+        }
+
+    // -------------------------------------------------------------------------------------------------
 
 }

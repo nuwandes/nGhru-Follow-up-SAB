@@ -5,14 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import org.nghru_lk.ghru.repository.SampleRequestRepository
+import org.nghru_lk.ghru.repository.StationDevicesRepository
 import org.nghru_lk.ghru.util.AbsentLiveData
+import org.nghru_lk.ghru.vo.FreezerIdData
 import org.nghru_lk.ghru.vo.Message
 import org.nghru_lk.ghru.vo.Resource
 import org.nghru_lk.ghru.vo.StorageDto
 import org.nghru_lk.ghru.vo.request.SampleRequest
 import javax.inject.Inject
 
-class TransferViewModel @Inject constructor(sampleRequestRepository: SampleRequestRepository) : ViewModel() {
+class TransferViewModel @Inject constructor(sampleRequestRepository: SampleRequestRepository, stationDevicesRepository: StationDevicesRepository) : ViewModel() {
 
     private val _sampleStorageId: MutableLiveData<SampleStorageId> = MutableLiveData()
     private val _sampleStorageIdDelete: MutableLiveData<SampleRequest> = MutableLiveData()
@@ -67,4 +69,42 @@ class TransferViewModel @Inject constructor(sampleRequestRepository: SampleReque
         isChecked = explained
 
     }
+
+    // ----------------------------------------------------------------------------------------
+
+    private val _freezerIdLocal = MutableLiveData<String>()
+
+    fun setFreezerIdFromDb(status: String) {
+        val update = status
+        if (_freezerIdLocal.value == update) {
+            return
+        }
+        _freezerIdLocal.value = update
+    }
+
+    var getFreezerIdFromDb: LiveData<Resource<FreezerIdData>>? = Transformations
+        .switchMap(_freezerIdLocal) { input ->
+            stationDevicesRepository.getFreezerId(input)
+        }
+
+    // -------------------------------------------------------------------------------------------------------
+
+    //---------------------------------------------------------------------------------------------------------
+
+    private val _freezerIdLLocalInsert = MutableLiveData<FreezerIdData>()
+
+    fun setFreezerIdLocalinsert(sampleList: FreezerIdData) {
+        val update = sampleList
+        if (_freezerIdLLocalInsert.value == update) {
+            return
+        }
+        _freezerIdLLocalInsert.value = update
+    }
+
+    var getFreezerIdLocalInsert: LiveData<Resource<FreezerIdData>>? = Transformations
+        .switchMap(_freezerIdLLocalInsert) { input ->
+            stationDevicesRepository.insertFreezerIdLocally(_freezerIdLLocalInsert.value!!)
+        }
+
+    // -------------------------------------------------------------------------------------------------
 }

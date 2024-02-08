@@ -12,7 +12,7 @@ import org.nghru_lk.ghru.vo.SampleIdData
 interface FreezerIdDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(freezerIdData: FreezerIdData): Long
+    fun insert(freezerIdData: FreezerIdData)
 
     @Insert
     fun insertAll(sampleIdList: List<FreezerIdData>)

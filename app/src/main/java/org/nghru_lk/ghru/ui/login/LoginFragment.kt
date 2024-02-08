@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
+import android.os.Handler
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.LayoutInflater
@@ -145,7 +146,6 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
 
 
             if (accessToken?.status == Status.SUCCESS) {
-                //binding.progressBar.visibility = View.GONE
                 if (accessToken.data != null) {
                     if (accessToken.data.status) {
                         if (!isLoginClick) {
@@ -161,10 +161,10 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
                 }
             }
             else if (accessToken?.status == Status.ERROR){
-                binding.linearLayout.visibility = View.VISIBLE
-                binding.linearLayout2.visibility = View.VISIBLE
-                binding.buttonLogin.visibility = View.VISIBLE
-                binding.progressBar.visibility = View.GONE
+//                binding.linearLayout.visibility = View.VISIBLE
+//                binding.linearLayout2.visibility = View.VISIBLE
+//                binding.buttonLogin.visibility = View.VISIBLE
+//                binding.progressBar.visibility = View.GONE
             }
         })
         if (tokenManager.getEmail() != null) {
@@ -189,7 +189,6 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
 
         loginViewModel.accessToken?.observe(this, Observer { accessToken ->
 
-            //binding.progressBar.visibility = View.GONE
             binding.userResource = accessToken
             if (accessToken?.status == Status.SUCCESS ) {
                 //println(user)
@@ -231,7 +230,6 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
         })
 
         loginViewModel.stationDevices?.observe(this, Observer {
-            //binding.progressBar.visibility = View.GONE
 
             if (it?.status == Status.SUCCESS) {
                 loginViewModel.setStationDeviceList(it.data?.data!!)
@@ -245,7 +243,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
         })
 
         loginViewModel.stationDeviceList?.observe(this, Observer {
-            //binding.progressBar.visibility = View.GONE
+
             if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
 
                 loginViewModel.setOfflineAllParticipants(page=1, status = "all", site = "all", keyWord = "")
@@ -354,19 +352,13 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
             {
                 if (it.status.equals(Status.SUCCESS))
                 {
-                    //participantListObject = it.data!!.data!!.listRequest!!
 
                     loginViewModel.setParticipantListItemList(it.data!!.data!!.listRequest!!)
 
                     // save the data in local db
 
-
                     Toast.makeText(activity, "All participant API call Success", Toast.LENGTH_LONG).show()
                 }
-//                else
-//                {
-//                    Toast.makeText(activity, "All participant API call failed", Toast.LENGTH_LONG).show()
-//                }
             }
             else
             {
@@ -376,7 +368,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
         })
 
         loginViewModel.getParticipantListItemList.observe(this, Observer {
-            //binding.progressBar.visibility = View.GONE
+
             if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
 
                 loginViewModel.setSiteSpinnerId("Get")
@@ -384,34 +376,6 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
 
                 siteNames.clear()
                 siteNames.add(getString(R.string.filter1_default))
-//                siteNames.add("UCOL14")
-//                siteNames.add("UCOL4")
-//                siteNames.add("UCOL5")
-//                siteNames.add("UKEL13")
-//                siteNames.add("UCOL2")
-//                siteNames.add("UKEL4")
-//                siteNames.add("UKEL10")
-//                siteNames.add("UCOL15")
-//                siteNames.add("col-sl-0010")
-//                siteNames.add("UKEL6")
-//                siteNames.add("UCOL3")
-//                siteNames.add("Test3")
-//                siteNames.add("UCOL6")
-//                siteNames.add("UKEL14")
-//                siteNames.add("UKEL15")
-//                siteNames.add("UCOL9")
-//                siteNames.add("UCOL7")
-//                siteNames.add("Test1")
-//                siteNames.add("UKEL7")
-
-//                prefs?.edit()?.putString("SiteList", siteNames.toString())?.apply()
-//
-//                val sites : String? = prefs?.getString("SiteList","")
-//
-//                Log.wtf("LOGIN_FRAGMENT", "SITE_DATA: - " + sites)
-
-
-                //loadMainActivity()
             }
         })
 
@@ -426,55 +390,25 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
                 {
                     for( siteName in it.data.data!!)
                     {
-                        //sites = list.toCollection(ArrayList())
                         siteNames.add(siteName)
                     }
-//                    siteList!!.add(getString(R.string.filter1_default))
-//                    siteList = it.data.data!!.toCollection(ArrayList())
 
                     prefs?.edit()?.putString("SiteList", siteNames.toString())?.apply()
 
                     val sites : String? = prefs?.getString("SiteList","")
 
                     Log.wtf("LOGIN_FRAGMENT", "SITE_DATA: - " + sites)
-
-                    loginViewModel.setStorageIds("GET")
-
-                    //loadMainActivity(siteNames)
                 }
-            }
-            else
-            {
-                Log.d("LOGIN_FRAGMENT", "Site_spinner_Error_is: " + it.status.toString())
-            }
-
-
-        })
-
-        loginViewModel.getStorageIds?.observe(this, Observer {
-            //binding.progressBar.visibility = View.GONE
-
-            if (it?.status == Status.SUCCESS) {
-                loginViewModel.setStorageIdList(it.data?.data!!)
-            }
-        })
-
-        loginViewModel.getStorageIdList?.observe(this, Observer {
-            //binding.progressBar.visibility = View.GONE
-            if (it?.status == Status.SUCCESS ){
-
-                Toast.makeText(activity, "Storage Id API call Success", Toast.LENGTH_LONG).show()
 
                 loginViewModel.setSampleIds("GET")
             }
             else
             {
-                Toast.makeText(activity, "Storage Id API call Failed", Toast.LENGTH_LONG).show()
+                Log.d("LOGIN_FRAGMENT", "Site_spinner_Error_is: " + it.status.toString())
             }
         })
 
         loginViewModel.getSampleIds?.observe(this, Observer {
-            //binding.progressBar.visibility = View.GONE
 
             if (it?.status == Status.SUCCESS) {
                 loginViewModel.setSampleIdList(it.data?.data!!)
@@ -482,7 +416,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
         })
 
         loginViewModel.getSampleIdList?.observe(this, Observer {
-            //binding.progressBar.visibility = View.GONE
+
             if (it?.status == Status.SUCCESS ){
 
                 Toast.makeText(activity, "SampleId API call Success", Toast.LENGTH_LONG).show()
@@ -498,7 +432,6 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
         })
 
         loginViewModel.getFreezerIds?.observe(this, Observer {
-            //binding.progressBar.visibility = View.GONE
 
             if (it?.status == Status.SUCCESS) {
                 loginViewModel.setFreezerIdList(it.data?.data!!)
@@ -506,10 +439,31 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
         })
 
         loginViewModel.getFreezerIdList?.observe(this, Observer {
-            //binding.progressBar.visibility = View.GONE
+
             if (it?.status == Status.SUCCESS ){
 
                 Toast.makeText(activity, "FreezerId API call Success", Toast.LENGTH_LONG).show()
+
+                loginViewModel.setStorageIds("GET")
+            }
+            else
+            {
+                Toast.makeText(activity, "Storage Id API call Failed", Toast.LENGTH_LONG).show()
+            }
+        })
+
+        loginViewModel.getStorageIds?.observe(this, Observer {
+
+            if (it?.status == Status.SUCCESS) {
+                loginViewModel.setStorageIdList(it.data?.data!!)
+            }
+        })
+
+
+        loginViewModel.getStorageIdList?.observe(this, Observer {
+            if (it?.status == Status.SUCCESS ){
+
+                Toast.makeText(activity, "Storage Id API call Success", Toast.LENGTH_LONG).show()
 
                 loadMainActivity(siteNames)
             }
@@ -518,22 +472,6 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
                 Toast.makeText(activity, "Storage Id API call Failed", Toast.LENGTH_LONG).show()
             }
         })
-
-//        loginViewModel.getApiSites?.observe(this, Observer {
-//            //binding.progressBar.visibility = View.GONE
-//            if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
-//
-//                loginViewModel.setSiteIdToInsert(it.data!!)
-//            }
-//        })
-//
-//        loginViewModel.insertSites?.observe(this, Observer {
-//            //binding.progressBar.visibility = View.GONE
-//            if (it?.status == Status.SUCCESS || it?.status == Status.ERROR){
-//
-//                //loadMainActivity()
-//            }
-//        })
     }
 
     var isLoginClick: Boolean = false

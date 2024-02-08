@@ -6,16 +6,21 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import org.nghru_lk.ghru.repository.ParticipantRepository
 import org.nghru_lk.ghru.repository.SampleRequestRepository
+import org.nghru_lk.ghru.repository.StationDevicesRepository
 import org.nghru_lk.ghru.util.AbsentLiveData
 import org.nghru_lk.ghru.vo.Participant
 import org.nghru_lk.ghru.vo.Resource
 import org.nghru_lk.ghru.vo.ResourceData
+import org.nghru_lk.ghru.vo.StorageIdData
 import org.nghru_lk.ghru.vo.request.SampleRequest
 import javax.inject.Inject
 
 
 class ScanBarcodeViewModel
-@Inject constructor(participantRepository: ParticipantRepository, sampleRequestRepository: SampleRequestRepository) : ViewModel() {
+@Inject constructor(participantRepository: ParticipantRepository,
+                    sampleRequestRepository: SampleRequestRepository,
+                    stationDevicesRepository: StationDevicesRepository
+                    ) : ViewModel() {
 
     private val _screeningId: MutableLiveData<String> = MutableLiveData()
     val screeningId: LiveData<String>
@@ -53,4 +58,23 @@ class ScanBarcodeViewModel
     fun setStorageId(storageId: String?) {
         _storageId.value = storageId
     }
+
+    // -----------------------------------------------------------------------------------------------------
+
+    private val _storageIdLocal = MutableLiveData<String>()
+
+    fun setStorageIdFromDb(status: String) {
+        val update = status
+        if (_storageIdLocal.value == update) {
+            return
+        }
+        _storageIdLocal.value = update
+    }
+
+    var getStorageIdFromDb: LiveData<Resource<StorageIdData>>? = Transformations
+        .switchMap(_storageIdLocal) { input ->
+            stationDevicesRepository.getStorageId(input)
+        }
+
+    // -------------------------------------------------------------------------------------------------------
 }

@@ -1,5 +1,8 @@
 package org.nghru_lk.ghru.ui.samplemanagement.storage.scanqrcode
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -88,7 +91,15 @@ class ScanBarcodeFragment : Fragment(), Injectable {
                 if (!checkSum.error) {
                     // mFullScannerFragment.stop()
                     storageId = it.text
-                    viewModel.setStorageId(storageId)
+                    if (isNetworkAvailable())
+                    {
+                        viewModel.setStorageId(storageId)
+                    }
+                    else
+                    {
+                        viewModel.setStorageIdFromDb(storageId!!)
+                    }
+
                 } else {
                     // mFullScannerFragment.start()
                     codeScanner.startPreview()
@@ -111,6 +122,19 @@ class ScanBarcodeFragment : Fragment(), Injectable {
             }
 
         })
+
+        viewModel.getStorageIdFromDb?.observe(this, Observer { householdId ->
+            //L.d(householdId.toString())
+            if (householdId?.status == Status.SUCCESS) {
+                codeScanner.startPreview()
+                val codeCheckDialogFragment = CodeCheckDialogFragment()
+                codeCheckDialogFragment.show(fragmentManager!!)
+            } else if (householdId?.status == Status.ERROR) {
+                QRcodeRxBus.getInstance().post(storageId!!)
+            }
+
+        })
+
         codeScanner.errorCallback = ErrorCallback {
             // or ErrorCallback.SUPPRESS
             activity?.runOnUiThread {
@@ -138,6 +162,14 @@ class ScanBarcodeFragment : Fragment(), Injectable {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = activity?.getSystemService(Context.CONNECTIVITY_SERVICE)
+        return if (connectivityManager is ConnectivityManager) {
+            val networkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
+            networkInfo?.isConnected ?: false
+        } else false
     }
 
     override fun onResume() {

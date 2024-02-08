@@ -1,6 +1,8 @@
 package org.nghru_lk.ghru.ui.samplemanagement.storage.manualentry
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -110,6 +112,18 @@ class ManualEntryFragment : Fragment(), Injectable {
 
         })
 
+        viewModel.getStorageIdFromDb?.observe(this, Observer { householdId ->
+            //L.d(householdId.toString())
+            if (householdId?.status == Status.SUCCESS) {
+                val codeCheckDialogFragment = CodeCheckDialogFragment()
+                codeCheckDialogFragment.show(fragmentManager!!)
+            } else if (householdId?.status == Status.ERROR) {
+                QRcodeRxBus.getInstance().post(binding.codeEditText.text.toString())
+                navController().popBackStack()
+            }
+
+        })
+
         binding.codeEditText.filters = binding.codeEditText.filters + InputFilter.AllCaps()
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY)
@@ -126,12 +140,28 @@ class ManualEntryFragment : Fragment(), Injectable {
             activity?.runOnUiThread({
 
                 storageId = binding.codeEditText.text.toString()
-                viewModel.setStorageId(storageId)
+                if (isNetworkAvailable())
+                {
+                    viewModel.setStorageId(storageId)
+                }
+                else
+                {
+                    viewModel.setStorageIdFromDb(storageId!!)
+                }
+
             })
         } else {
 
             binding.textLayoutCode.error = getString(R.string.invalid_code) //checkSum.message
         }
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = activity?.getSystemService(Context.CONNECTIVITY_SERVICE)
+        return if (connectivityManager is ConnectivityManager) {
+            val networkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
+            networkInfo?.isConnected ?: false
+        } else false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
