@@ -59,7 +59,7 @@ class QuestionnaireListFragment : Fragment(), Injectable, SwipeRefreshLayout.OnR
 
     var prefs : SharedPreferences? = null
     private var selectedParticipant: ParticipantListItem? = null
-    private var participant: ParticipantRequest? = null
+    //private var participant: ParticipantRequest? = null
     var meta: Meta? = null
 
     override fun onCreateView(
@@ -114,38 +114,38 @@ class QuestionnaireListFragment : Fragment(), Injectable, SwipeRefreshLayout.OnR
             viewModel.setScreeningIdOffline(selectedParticipant!!.participant_id)
         }
 
-        viewModel.participant.observe(this, Observer { participantResource ->
-
-            if (participantResource?.status == Status.SUCCESS)
-            {
-                participant = participantResource.data?.data
-                participant?.meta = meta
-                Log.d("QUE_FRAGMENT", "PAR_REQ: SUCCESS" + participant!!.screeningId)
-
-            } else if (participantResource?.status == Status.ERROR)
-            {
-                Log.d("QUE_FRAGMENT", "PAR_REQ: FAILED" + participantResource.status.toString())
-            }
-            binding.executePendingBindings()
-        })
-
-        viewModel.participantOffline?.observe(this, Observer { participantResource ->
-
-            if (participantResource?.status == Status.SUCCESS) {
-                participant = participantResource.data
-                participant?.meta = meta
-                Log.d("QUE_FRAGMENT", "PAR_REQ_OFFLINE: SUCCESS" + participant!!.screeningId)
-
-            } else if (participantResource?.status == Status.ERROR)
-            {
-                Log.d("QUE_FRAGMENT", "PAR_REQ_OFFLINE: FAILED" + participantResource.status.toString())
-            }
-            binding.executePendingBindings()
-        })
+//        viewModel.participant.observe(this, Observer { participantResource ->
+//
+//            if (participantResource?.status == Status.SUCCESS)
+//            {
+//                participant = participantResource.data?.data
+//                participant?.meta = meta
+//                Log.d("QUE_FRAGMENT", "PAR_REQ: SUCCESS" + participant!!.screeningId)
+//
+//            } else if (participantResource?.status == Status.ERROR)
+//            {
+//                Log.d("QUE_FRAGMENT", "PAR_REQ: FAILED" + participantResource.status.toString())
+//            }
+//            binding.executePendingBindings()
+//        })
+//
+//        viewModel.participantOffline?.observe(this, Observer { participantResource ->
+//
+//            if (participantResource?.status == Status.SUCCESS) {
+//                participant = participantResource.data
+//                participant?.meta = meta
+//                Log.d("QUE_FRAGMENT", "PAR_REQ_OFFLINE: SUCCESS" + participant!!.screeningId)
+//
+//            } else if (participantResource?.status == Status.ERROR)
+//            {
+//                Log.d("QUE_FRAGMENT", "PAR_REQ_OFFLINE: FAILED" + participantResource.status.toString())
+//            }
+//            binding.executePendingBindings()
+//        })
 
         val adapter = QuestionnaireListAdapter(dataBindingComponent, appExecutors) { questionnaire ->
             Timber.e(questionnaire.toString())
-            findNavController().navigate(R.id.action_QuestionnaireListFragment_to_WebFragment , bundleOf("Questionnaire" to questionnaire, "ParticipantRequest" to participant, "meta" to meta))
+            findNavController().navigate(R.id.action_QuestionnaireListFragment_to_WebFragment , bundleOf("Questionnaire" to questionnaire, "ParticipantRequest" to selectedParticipant, "meta" to meta))
         }
 
         //findNavController().navigate(R.id.action_QuestionnaireListFragment_to_WebFragment , bundleOf("" to ""))

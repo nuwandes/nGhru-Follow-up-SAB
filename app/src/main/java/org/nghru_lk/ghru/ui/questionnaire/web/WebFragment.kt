@@ -62,7 +62,7 @@ class WebFragment : Fragment(), Injectable {
 
     private val disposables = CompositeDisposable()
 
-    private var participant: ParticipantRequest? = null
+    private var participant: ParticipantListItem? = null
     var user: User? = null
     var meta: Meta? = null
     val endTime: String = ""
@@ -73,7 +73,7 @@ class WebFragment : Fragment(), Injectable {
         super.onCreate(savedInstanceState)
         try {
             meta = arguments?.getParcelable<Meta>("meta")!!
-            participant = arguments?.getParcelable<ParticipantRequest>("ParticipantRequest")!!
+            participant = arguments?.getParcelable<ParticipantListItem>("ParticipantRequest")!!
             questionnaire = arguments?.getParcelable<Questionnaire>("Questionnaire")!!
             questionareJson = questionnaire?.json!!
         } catch (e: KotlinNullPointerException) {
@@ -89,13 +89,13 @@ class WebFragment : Fragment(), Injectable {
                 .subscribe({ result ->
                     if (isNetworkAvailable()) {
                         activity?.runOnUiThread {
-                            participant?.meta?.endTime = binding.root.getLocalTimeString()
+                            meta?.endTime = binding.root.getLocalTimeString()
 
                             viewModel.setSurvey(
                                 QuestionMeta(
-                                    meta = participant?.meta,
+                                    meta = meta,
                                     json = result.json,
-                                    screeningId = participant?.screeningId!!,
+                                    screeningId = participant?.participant_id!!,
                                     questionnaireId = questionnaire?.id,
                                     language = questionnaire?.language
                                 )
@@ -103,13 +103,13 @@ class WebFragment : Fragment(), Injectable {
                         }
 
                     } else {
-                        participant?.meta?.endTime = binding.root.getLocalTimeString()
+                        meta?.endTime = binding.root.getLocalTimeString()
                         jobManager.addJobInBackground(
                             SyncSurveyJob(
                                 QuestionMeta(
-                                    meta = participant?.meta,
+                                    meta = meta,
                                     json = result.json,
-                                    screeningId = participant?.screeningId!!,
+                                    screeningId = participant?.participant_id!!,
                                     questionnaireId = questionnaire?.id,
                                     language = questionnaire?.language
                                 )
@@ -147,7 +147,7 @@ class WebFragment : Fragment(), Injectable {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.setLifecycleOwner(this)
-        binding.participant = participant
+        //binding.participant = participant
         viewModel.setUser("user")
         viewModel.user?.observe(this, Observer { userData ->
             if (userData?.data != null) {
@@ -160,11 +160,22 @@ class WebFragment : Fragment(), Injectable {
 
                 meta = Meta(collectedBy = user?.id, startTime = sDateTime)
 
-                //meta?.registeredBy = user?.id
+                meta?.registeredBy = user?.id
                 //meta?.registeredBy = user?.id
             }
 
         })
+
+        binding.titleName.setText(participant!!.firstname + " " + participant!!.last_name)
+        binding.titleGender.setText(participant!!.gender)
+        binding.titleParticipantId.setText(participant!!.participant_id)
+
+        val dob_year: String = participant!!.dob!!.substring(0,4)
+        val dob_month: String = participant!!.dob!!.substring(5,7)
+        val dob_date : String = participant!!.dob!!.substring(8,10)
+
+        val participantAge: String = getAge(dob_year.toInt(), dob_month.toInt(), dob_date.toInt())
+        binding.titleAge.setText(participantAge + "Y")
 
         myWebSettings = binding.webView.getSettings()
         databasePath = activity!!.getDir("database", Context.MODE_PRIVATE).getPath()
@@ -337,5 +348,25 @@ class WebFragment : Fragment(), Injectable {
         }catch(p: ParseException){
             return ""
         }
+    }
+
+    private fun getAge(year: Int, month: Int, date: Int) : String
+    {
+        val dob : Calendar = Calendar.getInstance()
+        val today : Calendar = Calendar.getInstance()
+
+        dob.set(year, month, date)
+
+        var age : Int = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR)
+
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR))
+        {
+            age--
+        }
+
+        val ageInt : Int = age
+        val ageString : String = ageInt.toString()
+
+        return ageString
     }
 }
