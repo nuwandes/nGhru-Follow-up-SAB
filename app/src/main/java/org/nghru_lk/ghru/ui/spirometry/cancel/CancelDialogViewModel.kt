@@ -52,7 +52,7 @@ class CancelDialogViewModel
             }
         }
 
-    fun setLoginNew(screeningId: String??, cancelRequest: CancelRequest?) {
+    fun setLoginNew(screeningId: String?, cancelRequest: CancelRequest?) {
         val update = CancelIdNew(screeningId, cancelRequest)
         if (_cancelIdNew.value == update) {
             return

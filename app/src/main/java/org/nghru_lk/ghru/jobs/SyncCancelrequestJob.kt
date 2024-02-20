@@ -43,7 +43,7 @@ class SyncCancelrequestJob(
             RemoteHouseholdService().getInstance().addCancelAxivityRequestSync(screeningId, cancelRequest)
         }
         else {
-            //RemoteHouseholdService().getInstance().addCancelRequestSync(screeningId, cancelRequest)
+            RemoteHouseholdService().getInstance().addCancelRequestSync(screeningId, cancelRequest)
         }
         //  SyncSampleStorageRequestRxBus.getInstance().post(SyncResponseEventType.SUCCESS, survey)
         CancelRequestRxBus.getInstance().post(SyncResponseEventType.SUCCESS,cancelRequest)

@@ -141,6 +141,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
         binding.linearLayout.visibility = View.INVISIBLE
         binding.linearLayout2.visibility = View.INVISIBLE
         binding.buttonLogin.visibility = View.INVISIBLE
+        binding.progressBar.visibility = View.INVISIBLE
 
         loginViewModel.accessTokenOffline?.observe(this, Observer { accessToken ->
 
@@ -153,11 +154,10 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
                         }
 
                     } else {
-                        binding.linearLayout.visibility = View.VISIBLE
-                        binding.linearLayout2.visibility = View.VISIBLE
-                        binding.buttonLogin.visibility = View.VISIBLE
+//                        binding.linearLayout.visibility = View.VISIBLE
+//                        binding.linearLayout2.visibility = View.VISIBLE
+//                        binding.buttonLogin.visibility = View.VISIBLE
                     }
-
                 }
             }
             else if (accessToken?.status == Status.ERROR){
@@ -167,6 +167,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
 //                binding.progressBar.visibility = View.GONE
             }
         })
+
         if (tokenManager.getEmail() != null) {
             loginViewModel.setEmail(tokenManager.getEmail()!!)
         } else {
@@ -199,6 +200,11 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
                     binding.textViewError.visibility = View.INVISIBLE
                     token.status = true
                     //accessTokenDao.login(token)
+
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.linearLayout.visibility = View.INVISIBLE
+                    binding.linearLayout2.visibility = View.INVISIBLE
+                    binding.buttonLogin.visibility = View.INVISIBLE
 
                         loginViewModel.setStationDevice("GET")
 
@@ -251,41 +257,51 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
                //loadMainActivity()
             }
         })
+
         binding.buttonLogin.singleClick {
-            if (validator.validate()) {
-                    binding.progressBar.visibility = View.VISIBLE
-                   val mPattern: Pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\\^&\\*])(?=.{8,})")
 
-        val matche: Matcher = mPattern.matcher(binding.textInputEditTextPassword.text.toString())
-                binding.root.hideKeyboard()
-        if(!matche.find())
-        {
-            binding.textInputLayoutPassword.error = getString(R.string.passowrd_reg_error)
-            //weightEditText.setText(); // Don't know what to place
-        }else{
-            activity?.runOnUiThread(
-                object : Runnable {
-                    override fun run() {
-                        binding.textViewError.text = ""
-                        binding.linearLayout.visibility = View.INVISIBLE
-                        binding.linearLayout2.visibility = View.INVISIBLE
-                        binding.buttonLogin.visibility = View.INVISIBLE
-                        isLoginClick = true
+            if (validator.validate())
+            {
+                binding.progressBar.visibility = View.VISIBLE
+                val mPattern: Pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\\^&\\*])(?=.{8,})")
 
-                            loginViewModel.setLogin(
-                                binding.textInputEditTextEmail.text.toString(),
-                                binding.textInputEditTextPassword.text.toString(),
-                                isNetworkAvailable()
-                            )
+                val matche: Matcher = mPattern.matcher(binding.textInputEditTextPassword.text.toString())
+                        binding.root.hideKeyboard()
 
+                if(!matche.find())
+                {
+                    binding.textInputLayoutPassword.error = getString(R.string.passowrd_reg_error)
+                    //weightEditText.setText(); // Don't know what to place
+                }
+                else
+                {
+                    if (isNetworkAvailable())
+                    {
+                        activity?.runOnUiThread(
+                            object : Runnable {
+                                override fun run() {
+                                    binding.textViewError.text = ""
+                                    binding.linearLayout.visibility = View.INVISIBLE
+                                    binding.linearLayout2.visibility = View.INVISIBLE
+                                    binding.buttonLogin.visibility = View.INVISIBLE
+                                    isLoginClick = true
+
+                                    loginViewModel.setLogin(
+                                        binding.textInputEditTextEmail.text.toString(),
+                                        binding.textInputEditTextPassword.text.toString(),
+                                        isNetworkAvailable()
+                                    )
+
+                                }
+                            }
+                        )
+                    }
+                    else
+                    {
+                        binding.progressBar.visibility = View.INVISIBLE
+                        Toast.makeText(activity!!, "Please check your network connection", Toast.LENGTH_LONG).show()
                     }
                 }
-            )
-
-        }
-
-
-
             }
         }
 

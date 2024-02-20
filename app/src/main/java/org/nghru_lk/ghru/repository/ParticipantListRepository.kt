@@ -673,4 +673,20 @@ class ParticipantListRepository @Inject constructor(
             }
         }.asLiveData()
     }
+
+    fun updateParticipantQueStatus(participant: ParticipantListItem
+    ): LiveData<Resource<ParticipantListItem>> {
+        return object : LocalBoundUpateResource<ParticipantListItem, Int>(appExecutors) {
+            override fun loadFromDb(rowId: Int): LiveData<ParticipantListItem> {
+                return participantListItemDao.getSingleParticipantByParticipantId(participant.participant_id!!)
+            }
+
+            override fun updateDb(): Int {
+                return participantListItemDao.updateQueStatus(
+                    participant.participant_id!!
+                )
+            }
+
+        }.asLiveData()
+    }
 }

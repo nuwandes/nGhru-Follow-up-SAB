@@ -26,7 +26,6 @@ import org.nghru_lk.ghru.binding.FragmentDataBindingComponent
 import org.nghru_lk.ghru.databinding.QuestionnaireCancelDialogFragmentBinding
 import org.nghru_lk.ghru.di.Injectable
 import org.nghru_lk.ghru.ui.ecg.trace.reason.ReasonDialogFragment
-import org.nghru_lk.ghru.ui.spirometry.cancel.CancelDialogViewModel
 import org.nghru_lk.ghru.util.autoCleared
 import org.nghru_lk.ghru.util.hideKeyboard
 import org.nghru_lk.ghru.util.shoKeyboard

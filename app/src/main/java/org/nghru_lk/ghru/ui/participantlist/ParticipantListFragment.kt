@@ -893,7 +893,7 @@ class ParticipantListFragment : Fragment(), Injectable {
                 }
             }
             override fun onItemLongClick(view: View?, position: Int) {
-                TODO("do nothing")
+                //TODO("do nothing")
             }
         }))
     }

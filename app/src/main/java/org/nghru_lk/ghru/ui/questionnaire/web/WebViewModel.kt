@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import org.nghru_lk.ghru.repository.ParticipantListRepository
 import org.nghru_lk.ghru.repository.QuestionnaireRepository
 import org.nghru_lk.ghru.repository.SurveyRepository
 import org.nghru_lk.ghru.repository.UserRepository
@@ -16,7 +17,8 @@ class WebViewModel
 @Inject constructor(
     surveyRepository: SurveyRepository,
     userRepository: UserRepository,
-    questionnaireRepository: QuestionnaireRepository
+    questionnaireRepository: QuestionnaireRepository,
+    participantListRepository: ParticipantListRepository
 ) : ViewModel() {
 
     private val _survey: MutableLiveData<QuestionMeta> = MutableLiveData()
@@ -134,5 +136,25 @@ class WebViewModel
 //    }
 //
 ////    ----------------------------------------------------------------------------------------------------
+
+    // --------------------------------------------------------------------------------
+
+    private val _localParticipantUpdateRequest: MutableLiveData<ParticipantListItem> = MutableLiveData()
+
+    fun setLocalUpdateParticipantQueStatus(participantItem: ParticipantListItem) {
+        if (_localParticipantUpdateRequest.value == participantItem) {
+            return
+        }
+        _localParticipantUpdateRequest.value = participantItem
+    }
+
+    var getLocalUpdateParticipantQueStatus:LiveData<Resource<ParticipantListItem>>? = Transformations
+        .switchMap(_localParticipantUpdateRequest) { participantRequest ->
+            if (participantRequest == null) {
+                AbsentLiveData.create()
+            } else {
+                participantListRepository.updateParticipantQueStatus(participantRequest)
+            }
+        }
 
 }

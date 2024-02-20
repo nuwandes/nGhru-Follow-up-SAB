@@ -41,4 +41,31 @@ class CancelDialogViewModel  @Inject constructor(cancelRequestRepository: Cancel
             }
         }
     }
+
+    private val _cancelIdNew: MutableLiveData<CancelIdNew> = MutableLiveData()
+
+    var cancelIdNew: LiveData<Resource<MessageCancel>>? = Transformations
+        .switchMap(_cancelIdNew) { input ->
+            input.ifExists { screeningId, cancelRequest ->
+                cancelRequestRepository.syncCancelRequestUpdated(screeningId, cancelRequest)
+            }
+        }
+
+    fun setLoginNew(screeningId: String?, cancelRequest: CancelRequest?) {
+        val update = CancelIdNew(screeningId, cancelRequest)
+        if (_cancelIdNew.value == update) {
+            return
+        }
+        _cancelIdNew.value = update
+    }
+
+    data class CancelIdNew(val screeningId : String?, val cancelRequest: CancelRequest?) {
+        fun <T> ifExists(f: (String, CancelRequest) -> LiveData<T>): LiveData<T> {
+            return if (screeningId == null || cancelRequest == null) {
+                AbsentLiveData.create()
+            } else {
+                f(screeningId, cancelRequest)
+            }
+        }
+    }
 }

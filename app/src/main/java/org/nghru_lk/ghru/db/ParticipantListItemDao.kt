@@ -82,4 +82,7 @@ interface ParticipantListItemDao {
     @Query("SELECT * FROM participant_list_item WHERE site = :site")
     fun getSiteParticipant(site: String): LiveData<List<ParticipantListItem>>
 
+    @Query("UPDATE participant_list_item SET que_status = 100 WHERE participant_id = :screeningId")
+    fun updateQueStatus(screeningId: String): Int
+
 }

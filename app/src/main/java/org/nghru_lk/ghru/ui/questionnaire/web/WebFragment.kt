@@ -87,8 +87,10 @@ class WebFragment : Fragment(), Injectable {
         disposables.add(
             SyncServeyRxBus.getInstance().toObservable()
                 .subscribe({ result ->
+
                     if (isNetworkAvailable()) {
                         activity?.runOnUiThread {
+                            viewModel.setLocalUpdateParticipantQueStatus(participant!!)
                             meta?.endTime = binding.root.getLocalTimeString()
 
                             viewModel.setSurvey(
@@ -115,6 +117,10 @@ class WebFragment : Fragment(), Injectable {
                                 )
                             )
                         )
+                        activity?.runOnUiThread{
+                            viewModel.setLocalUpdateParticipantQueStatus(participant!!)
+                        }
+
                         activity!!.finish()
                     }
 
@@ -193,7 +199,6 @@ class WebFragment : Fragment(), Injectable {
                // println("Status.SUCCESS")
                 Toast.makeText(activity!!, getString(R.string.questionnaire_success), Toast.LENGTH_SHORT).show()
                 activity!!.finish()
-
 //                val intent = Intent(activity, MeasurementListActivity::class.java)
 //                startActivity(intent)
 
@@ -274,6 +279,20 @@ class WebFragment : Fragment(), Injectable {
             cancelDialogFragment.arguments = bundleOf("participant" to participant)
             cancelDialogFragment.show(fragmentManager!!)
         }
+
+        viewModel.getLocalUpdateParticipantQueStatus?.observe(this, Observer { bmStatus ->
+
+            if (bmStatus?.status == Status.SUCCESS)
+            {
+                Toast.makeText(activity, "Questionnaire status locally updated", Toast.LENGTH_LONG).show()
+                Log.wtf("WEB_FRAGMENT","LOCALLY SAVED SUCCESS")
+
+            }
+            else if(bmStatus?.status == Status.ERROR)
+            {
+                Toast.makeText(activity, "Update Questionnaire status failed", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
 
