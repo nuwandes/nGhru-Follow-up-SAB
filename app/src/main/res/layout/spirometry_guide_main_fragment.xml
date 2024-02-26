@@ -7,14 +7,14 @@
 
         <variable
             name="participant"
-            type="org.nghru_lk.ghru.vo.request.ParticipantRequest" />
+            type="org.nghru_bd.ghru.vo.request.ParticipantRequest" />
 
 
-        <import type="org.nghru_lk.ghru.ui.spirometry.guide.GuideMainViewModel" />
+        <import type="org.nghru_bd.ghru.ui.spirometry.guide.GuideMainViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_lk.ghru.ui.spirometry.guide.GuideMainViewModel" />
+            type="org.nghru_bd.ghru.ui.spirometry.guide.GuideMainViewModel" />
 
         <variable
             name="expandProcedure"
@@ -23,7 +23,7 @@
 
         <variable
             name="retryCallback"
-            type="org.nghru_lk.ghru.ui.common.RetryCallback" />
+            type="org.nghru_bd.ghru.ui.common.RetryCallback" />
     </data>
 
 
@@ -35,7 +35,7 @@
         android:fitsSystemWindows="true"
         android:focusable="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.nghru_lk.ghru.BodyMeasurementsActivity"
+        tools:context="org.nghru_bd.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

@@ -7,7 +7,7 @@
 
         <variable
             name="asset"
-            type="org.nghru_lk.ghru.vo.Asset" />
+            type="org.nghru_bd.ghru.vo.Asset" />
 
     </data>
 

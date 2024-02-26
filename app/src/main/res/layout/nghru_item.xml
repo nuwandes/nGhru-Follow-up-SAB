@@ -7,7 +7,7 @@
 
         <variable
             name="homeItem"
-            type="org.nghru_lk.ghru.vo.HomeItem" />
+            type="org.nghru_bd.ghru.vo.HomeItem" />
     </data>
 
 

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/sampleMangementFragment"
-        android:name="org.nghru_lk.ghru.ui.samplemanagement.SampleMangementFragment"
+        android:name="org.nghru_bd.ghru.ui.samplemanagement.SampleMangementFragment"
         android:label="SampleMangementFragment"
         tools:layout="@layout/samplemangement_fragment"></fragment>
 

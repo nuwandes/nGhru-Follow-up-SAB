@@ -5,21 +5,21 @@
 
     <data>
 
-        <import type="org.nghru_lk.ghru.vo.request.Gender" />
+        <import type="org.nghru_bd.ghru.vo.request.Gender" />
 
         <variable
             name="member"
-            type="org.nghru_lk.ghru.vo.request.Member" />
+            type="org.nghru_bd.ghru.vo.request.Member" />
 
-        <import type="org.nghru_lk.ghru.ui.registerpatient.basicdetails.BasicDetailsViewModel" />
+        <import type="org.nghru_bd.ghru.ui.registerpatient.basicdetails.BasicDetailsViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_lk.ghru.ui.registerpatient.basicdetails.BasicDetailsViewModel" />
+            type="org.nghru_bd.ghru.ui.registerpatient.basicdetails.BasicDetailsViewModel" />
 
         <variable
             name="memberRequest"
-            type="org.nghru_lk.ghru.vo.request.MemberRequest" />
+            type="org.nghru_bd.ghru.vo.request.MemberRequest" />
 
 
     </data>
@@ -33,7 +33,7 @@
         android:fitsSystemWindows="true"
         android:focusable="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.nghru_lk.ghru.BodyMeasurementsActivity"
+        tools:context="org.nghru_bd.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

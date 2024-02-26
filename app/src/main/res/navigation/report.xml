@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/ScanBarcodeFragment"
-        android:name="org.nghru_lk.ghru.ui.report.scanbarcode.ScanBarcodeFragment"
+        android:name="org.nghru_bd.ghru.ui.report.scanbarcode.ScanBarcodeFragment"
         android:label="ScanBarcodeFragment"
         tools:layout="@layout/scan_barcode_patient_fragment">
 
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/ManualEntryBarcodeFragment"
-        android:name="org.nghru_lk.ghru.ui.report.scanbarcode.manualentry.ManualEntryBarcodeFragment"
+        android:name="org.nghru_bd.ghru.ui.report.scanbarcode.manualentry.ManualEntryBarcodeFragment"
         android:label="ManualEntryBarcodeFragment"
         tools:layout="@layout/register_patient_barcode_manualentry_fragment">
 
@@ -37,7 +37,7 @@
 
     <fragment
         android:id="@+id/WebFragment"
-        android:name="org.nghru_lk.ghru.ui.report.web.WebFragment"
+        android:name="org.nghru_bd.ghru.ui.report.web.WebFragment"
         android:label="WebFragment"
         tools:layout="@layout/web_fragment">
 

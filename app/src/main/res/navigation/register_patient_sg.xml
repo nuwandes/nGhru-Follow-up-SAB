@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/checkListFragmentSG"
-        android:name="org.nghru_lk.ghru.ui.registerpatient_sg.checklist.CheckListFragmentSG"
+        android:name="org.nghru_bd.ghru.ui.registerpatient_sg.checklist.CheckListFragmentSG"
         android:label="CheckListFragmentSG"
         tools:layout="@layout/check_list_fragment_sg">
 
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/explanationFragmentSG"
-        android:name="org.nghru_lk.ghru.ui.registerpatient_sg.explanation.ExplanationFragmentSG"
+        android:name="org.nghru_bd.ghru.ui.registerpatient_sg.explanation.ExplanationFragmentSG"
         android:label="ExplanationFragment"
         tools:layout="@layout/explanation_fragment_sg">
 
@@ -37,7 +37,7 @@
 
     <fragment
         android:id="@+id/BasicDetailsFragmentSG"
-        android:name="org.nghru_lk.ghru.ui.registerpatient_sg.basicdetails.BasicDetailsFragmentSG"
+        android:name="org.nghru_bd.ghru.ui.registerpatient_sg.basicdetails.BasicDetailsFragmentSG"
         android:label="BasicDetailsFragmentSG"
         tools:layout="@layout/basic_details_fragment_sg">
 
@@ -54,7 +54,7 @@
 
     <fragment
         android:id="@+id/reviewFragmentSG"
-        android:name="org.nghru_lk.ghru.ui.registerpatient_sg.review.ReviewFragmentSG"
+        android:name="org.nghru_bd.ghru.ui.registerpatient_sg.review.ReviewFragmentSG"
         android:label="ReviewFragmentSG"
         tools:layout="@layout/review_patient_fragment_sg">
 
@@ -70,7 +70,7 @@
 
     <fragment
         android:id="@+id/scanBarcodeFragmentSG"
-        android:name="org.nghru_lk.ghru.ui.registerpatient_sg.scanbarcode.ScanBarcodeFragmentSG"
+        android:name="org.nghru_bd.ghru.ui.registerpatient_sg.scanbarcode.ScanBarcodeFragmentSG"
         android:label="ScanBarcodeFragmentSG"
         tools:layout="@layout/scan_barcode_patient_gen_fragment_sg">
         <action
@@ -117,7 +117,7 @@
 
     <fragment
         android:id="@+id/scanBarcodeManualFragmentSG"
-        android:name="org.nghru_lk.ghru.ui.registerpatient_sg.scanbarcode.manualentry.ManualEntryBarcodeFragmentSG"
+        android:name="org.nghru_bd.ghru.ui.registerpatient_sg.scanbarcode.manualentry.ManualEntryBarcodeFragmentSG"
         android:label="ManualEntryBarcodeFragmentSG"
         tools:layout="@layout/register_patient_barcode_manualentry_fragment_sg">
         <action
@@ -129,7 +129,7 @@
 
     <fragment
         android:id="@+id/confirmationFragmentSG"
-        android:name="org.nghru_lk.ghru.ui.registerpatient_sg.confirmation.ConfirmationFragmentSG"
+        android:name="org.nghru_bd.ghru.ui.registerpatient_sg.confirmation.ConfirmationFragmentSG"
         android:label="ConfirmationFragmentSG"
         tools:layout="@layout/confirmation_fragment_sg">
 

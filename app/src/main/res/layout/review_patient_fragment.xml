@@ -7,24 +7,24 @@
 
         <variable
             name="member"
-            type="org.nghru_lk.ghru.vo.request.ParticipantMeta" />
+            type="org.nghru_bd.ghru.vo.request.ParticipantMeta" />
 
-        <import type="org.nghru_lk.ghru.vo.request.Gender" />
+        <import type="org.nghru_bd.ghru.vo.request.Gender" />
 
-        <import type="org.nghru_lk.ghru.ui.registerpatient.review.ReviewViewModel" />
+        <import type="org.nghru_bd.ghru.ui.registerpatient.review.ReviewViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_lk.ghru.ui.registerpatient.review.ReviewViewModel" />
+            type="org.nghru_bd.ghru.ui.registerpatient.review.ReviewViewModel" />
 
 
         <variable
             name="resource"
-            type="org.nghru_lk.ghru.vo.Resource" />
+            type="org.nghru_bd.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.nghru_lk.ghru.ui.common.RetryCallback" />
+            type="org.nghru_bd.ghru.ui.common.RetryCallback" />
 
     </data>
 
@@ -37,7 +37,7 @@
         android:fitsSystemWindows="true"
         android:focusable="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.nghru_lk.ghru.BodyMeasurementsActivity"
+        tools:context="org.nghru_bd.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

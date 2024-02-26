@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="org.nghru_lk.ghru.ui.home.HomeFragment"
+        android:name="org.nghru_bd.ghru.ui.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/home_fragment">
 
@@ -14,20 +14,20 @@
 
     <fragment
         android:id="@+id/enumerationFragment"
-        android:name="org.nghru_lk.ghru.ui.enumeration.EnumerationFragment"
+        android:name="org.nghru_bd.ghru.ui.enumeration.EnumerationFragment"
         android:label="HomeFragment"
         tools:layout="@layout/enumeration_fragment"></fragment>
 
     <fragment
         android:id="@+id/sampleMangementFragment"
-        android:name="org.nghru_lk.ghru.ui.samplemanagement.SampleMangementFragment"
+        android:name="org.nghru_bd.ghru.ui.samplemanagement.SampleMangementFragment"
         android:label="SampleMangementFragment"
         tools:layout="@layout/samplemangement_fragment"></fragment>
 
 
     <fragment
         android:id="@+id/homeEmumerationListFragment"
-        android:name="org.nghru_lk.ghru.ui.homeenumerationlist.HomeEmumerationListFragment"
+        android:name="org.nghru_bd.ghru.ui.homeenumerationlist.HomeEmumerationListFragment"
         android:label="HomeEmumerationListFragment"
         tools:layout="@layout/home_emumeration_list_fragment">
         <action
@@ -41,7 +41,7 @@
 
     <fragment
         android:id="@+id/participantListFragment"
-        android:name="org.nghru_lk.ghru.ui.participantlist.ParticipantListFragment"
+        android:name="org.nghru_bd.ghru.ui.participantlist.ParticipantListFragment"
         android:label="ParticipantListFragment"
         tools:layout="@layout/participant_list_fragment">
 <!--        <action-->
@@ -52,26 +52,26 @@
 
     <fragment
         android:id="@+id/userSettingFragment"
-        android:name="org.nghru_lk.ghru.ui.usersetting.UserSettingFragment"
+        android:name="org.nghru_bd.ghru.ui.usersetting.UserSettingFragment"
         android:label="UserSettingFragment"
         tools:layout="@layout/user_setting_fragment"></fragment>
 
     <activity
         android:id="@+id/bodyMeasurementsActivity"
-        android:name="org.nghru_lk.ghru.BodyMeasurementsActivity"
+        android:name="org.nghru_bd.ghru.BodyMeasurementsActivity"
         android:label="BodyMeasurementsActivity"
         tools:layout="@layout/body_measurements_activity"></activity>
 
 
     <fragment
         android:id="@+id/logoutDialogFragment"
-        android:name="org.nghru_lk.ghru.ui.logout.LogoutDialogFragment"
+        android:name="org.nghru_bd.ghru.ui.logout.LogoutDialogFragment"
         android:label="LogoutDialogFragment"
         tools:layout="@layout/logout_dialog_fragment"></fragment>
 
     <fragment
             android:id="@+id/dataManagementListFragment"
-            android:name="org.nghru_lk.ghru.ui.datamanagement.DataManagementListFragment"
+            android:name="org.nghru_bd.ghru.ui.datamanagement.DataManagementListFragment"
             android:label="DataManagementListFragment"
             tools:layout="@layout/data_management_fragment"></fragment>
 
