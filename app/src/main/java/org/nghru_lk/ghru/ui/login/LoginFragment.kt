@@ -154,9 +154,9 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
                         }
 
                     } else {
-//                        binding.linearLayout.visibility = View.VISIBLE
-//                        binding.linearLayout2.visibility = View.VISIBLE
-//                        binding.buttonLogin.visibility = View.VISIBLE
+                        binding.linearLayout.visibility = View.VISIBLE
+                        binding.linearLayout2.visibility = View.VISIBLE
+                        binding.buttonLogin.visibility = View.VISIBLE
                     }
                 }
             }
@@ -206,7 +206,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
                     binding.linearLayout2.visibility = View.INVISIBLE
                     binding.buttonLogin.visibility = View.INVISIBLE
 
-                        loginViewModel.setStationDevice("GET")
+                    loginViewModel.setStationDevice("GET")
 
                 }else
                 {
@@ -373,12 +373,12 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
 
                     // save the data in local db
 
-                    Toast.makeText(activity, "All participant API call Success", Toast.LENGTH_LONG).show()
+                    //Toast.makeText(activity, "All participant API call Success", Toast.LENGTH_LONG).show()
                 }
             }
             else
             {
-                Toast.makeText(activity, "Check internet connection", Toast.LENGTH_LONG).show()
+                //Toast.makeText(activity, "Check internet connection", Toast.LENGTH_LONG).show()
             }
 
         })
@@ -435,7 +435,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
 
             if (it?.status == Status.SUCCESS ){
 
-                Toast.makeText(activity, "SampleId API call Success", Toast.LENGTH_LONG).show()
+                //Toast.makeText(activity, "SampleId API call Success", Toast.LENGTH_LONG).show()
 
                 loginViewModel.setFreezerIds("GET")
 
@@ -443,7 +443,7 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
             }
             else
             {
-                Toast.makeText(activity, "Storage Id API call Failed", Toast.LENGTH_LONG).show()
+                //Toast.makeText(activity, "Storage Id API call Failed", Toast.LENGTH_LONG).show()
             }
         })
 
@@ -458,13 +458,13 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
 
             if (it?.status == Status.SUCCESS ){
 
-                Toast.makeText(activity, "FreezerId API call Success", Toast.LENGTH_LONG).show()
+                //Toast.makeText(activity, "FreezerId API call Success", Toast.LENGTH_LONG).show()
 
                 loginViewModel.setStorageIds("GET")
             }
             else
             {
-                Toast.makeText(activity, "Storage Id API call Failed", Toast.LENGTH_LONG).show()
+                //Toast.makeText(activity, "Storage Id API call Failed", Toast.LENGTH_LONG).show()
             }
         })
 
@@ -479,13 +479,13 @@ class LoginFragment : Fragment(), Injectable, EasyPermissions.PermissionCallback
         loginViewModel.getStorageIdList?.observe(this, Observer {
             if (it?.status == Status.SUCCESS ){
 
-                Toast.makeText(activity, "Storage Id API call Success", Toast.LENGTH_LONG).show()
+                //Toast.makeText(activity, "Storage Id API call Success", Toast.LENGTH_LONG).show()
 
                 loadMainActivity(siteNames)
             }
             else
             {
-                Toast.makeText(activity, "Storage Id API call Failed", Toast.LENGTH_LONG).show()
+                //Toast.makeText(activity, "Storage Id API call Failed", Toast.LENGTH_LONG).show()
             }
         })
     }

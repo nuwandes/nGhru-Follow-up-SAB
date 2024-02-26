@@ -138,10 +138,10 @@ data class ParticipantListItem (
 }
 
 data class ParticipantListAddress(
-    @Expose @field:SerializedName("street") @ColumnInfo(name = "street") var street: String,
-    @Expose @field:SerializedName("locality") @ColumnInfo(name = "locality") var locality: String,
-    @Expose @field:SerializedName("postcode") @ColumnInfo(name = "postcode") var postcode: String,
-    @Expose @field:SerializedName("country") @ColumnInfo(name = "country") var country: String
+    @Expose @field:SerializedName("street") @ColumnInfo(name = "street") var street: String?,
+    @Expose @field:SerializedName("locality") @ColumnInfo(name = "locality") var locality: String?,
+    @Expose @field:SerializedName("postcode") @ColumnInfo(name = "postcode") var postcode: String?,
+    @Expose @field:SerializedName("country") @ColumnInfo(name = "country") var country: String?
 
 ) : Serializable, Parcelable {
     constructor(parcel: Parcel) : this(
