@@ -122,19 +122,11 @@ class TransferFragment : Fragment(), Injectable {
                 sampleRequest?.syncPending = !isNetworkAvailable()
                 sampleRequest?.freezerId = storage.freezerId
                 viewModel.setSync(staorage, sampleRequest)
-
-                // insert freezer id to local db
-
-                val freezerIdData = FreezerIdData(
-                    id = 0, key = "Offline", storage_id = storage.freezerId!!
-                )
-
-                viewModel.setFreezerIdLocalinsert(freezerIdData)
 //                } else {
 //                    jobManager.addJobInBackground(SyncSampledStorageFreezeIDJob(storageDto = staorage, sampleStorageRequest = sampleRequest))
 //
 //                }
-               // activity!!.finish()
+                // activity!!.finish()
                 //viewModel.setDelete(sampleRequest)
                 val completedDialogFragment = CompletedDialogFragment()
                 completedDialogFragment.arguments = bundleOf("is_cancel" to false)
@@ -149,55 +141,6 @@ class TransferFragment : Fragment(), Injectable {
                 //var error = accessToken.dat
             }
         })
-
-        viewModel.getFreezerIdLocalInsert?.observe(this, Observer { sampleMangementPocess ->
-            Timber.d(sampleMangementPocess.toString())
-            if (sampleMangementPocess?.status == Status.SUCCESS) {
-
-                Toast.makeText(activity, "FreezerId Locally saved success", Toast.LENGTH_LONG).show()
-            }
-            else
-            {
-                Toast.makeText(activity, "FreezerId Locally saved failed", android.widget.Toast.LENGTH_LONG).show()
-            }
-        })
-
-        viewModel.getFreezerIdFromDb?.observe(this, Observer { sampleMangementPocess ->
-            Timber.d(sampleMangementPocess.toString())
-            if (sampleMangementPocess?.status == Status.SUCCESS)
-            {
-                binding.textLayoutCode.error = "Already used" //checkSum.message
-
-            } else if (sampleMangementPocess?.status == Status.ERROR)
-            {
-                activity?.runOnUiThread({
-
-                    view?.hideKeyboard()
-
-                    // commented due to storage no need to update start_time/end_time/collected by ------ 28.4.2020 -----
-
-//                val endTime: String = convertTimeTo24Hours()
-//                val endDate: String = getDate()
-//                val endDateTime:String = endDate + " " + endTime
-//
-//                sampleRequest?.meta?.endTime = endDateTime
-
-                    // ----------------------------------------------------------------------------------------------------
-                    if (validator.validate()) {
-                        if (viewModel.isChecked) {
-                            println(storage.freezerId)
-                            storage.freezerId = binding.editTextFreezerId.text.toString()
-                            viewModel.setDelete(sampleRequest)
-
-                        } else {
-                            validateChecked()
-                        }
-                    }
-                })
-            }
-        })
-
-
         binding.buttonComplete.singleClick {
             handleContinue()
         }
@@ -217,10 +160,30 @@ class TransferFragment : Fragment(), Injectable {
     fun handleContinue() {
         val checkSum = validateChecksum(binding.editTextFreezerId.text.toString(), Constants.TYPE_FREEZER_BOX)
         if (!checkSum.error) {
+            activity?.runOnUiThread({
 
-            viewModel.setFreezerIdFromDb(binding.editTextFreezerId.text.toString())
+                view?.hideKeyboard()
 
+                // commented due to storage no need to update start_time/end_time/collected by ------ 28.4.2020 -----
 
+//                val endTime: String = convertTimeTo24Hours()
+//                val endDate: String = getDate()
+//                val endDateTime:String = endDate + " " + endTime
+//
+//                sampleRequest?.meta?.endTime = endDateTime
+
+                // ----------------------------------------------------------------------------------------------------
+                if (validator.validate()) {
+                    if (viewModel.isChecked) {
+                        println(storage.freezerId)
+                        storage.freezerId = binding.editTextFreezerId.text.toString()
+                        viewModel.setDelete(sampleRequest)
+
+                    } else {
+                        validateChecked()
+                    }
+                }
+            })
         } else {
 
             binding.textLayoutCode.error = getString(R.string.invalid_code) //checkSum.message
