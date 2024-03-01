@@ -5,11 +5,11 @@
     <data>
 
 
-        <import type="org.nghru_bd.ghru.ui.enumeration.concent.reasondialog.ReasonDialogViewModel" />
+        <import type="org.nghru_pk.ghru.ui.enumeration.concent.reasondialog.ReasonDialogViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_bd.ghru.ui.enumeration.concent.reasondialog.ReasonDialogViewModel" />
+            type="org.nghru_pk.ghru.ui.enumeration.concent.reasondialog.ReasonDialogViewModel" />
     </data>
 
 

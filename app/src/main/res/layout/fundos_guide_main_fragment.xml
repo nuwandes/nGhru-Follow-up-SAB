@@ -5,18 +5,18 @@
 
     <data>
 
-        <import type="org.nghru_bd.ghru.ui.bodymeasurements.measurements.second.MeasurementsSecondViewModel" />
+        <import type="org.nghru_pk.ghru.ui.bodymeasurements.measurements.second.MeasurementsSecondViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_bd.ghru.ui.fundoscopy.guide.main.GuideMainViewModel" />
+            type="org.nghru_pk.ghru.ui.fundoscopy.guide.main.GuideMainViewModel" />
 
         <import type="android.view.View" />
 
 
         <variable
             name="resource"
-            type="org.nghru_bd.ghru.vo.Resource" />
+            type="org.nghru_pk.ghru.vo.Resource" />
 
         <variable
             name="expandProcedure"
@@ -32,11 +32,11 @@
 
         <variable
             name="retryCallback"
-            type="org.nghru_bd.ghru.ui.common.RetryCallback" />
+            type="org.nghru_pk.ghru.ui.common.RetryCallback" />
 
         <variable
             name="participant"
-            type="org.nghru_bd.ghru.vo.request.ParticipantRequest" />
+            type="org.nghru_pk.ghru.vo.request.ParticipantRequest" />
     </data>
 
 
@@ -48,7 +48,7 @@
         android:fitsSystemWindows="true"
         android:focusable="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.nghru_bd.ghru.BodyMeasurementsActivity"
+        tools:context="org.nghru_pk.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

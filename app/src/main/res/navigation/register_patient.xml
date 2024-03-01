@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/checkListFragment"
-        android:name="org.nghru_bd.ghru.ui.registerpatient.checklist.CheckListFragment"
+        android:name="org.nghru_pk.ghru.ui.registerpatient.checklist.CheckListFragment"
         android:label="CheckListFragment"
         tools:layout="@layout/check_list_fragment">
 
@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/scanQRCodeFragment"
-        android:name="org.nghru_bd.ghru.ui.registerpatient.scanqrcode.ScanQRCodeFragment"
+        android:name="org.nghru_pk.ghru.ui.registerpatient.scanqrcode.ScanQRCodeFragment"
         android:label="scanQRCodeFragment"
         tools:layout="@layout/scan_qr_code_fragment">
 
@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/scanQRcodeManualFragment"
-        android:name="org.nghru_bd.ghru.ui.registerpatient.scanqrcode.manualentry.ManualEntryQRCodeFragment"
+        android:name="org.nghru_pk.ghru.ui.registerpatient.scanqrcode.manualentry.ManualEntryQRCodeFragment"
         android:label="ManualEntryQRCodeFragment"
         tools:layout="@layout/register_patient_qrcode_manualentry_fragment">
         <action
@@ -45,7 +45,7 @@
 
     <fragment
         android:id="@+id/patientPhotoFragment"
-        android:name="org.nghru_bd.ghru.ui.registerpatient.identification.patientphoto.PatientPhotoFragment"
+        android:name="org.nghru_pk.ghru.ui.registerpatient.identification.patientphoto.PatientPhotoFragment"
         android:label="patientPhotoFragment"
         tools:layout="@layout/patient_photo_fragment">
 
@@ -57,7 +57,7 @@
 
     <fragment
         android:id="@+id/scanBarcodeFragment"
-        android:name="org.nghru_bd.ghru.ui.registerpatient.scanbarcode.ScanBarcodeFragment"
+        android:name="org.nghru_pk.ghru.ui.registerpatient.scanbarcode.ScanBarcodeFragment"
         android:label="ScanBarcodeFragment"
         tools:layout="@layout/bar_code_scan_fragment">
         <action
@@ -72,7 +72,7 @@
 
     <fragment
         android:id="@+id/scanBarcodeManualFragment"
-        android:name="org.nghru_bd.ghru.ui.registerpatient.scanbarcode.manualentry.ManualEntryBarcodeFragment"
+        android:name="org.nghru_pk.ghru.ui.registerpatient.scanbarcode.manualentry.ManualEntryBarcodeFragment"
         android:label="ManualEntryBarcodeFragment"
         tools:layout="@layout/bar_code_scan_fragment">
         <action
@@ -84,13 +84,13 @@
 
     <fragment
         android:id="@+id/confirmationFragment"
-        android:name="org.nghru_bd.ghru.ui.registerpatient.confirmation.ConfirmationFragment"
+        android:name="org.nghru_pk.ghru.ui.registerpatient.confirmation.ConfirmationFragment"
         android:label="ConfirmationFragment"
         tools:layout="@layout/confirmation_fragment"></fragment>
 
     <fragment
         android:id="@+id/cameraFragment"
-        android:name="org.nghru_bd.ghru.ui.camera.CameraFragment"
+        android:name="org.nghru_pk.ghru.ui.camera.CameraFragment"
         android:label="CameraFragment"
         tools:layout="@layout/camera_fragment">
 
@@ -98,7 +98,7 @@
 
     <fragment
         android:id="@+id/explanationFragment"
-        android:name="org.nghru_bd.ghru.ui.registerpatient.explanation.ExplanationFragment"
+        android:name="org.nghru_pk.ghru.ui.registerpatient.explanation.ExplanationFragment"
         android:label="ExplanationFragment"
         tools:layout="@layout/explanation_fragment">
         <action
@@ -112,7 +112,7 @@
 
     <fragment
         android:id="@+id/BasicDetailsFragment"
-        android:name="org.nghru_bd.ghru.ui.registerpatient.basicdetails.BasicDetailsFragment"
+        android:name="org.nghru_pk.ghru.ui.registerpatient.basicdetails.BasicDetailsFragment"
         android:label="BasicDetailsFragment"
         tools:layout="@layout/basic_details_fragment">
         <argument
@@ -125,7 +125,7 @@
 
     <fragment
         android:id="@+id/reviewFragment"
-        android:name="org.nghru_bd.ghru.ui.registerpatient.review.ReviewFragment"
+        android:name="org.nghru_pk.ghru.ui.registerpatient.review.ReviewFragment"
         android:label="ReviewFragment"
         tools:layout="@layout/review_patient_fragment">
         <argument
@@ -139,7 +139,7 @@
 
     <fragment
         android:id="@+id/IdentificationFragment"
-        android:name="org.nghru_bd.ghru.ui.registerpatient.identification.IdentificationFragment"
+        android:name="org.nghru_pk.ghru.ui.registerpatient.identification.IdentificationFragment"
         android:label="IdentificationFragment"
         tools:layout="@layout/identification_fragment">
         <argument

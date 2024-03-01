@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/PendingSampleListFragment"
-        android:name="org.nghru_bd.ghru.ui.samplemanagement.storage.samplelist.PendingSampleListFragment"
+        android:name="org.nghru_pk.ghru.ui.samplemanagement.storage.samplelist.PendingSampleListFragment"
         android:label="PendingSampleListFragment"
         tools:layout="@layout/storage_sample_list_fragment">
 
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/scanbarCodeFragment"
-        android:name="org.nghru_bd.ghru.ui.samplemanagement.storage.scanbarcode.ScanBarcodeFragment"
+        android:name="org.nghru_pk.ghru.ui.samplemanagement.storage.scanbarcode.ScanBarcodeFragment"
         android:label="scanBarcodeFragment"
         tools:layout="@layout/scan_barcode_storage_fragment">
 
@@ -44,7 +44,7 @@
 
     <fragment
         android:id="@+id/TransferFragment"
-        android:name="org.nghru_bd.ghru.ui.samplemanagement.storage.transfer.TransferFragment"
+        android:name="org.nghru_pk.ghru.ui.samplemanagement.storage.transfer.TransferFragment"
         android:label="TransferFragment"
         tools:layout="@layout/transfer_fragment">
 
@@ -53,7 +53,7 @@
 
     <fragment
         android:id="@+id/ManualEntryBarcodeFragment"
-        android:name="org.nghru_bd.ghru.ui.samplemanagement.storage.manualentry.ManualEntryBarcodeFragment"
+        android:name="org.nghru_pk.ghru.ui.samplemanagement.storage.manualentry.ManualEntryBarcodeFragment"
         android:label="scanQRFragment"
         tools:layout="@layout/storage_manual_qrcode_entry_fragment">
 

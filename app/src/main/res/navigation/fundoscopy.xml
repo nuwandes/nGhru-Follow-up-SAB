@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/scanBarcodeFragment"
-        android:name="org.nghru_bd.ghru.ui.fundoscopy.scanbarcode.ScanBarcodeFragment"
+        android:name="org.nghru_pk.ghru.ui.fundoscopy.scanbarcode.ScanBarcodeFragment"
         android:label="ScanBarcodeFragment"
         tools:layout="@layout/ecg_scan_barcode_patient_fragment">
 
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/manualFragment"
-        android:name="org.nghru_bd.ghru.ui.fundoscopy.manualentry.ManualEntryFundoscopyFragment"
+        android:name="org.nghru_pk.ghru.ui.fundoscopy.manualentry.ManualEntryFundoscopyFragment"
         android:label="ManualFragment"
         tools:layout="@layout/fundoscopy_manual_barcode_fragment">
         <action
@@ -35,7 +35,7 @@
 
     <fragment
         android:id="@+id/verifyIDFragment"
-        android:name="org.nghru_bd.ghru.ui.fundoscopy.verifyid.FundoscopyVerifyIDFragment"
+        android:name="org.nghru_pk.ghru.ui.fundoscopy.verifyid.FundoscopyVerifyIDFragment"
         android:label="VerifyIDFragment"
         tools:layout="@layout/fundoscopy_verify_id_fragment">
         <action
@@ -46,7 +46,7 @@
 
     <fragment
         android:id="@+id/guideMainFragment"
-        android:name="org.nghru_bd.ghru.ui.fundoscopy.guide.main.GuideMainFragment"
+        android:name="org.nghru_pk.ghru.ui.fundoscopy.guide.main.GuideMainFragment"
         android:label="GuideMainFragment"
         tools:layout="@layout/fundos_guide_main_fragment">
 
@@ -58,7 +58,7 @@
 
     <fragment
         android:id="@+id/displayBarcode"
-        android:name="org.nghru_bd.ghru.ui.fundoscopy.displaybarcode.DisplayBarcodeFragment"
+        android:name="org.nghru_pk.ghru.ui.fundoscopy.displaybarcode.DisplayBarcodeFragment"
         android:label="displayBarcode"
         tools:layout="@layout/display_barcode">
 
@@ -70,7 +70,7 @@
 
     <fragment
         android:id="@+id/readingFragment"
-        android:name="org.nghru_bd.ghru.ui.fundoscopy.reading.FundoscopyReadingFragment"
+        android:name="org.nghru_pk.ghru.ui.fundoscopy.reading.FundoscopyReadingFragment"
         android:label="ReadFragment"
         tools:layout="@layout/trace_fragment">
 

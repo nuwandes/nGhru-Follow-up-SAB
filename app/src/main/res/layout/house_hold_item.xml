@@ -7,7 +7,7 @@
 
         <variable
             name="household"
-            type="org.nghru_bd.ghru.vo.request.HouseholdRequest" />
+            type="org.nghru_pk.ghru.vo.request.HouseholdRequest" />
 
     </data>
 

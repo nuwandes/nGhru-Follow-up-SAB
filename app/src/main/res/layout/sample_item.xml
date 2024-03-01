@@ -7,7 +7,7 @@
 
         <variable
             name="sample"
-            type="org.nghru_bd.ghru.vo.request.SampleRequest" />
+            type="org.nghru_pk.ghru.vo.request.SampleRequest" />
     </data>
 
 

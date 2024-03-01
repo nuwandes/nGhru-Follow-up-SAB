@@ -5,20 +5,20 @@
 
     <data>
 
-        <import type="org.nghru_bd.ghru.ui.ecg.verifyid.ECGVerifyIDFragment" />
+        <import type="org.nghru_pk.ghru.ui.ecg.verifyid.ECGVerifyIDFragment" />
 
         <variable
             name="viewModel"
-            type="org.nghru_bd.ghru.ui.ecg.verifyid.ECGVerifyIDFragment" />
+            type="org.nghru_pk.ghru.ui.ecg.verifyid.ECGVerifyIDFragment" />
 
 
         <variable
             name="resource"
-            type="org.nghru_bd.ghru.vo.Resource" />
+            type="org.nghru_pk.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.nghru_bd.ghru.ui.common.RetryCallback" />
+            type="org.nghru_pk.ghru.ui.common.RetryCallback" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -26,7 +26,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.nghru_bd.ghru.BodyMeasurementsActivity"
+        tools:context="org.nghru_pk.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
 

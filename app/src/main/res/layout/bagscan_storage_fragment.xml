@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="org.nghru_bd.ghru.vo.Status" />
+        <import type="org.nghru_pk.ghru.vo.Status" />
 
         <variable
             name="userResource"
-            type="org.nghru_bd.ghru.vo.Resource" />
+            type="org.nghru_pk.ghru.vo.Resource" />
 
     </data>
 
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="org.nghru_bd.ghru.SettingActivity"
+        tools:context="org.nghru_pk.ghru.SettingActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

@@ -5,11 +5,11 @@
 
         <variable
             name="bloodPressure"
-            type="org.nghru_bd.ghru.vo.BloodPressure" />
+            type="org.nghru_pk.ghru.vo.BloodPressure" />
 
         <variable
             name="homeItem"
-            type="org.nghru_bd.ghru.vo.HomeItem" />
+            type="org.nghru_pk.ghru.vo.HomeItem" />
     </data>
 
 

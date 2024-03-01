@@ -5,35 +5,35 @@
 
     <data>
 
-        <import type="org.nghru_bd.ghru.vo.BodyMeasurement" />
+        <import type="org.nghru_pk.ghru.vo.BodyMeasurement" />
 
-        <import type="org.nghru_bd.ghru.ui.bodymeasurements.bp.manual.one.BPManualOneViewModel" />
+        <import type="org.nghru_pk.ghru.ui.bodymeasurements.bp.manual.one.BPManualOneViewModel" />
 
-        <import type="org.nghru_bd.ghru.vo.BloodPressure" />
+        <import type="org.nghru_pk.ghru.vo.BloodPressure" />
 
         <variable
             name="bloodPressure"
-            type="org.nghru_bd.ghru.vo.BloodPressure" />
+            type="org.nghru_pk.ghru.vo.BloodPressure" />
 
         <variable
             name="viewModel"
-            type="org.nghru_bd.ghru.ui.bodymeasurements.bp.manual.one.BPManualOneViewModel" />
+            type="org.nghru_pk.ghru.ui.bodymeasurements.bp.manual.one.BPManualOneViewModel" />
 
         <variable
             name="mesurement"
-            type="org.nghru_bd.ghru.vo.BodyMeasurement" />
+            type="org.nghru_pk.ghru.vo.BodyMeasurement" />
 
         <variable
             name="resource"
-            type="org.nghru_bd.ghru.vo.Resource" />
+            type="org.nghru_pk.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.nghru_bd.ghru.ui.common.RetryCallback" />
+            type="org.nghru_pk.ghru.ui.common.RetryCallback" />
 
         <variable
             name="participant"
-            type="org.nghru_bd.ghru.vo.request.ParticipantRequest" />
+            type="org.nghru_pk.ghru.vo.request.ParticipantRequest" />
 
         <variable
             name="expandProcedure"
@@ -49,7 +49,7 @@
         android:fitsSystemWindows="true"
         android:focusable="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.nghru_bd.ghru.BodyMeasurementsActivity"
+        tools:context="org.nghru_pk.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout
