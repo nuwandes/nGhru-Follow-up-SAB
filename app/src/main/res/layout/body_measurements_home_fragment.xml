@@ -290,8 +290,7 @@
                 <LinearLayout
                         android:id="@+id/linearLayoutHeight"
                         android:layout_width="match_parent"
-                        android:layout_height="85dp"
-                        android:visibility="gone">
+                        android:layout_height="85dp">
 
 
                     <TextView

@@ -229,46 +229,14 @@ class BodyCompositionFragment : Fragment(), Injectable {
                             )
                         )
                     } else {
-//                        if (validateFatCom(bodyMeasurementValueBodyFat.value) && validateVisceral(
-//                                bodyMeasurementValueVisceralFat.value
-//                            ) && validateMuscle(bodyMeasurementValueMuscle.value)
-//                        ) {
-//
-//                            bodyMeasurementData.data = BodyMeasurementValueData(
-//                                fatComposition = BodyMeasurementValueDto(
-//                                    value = bodyMeasurementValueBodyFat.value.toDouble(),
-//                                    unit = "%"
-//                                ),
-//                                weight = BodyMeasurementValueDto(
-//                                    value = bodyMeasurementValue.value.toDouble(),
-//                                    unit = "kg"
-//                                ),
-//                                visceral = BodyMeasurementValueDto(
-//                                    value = bodyMeasurementValueVisceralFat.value.toDouble(),
-//                                    unit = "%"
-//                                ),
-//                                muscle = BodyMeasurementValueDto(
-//                                    value = bodyMeasurementValueMuscle.value.toDouble(),
-//                                    unit = "%"
-//                                )
-//                            )
-//                            // println(bodyMeasurementData.toString())
-//                            BodyMeasurementDataRxBus.getInstance().post(
-//                                BodyMeasurementDataResponse(
-//                                    BodyMeasurementDataEventType.BODY_COMOSITION,
-//                                    bodyMeasurementData
-//                                )
-//                            )
-//                        }
-
-//                        if (validateFatCom(bodyMeasurementValueBodyFat.value) && validateVisceral(
-//                                bodyMeasurementValueVisceralFat.value
-//                            ) && validateMuscle(bodyMeasurementValueMuscle.value)
-//                        ) {
+                        if (validateFatCom(bodyMeasurementValueBodyFat.value) && validateVisceral(
+                                bodyMeasurementValueVisceralFat.value
+                            ) && validateMuscle(bodyMeasurementValueMuscle.value)
+                        ) {
 
                             bodyMeasurementData.data = BodyMeasurementValueData(
                                 fatComposition = BodyMeasurementValueDto(
-                                    value = 0.00,
+                                    value = bodyMeasurementValueBodyFat.value.toDouble(),
                                     unit = "%"
                                 ),
                                 weight = BodyMeasurementValueDto(
@@ -276,11 +244,11 @@ class BodyCompositionFragment : Fragment(), Injectable {
                                     unit = "kg"
                                 ),
                                 visceral = BodyMeasurementValueDto(
-                                    value = 0.00,
+                                    value = bodyMeasurementValueVisceralFat.value.toDouble(),
                                     unit = "%"
                                 ),
                                 muscle = BodyMeasurementValueDto(
-                                    value = 0.00,
+                                    value = bodyMeasurementValueMuscle.value.toDouble(),
                                     unit = "%"
                                 )
                             )
@@ -291,6 +259,38 @@ class BodyCompositionFragment : Fragment(), Injectable {
                                     bodyMeasurementData
                                 )
                             )
+                        }
+
+//                        if (validateFatCom(bodyMeasurementValueBodyFat.value) && validateVisceral(
+//                                bodyMeasurementValueVisceralFat.value
+//                            ) && validateMuscle(bodyMeasurementValueMuscle.value)
+//                        ) {
+
+//                            bodyMeasurementData.data = BodyMeasurementValueData(
+//                                fatComposition = BodyMeasurementValueDto(
+//                                    value = 0.00,
+//                                    unit = "%"
+//                                ),
+//                                weight = BodyMeasurementValueDto(
+//                                    value = bodyMeasurementValue.value.toDouble(),
+//                                    unit = "kg"
+//                                ),
+//                                visceral = BodyMeasurementValueDto(
+//                                    value = 0.00,
+//                                    unit = "%"
+//                                ),
+//                                muscle = BodyMeasurementValueDto(
+//                                    value = 0.00,
+//                                    unit = "%"
+//                                )
+//                            )
+//                            // println(bodyMeasurementData.toString())
+//                            BodyMeasurementDataRxBus.getInstance().post(
+//                                BodyMeasurementDataResponse(
+//                                    BodyMeasurementDataEventType.BODY_COMOSITION,
+//                                    bodyMeasurementData
+//                                )
+//                            )
 //                        }
                     }
 

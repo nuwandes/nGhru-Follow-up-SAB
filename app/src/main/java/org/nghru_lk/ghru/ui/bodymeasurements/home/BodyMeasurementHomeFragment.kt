@@ -322,24 +322,24 @@ class BodyMeasurementHomeFragment : Fragment(), Injectable {
         }
 
         binding.buttonSubmit.singleClick {
-            if (selectedParticipant!!.height != null)
-            {
-                val bodyValue = BodyMeasurementValueData(BodyMeasurementValueDto("cm", selectedParticipant!!.height!!.toDouble()))
-                height = BodyMeasurementData("","", bodyValue, CancelRequest("", "", ""))
-            }
-            else
-            {
-                var dumyHeight : String = "0.0"
-                val bodyValue = BodyMeasurementValueData(BodyMeasurementValueDto("cm", dumyHeight.toDouble()))
-                height = BodyMeasurementData("","", bodyValue, CancelRequest("", "", ""))
-            }
+//            if (selectedParticipant!!.height != null)
+//            {
+//                val bodyValue = BodyMeasurementValueData(BodyMeasurementValueDto("cm", selectedParticipant!!.height!!.toDouble()))
+//                height = BodyMeasurementData("","", bodyValue, CancelRequest("", "", ""))
+//            }
+//            else
+//            {
+//                var dumyHeight : String = "0.0"
+//                val bodyValue = BodyMeasurementValueData(BodyMeasurementValueDto("cm", dumyHeight.toDouble()))
+//                height = BodyMeasurementData("","", bodyValue, CancelRequest("", "", ""))
+//            }
 
             //val bodyValue = BodyMeasurementValueData(BodyMeasurementValueDto("cm", selectedParticipant!!.height!!.toDouble()))
 
 
-            if (hipWaist != null && bodyComposition != null) {
+            if (hipWaist != null && bodyComposition != null && height != null) {
                 bodyMeasurement =
-                    BodyMeasurement(height = null, hipWaist = hipWaist, bodyComposition = bodyComposition)
+                    BodyMeasurement(height = height, hipWaist = hipWaist, bodyComposition = bodyComposition)
 
                 val endTime: String = convertTimeTo24Hours()
                 val endDate: String = getDate()
@@ -448,16 +448,16 @@ class BodyMeasurementHomeFragment : Fragment(), Injectable {
             }
         })
 
-//        binding.linearLayoutHeight.singleClick {
-//            // viewModel.sampleValidationError.value = false
-//
-//            binding.sampleValidationError = false
-//            updateProcessValidUI(binding.heightTextView)
-//            updateProcessValidUI(binding.hipWaistextView)
-//            updateProcessValidUI(binding.bodyCompositionTextView)
-//            //updateProcessValidUI(binding.fbgTextView)
-//            navController().navigate(R.id.action_BodyMeasurementHomeFragment_to_HeightFragment)
-//        }
+        binding.linearLayoutHeight.singleClick {
+            // viewModel.sampleValidationError.value = false
+
+            binding.sampleValidationError = false
+            updateProcessValidUI(binding.heightTextView)
+            updateProcessValidUI(binding.hipWaistextView)
+            updateProcessValidUI(binding.bodyCompositionTextView)
+            //updateProcessValidUI(binding.fbgTextView)
+            navController().navigate(R.id.action_BodyMeasurementHomeFragment_to_HeightFragment)
+        }
 
 
 

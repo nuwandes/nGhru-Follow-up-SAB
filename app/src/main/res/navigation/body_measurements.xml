@@ -40,9 +40,9 @@
         android:label="BodyMeasurementHomeFragment"
         tools:layout="@layout/body_measurements_home_fragment">
 
-<!--        <action-->
-<!--            android:id="@+id/action_BodyMeasurementHomeFragment_to_HeightFragment"-->
-<!--            app:destination="@id/HeightFragment" />-->
+        <action
+            android:id="@+id/action_BodyMeasurementHomeFragment_to_HeightFragment"
+            app:destination="@id/HeightFragment" />
         <action
             android:id="@+id/action_BodyMeasurementHomeFragment_to_BodyCompositionFragment"
             app:destination="@id/BodyCompositionFragment" />
@@ -50,13 +50,13 @@
             android:id="@+id/action_BodyMeasurementHomeFragment_to_HipWaistFragment"
             app:destination="@id/HipWaistFragment" />
     </fragment>
-<!--    <fragment-->
-<!--        android:id="@+id/HeightFragment"-->
-<!--        android:name="org.southasia.ghru.ui.bodymeasurements.height.HeightFragment"-->
-<!--        android:label="HeightFragment"-->
-<!--        tools:layout="@layout/height_fragment">-->
+    <fragment
+        android:id="@+id/HeightFragment"
+        android:name="org.nghru_lk.ghru.ui.bodymeasurements.height.HeightFragment"
+        android:label="HeightFragment"
+        tools:layout="@layout/height_fragment">
 
-<!--    </fragment>-->
+    </fragment>
 
     <fragment
         android:id="@+id/BodyCompositionFragment"
