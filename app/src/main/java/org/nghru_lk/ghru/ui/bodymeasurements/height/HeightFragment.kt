@@ -137,7 +137,7 @@ class HeightFragment : Fragment(), Injectable {
         val adapter = ArrayAdapter(context!!, R.layout.basic_spinner_dropdown_item, deviceListName)
         binding.deviceIdSpinner.setAdapter(adapter);
 
-        viewModel.setStationName(Measurements.HIP_AND_WAIST)
+        viewModel.setStationName(Measurements.HEIGHT)
         viewModel.stationDeviceList?.observe(this, Observer {
             if (it.status.equals(Status.SUCCESS)) {
                 deviceListObject = it.data!!
