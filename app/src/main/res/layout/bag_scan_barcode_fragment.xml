@@ -6,18 +6,18 @@
     <data>
 
 
-        <import type="org.nghru_lk.ghru.ui.samplecollection.bagscanbarcode.BagScanBarcodeViewModel" />
+        <import type="org.nghru_inn.ghru.ui.samplecollection.bagscanbarcode.BagScanBarcodeViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_lk.ghru.ui.samplecollection.bagscanbarcode.BagScanBarcodeViewModel" />
+            type="org.nghru_inn.ghru.ui.samplecollection.bagscanbarcode.BagScanBarcodeViewModel" />
 
 
-        <import type="org.nghru_lk.ghru.vo.Status" />
+        <import type="org.nghru_inn.ghru.vo.Status" />
 
         <variable
             name="resource"
-            type="org.nghru_lk.ghru.vo.Resource" />
+            type="org.nghru_inn.ghru.vo.Resource" />
 
     </data>
 
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="org.nghru_lk.ghru.SettingActivity"
+        tools:context="org.nghru_inn.ghru.SettingActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

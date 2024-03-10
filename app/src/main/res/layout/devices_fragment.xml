@@ -4,11 +4,11 @@
 
     <data>
 
-        <import type="org.nghru_lk.ghru.ui.devices.DevicesViewModel" />
+        <import type="org.nghru_inn.ghru.ui.devices.DevicesViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_lk.ghru.ui.devices.DevicesViewModel" />
+            type="org.nghru_inn.ghru.ui.devices.DevicesViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

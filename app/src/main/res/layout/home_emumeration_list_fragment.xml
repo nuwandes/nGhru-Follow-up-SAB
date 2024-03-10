@@ -7,22 +7,22 @@
 
         <variable
             name="user"
-            type="org.nghru_lk.ghru.vo.User" />
+            type="org.nghru_inn.ghru.vo.User" />
 
-        <import type="org.nghru_lk.ghru.ui.homeenumerationlist.HomeEmumerationListViewModel" />
+        <import type="org.nghru_inn.ghru.ui.homeenumerationlist.HomeEmumerationListViewModel" />
 
         <variable
             name="homeViewModel"
-            type="org.nghru_lk.ghru.ui.homeenumerationlist.HomeEmumerationListViewModel" />
+            type="org.nghru_inn.ghru.ui.homeenumerationlist.HomeEmumerationListViewModel" />
 
 
         <variable
             name="userResource"
-            type="org.nghru_lk.ghru.vo.Resource" />
+            type="org.nghru_inn.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.nghru_lk.ghru.ui.common.RetryCallback" />
+            type="org.nghru_inn.ghru.ui.common.RetryCallback" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

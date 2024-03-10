@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="org.nghru_lk.ghru.ui.intake.readings.IntakeReadingsViewModel" />
+        <import type="org.nghru_inn.ghru.ui.intake.readings.IntakeReadingsViewModel" />
 
         <variable
             name="participant"
-            type="org.nghru_lk.ghru.vo.request.ParticipantRequest" />
+            type="org.nghru_inn.ghru.vo.request.ParticipantRequest" />
     </data>
 
 
@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:fitsSystemWindows="true"
-        tools:context="org.nghru_lk.ghru.SettingActivity"
+        tools:context="org.nghru_inn.ghru.SettingActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

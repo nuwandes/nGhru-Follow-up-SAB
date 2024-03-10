@@ -1,0 +1,35 @@
+package org.nghru_inn.ghru.ui.samplemanagement.totalcholesterol
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
+import org.nghru_inn.ghru.repository.StationDevicesRepository
+import org.nghru_inn.ghru.vo.Measurements
+import org.nghru_inn.ghru.vo.Resource
+import org.nghru_inn.ghru.vo.StationDeviceData
+import javax.inject.Inject
+
+
+class TotalCholesterolViewModel
+@Inject constructor(stationDevicesRepository: StationDevicesRepository) : ViewModel() {
+
+    var totalCholesterol: MutableLiveData<String> = MutableLiveData<String>().apply { "" }
+
+    var isValidateError: Boolean = false
+
+    private val _stationName = MutableLiveData<String>()
+
+    fun setStationName(stationName: Measurements) {
+        val update = stationName.toString().toLowerCase()
+        if (_stationName.value == update) {
+            return
+        }
+        _stationName.value = update
+    }
+
+    var stationDeviceList: LiveData<Resource<List<StationDeviceData>>>? = Transformations
+        .switchMap(_stationName) { input ->
+            stationDevicesRepository.getStationDeviceList(_stationName.value!!)
+        }
+}

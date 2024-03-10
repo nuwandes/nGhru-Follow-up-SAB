@@ -7,7 +7,7 @@
 
         <variable
             name="questionnaire"
-            type="org.nghru_lk.ghru.vo.Questionnaire" />
+            type="org.nghru_inn.ghru.vo.Questionnaire" />
     </data>
 
 

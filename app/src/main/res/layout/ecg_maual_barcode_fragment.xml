@@ -5,19 +5,19 @@
 
     <data>
 
-        <import type="org.nghru_lk.ghru.ui.ecg.manualentry.ManualEntryECGModel" />
+        <import type="org.nghru_inn.ghru.ui.ecg.manualentry.ManualEntryECGModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_lk.ghru.ui.ecg.manualentry.ManualEntryECGModel" />
+            type="org.nghru_inn.ghru.ui.ecg.manualentry.ManualEntryECGModel" />
 
         <variable
             name="userResource"
-            type="org.nghru_lk.ghru.vo.Resource" />
+            type="org.nghru_inn.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.nghru_lk.ghru.ui.common.RetryCallback" />
+            type="org.nghru_inn.ghru.ui.common.RetryCallback" />
     </data>
 
 
@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="org.nghru_lk.ghru.SettingActivity"
+        tools:context="org.nghru_inn.ghru.SettingActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

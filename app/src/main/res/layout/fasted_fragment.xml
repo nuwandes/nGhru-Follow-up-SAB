@@ -5,15 +5,15 @@
 
     <data>
 
-        <import type="org.nghru_lk.ghru.ui.samplecollection.fasted.FastedViewModel" />
+        <import type="org.nghru_inn.ghru.ui.samplecollection.fasted.FastedViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_lk.ghru.ui.samplecollection.fasted.FastedViewModel" />
+            type="org.nghru_inn.ghru.ui.samplecollection.fasted.FastedViewModel" />
 
         <variable
             name="participant"
-            type="org.nghru_lk.ghru.vo.request.ParticipantRequest" />
+            type="org.nghru_inn.ghru.vo.request.ParticipantRequest" />
 
     </data>
 
@@ -23,7 +23,7 @@
         android:background="@color/white"
         android:fitsSystemWindows="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.nghru_lk.ghru.BodyMeasurementsActivity"
+        tools:context="org.nghru_inn.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

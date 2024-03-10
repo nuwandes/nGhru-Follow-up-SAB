@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/measurementListFragment"
-        android:name="org.nghru_lk.ghru.ui.participantlist.measurementlist.MeasurementListFragment"
+        android:name="org.nghru_inn.ghru.ui.participantlist.measurementlist.MeasurementListFragment"
         android:label="MeasureListFragment"
         tools:layout="@layout/measurement_list_fragment">
 

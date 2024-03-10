@@ -5,15 +5,15 @@
     <data>
 
 
-        <import type="org.nghru_lk.ghru.ui.bodymeasurements.bp.skip.SkipDialogViewModel" />
+        <import type="org.nghru_inn.ghru.ui.bodymeasurements.bp.skip.SkipDialogViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_lk.ghru.ui.bodymeasurements.bp.skip.SkipDialogViewModel" />
+            type="org.nghru_inn.ghru.ui.bodymeasurements.bp.skip.SkipDialogViewModel" />
 
         <variable
             name="userResource"
-            type="org.nghru_lk.ghru.vo.Resource" />
+            type="org.nghru_inn.ghru.vo.Resource" />
 
     </data>
 
