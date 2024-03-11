@@ -6,17 +6,17 @@
     <data>
 
 
-        <import type="org.nghru_inn.ghru.ui.samplemanagement.tubescanbarcode.TubeScanBarcodeViewModel" />
+        <import type="org.nghru_ins.ghru.ui.samplemanagement.tubescanbarcode.TubeScanBarcodeViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_inn.ghru.ui.samplemanagement.tubescanbarcode.TubeScanBarcodeViewModel" />
+            type="org.nghru_ins.ghru.ui.samplemanagement.tubescanbarcode.TubeScanBarcodeViewModel" />
 
-        <import type="org.nghru_inn.ghru.vo.Status" />
+        <import type="org.nghru_ins.ghru.vo.Status" />
 
         <variable
             name="userResource"
-            type="org.nghru_inn.ghru.vo.Resource" />
+            type="org.nghru_ins.ghru.vo.Resource" />
     </data>
 
 
@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="org.nghru_inn.ghru.SettingActivity"
+        tools:context="org.nghru_ins.ghru.SettingActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

@@ -7,21 +7,21 @@
 
         <variable
             name="participant"
-            type="org.nghru_inn.ghru.vo.request.ParticipantRequest" />
+            type="org.nghru_ins.ghru.vo.request.ParticipantRequest" />
 
-        <import type="org.nghru_inn.ghru.ui.covid.confirmation.CovidConfirmationViewModel" />
+        <import type="org.nghru_ins.ghru.ui.covid.confirmation.CovidConfirmationViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_inn.ghru.ui.covid.confirmation.CovidConfirmationViewModel" />
+            type="org.nghru_ins.ghru.ui.covid.confirmation.CovidConfirmationViewModel" />
 
         <variable
             name="resource"
-            type="org.nghru_inn.ghru.vo.Resource" />
+            type="org.nghru_ins.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.nghru_inn.ghru.ui.common.RetryCallback" />
+            type="org.nghru_ins.ghru.ui.common.RetryCallback" />
 
         <variable name="radioGroupCovidValue" type="Boolean"/>
 

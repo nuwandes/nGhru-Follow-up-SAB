@@ -4,11 +4,11 @@
 
     <data>
 
-        <import type="org.nghru_inn.ghru.ui.enumeration.EnumerationViewModel" />
+        <import type="org.nghru_ins.ghru.ui.enumeration.EnumerationViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_inn.ghru.ui.enumeration.EnumerationViewModel" />
+            type="org.nghru_ins.ghru.ui.enumeration.EnumerationViewModel" />
 
 
     </data>

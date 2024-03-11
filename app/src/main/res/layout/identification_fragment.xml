@@ -6,11 +6,11 @@
     <data>
 
 
-        <import type="org.nghru_inn.ghru.ui.registerpatient.identification.IdentificationViewModel" />
+        <import type="org.nghru_ins.ghru.ui.registerpatient.identification.IdentificationViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_inn.ghru.ui.registerpatient.identification.IdentificationViewModel" />
+            type="org.nghru_ins.ghru.ui.registerpatient.identification.IdentificationViewModel" />
 
     </data>
 
@@ -23,7 +23,7 @@
         android:fitsSystemWindows="true"
         android:focusable="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.nghru_inn.ghru.BodyMeasurementsActivity"
+        tools:context="org.nghru_ins.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

@@ -7,13 +7,13 @@
 
         <variable
             name="participant"
-            type="org.nghru_inn.ghru.vo.request.ParticipantRequest" />
+            type="org.nghru_ins.ghru.vo.request.ParticipantRequest" />
 
-        <import type="org.nghru_inn.ghru.ui.samplecollection.verifyid.VerifyIDViewModel" />
+        <import type="org.nghru_ins.ghru.ui.samplecollection.verifyid.VerifyIDViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_inn.ghru.ui.samplecollection.verifyid.VerifyIDViewModel" />
+            type="org.nghru_ins.ghru.ui.samplecollection.verifyid.VerifyIDViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -22,7 +22,7 @@
         android:background="@color/white"
         android:fitsSystemWindows="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.nghru_inn.ghru.BodyMeasurementsActivity"
+        tools:context="org.nghru_ins.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

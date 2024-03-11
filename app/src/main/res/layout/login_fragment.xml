@@ -20,28 +20,28 @@
 
     <data>
 
-        <import type="org.nghru_inn.ghru.vo.User" />
+        <import type="org.nghru_ins.ghru.vo.User" />
 
-        <import type="org.nghru_inn.ghru.vo.Devices" />
+        <import type="org.nghru_ins.ghru.vo.Devices" />
 
         <variable
             name="user"
-            type="org.nghru_inn.ghru.vo.User" />
+            type="org.nghru_ins.ghru.vo.User" />
 
 
         <variable
             name="devices"
-            type="org.nghru_inn.ghru.vo.Devices" />
+            type="org.nghru_ins.ghru.vo.Devices" />
 
         <variable
             name="userResource"
-            type="org.nghru_inn.ghru.vo.Resource" />
+            type="org.nghru_ins.ghru.vo.Resource" />
 
-        <import type="org.nghru_inn.ghru.vo.Status" />
+        <import type="org.nghru_ins.ghru.vo.Status" />
 
         <variable
             name="retryCallback"
-            type="org.nghru_inn.ghru.ui.common.RetryCallback" />
+            type="org.nghru_ins.ghru.ui.common.RetryCallback" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -106,7 +106,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/nghru_inn"
+            app:srcCompat="@drawable/nghru_ins"
             tools:ignore="VectorDrawableCompat" />
 
         <ImageView

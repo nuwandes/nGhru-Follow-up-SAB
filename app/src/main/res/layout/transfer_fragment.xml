@@ -7,13 +7,13 @@
 
         <variable
             name="sample"
-            type="org.nghru_inn.ghru.vo.request.SampleRequest" />
+            type="org.nghru_ins.ghru.vo.request.SampleRequest" />
 
-        <import type="org.nghru_inn.ghru.ui.samplemanagement.storage.StorageViewModel" />
+        <import type="org.nghru_ins.ghru.ui.samplemanagement.storage.StorageViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_inn.ghru.ui.samplemanagement.storage.StorageViewModel" />
+            type="org.nghru_ins.ghru.ui.samplemanagement.storage.StorageViewModel" />
 
         <variable
             name="storageID"
@@ -21,7 +21,7 @@
 
         <variable
             name="storage"
-            type="org.nghru_inn.ghru.vo.Storage" />
+            type="org.nghru_ins.ghru.vo.Storage" />
 
     </data>
 
@@ -31,7 +31,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:fitsSystemWindows="true"
-        tools:context="org.nghru_inn.ghru.SettingActivity"
+        tools:context="org.nghru_ins.ghru.SettingActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

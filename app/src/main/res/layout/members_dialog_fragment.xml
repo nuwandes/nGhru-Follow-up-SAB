@@ -6,11 +6,11 @@
     <data>
 
 
-        <import type="org.nghru_inn.ghru.ui.registerpatient.scanqrcode.membersdialog.MembersDialogViewModel" />
+        <import type="org.nghru_ins.ghru.ui.registerpatient.scanqrcode.membersdialog.MembersDialogViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_inn.ghru.ui.registerpatient.scanqrcode.membersdialog.MembersDialogViewModel" />
+            type="org.nghru_ins.ghru.ui.registerpatient.scanqrcode.membersdialog.MembersDialogViewModel" />
 
         <import type="android.text.Html" />
 

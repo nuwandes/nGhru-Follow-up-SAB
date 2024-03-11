@@ -3,11 +3,11 @@
 
     <data>
 
-        <import type="org.nghru_inn.ghru.ui.usersetting.UserSettingViewModel" />
+        <import type="org.nghru_ins.ghru.ui.usersetting.UserSettingViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_inn.ghru.ui.usersetting.UserSettingViewModel" />
+            type="org.nghru_ins.ghru.ui.usersetting.UserSettingViewModel" />
     </data>
 
     <LinearLayout

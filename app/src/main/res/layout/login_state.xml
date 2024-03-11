@@ -4,9 +4,9 @@
 
     <data>
 
-        <import type="org.nghru_inn.ghru.vo.Resource" />
+        <import type="org.nghru_ins.ghru.vo.Resource" />
 
-        <import type="org.nghru_inn.ghru.vo.Status" />
+        <import type="org.nghru_ins.ghru.vo.Status" />
 
         <variable
             name="resource"
@@ -14,7 +14,7 @@
 
         <variable
             name="callback"
-            type="org.nghru_inn.ghru.ui.common.RetryCallback" />
+            type="org.nghru_ins.ghru.ui.common.RetryCallback" />
     </data>
 
     <LinearLayout

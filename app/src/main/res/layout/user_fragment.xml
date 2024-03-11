@@ -7,15 +7,15 @@
 
         <variable
             name="user"
-            type="org.nghru_inn.ghru.vo.User" />
+            type="org.nghru_ins.ghru.vo.User" />
 
         <variable
             name="userResource"
-            type="org.nghru_inn.ghru.vo.Resource" />
+            type="org.nghru_ins.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.nghru_inn.ghru.ui.common.RetryCallback" />
+            type="org.nghru_ins.ghru.ui.common.RetryCallback" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

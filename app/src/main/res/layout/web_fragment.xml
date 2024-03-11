@@ -6,11 +6,11 @@
     <data>
 
 
-        <import type="org.nghru_inn.ghru.ui.web.WebViewModel" />
+        <import type="org.nghru_ins.ghru.ui.web.WebViewModel" />
 
         <variable
             name="participant"
-            type="org.nghru_inn.ghru.vo.request.ParticipantRequest" />
+            type="org.nghru_ins.ghru.vo.request.ParticipantRequest" />
     </data>
 
 
@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:fitsSystemWindows="true"
-        tools:context="org.nghru_inn.ghru.SettingActivity"
+        tools:context="org.nghru_ins.ghru.SettingActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

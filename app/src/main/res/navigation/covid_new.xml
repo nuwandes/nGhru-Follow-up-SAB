@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/StageOneCompletedFragment"
-        android:name="org.nghru_inn.ghru.ui.covid.confirmation.completed.StageOneCompletedDialogFragment"
+        android:name="org.nghru_ins.ghru.ui.covid.confirmation.completed.StageOneCompletedDialogFragment"
         android:label="StageOneCompletedDialogFragment"
         tools:layout="@layout/stage_one_completed_dialog_fragment">
 
@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/ConfirmationFragment"
-        android:name="org.nghru_inn.ghru.ui.covid.confirmation.CovidConfirmationFragment"
+        android:name="org.nghru_ins.ghru.ui.covid.confirmation.CovidConfirmationFragment"
         android:label="ConfirmationFragment"
         tools:layout="@layout/covid_confirmation_fragment">
 

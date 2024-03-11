@@ -7,15 +7,15 @@
     <data>
 
 
-        <import type="org.nghru_inn.ghru.ui.spirometry.record.RecordTestViewModel" />
+        <import type="org.nghru_ins.ghru.ui.spirometry.record.RecordTestViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_inn.ghru.ui.spirometry.record.RecordTestViewModel" />
+            type="org.nghru_ins.ghru.ui.spirometry.record.RecordTestViewModel" />
 
         <variable
             name="mesurement"
-            type="org.nghru_inn.ghru.vo.SpirometryRecord" />
+            type="org.nghru_ins.ghru.vo.SpirometryRecord" />
 
     </data>
 
@@ -24,7 +24,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.nghru_inn.ghru.SpirometryActivity"
+        tools:context="org.nghru_ins.ghru.SpirometryActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

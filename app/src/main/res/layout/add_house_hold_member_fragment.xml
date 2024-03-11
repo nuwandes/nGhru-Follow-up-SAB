@@ -6,23 +6,23 @@
     <data>
 
 
-        <import type="org.nghru_inn.ghru.ui.enumeration.member.AddHouseHoldMemberViewModel" />
+        <import type="org.nghru_ins.ghru.ui.enumeration.member.AddHouseHoldMemberViewModel" />
 
-        <import type="org.nghru_inn.ghru.vo.request.HouseHoldMember" />
+        <import type="org.nghru_ins.ghru.vo.request.HouseHoldMember" />
 
-        <import type="org.nghru_inn.ghru.vo.request.Gender" />
+        <import type="org.nghru_ins.ghru.vo.request.Gender" />
 
-        <import type="org.nghru_inn.ghru.vo.request.Reason" />
+        <import type="org.nghru_ins.ghru.vo.request.Reason" />
 
         <import type="android.view.View" />
 
         <variable
             name="viewModel"
-            type="org.nghru_inn.ghru.ui.enumeration.member.AddHouseHoldMemberViewModel" />
+            type="org.nghru_ins.ghru.ui.enumeration.member.AddHouseHoldMemberViewModel" />
 
         <variable
             name="member"
-            type="org.nghru_inn.ghru.vo.request.HouseHoldMember" />
+            type="org.nghru_ins.ghru.vo.request.HouseHoldMember" />
 
     </data>
 
@@ -32,7 +32,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:fitsSystemWindows="true"
-        tools:context="org.nghru_inn.ghru.SettingActivity"
+        tools:context="org.nghru_ins.ghru.SettingActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

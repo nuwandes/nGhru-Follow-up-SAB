@@ -8,7 +8,7 @@
 
     <fragment
             android:id="@+id/QuestionnaireListFragment"
-            android:name="org.nghru_inn.ghru.ui.questionnaire.languagelist.QuestionnaireListFragment"
+            android:name="org.nghru_ins.ghru.ui.questionnaire.languagelist.QuestionnaireListFragment"
             android:label="WebFragment"
             tools:layout="@layout/questionnaire_list_fragment">
 
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/ScanBarcodeFragment"
-        android:name="org.nghru_inn.ghru.ui.questionnaire.scanbarcode.ScanBarcodeFragment"
+        android:name="org.nghru_ins.ghru.ui.questionnaire.scanbarcode.ScanBarcodeFragment"
         android:label="ScanBarcodeFragment"
         tools:layout="@layout/scan_barcode_patient_fragment">
 
@@ -41,7 +41,7 @@
 
     <fragment
         android:id="@+id/ManualEntryBarcodeFragment"
-        android:name="org.nghru_inn.ghru.ui.questionnaire.scanbarcode.manualentry.ManualEntryBarcodeFragment"
+        android:name="org.nghru_ins.ghru.ui.questionnaire.scanbarcode.manualentry.ManualEntryBarcodeFragment"
         android:label="ManualEntryBarcodeFragment"
         tools:layout="@layout/register_patient_barcode_manualentry_fragment">
 
@@ -53,7 +53,7 @@
     </fragment>
     <fragment
         android:id="@+id/WebFragment"
-        android:name="org.nghru_inn.ghru.ui.questionnaire.web.WebFragment"
+        android:name="org.nghru_ins.ghru.ui.questionnaire.web.WebFragment"
         android:label="WebFragment"
         tools:layout="@layout/web_fragment">
 

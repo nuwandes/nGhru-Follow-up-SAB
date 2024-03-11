@@ -7,7 +7,7 @@
 
         <variable
             name="measurementListItem"
-            type="org.nghru_inn.ghru.vo.MeasurementListItem" />
+            type="org.nghru_ins.ghru.vo.MeasurementListItem" />
     </data>
 
 

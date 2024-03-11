@@ -7,7 +7,7 @@
 
         <variable
             name="homeEmumerationListItem"
-            type="org.nghru_inn.ghru.vo.HomeEmumerationListItem" />
+            type="org.nghru_ins.ghru.vo.HomeEmumerationListItem" />
     </data>
 
 
