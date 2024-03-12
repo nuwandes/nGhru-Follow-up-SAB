@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/CognitionGuideFragment"
-        android:name="org.nghru_lk.ghru.ui.covid.CovidGuideFragment"
+        android:name="org.nghru_pk.ghru.ui.covid.CovidGuideFragment"
         android:label="CognitionGuideFragment"
         tools:layout="@layout/covid_guide_fragment">
     </fragment>

@@ -7,13 +7,13 @@
 
         <variable
             name="fastingBloodGlucose"
-            type="org.nghru_lk.ghru.vo.FastingBloodGlucose" />
+            type="org.nghru_pk.ghru.vo.FastingBloodGlucose" />
 
-        <import type="org.nghru_lk.ghru.ui.samplemanagement.fastingbloodglucose.FastingBloodGlucoseViewModel" />
+        <import type="org.nghru_pk.ghru.ui.samplemanagement.fastingbloodglucose.FastingBloodGlucoseViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_lk.ghru.ui.samplemanagement.fastingbloodglucose.FastingBloodGlucoseViewModel" />
+            type="org.nghru_pk.ghru.ui.samplemanagement.fastingbloodglucose.FastingBloodGlucoseViewModel" />
 
 
     </data>
@@ -24,7 +24,7 @@
         android:background="@color/white"
         android:fitsSystemWindows="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.nghru_lk.ghru.BodyMeasurementsActivity"
+        tools:context="org.nghru_pk.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

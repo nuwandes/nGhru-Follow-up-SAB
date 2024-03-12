@@ -10,7 +10,7 @@
     android:focusable="true"
     android:orientation="horizontal"
     app:navGraph="@navigation/body_measurements"
-    tools:context="org.nghru_lk.ghru.BodyMeasurementsActivity"
+    tools:context="org.nghru_pk.ghru.BodyMeasurementsActivity"
     tools:ignore="MergeRootFrame">
 
     <ImageView
