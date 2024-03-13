@@ -7,21 +7,21 @@
 
         <variable
             name="user"
-            type="org.nghru_pk.ghru.vo.User" />
+            type="org.nghru_bd.ghru.vo.User" />
 
-        <import type="org.nghru_pk.ghru.ui.bodymeasurements.bp.BPViewModel" />
+        <import type="org.nghru_bd.ghru.ui.bodymeasurements.bp.BPViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_pk.ghru.ui.bodymeasurements.bp.BPViewModel" />
+            type="org.nghru_bd.ghru.ui.bodymeasurements.bp.BPViewModel" />
 
         <variable
             name="resource"
-            type="org.nghru_pk.ghru.vo.Resource" />
+            type="org.nghru_bd.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.nghru_pk.ghru.ui.common.RetryCallback" />
+            type="org.nghru_bd.ghru.ui.common.RetryCallback" />
     </data>
 
 
@@ -30,7 +30,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.nghru_pk.ghru.BodyMeasurementsActivity"
+        tools:context="org.nghru_bd.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

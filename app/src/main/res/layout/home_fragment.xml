@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="org.nghru_pk.ghru.ui.home.HomeViewModel" />
+        <import type="org.nghru_bd.ghru.ui.home.HomeViewModel" />
 
         <variable
             name="homeViewModel"
-            type="org.nghru_pk.ghru.ui.home.HomeViewModel" />
+            type="org.nghru_bd.ghru.ui.home.HomeViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:fitsSystemWindows="true"
-        tools:context="org.nghru_pk.ghru.SettingActivity"
+        tools:context="org.nghru_bd.ghru.SettingActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

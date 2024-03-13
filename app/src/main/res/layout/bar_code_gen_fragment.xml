@@ -5,11 +5,11 @@
 
         <variable
             name="userResource"
-            type="org.nghru_pk.ghru.vo.Resource" />
+            type="org.nghru_bd.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.nghru_pk.ghru.ui.common.RetryCallback" />
+            type="org.nghru_bd.ghru.ui.common.RetryCallback" />
     </data>
 
 

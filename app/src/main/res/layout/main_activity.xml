@@ -6,15 +6,15 @@
 
         <variable
             name="user"
-            type="org.nghru_pk.ghru.vo.User" />
+            type="org.nghru_bd.ghru.vo.User" />
 
         <variable
             name="userResource"
-            type="org.nghru_pk.ghru.vo.Resource" />
+            type="org.nghru_bd.ghru.vo.Resource" />
 
         <variable
             name="retryCallback"
-            type="org.nghru_pk.ghru.ui.common.RetryCallback" />
+            type="org.nghru_bd.ghru.ui.common.RetryCallback" />
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -44,7 +44,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        app:srcCompat="@drawable/pk_text1"
+                        app:srcCompat="@drawable/bd_text"
                         android:contentDescription="@string/imageview"
                         android:visibility="gone"/>
 

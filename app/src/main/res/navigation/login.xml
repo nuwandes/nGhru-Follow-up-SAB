@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="org.nghru_pk.ghru.ui.login.LoginFragment"
+        android:name="org.nghru_bd.ghru.ui.login.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/login_fragment" />
 

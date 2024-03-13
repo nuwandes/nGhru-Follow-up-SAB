@@ -7,13 +7,13 @@
 
         <variable
             name="triglycerides"
-            type="org.nghru_pk.ghru.vo.Triglycerides" />
+            type="org.nghru_bd.ghru.vo.Triglycerides" />
 
-        <import type="org.nghru_pk.ghru.ui.samplemanagement.triglycerides.TriglyceridesViewModel" />
+        <import type="org.nghru_bd.ghru.ui.samplemanagement.triglycerides.TriglyceridesViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_pk.ghru.ui.samplemanagement.triglycerides.TriglyceridesViewModel" />
+            type="org.nghru_bd.ghru.ui.samplemanagement.triglycerides.TriglyceridesViewModel" />
 
 <!--        <variable-->
 <!--            name="totalCholesterol"-->
@@ -34,7 +34,7 @@
         android:background="@color/white"
         android:fitsSystemWindows="true"
         app:navGraph="@navigation/body_measurements"
-        tools:context="org.nghru_pk.ghru.BodyMeasurementsActivity"
+        tools:context="org.nghru_bd.ghru.BodyMeasurementsActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

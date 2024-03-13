@@ -6,11 +6,11 @@
     <data>
 
 
-        <import type="org.nghru_pk.ghru.ui.samplemanagement.SampleMangementViewModel" />
+        <import type="org.nghru_bd.ghru.ui.samplemanagement.SampleMangementViewModel" />
 
         <variable
             name="homeViewModel"
-            type="org.nghru_pk.ghru.ui.samplemanagement.SampleMangementViewModel" />
+            type="org.nghru_bd.ghru.ui.samplemanagement.SampleMangementViewModel" />
 
 
     </data>
@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:fitsSystemWindows="true"
-        tools:context="org.nghru_pk.ghru.SampleHomeActivity"
+        tools:context="org.nghru_bd.ghru.SampleHomeActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

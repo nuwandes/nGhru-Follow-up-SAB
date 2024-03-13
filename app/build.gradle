@@ -99,7 +99,7 @@ android {
         //def serverUrl = '\"' + (System.getenv("SERVER_URL") ?: "https://ghru-follow-up-tool.appspot.com") + '\"'
 //        def serverUrl =  '\"' + (System.getenv("SERVER_URL")?: "https://lk.nghru.org/")+'\"'
 
-        def serverUrl =  '\"' + (System.getenv("SERVER_URL")?: "https://pk.ghrusouthasia.com/")+'\"'
+        def serverUrl =  '\"' + (System.getenv("SERVER_URL")?: "https://bd.ghrusouthasia.com/")+'\"'
 
         def clientSecret = "\"phOJqrz6a4RlzlmC2TYtMnuPfOLwZRHirHYXlTaS\""
 

@@ -7,7 +7,7 @@
 
     <fragment
             android:id="@+id/CheckListFragment"
-            android:name="org.nghru_pk.ghru.ui.spirometry.checklist.CheckListFragment"
+            android:name="org.nghru_bd.ghru.ui.spirometry.checklist.CheckListFragment"
             android:label="ScanBarcodeFragment"
             tools:layout="@layout/spiro_check_list_fragment">
 
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/scanBarcodeFragment"
-        android:name="org.nghru_pk.ghru.ui.spirometry.scanbarcode.ScanBarcodeFragment"
+        android:name="org.nghru_bd.ghru.ui.spirometry.scanbarcode.ScanBarcodeFragment"
         android:label="ScanBarcodeFragment"
         tools:layout="@layout/spirometry_scan_barcode_patient_fragment">
 
@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/manualScanFragment"
-        android:name="org.nghru_pk.ghru.ui.spirometry.manualentry.ManualEntrySpirometryFragment"
+        android:name="org.nghru_bd.ghru.ui.spirometry.manualentry.ManualEntrySpirometryFragment"
         android:label="ManualScanFragment"
         tools:layout="@layout/spirometry_manual_barcode_entry_fragment">
         <action android:id="@+id/action_manualScanFragment_to_CheckListFragment"
@@ -40,7 +40,7 @@
 
     <fragment
         android:id="@+id/verifyIDFragment"
-        android:name="org.nghru_pk.ghru.ui.spirometry.verifyid.SpirometryVerifyIDFragment"
+        android:name="org.nghru_bd.ghru.ui.spirometry.verifyid.SpirometryVerifyIDFragment"
         android:label="VerifyIDFragment"
         tools:layout="@layout/spirometry_id_fragment">
         <action
@@ -51,7 +51,7 @@
 
     <fragment
         android:id="@+id/guideMainFragment"
-        android:name="org.nghru_pk.ghru.ui.spirometry.guide.GuideMainFragment"
+        android:name="org.nghru_bd.ghru.ui.spirometry.guide.GuideMainFragment"
         android:label="GuideMainFragment"
         tools:layout="@layout/spirometry_guide_main_fragment">
 
@@ -62,7 +62,7 @@
 
     <fragment
         android:id="@+id/testsFragment"
-        android:name="org.nghru_pk.ghru.ui.spirometry.tests.TestFragment"
+        android:name="org.nghru_bd.ghru.ui.spirometry.tests.TestFragment"
         android:label="TestsFragment"
         tools:layout="@layout/spirometry_tests_fragment">
 
@@ -73,7 +73,7 @@
 
     <fragment
         android:id="@+id/recordTestFragment"
-        android:name="org.nghru_pk.ghru.ui.spirometry.record.RecordTestFragment"
+        android:name="org.nghru_bd.ghru.ui.spirometry.record.RecordTestFragment"
         android:label="RecordTestFragment"
         tools:layout="@layout/spirometry_record_test_fragment">
 

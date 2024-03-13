@@ -6,11 +6,11 @@
     <data>
 
 
-        <import type="org.nghru_pk.ghru.ui.enumeration.registergeolocation.RegisterGeolocationViewModel" />
+        <import type="org.nghru_bd.ghru.ui.enumeration.registergeolocation.RegisterGeolocationViewModel" />
 
         <variable
             name="viewModel"
-            type="org.nghru_pk.ghru.ui.enumeration.registergeolocation.RegisterGeolocationViewModel" />
+            type="org.nghru_bd.ghru.ui.enumeration.registergeolocation.RegisterGeolocationViewModel" />
     </data>
 
    <ScrollView
@@ -21,7 +21,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:fitsSystemWindows="true"
-        tools:context="org.nghru_pk.ghru.SettingActivity"
+        tools:context="org.nghru_bd.ghru.SettingActivity"
         tools:ignore="MergeRootFrame">
 
         <com.google.android.material.appbar.AppBarLayout

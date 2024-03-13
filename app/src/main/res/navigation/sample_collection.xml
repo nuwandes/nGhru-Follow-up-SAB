@@ -36,7 +36,7 @@
 
     <fragment
         android:id="@+id/verifyIDFragment"
-        android:name="org.nghru_pk.ghru.ui.samplecollection.verifyid.VerifyIDFragment"
+        android:name="org.nghru_bd.ghru.ui.samplecollection.verifyid.VerifyIDFragment"
         android:label="VerifyIDFragment"
         tools:layout="@layout/samplecollection_verify_id_fragment">
 
@@ -47,7 +47,7 @@
 
     <fragment
         android:id="@+id/fastFragment"
-        android:name="org.nghru_pk.ghru.ui.samplecollection.fast.FastFragment"
+        android:name="org.nghru_bd.ghru.ui.samplecollection.fast.FastFragment"
         android:label="FastFragment"
         tools:layout="@layout/fast_fragment">
         <action
@@ -57,7 +57,7 @@
 
     <fragment
         android:id="@+id/fastedFragment"
-        android:name="org.nghru_pk.ghru.ui.samplecollection.fasted.FastedFragment"
+        android:name="org.nghru_bd.ghru.ui.samplecollection.fasted.FastedFragment"
         android:label="FastedFragment"
         tools:layout="@layout/fasted_fragment">
         <action
@@ -67,7 +67,7 @@
 
     <fragment
         android:id="@+id/bagScanBarcodeFragment"
-        android:name="org.nghru_pk.ghru.ui.samplecollection.bagscanbarcode.BagScanBarcodeFragment"
+        android:name="org.nghru_bd.ghru.ui.samplecollection.bagscanbarcode.BagScanBarcodeFragment"
         android:label="FastedFragment"
         tools:layout="@layout/bag_scan_barcode_fragment">
 
@@ -84,7 +84,7 @@
 
     <fragment
         android:id="@+id/manualBagScannedFragment"
-        android:name="org.nghru_pk.ghru.ui.samplecollection.manualentry.ManualEntrySampleBagBarcodeFragment"
+        android:name="org.nghru_bd.ghru.ui.samplecollection.manualentry.ManualEntrySampleBagBarcodeFragment"
         android:label="ManualEntrySampleBagBarcodeFragment"
         tools:layout="@layout/samplecollection_manual_bag_barcode_fragment">
 
@@ -96,7 +96,7 @@
 
     <fragment
         android:id="@+id/bagScannedFragment"
-        android:name="org.nghru_pk.ghru.ui.samplecollection.bagscanned.BagScannedFragment"
+        android:name="org.nghru_bd.ghru.ui.samplecollection.bagscanned.BagScannedFragment"
         android:label="BagScannedFragment"
         tools:layout="@layout/bag_scanned_fragment">
 
