@@ -218,7 +218,8 @@ class BloodTestHomeFragment : Fragment(), Injectable {
         }
 
         fun isValied(): Boolean {
-            return if (totalCholesterol != null && fastingBloodGlucose != null)
+//            return if (totalCholesterol != null && fastingBloodGlucose != null)
+            return if (fastingBloodGlucose != null)
                 true else {
                 false
             }
@@ -233,9 +234,23 @@ class BloodTestHomeFragment : Fragment(), Injectable {
 
             if (isValied())
             {
-                bloodTestData = BloodTests(
-                    tch = totalCholesterol,
-                    fbg = fastingBloodGlucose)
+                if (totalCholesterol == null)
+                {
+                    val totalCho = BloodTestData(
+                        value = "", lot_id = "", comment = "", device_id = ""
+                    )
+
+                    bloodTestData = BloodTests(
+                        tch = totalCho,
+                        fbg = fastingBloodGlucose)
+                }
+                else
+                {
+                    bloodTestData = BloodTests(
+                        tch = totalCholesterol,
+                        fbg = fastingBloodGlucose)
+                }
+
 
                 val bloodTestRequest = BloodTestRequest(meta = meta, body = bloodTestData)
                 bloodTestRequest.screeningId = selectedParticipant?.participant_id!!
@@ -271,12 +286,11 @@ class BloodTestHomeFragment : Fragment(), Injectable {
                     updateProcessErrorUI(binding.fbgTextView)
                 }
 
-                if (totalCholesterol == null)
-                {
-                    updateProcessErrorUI(binding.TCTextView)
-                }
+//                if (totalCholesterol == null)
+//                {
+//                    updateProcessErrorUI(binding.TCTextView)
+//                }
             }
-
         }
 
         viewModel.getLocalUpdateParticipantBTStatus?.observe(this, Observer { bmStatus ->
