@@ -48,6 +48,7 @@ import org.nghru_bd.ghru.util.*
 import org.nghru_bd.ghru.vo.*
 import java.io.File
 import java.text.DateFormat
+import java.text.DecimalFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -111,18 +112,27 @@ class ActivityTackeFragment : Fragment(), Injectable {
                         if (isAinaPackageAvailable(activity!!.getApplicationContext()))
                         {
                             axivity = result
-                            binding.ainaViewConnected.expand()
-                            binding.ainaViewNotConnected.collapse()
-                            binding.nextButton.isEnabled = false
-                            binding.nextButton.setBackgroundColor(Color.GRAY)
+                            val sessionId = axivity?.sessionId
+                            if (!sessionId.equals("null"))
+                            {
+                                binding.ainaViewConnected.expand()
+                                binding.ainaViewNotConnected.collapse()
+                                binding.nextButton.isEnabled = false
+                                binding.nextButton.setBackgroundColor(Color.GRAY)
+                                binding.submitButton.isEnabled = true
+                                binding.submitButton.setBackground(resources.getDrawable(R.drawable.ic_button_fill_primary))
+                            }
+                            else
+                            {
+                                binding.ainaViewConnected.collapse()
+                                binding.ainaViewNotConnected.expand()
+                                binding.nextButton.isEnabled = true
+                                binding.nextButton.setBackground(resources.getDrawable(R.drawable.ic_button_fill_primary))
+                                binding.submitButton.isEnabled = false
+                                binding.submitButton.setBackgroundColor(Color.GRAY)
+                            }
                         }
-                        else
-                        {
-                            binding.ainaViewConnected.collapse()
-                            binding.ainaViewNotConnected.expand()
-                            binding.nextButton.isEnabled = true
-                            binding.nextButton.setBackground(resources.getDrawable(R.drawable.ic_button_fill_primary))
-                        }
+
                     }
                     catch (ex: KotlinNullPointerException)
                     {
@@ -301,11 +311,23 @@ class ActivityTackeFragment : Fragment(), Injectable {
 //                sessionId= "123456789", startTime = "20.25", endTime = "20.25", serialNumber =  "5678"
 //            )
 
-            if (axivity != null) {
+            if (axivity != null || axivity!!.sessionId != null) {
 
                 val endTime: String = convertTimeTo24Hours()
                 val endDate: String = getDate()
                 val endDateTime:String = endDate + " " + endTime
+
+                // seesion id from the axivity tracker some time null
+
+//                if (axivity?.sessionId.toString().equals("0"))
+//                {
+//                    val _id = selectedParticipant?.participant_id
+//                    val toInt = convertIDToDigits(_id!!)?.toInt()
+//                    val formatter = DecimalFormat("000000000")
+//                    val format = formatter.format(toInt)
+//                    val _sessionId = format.replace("0", "1")
+//                    axivity?.sessionId = _sessionId
+//                }
 
                 meta?.endTime =  endDateTime
                 axivity?.meta = meta
@@ -579,6 +601,67 @@ class ActivityTackeFragment : Fragment(), Injectable {
         val ageString : String = ageInt.toString()
 
         return ageString
+    }
+
+    fun convertIDToDigits(string: String): String? {
+
+        try {
+
+            var digits: String? = string.substringAfterLast("-")
+            var lastFourDigits : String? = string.substring(4,8)
+            val chars: String? = string.substringBefore("-")
+
+            val idList : MutableList<Int> = ArrayList<Int>()
+            idList.add(lastFourDigits?.toInt()!!)
+            idList.add(digits?.toInt()!!)
+
+            val charsList = chars?.reversed()
+            charsList?.forEach {
+                val num = it.toUpperCase().toInt()
+                idList.add(num)
+
+                // digits = num.toString() + digits
+            }
+            idList.shuffle()
+            var sessionID : String? = ""
+            idList.forEach{
+                sessionID = sessionID + it.toString()
+            }
+            sessionID = sessionID?.substring(0,7)
+            print("string $string digits $sessionID")
+            return  sessionID// digits
+
+//            val digits: String? = string.substringAfterLast("-")
+//            val lastFourDigits : String? = string.substring(4,8)
+//            val chars: String? = string.substringBefore("-")
+//
+//            val idList : MutableList<Int> = ArrayList<Int>()
+//            idList.add(lastFourDigits?.toInt()!!)
+//            idList.add(digits?.toInt()!!)
+//
+//            val charsList = chars?.reversed()
+//            charsList?.forEach {
+//                val num = it.toUpperCase().toInt()
+//                idList.add(num)
+//
+//                // digits = num.toString() + digits
+//            }
+//            idList.shuffle()
+//            var sessionID : String? = ""
+//            idList.forEach{
+//                sessionID = sessionID + it.toString()
+//            }
+//            sessionID = sessionID?.substring(0,7)
+//            //print("string $string digits $sessionID")
+//            return  sessionID// digits
+        }
+        catch (e: java.lang.Exception)
+        {
+            Log.wtf("error","msg-" + e.toString())
+        }
+
+        return "00000000"
+
     }
 
     /**
